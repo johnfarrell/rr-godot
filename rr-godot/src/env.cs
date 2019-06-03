@@ -20,10 +20,16 @@ public class env : Spatial
     [Signal]
     public delegate void envUpdated();
 
+
     Vector3 lastPos = new Vector3();
     Vector3 update = new Vector3(2,0,0);
 
     bool mouseInside = false;
+    bool mouseClicked = false;
+
+    Vector3 dragStart = new Vector3();
+
+    Godot.Collections.Dictionary selectedObject = null;
 
     
 
@@ -85,6 +91,7 @@ public class env : Spatial
     {
         var temp = new MeshInstance();
         temp.Mesh = new SphereMesh();
+        temp.CreateTrimeshCollision();
 
         temp.Name = "Sphere";
         temp.Translate(lastPos + update);
@@ -97,6 +104,7 @@ public class env : Spatial
     {
         var temp = new MeshInstance();
         temp.Mesh = new CylinderMesh();
+        temp.CreateTrimeshCollision();
         
         temp.Name = "Cylinder";
         temp.Translate(lastPos + update);
@@ -109,6 +117,7 @@ public class env : Spatial
     {
         var temp = new MeshInstance();
         temp.Mesh = new PrismMesh();
+        temp.CreateTrimeshCollision();
 
         temp.Name = "Prism";
         temp.Translate(lastPos + update);
@@ -121,6 +130,7 @@ public class env : Spatial
     {
         var temp = new MeshInstance();
         temp.Mesh = new CapsuleMesh();
+        temp.CreateTrimeshCollision();
 
         temp.Name = "Capsule";
         temp.Translate(lastPos + update);
@@ -129,27 +139,17 @@ public class env : Spatial
         AddChild(temp);
     }
 
-    private void _on_AddSquare_pressed()
-    {
-        var mesh = new MeshInstance();
-        mesh.Mesh = new CubeMesh();
-
-        mesh.Name = "jifjeios";
-
-        mesh.Translate(lastPos + update);
-
-        lastPos = mesh.Translation;
-        
-        AddChild(mesh);
-    }
-
     public override void _Input(InputEvent @event)
     {
         if(mouseInside)
         {
-            if(@event is InputEventMouseButton && @event.IsActionPressed("mouse_left_click"))
+            if(@event is InputEventMouseButton && @event.IsAction("mouse_left_click"))
             {
-                GD.Print(GetObjUnderMouse());
+                mouseClicked = !mouseClicked;
+                if(selectedObject != null)
+                {
+                    selectedObject = null;
+                }
             }
         }
     }
@@ -176,8 +176,41 @@ public class env : Spatial
         return selection;
     }
 
-    public override void _PhysicsProcess(float delta)
+    public override void _PhysicsProcess(float _delta)
     {
+        if(mouseClicked && selectedObject == null)
+        {
+            // Select the proper thingy
+            selectedObject = GetObjUnderMouse();
+            if(selectedObject.Count == 0) {
+                selectedObject = null;
+            }
+            else{
+                dragStart = (Vector3) selectedObject["position"];
+                // GD.Print("Selected object: " + selectedObject);
+            }
+            
+        }
+        if(mouseClicked && selectedObject != null)
+        {
+            // Handle moving the thingy
+            // Get position of new ray cast from camera to mouse
+            var obj = GetObjUnderMouse();
+            if(obj.Count == 0)
+            {
+                // Skip over processing the case where the mouse has left the object
+                return;
+            }
+            Vector3 newPos = (Vector3) obj["position"];
+            Vector3 dragDelta = newPos - dragStart;
+
+            CollisionObject collider = (CollisionObject) selectedObject["collider"];
+
+            var parMesh = (MeshInstance) collider.GetParent();
+            parMesh.Translate(dragDelta);
+            
+            dragStart = newPos;
+        }
     }
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
 //  public override void _Process(float delta)
