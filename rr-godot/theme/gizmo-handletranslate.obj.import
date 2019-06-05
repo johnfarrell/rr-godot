@@ -1,0 +1,18 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/gizmo-handletranslate.obj-4f8921e1a8f48ee09a5a9d9049245b19.mesh"
+
+[deps]
+
+files=[ "res://.import/gizmo-handletranslate.obj-4f8921e1a8f48ee09a5a9d9049245b19.mesh" ]
+
+source_file="res://theme/gizmo-handletranslate.obj"
+dest_files=[ "res://.import/gizmo-handletranslate.obj-4f8921e1a8f48ee09a5a9d9049245b19.mesh", "res://.import/gizmo-handletranslate.obj-4f8921e1a8f48ee09a5a9d9049245b19.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+optimize_mesh=true

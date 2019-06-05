@@ -3,9 +3,6 @@ using System;
 
 public class ToolboxPanel : Panel
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -20,11 +17,18 @@ public class ToolboxPanel : Panel
 
         // Connect the pressed signals to the environment
         addMeshButton.GetPopup().Connect("id_pressed", GetNode("../Viewport/env"), "toolbarAddMeshItemPressed");
+
+        MenuButton manipTypeButton = GetNode<MenuButton>("ToolboxContainer/ManipulationType");
+        manipTypeButton.GetPopup().AddCheckItem("Translate");
+        manipTypeButton.GetPopup().AddCheckItem("Rotate");
+        manipTypeButton.GetPopup().AddCheckItem("Scale");
+
+        manipTypeButton.GetPopup().Connect("id_pressed", GetNode("../Viewport/env"), "toolbarChangeManipTypePressed");
+        manipTypeButton.GetPopup().Connect("id_pressed", this, "UpdateManipType");
     }
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+    public void UpdateManipType(int id)
+    {
+        GD.Print(id);
+    }
 }

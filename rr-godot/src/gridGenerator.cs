@@ -12,12 +12,15 @@ public class gridGenerator : ImmediateGeometry
     [Export]
     int gridSize = 30;
 
+    [Export]
+    Color mainLine = new Color((float) 0.2, (float) 0.2, (float) 0.2);
+
+    [Export]
+    Color highlightLine = new Color((float) 0.4, (float) 0.4, (float) 0.4);
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
-    {
-        Color mainLine = new Color((float) 0.2, (float) 0.2, (float) 0.2);
-        Color highlightLine = new Color((float) 0.4, (float) 0.4, (float) 0.4);
-
+    {   
         this.Begin(Godot.Mesh.PrimitiveType.Lines, null);
         // Draw the grid lines
         for(float i = gridSize * -1; i <= gridSize; i += gridStep)
@@ -42,10 +45,4 @@ public class gridGenerator : ImmediateGeometry
         }
         this.End();
     }
-
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
 }

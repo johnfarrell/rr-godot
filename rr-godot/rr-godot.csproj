@@ -49,6 +49,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="scenes\GizmoHandleHover.cs" />
+    <Compile Include="scenes\gizmos.cs" />
     <Compile Include="src\AppWindow.cs" />
     <Compile Include="src\AxisLineGenerator.cs" />
     <Compile Include="src\env.cs" />

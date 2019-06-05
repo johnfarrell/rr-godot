@@ -20,6 +20,7 @@ public class TitleBar : Control
     /// Handles input events in the tile bar. Mainly used for dragging the window
     /// while it's minimized.
     /// </summary>
+    /// <param name="@event">Godot InputEvent containing event params</param>
     public void TitleBarGUIInputHandler(InputEvent @event)
     {
         

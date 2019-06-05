@@ -25,16 +25,14 @@ export (float, 0.0, 1.0) var acceleration = 1.0
 export (float, 0.0, 0.0, 1.0) var deceleration = 0.1
 export var max_speed = Vector3(2.0, 2.0, 2.0)
 export var local = true
-export var forward_action = "ui_up"
-export var backward_action = "ui_down"
-export var left_action = "ui_left"
-export var right_action = "ui_right"
-export var up_action = "ui_page_up"
-export var down_action = "ui_page_down"
+export var forward_action = "editor_forward"
+export var backward_action = "editor_back"
+export var left_action = "editor_left"
+export var right_action = "editor_right"
+export var up_action = "editor_up"
+export var down_action = "editor_down"
 
 # Gui settings
-export var use_gui = false
-export var gui_action = "ui_cancel"
 
 # Intern variables.
 var _mouse_position = Vector2(0.0, 0.0)
@@ -47,10 +45,9 @@ var pressed = false
 
 var _direction = Vector3(0.0, 0.0, 0.0)
 var _speed = Vector3(0.0, 0.0, 0.0)
-var _gui
 
 func _ready():
-	_check_actions([forward_action, backward_action, left_action, right_action, gui_action, up_action, down_action])
+	_check_actions([forward_action, backward_action, left_action, right_action, up_action, down_action])
 
 	if privot:
 		privot = get_node(privot)
