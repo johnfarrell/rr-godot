@@ -10,6 +10,7 @@ public class AppWindow : HSplitContainer
     {
         UpdateSplitOffset();
         UpdateControlBoxPosition();
+        GD.Print("APPWINDOW.CS: READY");
     }
 
     /// <summary>

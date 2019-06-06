@@ -1,16 +1,17 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://src/TitleBar.cs" type="Script" id=1]
 [ext_resource path="res://src/AppWindow.cs" type="Script" id=2]
 [ext_resource path="res://theme/toolbarPopupMenu.tres" type="Theme" id=3]
 [ext_resource path="res://theme/cb_button_hover.tres" type="StyleBox" id=4]
 [ext_resource path="res://theme/button_pressed.tres" type="StyleBox" id=5]
+[ext_resource path="res://scenes/env.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/EnvironmentTree.cs" type="Script" id=7]
 [ext_resource path="res://theme/button_normal.tres" type="StyleBox" id=8]
 [ext_resource path="res://theme/button_disabled.tres" type="StyleBox" id=9]
 [ext_resource path="res://theme/button_hover.tres" type="StyleBox" id=10]
 [ext_resource path="res://src/ToolboxPanel.cs" type="Script" id=11]
-[ext_resource path="res://scenes/env.tscn" type="PackedScene" id=12]
+[ext_resource path="res://src/env.cs" type="Script" id=12]
 [ext_resource path="res://theme/addMesh.png" type="Texture" id=13]
 
 [sub_resource type="StyleBoxFlat" id=1]
@@ -591,8 +592,8 @@ handle_input_locally = false
 render_target_update_mode = 3
 physics_object_picking = true
 
-[node name="env" parent="AppWindow/EnvironmentContainer/Viewport" instance=ExtResource( 12 )]
-script = null
+[node name="env" parent="AppWindow/EnvironmentContainer/Viewport" instance=ExtResource( 6 )]
+script = ExtResource( 12 )
 
 [node name="ToolboxPanel" type="Panel" parent="AppWindow/EnvironmentContainer"]
 margin_left = 350.0
