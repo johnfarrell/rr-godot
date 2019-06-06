@@ -16,10 +16,8 @@ public class ToolboxPanel : Panel
         addMeshButton.GetPopup().AddItem("Prism");
         addMeshButton.GetPopup().AddItem("Capsule");
 
-        // GD.Print(GetNode("../Viewport/env").GetChild(0).GetParent().GetScript().ToString());
-
         // Connect the pressed signals to the environment
-        // addMeshButton.GetPopup().Connect("id_pressed", GetNode("../Viewport/env/").GetChild(0).GetParent(), "toolbarAddMeshItemPressed");
+        addMeshButton.GetPopup().Connect("id_pressed", GetNode("../Viewport/env/"), "toolbarAddMeshItemPressed");
 
         MenuButton manipTypeButton = GetNode<MenuButton>("ToolboxContainer/ManipulationType");
         manipTypeButton.GetPopup().AddCheckItem("Translate");

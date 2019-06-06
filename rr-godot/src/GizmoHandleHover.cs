@@ -19,6 +19,7 @@ public class GizmoHandleHover : StaticBody
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        GetNode<CollisionShape>("CollisionShape").Disabled = true;
         
         highlightMat = (Material) GD.Load("res://theme/gizmo_HandleHighlight.tres");
         originalMat = GetNode<MeshInstance>("Handle").MaterialOverride;
@@ -32,7 +33,7 @@ public class GizmoHandleHover : StaticBody
     {
         if(@event is InputEventMouseButton && @event.IsAction("mouse_left_click"))
         {
-            GD.Print("GIZMOHANDLEHOVER.CS: " + this.GetParent().Name + " - " + handleAxis);
+            // GD.Print("GIZMOHANDLEHOVER.CS: " + this.GetParent().Name + " - " + handleAxis);
         }
     }
 

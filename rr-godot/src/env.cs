@@ -45,8 +45,13 @@ public class env : Spatial
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        // Connect(nameof(envUpdated), GetNode("../../../LeftMenu/TreeContainer/Environment"), "UpdateTree");
-        // gizmoScene = GetNode<Spatial>("gizmos");
+        // Connect signals from EnvironmentContainer for mouse enter/exit
+        GetNode("../../").Connect("mouse_entered", this, "OnEnvContainerMouseEntered");
+        GetNode("../../").Connect("mouse_exited", this, "OnEnvContainerMouseExit");
+
+        // Connect tree update signal
+        Connect(nameof(envUpdated), GetNode("../../../LeftMenu/TreeContainer/Environment"), "UpdateTree");
+        gizmoScene = GetNode<Spatial>("Viewport/gizmos");
         GD.Print("ENV.CS: READY");
     }
 
@@ -240,17 +245,30 @@ public class env : Spatial
     {
         if(mouseClicked && selectedObject == null)
         {
+            GD.Print("fjieosj");
             // Select the proper thingy
             selectedObject = GetObjUnderMouse();
             if(selectedObject.Count == 0)
-            {
+            {   
+                GD.Print("1");
                 // Raycast returned an empty dictionary, user clicked in empty space
                 selectedObject = null;
+                gizmoScene.Translate(gizmoScene.GlobalTransform.origin * -1);
+                // gizmoScene.Visible = false;
             }
             else
             {
+                GD.Print("2");
                 // User clicked on an actual object, so updated the dragStart vector
                 dragStart = (Vector3) selectedObject["position"];
+
+                // Get the origin of the selected object and update the gizmos
+                CollisionObject collider = (CollisionObject) selectedObject["collider"];
+                Vector3 selectedObjectOrigin = collider.GlobalTransform.origin;
+
+                
+                gizmoScene.Translate(selectedObjectOrigin - gizmoScene.GlobalTransform.origin);
+                gizmoScene.Visible = true;
             }
             
         }
@@ -261,7 +279,10 @@ public class env : Spatial
             var obj = GetObjUnderMouse();
             if(obj.Count == 0)
             {
-                // Skip over processing the case where the mouse has left the object
+                GD.Print("3");
+                gizmoScene.Translate(gizmoScene.GlobalTransform.origin * -1);
+                // gizmoScene.Visible = false;
+                // Process the case where the mouse has left the object
                 return;
             }
             Vector3 newPos = (Vector3) obj["position"];
@@ -269,6 +290,10 @@ public class env : Spatial
 
             CollisionObject collider = (CollisionObject) selectedObject["collider"];
 
+            // Update gizmoscene location
+            Vector3 selectedObjectOrigin = collider.GlobalTransform.origin;
+            gizmoScene.Translate(selectedObjectOrigin - gizmoScene.GlobalTransform.origin);
+            GD.Print("4");
         
             Type parType = collider.GetParent().GetType();
 
@@ -300,6 +325,14 @@ public class env : Spatial
             }
 
             
+        }
+        if(selectedObject != null)
+        {
+            CollisionObject collider = (CollisionObject) selectedObject["collider"];
+
+            // Update gizmoscene location
+            Vector3 selectedObjectOrigin = collider.GlobalTransform.origin;
+            gizmoScene.Translate(selectedObjectOrigin - gizmoScene.GlobalTransform.origin);
         }
     }
 }

@@ -13,7 +13,7 @@ public class gizmos : Spatial
     public override void _Ready()
     {
         
-        mainCam = GetNode<Camera>("../Camera/CameraObj");
+        mainCam = GetNode<Camera>("../../Camera/CameraObj");
 
         GD.Print("GIZMOS.CS: READY");
     }
