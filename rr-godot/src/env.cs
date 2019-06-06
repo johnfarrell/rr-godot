@@ -42,34 +42,23 @@ public class env : Spatial
 
     private Spatial gizmoScene;
 
-    
-
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        
         // Connect(nameof(envUpdated), GetNode("../../../LeftMenu/TreeContainer/Environment"), "UpdateTree");
         // gizmoScene = GetNode<Spatial>("gizmos");
-        // GD.Print("ENV.CS: READY");
+        GD.Print("ENV.CS: READY");
     }
 
     private void toolbarChangeManipTypePressed(int id)
     {   
-        // currentManipType = (ManipType) id;
-        // // switch(id) {
-        // //     case (int) ManipType.Translate:
-        // //         currentManipType = ManipType.Translate;
-        // //         break;
-        // //     case (int) ManipType.Rotate:
-        // //         currentManipType = 
-        // //         break;
-        // //     case (int) ManipType.Scale:
-        // //         GD.Print("Scale");
-        // //         break;
-        // //     default:
-        // //         GD.Print("Unrecognized button id");
-        // //         break;
-        // // }
+        currentManipType = (ManipType) id;
+        GD.Print("currentManipType: " + currentManipType);
+    }
+
+    private void toolbarAddMeshItemPressed()
+    {
+        GD.Print("fjeioajfioesa");
     }
 
     /// <summary>
@@ -197,7 +186,7 @@ public class env : Spatial
     /// <param name="@event">InputEvent obj containing Godot event information</param>
     public override void _Input(InputEvent @event)
     {
-        GD.Print("ENV.CS: " + @event);
+        // GD.Print("ENV.CS: " + @event);
         // GetNode("/root")._Input(@event);
         if(mouseInside)
         {
