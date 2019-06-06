@@ -29,5 +29,6 @@ public class AxisLineGenerator : ImmediateGeometry
         this.AddVertex(new Vector3(0, 0, 1000));
         
         this.End();
+        GD.Print("AXISLINEGENERATOR.CS: READY");
     }
 }

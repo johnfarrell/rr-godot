@@ -12,7 +12,10 @@ public class gizmos : Spatial
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        
         mainCam = GetNode<Camera>("../Camera/CameraObj");
+
+        GD.Print("GIZMOS.CS: READY");
     }
     public void _on_HandleX_input_event(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx)
     {

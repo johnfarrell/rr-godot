@@ -21,6 +21,7 @@ public class gridGenerator : ImmediateGeometry
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {   
+        
         this.Begin(Godot.Mesh.PrimitiveType.Lines, null);
         // Draw the grid lines
         for(float i = gridSize * -1; i <= gridSize; i += gridStep)
@@ -44,5 +45,6 @@ public class gridGenerator : ImmediateGeometry
             this.AddVertex(new Vector3(gridSize, 0, i));
         }
         this.End();
+        GD.Print("GRIDGENERATOR.CS: READY");
     }
 }

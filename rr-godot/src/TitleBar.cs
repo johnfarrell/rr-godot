@@ -13,7 +13,9 @@ public class TitleBar : Control
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        
         this.Connect("gui_input", this, "TitleBarGUIInputHandler");
+        GD.Print("TITLEBAR.CS: READY");
     }
 
     /// <summary>

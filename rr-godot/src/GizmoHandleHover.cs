@@ -19,10 +19,13 @@ public class GizmoHandleHover : StaticBody
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        
         highlightMat = (Material) GD.Load("res://theme/gizmo_HandleHighlight.tres");
         originalMat = GetNode<MeshInstance>("Handle").MaterialOverride;
         this.Connect("mouse_entered", this, "HoverHighlight");
         this.Connect("mouse_exited", this, "HoverUnhighlight");
+
+        GD.Print("GIZMOHANDLEHOVER.CS: READY");
     }
 
     public override void _Input(InputEvent @event)

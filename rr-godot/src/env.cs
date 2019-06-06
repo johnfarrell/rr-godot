@@ -40,35 +40,36 @@ public class env : Spatial
 
     private ManipType currentManipType = ManipType.Translate;
 
+    private Spatial gizmoScene;
+
     
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        Connect("envUpdated", GetNode("../../../LeftMenu/TreeContainer/Environment"), "UpdateTree");
-        Spatial gizmoScene = GetNode<Spatial>("gizmos");
-
-        gizmoScene.SetAsToplevel(true);
-
+        
+        // Connect(nameof(envUpdated), GetNode("../../../LeftMenu/TreeContainer/Environment"), "UpdateTree");
+        // gizmoScene = GetNode<Spatial>("gizmos");
+        // GD.Print("ENV.CS: READY");
     }
 
     private void toolbarChangeManipTypePressed(int id)
     {   
-        currentManipType = (ManipType) id;
-        // switch(id) {
-        //     case (int) ManipType.Translate:
-        //         currentManipType = ManipType.Translate;
-        //         break;
-        //     case (int) ManipType.Rotate:
-        //         currentManipType = 
-        //         break;
-        //     case (int) ManipType.Scale:
-        //         GD.Print("Scale");
-        //         break;
-        //     default:
-        //         GD.Print("Unrecognized button id");
-        //         break;
-        // }
+        // currentManipType = (ManipType) id;
+        // // switch(id) {
+        // //     case (int) ManipType.Translate:
+        // //         currentManipType = ManipType.Translate;
+        // //         break;
+        // //     case (int) ManipType.Rotate:
+        // //         currentManipType = 
+        // //         break;
+        // //     case (int) ManipType.Scale:
+        // //         GD.Print("Scale");
+        // //         break;
+        // //     default:
+        // //         GD.Print("Unrecognized button id");
+        // //         break;
+        // // }
     }
 
     /// <summary>
