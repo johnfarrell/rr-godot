@@ -27,6 +27,15 @@ public class ToolboxPanel : Panel
         manipTypeButton.GetPopup().Connect("id_pressed", GetNode("../Viewport/env/"), "toolbarChangeManipTypePressed");
         manipTypeButton.GetPopup().Connect("id_pressed", this, "UpdateManipType");
 
+
+        MenuButton rendTypeButton = GetNode<MenuButton>("ToolboxContainer/RenderStyle");
+        rendTypeButton.GetPopup().AddItem("Disabled");
+        rendTypeButton.GetPopup().AddItem("Unshaded");
+        rendTypeButton.GetPopup().AddItem("Overdraw");
+        rendTypeButton.GetPopup().AddItem("Wireframe");
+
+        rendTypeButton.GetPopup().Connect("id_pressed", GetNode("../Viewport/env/"), "toolbarChangeRendTypePressed");
+
         GD.Print("TOOLBOXPANEL.CS: READY");
     }
 

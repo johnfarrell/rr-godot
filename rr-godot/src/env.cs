@@ -21,6 +21,12 @@ public class env : Spatial
         Scale = 2
     }
 
+    //Enum to hold the toolbar item ID for the Drawstyle buttons
+    public enum DebugDrawType
+    {
+        Disable = 0, Unshaded = 1, Overdraw = 2, Wireframe = 3
+    }
+
     [Signal]
     public delegate void envUpdated();
 
@@ -39,6 +45,8 @@ public class env : Spatial
     private Godot.Collections.Dictionary selectedObject = null;
 
     private ManipType currentManipType = ManipType.Translate;
+
+    private DebugDrawType currentDrawType = DebugDrawType.Disable;
 
     private Spatial gizmoScene;
 
@@ -99,6 +107,42 @@ public class env : Spatial
         }
     }
 
+    //Godot signal handler for the use of the debug draw dropdown menu
+    private void toolbarChangeRendTypePressed(int id)
+    {
+        currentDrawType = (DebugDrawType) id;
+        switch(currentDrawType)
+        {
+            case DebugDrawType.Disable:
+                GetNode<Viewport>("..").DebugDraw = Viewport.DebugDrawEnum.Disabled;
+                GD.Print(currentDrawType);
+                EmitSignal("envUpdated");
+                break;
+
+            case DebugDrawType.Overdraw:
+                GetNode<Viewport>("..").DebugDraw = Viewport.DebugDrawEnum.Overdraw;
+                GD.Print(currentDrawType);
+                EmitSignal("envUpdated");
+                break;
+
+            case DebugDrawType.Unshaded:
+                GetNode<Viewport>("..").DebugDraw = Viewport.DebugDrawEnum.Unshaded;
+                GD.Print(currentDrawType);
+                EmitSignal("envUpdated");
+                break;
+            case DebugDrawType.Wireframe:
+                GetNode<Viewport>("..").DebugDraw = Viewport.DebugDrawEnum.Wireframe;
+                GD.Print(currentDrawType);
+                EmitSignal("envUpdated");
+                break;
+            default:
+                GD.Print("Unrecognized Menu Item");
+                break;
+        }
+        
+        
+
+    }
     /// <summary>
     /// Adds a CubeMesh node to the world as a child
     /// of the root node.
