@@ -49,12 +49,12 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="scenes\GizmoHandleHover.cs" />
-    <Compile Include="scenes\gizmos.cs" />
     <Compile Include="src\AppWindow.cs" />
     <Compile Include="src\AxisLineGenerator.cs" />
     <Compile Include="src\env.cs" />
     <Compile Include="src\EnvironmentTree.cs" />
+    <Compile Include="src\GizmoHandleHover.cs" />
+    <Compile Include="src\gizmos.cs" />
     <Compile Include="src\gridGenerator.cs" />
     <Compile Include="src\TitleBar.cs" />
     <Compile Include="src\ToolboxPanel.cs" />
