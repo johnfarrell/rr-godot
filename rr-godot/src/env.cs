@@ -40,7 +40,9 @@ public class env : Spatial
 
     private ManipType currentManipType = ManipType.Translate;
 
-    private Spatial gizmoScene;
+    private PackedScene gizmoScene = (PackedScene)GD.Load("res://scenes/gizmos.tscn");
+
+    private Node gizmo;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -51,7 +53,10 @@ public class env : Spatial
 
         // Connect tree update signal
         Connect(nameof(envUpdated), GetNode("../../../LeftMenu/TreeContainer/Environment"), "UpdateTree");
-        gizmoScene = GetNode<Spatial>("Viewport/gizmos");
+        
+        Node gizmo = gizmoScene.Instance();
+        AddChild(gizmo);
+
         GD.Print("ENV.CS: READY");
     }
 
@@ -253,8 +258,7 @@ public class env : Spatial
                 GD.Print("1");
                 // Raycast returned an empty dictionary, user clicked in empty space
                 selectedObject = null;
-                gizmoScene.Translate(gizmoScene.GlobalTransform.origin * -1);
-                // gizmoScene.Visible = false;
+                
             }
             else
             {
@@ -266,9 +270,12 @@ public class env : Spatial
                 CollisionObject collider = (CollisionObject) selectedObject["collider"];
                 Vector3 selectedObjectOrigin = collider.GlobalTransform.origin;
 
+                // Node gizmo = gizmos.Instance();
+                RemoveChild(gizmo);
+                collider.AddChild(gizmo);
+
                 
-                gizmoScene.Translate(selectedObjectOrigin - gizmoScene.GlobalTransform.origin);
-                gizmoScene.Visible = true;
+                // gizmoScene.Translate(selectedObjectOrigin - gizmoScene.GlobalTransform.origin);
             }
             
         }
@@ -276,23 +283,28 @@ public class env : Spatial
         {
             // Handle moving the thingy
             // Get position of new ray cast from camera to mouse
+            CollisionObject collider = (CollisionObject) selectedObject["collider"];
             var obj = GetObjUnderMouse();
             if(obj.Count == 0)
             {
                 GD.Print("3");
-                gizmoScene.Translate(gizmoScene.GlobalTransform.origin * -1);
+                // gizmoScene.Translate(gizmoScene.GlobalTransform.origin * -1);
                 // gizmoScene.Visible = false;
+
+                collider.RemoveChild(gizmo);
+
+                AddChild(gizmo);
+
+                
                 // Process the case where the mouse has left the object
                 return;
             }
             Vector3 newPos = (Vector3) obj["position"];
             Vector3 dragDelta = newPos - dragStart;
 
-            CollisionObject collider = (CollisionObject) selectedObject["collider"];
-
             // Update gizmoscene location
-            Vector3 selectedObjectOrigin = collider.GlobalTransform.origin;
-            gizmoScene.Translate(selectedObjectOrigin - gizmoScene.GlobalTransform.origin);
+            // Vector3 selectedObjectOrigin = collider.GlobalTransform.origin;
+            // gizmoScene.Translate(selectedObjectOrigin - gizmoScene.GlobalTransform.origin);
             GD.Print("4");
         
             Type parType = collider.GetParent().GetType();
@@ -326,13 +338,13 @@ public class env : Spatial
 
             
         }
-        if(selectedObject != null)
+        if(!mouseClicked && selectedObject != null)
         {
-            CollisionObject collider = (CollisionObject) selectedObject["collider"];
+        //     CollisionObject collider = (CollisionObject) selectedObject["collider"];
 
-            // Update gizmoscene location
-            Vector3 selectedObjectOrigin = collider.GlobalTransform.origin;
-            gizmoScene.Translate(selectedObjectOrigin - gizmoScene.GlobalTransform.origin);
+        //     // Update gizmoscene location
+        //     Vector3 selectedObjectOrigin = collider.GlobalTransform.origin;
+        //     gizmoScene.Translate(selectedObjectOrigin - gizmoScene.GlobalTransform.origin);
         }
     }
 }
