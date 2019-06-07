@@ -12,8 +12,8 @@ public class gizmos : Spatial
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        // TODO: Find some way to make this dynamic instead of astatic path
-        mainCam = GetNode<Camera>("/root/main/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport/Viewport/Camera/CameraObj");
+        // TODO: Find some way to make this dynamic instead of a static path
+        mainCam = GetNode<Camera>("/root/main/AppWindow/EnvironmentContainer/Viewport/env/Camera");
 
 
         GD.Print("GIZMOS.CS: READY");
@@ -42,6 +42,6 @@ public class gizmos : Spatial
 
         this.Scale = new Vector3(distance / 4, distance / 4, distance / 4); 
 
-        this.LookAt(new Vector3(0, 0, -1), new Vector3(0, 1, 0));
+        // this.LookAt(new Vector3(0, 0, -1), new Vector3(0, 1, 0));
     }
 }

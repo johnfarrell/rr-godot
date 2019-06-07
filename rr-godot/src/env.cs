@@ -48,7 +48,7 @@ public class env : Spatial
 
     private PackedScene gizmoScene = (PackedScene)GD.Load("res://scenes/gizmos.tscn");
 
-    private Node gizmo;
+    private Spatial gizmo;
     private DebugDrawType currentDrawType = DebugDrawType.Disable;
 
 
@@ -62,8 +62,9 @@ public class env : Spatial
         // Connect tree update signal
         Connect(nameof(envUpdated), GetNode("../../../LeftMenu/TreeContainer/Environment"), "UpdateTree");
         
-        Node gizmo = gizmoScene.Instance();
+        gizmo = (Spatial) gizmoScene.Instance();
         AddChild(gizmo);
+        gizmo.Visible = true;
 
         GD.Print("ENV.CS: READY");
     }
@@ -252,6 +253,7 @@ public class env : Spatial
                     selectedObject = null;
                 }
             }
+            gizmo._Input(@event);
         }
     }
 
@@ -302,6 +304,9 @@ public class env : Spatial
                 GD.Print("1");
                 // Raycast returned an empty dictionary, user clicked in empty space
                 selectedObject = null;
+
+                // gizmo.Visible = false;
+                gizmo.GlobalTranslate(new Vector3(0, 0, 0) - gizmo.GlobalTransform.origin);
                 
             }
             else
@@ -314,12 +319,9 @@ public class env : Spatial
                 CollisionObject collider = (CollisionObject) selectedObject["collider"];
                 Vector3 selectedObjectOrigin = collider.GlobalTransform.origin;
 
-                // Node gizmo = gizmos.Instance();
-                RemoveChild(gizmo);
-                collider.AddChild(gizmo);
-
                 
-                // gizmoScene.Translate(selectedObjectOrigin - gizmoScene.GlobalTransform.origin);
+                gizmo.GlobalTranslate(selectedObjectOrigin - gizmo.GlobalTransform.origin);
+                
             }
             
         }
@@ -332,13 +334,8 @@ public class env : Spatial
             if(obj.Count == 0)
             {
                 GD.Print("3");
-                // gizmoScene.Translate(gizmoScene.GlobalTransform.origin * -1);
-                // gizmoScene.Visible = false;
-
-                collider.RemoveChild(gizmo);
-
-                AddChild(gizmo);
-
+                // gizmo.Visible = false;
+                // gizmo.GlobalTranslate(new Vector3(0, 0, 0) - gizmo.GlobalTransform.origin);
                 
                 // Process the case where the mouse has left the object
                 return;
@@ -346,9 +343,8 @@ public class env : Spatial
             Vector3 newPos = (Vector3) obj["position"];
             Vector3 dragDelta = newPos - dragStart;
 
-            // Update gizmoscene location
-            // Vector3 selectedObjectOrigin = collider.GlobalTransform.origin;
-            // gizmoScene.Translate(selectedObjectOrigin - gizmoScene.GlobalTransform.origin);
+            gizmo.GlobalTranslate(collider.GlobalTransform.origin - gizmo.GlobalTransform.origin);
+
             GD.Print("4");
         
             Type parType = collider.GetParent().GetType();
@@ -361,7 +357,7 @@ public class env : Spatial
                 switch (currentManipType)
                 {
                     case ManipType.Translate:
-                        parMesh.Translate(dragDelta);
+                        parMesh.GlobalTranslate(dragDelta);
                         break;
                     case ManipType.Rotate:
                         break;
@@ -384,11 +380,7 @@ public class env : Spatial
         }
         if(!mouseClicked && selectedObject != null)
         {
-        //     CollisionObject collider = (CollisionObject) selectedObject["collider"];
 
-        //     // Update gizmoscene location
-        //     Vector3 selectedObjectOrigin = collider.GlobalTransform.origin;
-        //     gizmoScene.Translate(selectedObjectOrigin - gizmoScene.GlobalTransform.origin);
         }
     }
 }
