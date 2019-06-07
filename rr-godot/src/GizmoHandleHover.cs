@@ -19,7 +19,15 @@ public class GizmoHandleHover : StaticBody
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        GetNode<CollisionShape>("CollisionShape").Disabled = true;
+        GetNode<CollisionShape>("CollisionShape").Disabled = false;
+
+        // Set collision masks to layer 2 so the gizmos won't collide with anything
+        this.CollisionMask = 0b10;
+        this.CollisionLayer = 0b10;
+
+        // Set visual instance so the gizmo will be rendered over everything in the
+        // gizmo viewport
+        GetNode<MeshInstance>("Handle").Layers = 0b10;
         
         highlightMat = (Material) GD.Load("res://theme/gizmo_HandleHighlight.tres");
         originalMat = GetNode<MeshInstance>("Handle").MaterialOverride;
@@ -33,19 +41,17 @@ public class GizmoHandleHover : StaticBody
     {
         if(@event is InputEventMouseButton && @event.IsAction("mouse_left_click"))
         {
-            // GD.Print("GIZMOHANDLEHOVER.CS: " + this.GetParent().Name + " - " + handleAxis);
+            // GD.Print(this);
         }
     }
 
     public void HoverHighlight()
     {
-        GD.Print("here");
         GetNode<MeshInstance>("Handle").MaterialOverride = highlightMat;
     }
 
     public void HoverUnhighlight()
     {
-        GD.Print("hifoe");
         GetNode<MeshInstance>("Handle").MaterialOverride = originalMat;
     }
 }

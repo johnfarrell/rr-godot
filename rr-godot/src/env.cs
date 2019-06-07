@@ -64,7 +64,9 @@ public class env : Spatial
         
         gizmo = (Spatial) gizmoScene.Instance();
         AddChild(gizmo);
-        gizmo.Visible = true;
+
+        gizmo.Raise();
+        gizmo.Visible = false;
 
         GD.Print("ENV.CS: READY");
     }
@@ -145,8 +147,6 @@ public class env : Spatial
                 GD.Print("Unrecognized Menu Item");
                 break;
         }
-        
-        
 
     }
     /// <summary>
@@ -296,22 +296,20 @@ public class env : Spatial
     {
         if(mouseClicked && selectedObject == null)
         {
-            GD.Print("fjieosj");
             // Select the proper thingy
             selectedObject = GetObjUnderMouse();
             if(selectedObject.Count == 0)
-            {   
-                GD.Print("1");
+            {
                 // Raycast returned an empty dictionary, user clicked in empty space
                 selectedObject = null;
 
-                // gizmo.Visible = false;
+                // Reset the gizmos
+                gizmo.Visible = false;
                 gizmo.GlobalTranslate(new Vector3(0, 0, 0) - gizmo.GlobalTransform.origin);
                 
             }
             else
             {
-                GD.Print("2");
                 // User clicked on an actual object, so updated the dragStart vector
                 dragStart = (Vector3) selectedObject["position"];
 
@@ -319,7 +317,6 @@ public class env : Spatial
                 CollisionObject collider = (CollisionObject) selectedObject["collider"];
                 Vector3 selectedObjectOrigin = collider.GlobalTransform.origin;
 
-                
                 gizmo.GlobalTranslate(selectedObjectOrigin - gizmo.GlobalTransform.origin);
                 
             }
@@ -333,23 +330,21 @@ public class env : Spatial
             var obj = GetObjUnderMouse();
             if(obj.Count == 0)
             {
-                GD.Print("3");
-                // gizmo.Visible = false;
-                // gizmo.GlobalTranslate(new Vector3(0, 0, 0) - gizmo.GlobalTransform.origin);
-                
                 // Process the case where the mouse has left the object
                 return;
             }
             Vector3 newPos = (Vector3) obj["position"];
             Vector3 dragDelta = newPos - dragStart;
 
+            if(!gizmo.Visible)
+            {
+                gizmo.Visible = true;
+            }
             gizmo.GlobalTranslate(collider.GlobalTransform.origin - gizmo.GlobalTransform.origin);
-
-            GD.Print("4");
         
             Type parType = collider.GetParent().GetType();
 
-            GD.Print(parType.ToString() == "Godot.MeshInstance");
+            // GD.Print(collider.GetParent().Name);
 
             if(parType.ToString() == "Godot.MeshInstance")
             {
@@ -373,14 +368,10 @@ public class env : Spatial
             }
             else
             {
-                GD.Print(parType);
+                // GD.Print(parType);
             }
 
             
-        }
-        if(!mouseClicked && selectedObject != null)
-        {
-
         }
     }
 }
