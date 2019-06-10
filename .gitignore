@@ -3,6 +3,7 @@ rr-godot/.import/
 rr-godot/export.cfg
 rr-godot/export_presets.cfg
 rr-godot/.mono/
+rr-godot/mono_crash*
 
 *.odt
 *lock*
