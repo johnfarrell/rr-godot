@@ -8,6 +8,7 @@ public class ToolboxPanel : Panel
     public override void _Ready()
     {
         
+
         // Add the AddMesh pop-up menu items
         MenuButton addMeshButton = GetNode<MenuButton>("ToolboxContainer/AddMeshMenuButton");
         addMeshButton.GetPopup().AddItem("Cube");
@@ -34,7 +35,8 @@ public class ToolboxPanel : Panel
         rendTypeButton.GetPopup().AddItem("Overdraw");
         rendTypeButton.GetPopup().AddItem("Wireframe");
 
-        rendTypeButton.GetPopup().Connect("id_pressed", GetNode("/root/main/AppWindow/EnvironmentContainer/env/"), "toolbarChangeRendTypePressed");
+        rendTypeButton.GetPopup().Connect("id_pressed", GetNode<Control>("../DebugDraw/"), "toolbarChangeRendTypePressed");
+
 
         GD.Print("TOOLBOXPANEL.CS: READY");
     }
@@ -43,4 +45,8 @@ public class ToolboxPanel : Panel
     {
         GD.Print(id);
     }
+
+
+   
+     
 }

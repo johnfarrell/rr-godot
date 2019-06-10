@@ -60,7 +60,7 @@ public class env : Spatial
         GetNode("../../").Connect("mouse_exited", this, "OnEnvContainerMouseExit");
 
         // Connect tree update signal
-        Connect(nameof(envUpdated), GetNode("../../../LeftMenu/TreeContainer/Environment"), "UpdateTree");
+        Connect(nameof(envUpdated), GetNode("/root/main/AppWindow/LeftMenu/TreeContainer/Environment/"), "UpdateTree");
         
         Node gizmo = gizmoScene.Instance();
         AddChild(gizmo);
@@ -112,7 +112,7 @@ public class env : Spatial
         }
     }
 
-    //Godot signal handler for the use of the debug draw dropdown menu
+    //Godot signal handler for the use of the debug draw dropdown menu    
     private void toolbarChangeRendTypePressed(int id)
     {
         currentDrawType = (DebugDrawType) id;
@@ -122,6 +122,7 @@ public class env : Spatial
                 GetNode<Viewport>("..").DebugDraw = Viewport.DebugDrawEnum.Disabled;
                 GD.Print(currentDrawType);
                 EmitSignal("envUpdated");
+                
                 break;
 
             case DebugDrawType.Overdraw:

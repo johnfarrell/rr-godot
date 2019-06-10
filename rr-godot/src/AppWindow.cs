@@ -28,7 +28,7 @@ public class AppWindow : HSplitContainer
     /// </summary>
     private void UpdateControlBoxPosition()
     {
-        Panel cbNode = GetNode<Panel>("root/main/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1");
+        Panel cbNode = GetNode<Panel>("/root/main/Appwindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1");
         Panel envContainer = cbNode.GetParent<Panel>();
 
         // Get the necessary size and position values
