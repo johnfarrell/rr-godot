@@ -78,8 +78,4 @@ handle_input_locally = false
 render_target_update_mode = 3
 script = ExtResource( 5 )
 
-[node name="CamZX" type="Camera" parent="VerticalSplit/HSplit2/Viewport4/ViewportLR"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 5, 0 )
-projection = 1
-current = true
-size = 5.0
+[node name="Camera4" parent="VerticalSplit/HSplit2/Viewport4/ViewportLR" instance=ExtResource( 2 )]
