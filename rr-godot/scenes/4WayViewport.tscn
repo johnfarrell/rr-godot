@@ -1,14 +1,18 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://scenes/ViewportUL.cs" type="Script" id=1]
-[ext_resource path="res://scenes/camera.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scenes/ViewportUR.cs" type="Script" id=3]
-[ext_resource path="res://scenes/ViewportLL.cs" type="Script" id=4]
-[ext_resource path="res://scenes/ViewportLR.cs" type="Script" id=5]
+[ext_resource path="res://theme/rr-godot-theme.tres" type="Theme" id=1]
+[ext_resource path="res://scenes/Viewport1.cs" type="Script" id=2]
+[ext_resource path="res://scenes/ViewportUL.cs" type="Script" id=3]
+[ext_resource path="res://scenes/camera.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/ToolboxPanel.cs" type="Script" id=5]
+[ext_resource path="res://scenes/ViewportUR.cs" type="Script" id=6]
+[ext_resource path="res://scenes/ViewportLL.cs" type="Script" id=7]
+[ext_resource path="res://scenes/ViewportLR.cs" type="Script" id=8]
 
 [node name="4WayViewport" type="Control"]
 margin_right = 1.0
 margin_bottom = 1.0
+theme = ExtResource( 1 )
 
 [node name="VerticalSplit" type="VSplitContainer" parent="."]
 anchor_right = 1.0
@@ -20,18 +24,62 @@ size_flags_vertical = 3
 margin_right = 12.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource( 1 )
 
 [node name="Viewport1" type="ViewportContainer" parent="VerticalSplit/HSplit1"]
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme = ExtResource( 1 )
 stretch = true
+script = ExtResource( 2 )
 
 [node name="ViewportUL" type="Viewport" parent="VerticalSplit/HSplit1/Viewport1"]
+editor/display_folded = true
 handle_input_locally = false
 render_target_update_mode = 3
-script = ExtResource( 1 )
+script = ExtResource( 3 )
 
-[node name="Camera" parent="VerticalSplit/HSplit1/Viewport1/ViewportUL" instance=ExtResource( 2 )]
+[node name="Camera" parent="VerticalSplit/HSplit1/Viewport1/ViewportUL" instance=ExtResource( 4 )]
+
+[node name="ToolboxPanel" type="Panel" parent="VerticalSplit/HSplit1/Viewport1"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_right = 40.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+theme = ExtResource( 1 )
+script = ExtResource( 5 )
+
+[node name="ToolboxContainer" type="HBoxContainer" parent="VerticalSplit/HSplit1/Viewport1/ToolboxPanel"]
+margin_right = 135.0
+margin_bottom = 40.0
+theme = ExtResource( 1 )
+alignment = 1
+
+[node name="AddMeshMenuButton" type="MenuButton" parent="VerticalSplit/HSplit1/Viewport1/ToolboxPanel/ToolboxContainer"]
+margin_left = 59.0
+margin_right = 59.0
+margin_bottom = 40.0
+
+[node name="ManipulationType" type="MenuButton" parent="VerticalSplit/HSplit1/Viewport1/ToolboxPanel/ToolboxContainer"]
+margin_left = 63.0
+margin_right = 63.0
+margin_bottom = 40.0
+
+[node name="RenderStyle" type="MenuButton" parent="VerticalSplit/HSplit1/Viewport1/ToolboxPanel/ToolboxContainer"]
+margin_left = 67.0
+margin_right = 67.0
+margin_bottom = 40.0
+
+[node name="ControlA4" type="MenuButton" parent="VerticalSplit/HSplit1/Viewport1/ToolboxPanel/ToolboxContainer"]
+margin_left = 71.0
+margin_right = 71.0
+margin_bottom = 40.0
+
+[node name="ControlA5" type="MenuButton" parent="VerticalSplit/HSplit1/Viewport1/ToolboxPanel/ToolboxContainer"]
+margin_left = 75.0
+margin_right = 75.0
+margin_bottom = 40.0
 
 [node name="Viewport2" type="ViewportContainer" parent="VerticalSplit/HSplit1"]
 margin_left = 12.0
@@ -43,9 +91,9 @@ stretch = true
 [node name="ViewportUR" type="Viewport" parent="VerticalSplit/HSplit1/Viewport2"]
 handle_input_locally = false
 render_target_update_mode = 3
-script = ExtResource( 3 )
+script = ExtResource( 6 )
 
-[node name="Camera2" parent="VerticalSplit/HSplit1/Viewport2/ViewportUR" instance=ExtResource( 2 )]
+[node name="Camera2" parent="VerticalSplit/HSplit1/Viewport2/ViewportUR" instance=ExtResource( 4 )]
 
 [node name="HSplit2" type="HSplitContainer" parent="VerticalSplit"]
 margin_top = 12.0
@@ -62,9 +110,9 @@ stretch = true
 [node name="ViewportLL" type="Viewport" parent="VerticalSplit/HSplit2/Viewport3"]
 handle_input_locally = false
 render_target_update_mode = 3
-script = ExtResource( 4 )
+script = ExtResource( 7 )
 
-[node name="Camera3" parent="VerticalSplit/HSplit2/Viewport3/ViewportLL" instance=ExtResource( 2 )]
+[node name="Camera3" parent="VerticalSplit/HSplit2/Viewport3/ViewportLL" instance=ExtResource( 4 )]
 
 [node name="Viewport4" type="ViewportContainer" parent="VerticalSplit/HSplit2"]
 margin_left = 12.0
@@ -76,6 +124,6 @@ stretch = true
 [node name="ViewportLR" type="Viewport" parent="VerticalSplit/HSplit2/Viewport4"]
 handle_input_locally = false
 render_target_update_mode = 3
-script = ExtResource( 5 )
+script = ExtResource( 8 )
 
-[node name="Camera4" parent="VerticalSplit/HSplit2/Viewport4/ViewportLR" instance=ExtResource( 2 )]
+[node name="Camera4" parent="VerticalSplit/HSplit2/Viewport4/ViewportLR" instance=ExtResource( 4 )]
