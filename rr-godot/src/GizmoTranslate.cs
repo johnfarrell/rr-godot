@@ -12,26 +12,15 @@ public class GizmoTranslate : GizmoMode
 
         GD.Print("GIZMOTRANSLATE.CS: READY");
 
-        HandleX.Connect("mouse_entered", this, "OnXHandleMouseEnter");
-        HandleX.Connect("mouse_exited", this, "OnXHandleMouseExit");
         HandleX.Connect("input_event", this, "OnXHandleInputEvent");
-
-        GD.Print(GetIncomingConnections());
     }
 
-    public override void OnXHandleMouseEnter()
+    public void OnXHandleInputEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx)
     {
-        HighlightHandle(Handles.X);
-    }
-
-    public override void OnXHandleMouseExit()
-    {
-        UnhighlightHandle(Handles.X);
-    }
-
-    public override void OnXHandleInputEvent(InputEvent @event)
-    {
-        GD.Print(@event);
+        if(@event is InputEventMouseButton)
+        {
+            GD.Print("PRESS");
+        }
     }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.

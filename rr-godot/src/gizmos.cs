@@ -14,7 +14,8 @@ public class gizmos : Spatial
     {
         // TODO: Find some way to make this dynamic instead of a static path
         // mainCam = GetNode<Camera>("/root/main/AppWindow/EnvironmentContainer/Viewport/env/Camera");
-        mainCam = GetNode<Camera>("../../Viewport/env/Camera");
+        mainCam = GetNode<Camera>("../../4way/HSplitContainer/ViewportContainer/Viewport/Camera");
+        // mainCam = GetNode<Camera>("Camera");
         
         GD.Print("GIZMOS.CS: READY");
     }

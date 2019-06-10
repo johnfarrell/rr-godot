@@ -56,13 +56,15 @@ public class env : Spatial
     public override void _Ready()
     {
         // Connect signals from EnvironmentContainer for mouse enter/exit
-        GetNode("../../").Connect("mouse_entered", this, "OnEnvContainerMouseEntered");
-        GetNode("../../").Connect("mouse_exited", this, "OnEnvContainerMouseExit");
+        // GetNode("../../").Connect("mouse_entered", this, "OnEnvContainerMouseEntered");
+        // GetNode("../../").Connect("mouse_exited", this, "OnEnvContainerMouseExit");
+
+        mouseInside = true;
 
         // Connect tree update signal
-        Connect(nameof(envUpdated), GetNode("../../../LeftMenu/TreeContainer/Environment"), "UpdateTree");
+        // Connect(nameof(envUpdated), GetNode("../../../LeftMenu/TreeContainer/Environment"), "UpdateTree");
         
-        gizmo = GetNode<Spatial>("../../Viewport2/gizmos");
+        gizmo = GetNode<Spatial>("gizmos");
 
         gizmo.Visible = false;
         GD.Print("ENV.CS: READY");
@@ -72,11 +74,6 @@ public class env : Spatial
     {   
         currentManipType = (ManipType) id;
         GD.Print("currentManipType: " + currentManipType);
-    }
-
-    private void toolbarAddMeshItemPressed()
-    {
-        GD.Print("fjeioajfioesa");
     }
 
     /// <summary>
@@ -239,7 +236,7 @@ public class env : Spatial
     /// <param name="@event">InputEvent obj containing Godot event information</param>
     public override void _Input(InputEvent @event)
     {
-        // GD.Print("ENV.CS: " + @event);
+        GD.Print("ENV.CS: " + @event);
         // GetNode("/root")._Input(@event);
         if(mouseInside)
         {
@@ -251,8 +248,8 @@ public class env : Spatial
                     selectedObject = null;
                 }
             }
-            gizmo._Input(@event);
         }
+        gizmo._Input(@event);
     }
 
     /// <summary>
@@ -276,9 +273,10 @@ public class env : Spatial
     /// </summary>
     private Godot.Collections.Dictionary GetObjUnderMouse()
     {
-        Vector2 mousePos = GetViewport().GetMousePosition();
-        Vector3 rayFrom = GetViewport().GetCamera().ProjectRayOrigin(mousePos);
-        Vector3 rayTo = rayFrom + GetViewport().GetCamera().ProjectRayNormal(mousePos) * 1000;
+        Viewport viewport = GetNode<Viewport>("../4way/HSplitContainer/ViewportContainer/Viewport");
+        Vector2 mousePos = viewport.GetMousePosition();
+        Vector3 rayFrom = viewport.GetCamera().ProjectRayOrigin(mousePos);
+        Vector3 rayTo = rayFrom + viewport.GetCamera().ProjectRayNormal(mousePos) * 1000;
         PhysicsDirectSpaceState spaceState = GetWorld().DirectSpaceState;
 
         var selection = spaceState.IntersectRay(rayFrom, rayTo);
@@ -355,7 +353,6 @@ public class env : Spatial
                 switch (currentManipType)
                 {
                     case ManipType.Translate:
-                        body.Bounce = (float) 0.5;
                         body.ApplyImpulse(new Vector3(0,(float)0.5,0), new Vector3(0,1,0));
                         break;
                     default:

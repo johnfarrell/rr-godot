@@ -22,7 +22,7 @@ public class EnvironmentTree : Tree
         // TODO: Make this get all objects at any depth with accurate parent-child relations
         // TODO: Some way to serialize the nodes so the entire environment doesn't have to be
         //       iterated over to update it. Can be CPU intensive for large environments
-        Spatial env = GetNode<Spatial>("../../../EnvironmentContainer/Viewport/env");
+        Spatial env = GetNode<Spatial>("../../../EnvironmentContainer/env");
 
         this.Clear();
         TreeItem root = this.CreateItem();

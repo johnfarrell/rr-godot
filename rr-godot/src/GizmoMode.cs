@@ -20,6 +20,10 @@ public class GizmoMode : Spatial
 
     protected static Mode HandleMode;
 
+    protected bool XHover = false;
+    protected bool YHover = false;
+    protected bool ZHover = false;
+
     [Export]
     private bool EnabledByDefault = false;
 
@@ -44,22 +48,9 @@ public class GizmoMode : Spatial
     /// <param name="handle">
     /// Handles enum describing what handle to highlight
     /// </param>
-    public void HighlightHandle(Handles handle)
+    public void HighlightHandle(StaticBody handle)
     {
-        switch(handle)
-        {
-            case Handles.X:
-                HandleX.GetNode<MeshInstance>("Handle").MaterialOverride = Materials.Highlight;
-                break;
-            case Handles.Y:
-                HandleY.GetNode<MeshInstance>("Handle").MaterialOverride = Materials.Highlight;
-                break;
-            case Handles.Z:
-                HandleZ.GetNode<MeshInstance>("Handle").MaterialOverride = Materials.Highlight;
-                break;
-            default:
-                break;
-        }
+        handle.GetNode<MeshInstance>("Handle").MaterialOverride = Materials.Highlight;
     }
 
     /// <summary>
@@ -87,6 +78,9 @@ public class GizmoMode : Spatial
         }
     }
 
+    /// <summary>
+    /// Disables drawing and collision checking for the gizmo.
+    /// </summary>
     public void Disable()
     {   
         // Disable collision checking on the handles
@@ -100,9 +94,41 @@ public class GizmoMode : Spatial
         HandleZ.Visible = false;
     }
 
-    public virtual void OnXHandleMouseEnter() {}
-    public virtual void OnXHandleMouseExit() {}
-    public virtual void OnXHandleInputEvent(InputEvent @event) {}
+    public virtual void OnXHandleMouseExit()
+    {
+        XHover = false;
+        UnhighlightHandle(Handles.X);
+    }
+
+    public virtual void OnYHandleMouseExit()
+    {
+        YHover = false;
+        UnhighlightHandle(Handles.Y);
+    }
+
+    public virtual void OnZHandleMouseExit()
+    {
+        ZHover = false;
+        UnhighlightHandle(Handles.Z);
+    }
+
+    public virtual void OnXHandleMouseEnter()
+    {
+        XHover = true;
+        HighlightHandle(HandleX);
+    }
+
+    public virtual void OnYHandleMouseEnter()
+    {
+        YHover = true;
+        HighlightHandle(HandleY);
+    }
+
+    public virtual void OnZHandleMouseEnter()
+    {
+        ZHover = true;
+        HighlightHandle(HandleZ);
+    }
 
     /// <summary>
     /// Populates the handle variables with the relevant static bodies and
@@ -119,8 +145,10 @@ public class GizmoMode : Spatial
         // collide with anything.
         HandleX.CollisionMask = 0b10;
         HandleX.CollisionLayer = 0b10;
+
         HandleY.CollisionMask = 0b10;
         HandleY.CollisionLayer = 0b10;
+
         HandleZ.CollisionMask = 0b10;
         HandleZ.CollisionLayer = 0b10;
 
@@ -129,9 +157,18 @@ public class GizmoMode : Spatial
         HandleY.GetNode<MeshInstance>("Handle").Layers = 0b10;
         HandleZ.GetNode<MeshInstance>("Handle").Layers = 0b10;
 
-        if(!EnabledByDefault)
-        {
-            Disable();
-        }
+        // Connect mouse enter/exit signals
+        HandleX.Connect("mouse_entered", this, "OnXHandleMouseEnter");
+        HandleY.Connect("mouse_entered", this, "OnYHandleMouseEnter");
+        HandleZ.Connect("mouse_entered", this, "OnZHandleMouseEnter");
+
+        HandleX.Connect("mouse_exited", this, "OnXHandleMouseExit");
+        HandleY.Connect("mouse_exited", this, "OnYHandleMouseExit");
+        HandleZ.Connect("mouse_exited", this, "OnZHandleMouseExit");
+
+        // if(!EnabledByDefault)
+        // {
+        //     Disable();
+        // }
     }
 }

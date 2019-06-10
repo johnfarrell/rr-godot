@@ -29,7 +29,7 @@ public class AppWindow : HSplitContainer
     private void UpdateControlBoxPosition()
     {
         Panel cbNode = GetNode<Panel>("EnvironmentContainer/ToolboxPanel");
-        ViewportContainer envContainer = cbNode.GetParent<ViewportContainer>();
+        Control envContainer = cbNode.GetParent<Control>();
 
         // Get the necessary size and position values
         Vector2 initialCbPos = cbNode.RectPosition;
@@ -58,5 +58,14 @@ public class AppWindow : HSplitContainer
     public void EnvironmentContainerResizeHandler()
     {
         UpdateControlBoxPosition();
+    }
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        GetNode("EnvironmentContainer")._UnhandledInput(@event);
+    }
+    public override void _Input(InputEvent @event)
+    {
+        GetNode("EnvironmentContainer")._Input(@event);
     }
 }

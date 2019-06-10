@@ -49,6 +49,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="scenes\EnvironmentContainer.cs" />
     <Compile Include="src\GizmoRotate.cs" />
     <Compile Include="src\GizmoScale.cs" />
     <Compile Include="src\GizmoTranslate.cs" />
