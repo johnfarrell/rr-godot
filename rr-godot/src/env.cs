@@ -62,12 +62,9 @@ public class env : Spatial
         // Connect tree update signal
         Connect(nameof(envUpdated), GetNode("../../../LeftMenu/TreeContainer/Environment"), "UpdateTree");
         
-        gizmo = (Spatial) gizmoScene.Instance();
-        AddChild(gizmo);
+        gizmo = GetNode<Spatial>("../../Viewport2/gizmos");
 
-        gizmo.Raise();
         gizmo.Visible = false;
-
         GD.Print("ENV.CS: READY");
     }
 
@@ -161,6 +158,7 @@ public class env : Spatial
 
         temp.Name = "Cube";
         temp.Translate(lastPos + update);
+
         lastPos = temp.Translation;
 
         AddChild(temp, true);
@@ -310,6 +308,7 @@ public class env : Spatial
             }
             else
             {
+                
                 // User clicked on an actual object, so updated the dragStart vector
                 dragStart = (Vector3) selectedObject["position"];
 
@@ -318,7 +317,6 @@ public class env : Spatial
                 Vector3 selectedObjectOrigin = collider.GlobalTransform.origin;
 
                 gizmo.GlobalTranslate(selectedObjectOrigin - gizmo.GlobalTransform.origin);
-                
             }
             
         }
@@ -333,6 +331,14 @@ public class env : Spatial
                 // Process the case where the mouse has left the object
                 return;
             }
+            else
+            {
+                if(obj["collider"] != collider)
+                {
+                    selectedObject = obj;
+                    collider = (CollisionObject) obj["collider"];
+                }
+            }
             Vector3 newPos = (Vector3) obj["position"];
             Vector3 dragDelta = newPos - dragStart;
 
@@ -343,8 +349,19 @@ public class env : Spatial
             gizmo.GlobalTranslate(collider.GlobalTransform.origin - gizmo.GlobalTransform.origin);
         
             Type parType = collider.GetParent().GetType();
-
-            // GD.Print(collider.GetParent().Name);
+            if(collider is Godot.RigidBody)
+            {
+                RigidBody body = (RigidBody) collider;
+                switch (currentManipType)
+                {
+                    case ManipType.Translate:
+                        body.Bounce = (float) 0.5;
+                        body.ApplyImpulse(new Vector3(0,(float)0.5,0), new Vector3(0,1,0));
+                        break;
+                    default:
+                        break;
+                }
+            }
 
             if(parType.ToString() == "Godot.MeshInstance")
             {
@@ -368,10 +385,13 @@ public class env : Spatial
             }
             else
             {
-                // GD.Print(parType);
+                // GD.Print("GODDANGIT: " + parType);
             }
-
-            
+        }
+        if(!mouseClicked && selectedObject != null)
+        {
+            CollisionObject collider = (CollisionObject) selectedObject["collider"];
+            gizmo.GlobalTranslate(collider.GlobalTransform.origin - gizmo.GlobalTransform.origin);
         }
     }
 }

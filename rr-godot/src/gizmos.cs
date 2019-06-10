@@ -13,24 +13,10 @@ public class gizmos : Spatial
     public override void _Ready()
     {
         // TODO: Find some way to make this dynamic instead of a static path
-        mainCam = GetNode<Camera>("/root/main/AppWindow/EnvironmentContainer/Viewport/env/Camera");
+        // mainCam = GetNode<Camera>("/root/main/AppWindow/EnvironmentContainer/Viewport/env/Camera");
+        mainCam = GetNode<Camera>("../../Viewport/env/Camera");
         
-        this.Raise();
         GD.Print("GIZMOS.CS: READY");
-    }
-    public void _on_HandleX_input_event(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx)
-    {
-        GD.Print(@event);
-    }
-
-    public void OnHandleXMouseEnter()
-    {
-        GD.Print("ENTER");
-    }
-
-    public void OnHandleXMouseExit()
-    {
-        GD.Print("EXIT");
     }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
