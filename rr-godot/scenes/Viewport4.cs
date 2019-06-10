@@ -27,7 +27,11 @@ public class Viewport4 : ViewportContainer
 
     public void _on_Viewport4_mouse_exited()
     {
-        toolbox.Hide();
+        if(toolbox.GetLocalMousePosition().x > toolbox.GetEnd().x || toolbox.GetLocalMousePosition().y >toolbox.GetEnd().y)
+        {
+           
+           toolbox.Hide();
+        }
     }
 
 

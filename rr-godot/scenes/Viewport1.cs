@@ -28,7 +28,13 @@ public class Viewport1 : ViewportContainer
 
     public void _on_Viewport1_mouse_exited()
     {
-        toolbox.Hide();
+        if(toolbox.GetLocalMousePosition().x > toolbox.GetEnd().x || toolbox.GetLocalMousePosition().y >toolbox.GetEnd().y)
+        {
+           
+           toolbox.Hide();
+        }
+        
+        
     }
 
 
@@ -36,5 +42,6 @@ public class Viewport1 : ViewportContainer
     public void _on_Viewport1_mouse_entered()
     {
         toolbox.Show();
+                
     }
 }
