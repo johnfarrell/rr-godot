@@ -1,10 +1,9 @@
 [gd_resource type="Theme" load_steps=16 format=2]
 
-[ext_resource path="res://theme/button_pressed.tres" type="StyleBox" id=1]
+[ext_resource path="res://theme/button_disabled.tres" type="StyleBox" id=1]
 [ext_resource path="res://theme/button_hover.tres" type="StyleBox" id=2]
 [ext_resource path="res://theme/button_normal.tres" type="StyleBox" id=3]
-[ext_resource path="res://theme/button_disabled.tres" type="StyleBox" id=4]
-
+[ext_resource path="res://theme/button_pressed.tres" type="StyleBox" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
@@ -65,7 +64,6 @@ border_width_top = 5
 border_color = Color( 0.921569, 0.921569, 0.921569, 1 )
 expand_margin_top = 1.0
 shadow_size = 2
-shadow_offset = Vector2( 0, -1 )
 
 [sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
@@ -258,11 +256,11 @@ MenuButton/colors/font_color_hover = Color( 0, 0, 0, 1 )
 MenuButton/colors/font_color_pressed = Color( 0, 0, 0, 1 )
 MenuButton/constants/hseparation = 3
 MenuButton/fonts/font = null
-MenuButton/styles/disabled = ExtResource( 4 )
+MenuButton/styles/disabled = ExtResource( 1 )
 MenuButton/styles/focus = null
 MenuButton/styles/hover = ExtResource( 2 )
 MenuButton/styles/normal = ExtResource( 3 )
-MenuButton/styles/pressed = ExtResource( 1 )
+MenuButton/styles/pressed = ExtResource( 4 )
 OptionButton/colors/font_color = Color( 0, 0, 0, 1 )
 OptionButton/colors/font_color_disabled = Color( 0, 0, 0, 1 )
 OptionButton/colors/font_color_hover = Color( 0, 0, 0, 1 )

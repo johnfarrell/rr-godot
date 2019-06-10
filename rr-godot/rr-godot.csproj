@@ -49,6 +49,13 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="scenes\DebugDraw.cs" />
+    <Compile Include="scenes\ToolboxPanel.cs" />
+    <Compile Include="scenes\VerticalSplit.cs" />
+    <Compile Include="scenes\Viewport1.cs" />
+    <Compile Include="scenes\Viewport2.cs" />
+    <Compile Include="scenes\Viewport3.cs" />
+    <Compile Include="scenes\Viewport4.cs" />
     <Compile Include="scenes\ViewportLL.cs" />
     <Compile Include="scenes\ViewportLR.cs" />
     <Compile Include="scenes\ViewportUL.cs" />
@@ -61,7 +68,6 @@
     <Compile Include="src\gizmos.cs" />
     <Compile Include="src\gridGenerator.cs" />
     <Compile Include="src\TitleBar.cs" />
-    <Compile Include="src\ToolboxPanel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -13,7 +13,7 @@ public class gizmos : Spatial
     public override void _Ready()
     {
         // TODO: Find some way to make this dynamic instead of astatic path
-        mainCam = GetNode<Camera>("/root/main/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1/ViewportUL/Camera/CameraObj");
+        mainCam = GetNode<Camera>("/root/main/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1/Viewport/Camera/CameraObj");
 
 
         GD.Print("GIZMOS.CS: READY");
