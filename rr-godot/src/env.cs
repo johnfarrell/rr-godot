@@ -48,7 +48,7 @@ public class env : Spatial
 
     private PackedScene gizmoScene = (PackedScene)GD.Load("res://scenes/gizmos.tscn");
 
-    private Spatial gizmo;
+    private Control gizmo;
     private DebugDrawType currentDrawType = DebugDrawType.Disable;
 
 
@@ -64,7 +64,7 @@ public class env : Spatial
         // Connect tree update signal
         // Connect(nameof(envUpdated), GetNode("../../../LeftMenu/TreeContainer/Environment"), "UpdateTree");
         
-        gizmo = GetNode<Spatial>("gizmos");
+        gizmo = GetNode<Control>("/root/main/UI/AppWindow/EnvironmentContainer/4way/gizmos");
 
         gizmo.Visible = false;
         GD.Print("ENV.CS: READY");
@@ -236,7 +236,8 @@ public class env : Spatial
     /// <param name="@event">InputEvent obj containing Godot event information</param>
     public override void _Input(InputEvent @event)
     {
-        GD.Print("ENV.CS: " + @event);
+        // gizmo._in
+        // GD.Print("ENV.CS: " + @event);
         // GetNode("/root")._Input(@event);
         if(mouseInside)
         {
@@ -249,8 +250,12 @@ public class env : Spatial
                 }
             }
         }
-        gizmo._Input(@event);
     }
+
+    // public override void _UnhandledInput(InputEvent @event)
+    // {
+    //     gizmo._UnhandledInput(@event);
+    // }
 
     /// <summary>
     /// Signal reciever for MouseEnter signal sent by EnvironmentContainer node
@@ -273,7 +278,8 @@ public class env : Spatial
     /// </summary>
     private Godot.Collections.Dictionary GetObjUnderMouse()
     {
-        Viewport viewport = GetNode<Viewport>("../4way/HSplitContainer/ViewportContainer/Viewport");
+        Viewport viewport = GetNode<Viewport>("/root/main/UI/AppWindow/EnvironmentContainer/4way/HSplitContainer/ViewportContainer/Viewport");
+        // Viewport viewport = GetViewport();
         Vector2 mousePos = viewport.GetMousePosition();
         Vector3 rayFrom = viewport.GetCamera().ProjectRayOrigin(mousePos);
         Vector3 rayTo = rayFrom + viewport.GetCamera().ProjectRayNormal(mousePos) * 1000;
@@ -284,111 +290,54 @@ public class env : Spatial
         return selection;
     }
 
+    private void ResetGizmoPosition()
+    {
+        UpdateGizmoPosition(new Vector3(0, 0, 0), false);
+    }
+
+    private void UpdateGizmoPosition(Vector3 TargetPos, bool SetVisible = true)
+    {
+        for(var x = 0; x < gizmo.GetChildCount(); ++x) {
+            Spatial temp = gizmo.GetChild<Spatial>(x);
+
+            temp.Visible = SetVisible;
+            temp.GlobalTranslate(TargetPos - temp.GlobalTransform.origin);
+        }
+    }
+
     /// <summary>
     ///  Called every physics frame, more reliable than using screen frames
     /// Called by Godot, do not call manually
     /// </summary>
     public override void _PhysicsProcess(float _delta)
     {
-        if(mouseClicked && selectedObject == null)
+        if(mouseClicked)
         {
-            // Select the proper thingy
-            selectedObject = GetObjUnderMouse();
-            if(selectedObject.Count == 0)
+            // Get the clicked object (if any)
+            Godot.Collections.Dictionary tempObj = GetObjUnderMouse();
+
+            if(tempObj.Count == 0)
             {
-                // Raycast returned an empty dictionary, user clicked in empty space
+                // User clicked on empty space
+                ResetGizmoPosition();
                 selectedObject = null;
+            }
+            else if(selectedObject != null &&
+                tempObj["collider"] == selectedObject["collider"])
+            {
+                // User clicked on the same object
 
-                // Reset the gizmos
-                gizmo.Visible = false;
-                gizmo.GlobalTranslate(new Vector3(0, 0, 0) - gizmo.GlobalTransform.origin);
-                
             }
             else
             {
-                
-                // User clicked on an actual object, so updated the dragStart vector
-                dragStart = (Vector3) selectedObject["position"];
+                // User clicked on a different object
+                selectedObject = tempObj;
 
-                // Get the origin of the selected object and update the gizmos
                 CollisionObject collider = (CollisionObject) selectedObject["collider"];
-                Vector3 selectedObjectOrigin = collider.GlobalTransform.origin;
 
-                gizmo.GlobalTranslate(selectedObjectOrigin - gizmo.GlobalTransform.origin);
-            }
-            
-        }
-        if(mouseClicked && selectedObject != null)
-        {
-            // Handle moving the thingy
-            // Get position of new ray cast from camera to mouse
-            CollisionObject collider = (CollisionObject) selectedObject["collider"];
-            var obj = GetObjUnderMouse();
-            if(obj.Count == 0)
-            {
-                // Process the case where the mouse has left the object
-                return;
-            }
-            else
-            {
-                if(obj["collider"] != collider)
-                {
-                    selectedObject = obj;
-                    collider = (CollisionObject) obj["collider"];
-                }
-            }
-            Vector3 newPos = (Vector3) obj["position"];
-            Vector3 dragDelta = newPos - dragStart;
-
-            if(!gizmo.Visible)
-            {
-                gizmo.Visible = true;
-            }
-            gizmo.GlobalTranslate(collider.GlobalTransform.origin - gizmo.GlobalTransform.origin);
-        
-            Type parType = collider.GetParent().GetType();
-            if(collider is Godot.RigidBody)
-            {
-                RigidBody body = (RigidBody) collider;
-                switch (currentManipType)
-                {
-                    case ManipType.Translate:
-                        body.ApplyImpulse(new Vector3(0,(float)0.5,0), new Vector3(0,1,0));
-                        break;
-                    default:
-                        break;
-                }
+                UpdateGizmoPosition(collider.GlobalTransform.origin);
             }
 
-            if(parType.ToString() == "Godot.MeshInstance")
-            {
-                MeshInstance parMesh = collider.GetParent<MeshInstance>();
-                switch (currentManipType)
-                {
-                    case ManipType.Translate:
-                        parMesh.GlobalTranslate(dragDelta);
-                        break;
-                    case ManipType.Rotate:
-                        break;
-                    case ManipType.Scale:
-                        Vector3 normal = (Vector3) obj["normal"];
-                        parMesh.Scale += (normal / 50);
-                        break;
-                    default:
-                        break;
-                }
-            
-                dragStart = newPos;
-            }
-            else
-            {
-                // GD.Print("GODDANGIT: " + parType);
-            }
-        }
-        if(!mouseClicked && selectedObject != null)
-        {
-            CollisionObject collider = (CollisionObject) selectedObject["collider"];
-            gizmo.GlobalTranslate(collider.GlobalTransform.origin - gizmo.GlobalTransform.origin);
         }
     }
 }
