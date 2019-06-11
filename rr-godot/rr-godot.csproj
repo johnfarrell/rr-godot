@@ -49,18 +49,19 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\GizmoRotate.cs" />
-    <Compile Include="src\GizmoScale.cs" />
-    <Compile Include="src\GizmoTranslate.cs" />
+    
     <Compile Include="src\AppWindow.cs" />
     <Compile Include="src\AxisLineGenerator.cs" />
     <Compile Include="src\env.cs" />
     <Compile Include="src\EnvironmentTree.cs" />
     <Compile Include="src\gizmos.cs" />
+    <Compile Include="src\gizmo\Gizmo.cs" />
+    <Compile Include="src\gizmo\GizmoRotate.cs" />
+    <Compile Include="src\gizmo\GizmoScale.cs" />
+    <Compile Include="src\gizmo\GizmoTranslate.cs" />
     <Compile Include="src\gridGenerator.cs" />
     <Compile Include="src\TitleBar.cs" />
     <Compile Include="src\ToolboxPanel.cs" />
-    <Compile Include="src\GizmoMode.cs" />
     <Compile Include="src\MouseEventPassthrough.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

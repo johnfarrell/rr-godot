@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class GizmoScale : GizmoMode
+public class GizmoScale : Gizmo
 {
     
     // Called when the node enters the scene tree for the first time.

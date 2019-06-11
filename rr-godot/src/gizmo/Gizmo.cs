@@ -6,7 +6,7 @@ using System;
 /// <para>Class that handles common actions of Gizmos</para>
 /// <para>Extended by each gizmo mode to implement their own custom logic</para>
 /// </summary>
-public class GizmoMode : Spatial
+public class Gizmo : Spatial
 {
     /// <summary>
     /// Class to hold the material locations for each handle along with the highlight
