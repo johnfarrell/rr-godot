@@ -64,7 +64,7 @@ public class env : Spatial
         // Connect tree update signal
         // Connect(nameof(envUpdated), GetNode("../../../LeftMenu/TreeContainer/Environment"), "UpdateTree");
         
-        gizmo = GetNode<Control>("/root/main/UI/AppWindow/EnvironmentContainer/4way/gizmos");
+        gizmo = GetNode<Control>("/root/main/UI/AppWindow/EnvironmentContainer/gizmos");
 
         gizmo.Visible = false;
         GD.Print("ENV.CS: READY");
@@ -302,7 +302,7 @@ public class env : Spatial
     {
         for(var x = 0; x < gizmo.GetChildCount(); ++x) {
             Spatial temp = gizmo.GetChild<Spatial>(x);
-            
+
             temp.Visible = SetVisible;
             temp.GlobalTranslate(TargetPos - temp.GlobalTransform.origin);
         }

@@ -49,8 +49,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="scenes\StaticBodyTest.cs" />
-    <Compile Include="scenes\ViewportContainerTest.cs" />
     <Compile Include="src\GizmoRotate.cs" />
     <Compile Include="src\GizmoScale.cs" />
     <Compile Include="src\GizmoTranslate.cs" />
@@ -63,6 +61,7 @@
     <Compile Include="src\TitleBar.cs" />
     <Compile Include="src\ToolboxPanel.cs" />
     <Compile Include="src\GizmoMode.cs" />
+    <Compile Include="src\MouseEventPassthrough.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

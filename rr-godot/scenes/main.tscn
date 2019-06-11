@@ -5,6 +5,7 @@
 [ext_resource path="res://theme/toolbarPopupMenu.tres" type="Theme" id=3]
 [ext_resource path="res://theme/cb_button_hover.tres" type="StyleBox" id=4]
 [ext_resource path="res://theme/button_pressed.tres" type="StyleBox" id=5]
+[ext_resource path="res://scenes/gizmos.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/EnvironmentTree.cs" type="Script" id=7]
 [ext_resource path="res://theme/button_normal.tres" type="StyleBox" id=8]
 [ext_resource path="res://theme/button_disabled.tres" type="StyleBox" id=9]
@@ -12,9 +13,8 @@
 [ext_resource path="res://src/ToolboxPanel.cs" type="Script" id=11]
 [ext_resource path="res://src/CameraObj.gd" type="Script" id=12]
 [ext_resource path="res://theme/addMesh.png" type="Texture" id=13]
-[ext_resource path="res://scenes/env.tscn" type="PackedScene" id=14]
-[ext_resource path="res://scenes/gizmos.tscn" type="PackedScene" id=15]
-[ext_resource path="res://scenes/ViewportContainerTest.cs" type="Script" id=16]
+[ext_resource path="res://src/MouseEventPassthrough.cs" type="Script" id=14]
+[ext_resource path="res://scenes/env.tscn" type="PackedScene" id=15]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
@@ -485,7 +485,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 theme = SubResource( 8 )
 
-[node name="env" parent="." instance=ExtResource( 14 )]
+[node name="env" parent="." instance=ExtResource( 15 )]
 
 [node name="UI" type="Control" parent="."]
 anchor_right = 1.0
@@ -680,7 +680,7 @@ mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
-script = ExtResource( 16 )
+script = ExtResource( 14 )
 
 [node name="Viewport" type="Viewport" parent="UI/AppWindow/EnvironmentContainer/4way/HSplitContainer/ViewportContainer"]
 size = Vector2( 1558, 1050 )
@@ -692,11 +692,6 @@ physics_object_picking = true
 transform = Transform( -0.0951428, 0, -0.995464, 0, 1, 0, 0.995464, 0, -0.0951428, -3.82534, 1.20773, -0.327002 )
 current = true
 script = ExtResource( 12 )
-
-[node name="gizmos" parent="UI/AppWindow/EnvironmentContainer/4way" instance=ExtResource( 15 )]
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 1
 
 [node name="ToolboxPanel" type="Panel" parent="UI/AppWindow/EnvironmentContainer"]
 margin_left = 712.0
@@ -753,6 +748,11 @@ margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 mouse_filter = 1
 text = "E"
+
+[node name="gizmos" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 6 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
 [connection signal="resized" from="." to="UI/AppWindow" method="WindowResizeHandler"]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/MinimizeButton" to="UI/TitleBar" method="MinimizeButtonPressedHandler"]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/MaximizeButton" to="UI/TitleBar" method="MaximizeButtonPressedHandler"]

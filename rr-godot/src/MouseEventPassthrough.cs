@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class ViewportContainerTest : ViewportContainer
+public class MouseEventPassthrough : ViewportContainer
 {
     // DO NOT REMOVE THIS FILE, THE ENTIRE ENVIRONMENT INTERACTION WITH
     // MOUSE EVENTS (i.e. GIZMO) DEPENDS ON THIS
