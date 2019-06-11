@@ -1,9 +1,17 @@
 using Godot;
 using System;
 
+/// <summary>
+/// GizmoMode
+/// <para>Class that handles common actions of Gizmos</para>
+/// <para>Extended by each gizmo mode to implement their own custom logic</para>
+/// </summary>
 public class GizmoMode : Spatial
 {
-    // Class to hold the materials for each handle and the highlight material
+    /// <summary>
+    /// Class to hold the material locations for each handle along with the highlight
+    /// material
+    /// </summary>
     class Materials
     {
         public static Material Highlight = (Material) GD.Load("res://theme/gizmo_HandleHighlight.tres");
@@ -12,20 +20,46 @@ public class GizmoMode : Spatial
         public static Material ZHandle = (Material) GD.Load("res://theme/gizmo_ZHandleMat.tres");
     }
 
+    /// <summary>
+    /// Node of the X Handle for this gizmo
+    /// </summary>
     protected StaticBody HandleX { get; set; }
-
+    /// <summary>
+    /// Node of the Y Handle for this gizmo
+    /// </summary>
     protected StaticBody HandleY { get; set; }
-
+    /// <summary>
+    /// Node of the Z Handle for this gizmo
+    /// </summary>
     protected StaticBody HandleZ { get; set; }
 
+    /// <summary>
+    /// Holds a <ref>Mode</ref> enum object describing the type of gizmo
+    /// </summary>
     protected static Mode HandleMode;
 
+    /// <summary>
+    /// Whether or not the X handle is currently hovered over by the user
+    /// </summary>
     protected bool XHover = false;
+    /// <summary>
+    /// Whether or not the Y handle is currently hovered over by the user
+    /// </summary>
     protected bool YHover = false;
+    /// <summary>
+    /// Whether or not the Z handle is currently hovered over by the user
+    /// </summary>
     protected bool ZHover = false;
 
+    /// <summary>
+    /// Whether or not this gizmo is enabled on startup
+    /// </summary>
     [Export]
     private bool EnabledByDefault = false;
+
+    /// <summary>
+    /// Available modes of this gizmo
+    /// </summary>
 
     protected enum Mode
     {
@@ -94,46 +128,65 @@ public class GizmoMode : Spatial
         HandleZ.Visible = false;
     }
 
+    /// <summary>
+    /// Handles when the mouse leaves the X handle of this gizmo
+    /// <para>Unhighlights and sets <see cref="XHover" /> to false</para>
+    /// </summary>
     public virtual void OnXHandleMouseExit()
     {
         XHover = false;
         UnhighlightHandle(Handles.X);
     }
 
+    /// <summary>
+    /// Handles when the mouse leaves the Y handle of this gizmo
+    /// <para>Unhighlights and sets <see cref="YHover" /> to false</para>
+    /// </summary>
     public virtual void OnYHandleMouseExit()
     {
         YHover = false;
         UnhighlightHandle(Handles.Y);
     }
 
+    /// <summary>
+    /// Handles when the mouse leaves the Z handle of this gizmo
+    /// <para>Unhighlights and sets <see cref="ZHover" /> to false</para>
+    /// </summary>
     public virtual void OnZHandleMouseExit()
     {
         ZHover = false;
         UnhighlightHandle(Handles.Z);
     }
 
+    /// <summary>
+    /// Handles when the mouse enters the X handle of this gizmo
+    /// <para>Highlights and sets <see cref="XHover"/> to true</para>
+    /// </summary>
     public virtual void OnXHandleMouseEnter()
     {
         XHover = true;
         HighlightHandle(HandleX);
     }
 
+    /// <summary>
+    /// Handles when the mouse leaves the Y handle of this gizmo
+    /// <para>Highlights and sets <see cref="ZHover"/> to true</para>
+    /// </summary>
     public virtual void OnYHandleMouseEnter()
     {
         YHover = true;
         HighlightHandle(HandleY);
     }
 
+    /// <summary>
+    /// Handles when the mouse leaves the Z handle of this gizmo
+    /// <para>Highlights and sets <see cref="ZHover"/> to true</para>
+    /// </summary>
     public virtual void OnZHandleMouseEnter()
     {
         ZHover = true;
         HighlightHandle(HandleZ);
     }
-
-    // public Node GetObject()
-    // {
-
-    // }
 
     /// <summary>
     /// Populates the handle variables with the relevant static bodies and
