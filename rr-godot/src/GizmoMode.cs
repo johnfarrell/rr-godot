@@ -130,6 +130,11 @@ public class GizmoMode : Spatial
         HighlightHandle(HandleZ);
     }
 
+    // public Node GetObject()
+    // {
+
+    // }
+
     /// <summary>
     /// Populates the handle variables with the relevant static bodies and
     /// sets the collision masking and visual masking.

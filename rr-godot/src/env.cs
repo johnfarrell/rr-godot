@@ -290,16 +290,19 @@ public class env : Spatial
         return selection;
     }
 
+    // TODO: Move this out of the env file so there isn't a
+    // god class
     private void ResetGizmoPosition()
     {
-        UpdateGizmoPosition(new Vector3(0, 0, 0), false);
+        UpdateGizmoPosition(new Vector3(0, 0, 0));
     }
 
+    // TODO: Move this out of the env file also
     private void UpdateGizmoPosition(Vector3 TargetPos, bool SetVisible = true)
     {
         for(var x = 0; x < gizmo.GetChildCount(); ++x) {
             Spatial temp = gizmo.GetChild<Spatial>(x);
-
+            
             temp.Visible = SetVisible;
             temp.GlobalTranslate(TargetPos - temp.GlobalTransform.origin);
         }
@@ -337,7 +340,6 @@ public class env : Spatial
 
                 UpdateGizmoPosition(collider.GlobalTransform.origin);
             }
-
         }
     }
 }

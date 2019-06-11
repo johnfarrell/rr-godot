@@ -17,14 +17,14 @@ public class ToolboxPanel : Panel
         addMeshButton.GetPopup().AddItem("Capsule");
 
         // Connect the pressed signals to the environment
-        addMeshButton.GetPopup().Connect("id_pressed", GetNode("../env"), "toolbarAddMeshItemPressed");
+        addMeshButton.GetPopup().Connect("id_pressed", GetNode("/root/main/env"), "toolbarAddMeshItemPressed");
 
         MenuButton manipTypeButton = GetNode<MenuButton>("ToolboxContainer/ManipulationType");
         manipTypeButton.GetPopup().AddCheckItem("Translate");
         manipTypeButton.GetPopup().AddCheckItem("Rotate");
         manipTypeButton.GetPopup().AddCheckItem("Scale");
 
-        manipTypeButton.GetPopup().Connect("id_pressed", GetNode("../env"), "toolbarChangeManipTypePressed");
+        manipTypeButton.GetPopup().Connect("id_pressed", GetNode("/root/main/env"), "toolbarChangeManipTypePressed");
         manipTypeButton.GetPopup().Connect("id_pressed", this, "UpdateManipType");
 
 
@@ -34,9 +34,16 @@ public class ToolboxPanel : Panel
         rendTypeButton.GetPopup().AddItem("Overdraw");
         rendTypeButton.GetPopup().AddItem("Wireframe");
 
-        rendTypeButton.GetPopup().Connect("id_pressed", GetNode("../env"), "toolbarChangeRendTypePressed");
+        rendTypeButton.GetPopup().Connect("id_pressed", GetNode("/root/main/env"), "toolbarChangeRendTypePressed");
 
         GD.Print("TOOLBOXPANEL.CS: READY");
+    }
+
+    public override void _Process(float delta)
+    {
+        if(this.GetNode<MenuButton>("ToolboxContainer/AddMeshMenuButton").HasFocus()) {
+            GD.Print("TOOLBOX PANEL FOCUS ");
+        }
     }
 
     public void UpdateManipType(int id)

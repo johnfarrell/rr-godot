@@ -59,13 +59,4 @@ public class AppWindow : HSplitContainer
     {
         UpdateControlBoxPosition();
     }
-
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        GetNode("EnvironmentContainer")._UnhandledInput(@event);
-    }
-    public override void _Input(InputEvent @event)
-    {
-        GetNode("EnvironmentContainer")._Input(@event);
-    }
 }

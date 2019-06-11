@@ -11,6 +11,8 @@ public class GizmoScale : GizmoMode
         HandleMode = Mode.Scale;
         SetDefaults();
         GD.Print("GIZMOSCALE.CS: READY");
+
+        Disable();
     }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
