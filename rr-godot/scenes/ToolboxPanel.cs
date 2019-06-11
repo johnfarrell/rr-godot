@@ -38,6 +38,15 @@ public class ToolboxPanel : Panel
         rendTypeButton.GetPopup().Connect("id_pressed", GetNode<Control>("../DebugDraw/"), "toolbarChangeRendTypePressed");
 
 
+        MenuButton cameraPerspectiveButton = GetNode<MenuButton>("ToolboxContainer/CameraPerspective");
+        cameraPerspectiveButton.GetPopup().AddItem("Front");
+        cameraPerspectiveButton.GetPopup().AddItem("Back");
+        cameraPerspectiveButton.GetPopup().AddItem("Orthogonal On");
+        cameraPerspectiveButton.GetPopup().AddItem("Orthogonal Off");
+
+        cameraPerspectiveButton.GetPopup().Connect("id_pressed",GetNode<Control>("../DebugDraw/"),"toolbarChangePerspective");
+
+
         GD.Print("TOOLBOXPANEL.CS: READY");
     }
 
