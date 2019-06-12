@@ -24,6 +24,8 @@ public class ToolboxPanel : Panel
         manipTypeButton.GetPopup().AddCheckItem("Rotate");
         manipTypeButton.GetPopup().AddCheckItem("Scale");
 
+        manipTypeButton.GetPopup().SetItemChecked(0, true);
+
         manipTypeButton.GetPopup().Connect("id_pressed", GetNode("/root/main/env"), "toolbarChangeManipTypePressed");
         manipTypeButton.GetPopup().Connect("id_pressed", this, "UpdateManipType");
 
@@ -48,6 +50,15 @@ public class ToolboxPanel : Panel
 
     public void UpdateManipType(int id)
     {
-        GD.Print(id);
+        for(var i = 0; i < 3; ++i)
+        {
+            if(i != id)
+            {
+                GetNode<MenuButton>("ToolboxContainer/ManipulationType").GetPopup().SetItemChecked(i, false);
+            }
+            else{
+                GetNode<MenuButton>("ToolboxContainer/ManipulationType").GetPopup().SetItemChecked(i, true);
+            }
+        }
     }
 }

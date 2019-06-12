@@ -257,9 +257,4 @@ public class Gizmo : Spatial
             Disable();
         }
     }
-
-    public override void _EnterTree()
-    {
-
-    }
 }

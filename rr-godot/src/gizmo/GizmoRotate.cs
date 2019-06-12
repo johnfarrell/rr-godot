@@ -9,6 +9,8 @@ public class GizmoRotate : Gizmo
 
     Vector3 RotationStart;
 
+    Transform StartTrans;
+
     float AngleStart;
 
     private Vector2 ClickStart;
@@ -34,10 +36,13 @@ public class GizmoRotate : Gizmo
             GizmoPressed = @event.IsActionPressed("mouse_left_click");
             ClickStart = cam.UnprojectPosition(click_position);
             
-
             if(ActiveAxis != Axis.NONE)
             {
                 EmitSignal("HandlePressedStateChanged");
+            }
+            if(@event.IsActionReleased("mouse_left_click"))
+            {
+                StartTrans = CurrentObject.GlobalTransform;
             }
         }
         if(@event is InputEventMouseMotion && GizmoPressed && ActiveAxis != Axis.NONE)
@@ -53,10 +58,12 @@ public class GizmoRotate : Gizmo
             if(CurrentObject == null)
             {
                 CurrentObject = tempObj;
+                StartTrans = CurrentObject.GlobalTransform;
             }
             else if(CurrentObject.Name != tempObj.Name)
             {
                 CurrentObject = tempObj;
+                StartTrans = CurrentObject.GlobalTransform;
             }
             if(CurrentObject.Name == "env")
             {
@@ -69,27 +76,35 @@ public class GizmoRotate : Gizmo
             Vector2 StartVector = ClickStart - Origin2d;
             Vector2 CurrVector = MousePos - Origin2d;
 
-            float AngleCurr = (float) (180 / Math.PI) * StartVector.AngleTo(CurrVector);
+            // float AngleCurr = (float) (180 / Math.PI) * StartVector.AngleTo(CurrVector);
+            float AngleCurr = StartVector.AngleTo(CurrVector);
 
 
             Vector3 PreviousObjectRotation = CurrentObject.RotationDegrees;
             Vector3 CurrentObjectRotation = PreviousObjectRotation;
 
+            Transform rotTrans = StartTrans;
+
+            Vector3 rotation = rotTrans.basis.GetEuler();
+
             if (ActiveAxis == Axis.X)
             {
-                CurrentObjectRotation.x = AngleCurr;
+                rotTrans.basis = StartTrans.basis.Rotated(new Vector3(1, 0, 0), AngleCurr);
+                
             }
             else if (ActiveAxis == Axis.Y)
             {
-                CurrentObjectRotation.y = -1 * AngleCurr;
+                rotation.y = -1 * AngleCurr;
+                rotTrans.basis = StartTrans.basis.Rotated(new Vector3(0, 1, 0), -1 *AngleCurr);
             }
             else
             {
-                CurrentObjectRotation.z = AngleCurr;
+                rotation.z = AngleCurr;
+                rotTrans.basis = StartTrans.basis.Rotated(new Vector3(0, 0, 1), AngleCurr);
             }
 
-
-            CurrentObject.RotationDegrees = CurrentObjectRotation;
+            // rotTrans.basis = new Basis(rotation);
+            CurrentObject.GlobalTransform = rotTrans;
             
         }
     }
