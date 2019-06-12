@@ -172,16 +172,22 @@ public class env : Spatial
     /// </summary>
     private void addCubeMesh()
     {
-        var temp = new MeshInstance();
-        temp.Mesh = new CubeMesh();
-        temp.CreateTrimeshCollision();
+        StaticBody temp = new StaticBody();
+        MeshInstance tempMesh = new MeshInstance();
+        tempMesh.Mesh = new CubeMesh();
 
-        temp.Name = "Cube";
-        temp.Translate(lastPos + update);
+        tempMesh.CreateTrimeshCollision();
 
-        lastPos = temp.Translation;
+        // Get the collision shape and reparent it to the StaticBody
+        CollisionShape collision = (CollisionShape) tempMesh.GetChild(0).GetChild(0);
 
-        AddChild(temp, true);
+        tempMesh.GetChild(0).RemoveChild(collision);
+        tempMesh.RemoveChild(tempMesh.GetChild(0));
+
+        temp.AddChild(collision);
+        temp.AddChild(tempMesh);
+
+        this.AddChild(temp, true);
     }
 
     /// <summary>
@@ -259,18 +265,11 @@ public class env : Spatial
     /// <param name="@event">InputEvent obj containing Godot event information</param>
     public override void _Input(InputEvent @event)
     {
-        // gizmo._in
-        // GD.Print("ENV.CS: " + @event);
-        // GetNode("/root")._Input(@event);
         if(mouseInside)
         {
             if(@event is InputEventMouseButton && @event.IsAction("mouse_left_click"))
             {
                 mouseClicked = !mouseClicked;
-                if(selectedObject != null)
-                {
-                    selectedObject = null;
-                }
             }
         }
     }
@@ -317,7 +316,7 @@ public class env : Spatial
     // god class
     private void ResetGizmoPosition()
     {
-        UpdateGizmoPosition(new Vector3(0, 0, 0));
+        UpdateGizmoPosition(new Vector3(0, 0, 0), false);
     }
 
     // TODO: Move this out of the env file also
@@ -333,7 +332,7 @@ public class env : Spatial
 
     private void ResetMarkerParent()
     {
-        UpdateMarkerParent(this);
+        UpdateMarkerParent(GetNode("/root/main/env"));
     }
 
     private void UpdateMarkerParent(Node newParent)
@@ -351,7 +350,10 @@ public class env : Spatial
     public override void _PhysicsProcess(float _delta)
     {
         if(gizmoActive)
-        {
+        {   
+            CollisionObject collider = (CollisionObject) selectedObject["collider"];
+
+            UpdateGizmoPosition(collider.GlobalTransform.origin);
             return;
         }
         if(mouseClicked)
@@ -365,6 +367,7 @@ public class env : Spatial
                 ResetGizmoPosition();
                 ResetMarkerParent();
                 selectedObject = null;
+                GD.Print("NOW NULL");
             }
             else if(selectedObject != null &&
                 tempObj["collider"] == selectedObject["collider"])

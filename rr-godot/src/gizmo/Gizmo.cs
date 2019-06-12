@@ -23,6 +23,8 @@ public class Gizmo : Spatial
     [Signal]
     public delegate void HandlePressedStateChanged();
 
+    public Viewport EditorViewport;
+
     /// <summary>
     /// Node of the X Handle for this gizmo
     /// </summary>
@@ -55,7 +57,7 @@ public class Gizmo : Spatial
     /// <summary>
     /// Holds the node of the object that is selected
     /// </summary>
-    protected Node CurrentObject { private get; set; }
+    protected Spatial CurrentObject { get; set; }
 
     /// <summary>
     /// Whether or not this gizmo is enabled on startup
@@ -194,15 +196,18 @@ public class Gizmo : Spatial
     /// Gets the object the gizmo is set to manipulate.
     /// <para>Call GetObject().Type to get what type of Node it is</para>
     /// </summary>
-    public Node GetObject()
+    public Spatial GetObject()
     {
         Node env = GetNode<Spatial>("/root/main/env");
         Node marker = env.FindNode("SelectedObject", true, false);
+        
+        if(marker == null)
+        {
+            return null;
+        }
     
-        return marker.GetParent();
+        return (Spatial) marker.GetParent();
     }
-
-    public virtual void ZHandlePressed(Node CurrentObject) {}
 
     /// <summary>
     /// Populates the handle variables with the relevant static bodies and
@@ -210,6 +215,8 @@ public class Gizmo : Spatial
     /// </summary>        
     public void SetDefaults()
     {
+        EditorViewport = GetNode<Viewport>("/root/main/UI/AppWindow/EnvironmentContainer/4way/HSplitContainer/ViewportContainer/Viewport");
+
         HandleX = GetNode<StaticBody>("HandleX");
         HandleY = GetNode<StaticBody>("HandleY");
         HandleZ = GetNode<StaticBody>("HandleZ");

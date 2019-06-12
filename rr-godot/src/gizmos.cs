@@ -7,7 +7,12 @@ public class gizmos : Control
     // private int a = 2;
     // private string b = "text";
 
+
+    [Export]
     Camera mainCam;
+
+    [Export]
+    public NodePath ViewportPath;
 
     bool softfocus = false;
 
@@ -51,18 +56,11 @@ public class gizmos : Control
             GD.Print("SOFTFOCUS");
         }
 
-        // for(var x = 0; x < gizmo.GetChildCount(); ++x) {
-            // this.GetChild<Spatial>(0).GlobalTranslate(new Vector3(0, 0, 0) - gizmo.GetChild<Spatial>(0).GlobalTransform.origin);
-        // }
         var distance = this.GetChild<Spatial>(0).GlobalTransform.origin.DistanceTo(mainCam.GlobalTransform.origin);
 
-        // this.GlobalScale(new Vector3(distance / 4, distance / 4, distance / 4));
 
         for(var x = 0; x < this.GetChildCount(); ++x) {
             this.GetChild<Spatial>(x).Scale = new Vector3(distance / 4, distance / 4, distance / 4); 
         }
-        // this.Scale = new Vector3(distance / 4, distance / 4, distance / 4); 
-
-        // this.LookAt(new Vector3(0, 0, -1), new Vector3(0, 1, 0));
     }
 }
