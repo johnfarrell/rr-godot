@@ -70,7 +70,12 @@ public class DebugDraw : Control
     private void toolbarChangePerspective(int id)
     {
         currentPerspective = (PerspectiveType) id;
-        Camera subCam = GetNode<Camera>("../Viewport/Camera/CameraObj");
+        Node tmp = this.GetNode("../Viewport/Camera/CameraObj");
+        GD.Print(tmp.GetName());
+        GD.Print(tmp.GetType());
+        Godot.Camera tmp2 = (Godot.Camera)tmp;
+
+        Godot.Camera subCam = (Godot.Camera)GetNode("../Viewport/Camera/CameraObj");
         Script gdClass = ResourceLoader.Load("res://src/CameraObj.gd") as Script;
         Object gdCam = new Object();
         gdCam = (Godot.Object)gdClass.Call("new");

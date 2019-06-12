@@ -13,6 +13,10 @@ public class Cam : Camera
     String docLoc;
     int sequence;
     
+    public Cam()
+    {
+        
+    }
     public Cam(String connection,String loc,int seq)
     {
         this.connect = connection;

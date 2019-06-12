@@ -47,7 +47,6 @@ margin_bottom = 40.0
 script = ExtResource( 3 )
 
 [node name="Viewport" type="Viewport" parent="VerticalSplit/HSplit1/Viewport1"]
-editor/display_folded = true
 handle_input_locally = false
 render_target_update_mode = 3
 script = ExtResource( 4 )

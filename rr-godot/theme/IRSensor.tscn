@@ -1,35 +1,14 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://theme/camCapTemp.tres" type="CapsuleMesh" id=1]
-[ext_resource path="res://theme/cam_temp.tres" type="Material" id=2]
-[ext_resource path="res://IR.cs" type="Script" id=3]
+[ext_resource path="res://IR.cs" type="Script" id=1]
 
 [node name="IRSensor" type="Spatial"]
+editor/display_folded = true
 
 [node name="IRContainer" type="MeshInstance" parent="."]
 
-[node name="IRBody" type="SoftBody" parent="IRContainer"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0793915, 0.072712, 1.0373 )
-mesh = ExtResource( 1 )
-material/0 = ExtResource( 2 )
-simulation_precision = 15
-pinned_points = [ 279, 431, 531, 381 ]
-attachments/0/point_index = 279
-attachments/0/spatial_attachment_path = NodePath("")
-attachments/0/offset = Vector3( 0.0215372, 0.0838818, 0.3 )
-attachments/1/point_index = 431
-attachments/1/spatial_attachment_path = NodePath("")
-attachments/1/offset = Vector3( 0.0368125, 0.0929777, 0.25 )
-attachments/2/point_index = 531
-attachments/2/spatial_attachment_path = NodePath("")
-attachments/2/offset = Vector3( 0.0587785, 0.0809017, 0.138889 )
-attachments/3/point_index = 381
-attachments/3/spatial_attachment_path = NodePath("")
-attachments/3/offset = Vector3( 0.0244912, 0.0953868, 0.267365 )
-
 [node name="IR" type="Camera" parent="IRContainer"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0982898, 0.0755351, 0.821934 )
-fov = 0.350015
 near = 0.13
 far = 10.0
-script = ExtResource( 3 )
+script = ExtResource( 1 )

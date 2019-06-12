@@ -17,6 +17,11 @@ public class IR : Camera
     string type = "IR";
     File saveData;
     string local = "c://Users/John Parent/Documents";
+    
+    public IR()
+    {
+        
+    }
     public IR(string connection)
     {
         this.connection = connection;
