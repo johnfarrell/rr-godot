@@ -20,6 +20,9 @@ public class Gizmo : Spatial
         public static Material ZHandle = (Material) GD.Load("res://theme/gizmo_ZHandleMat.tres");
     }
 
+    [Signal]
+    public delegate void HandlePressedStateChanged();
+
     /// <summary>
     /// Node of the X Handle for this gizmo
     /// </summary>
@@ -32,11 +35,6 @@ public class Gizmo : Spatial
     /// Node of the Z Handle for this gizmo
     /// </summary>
     protected StaticBody HandleZ { get; set; }
-
-    /// <summary>
-    /// Holds a <ref>Mode</ref> enum object describing the type of gizmo
-    /// </summary>
-    protected static Mode HandleMode;
 
     /// <summary>
     /// Whether or not the X handle is currently hovered over by the user
@@ -52,23 +50,17 @@ public class Gizmo : Spatial
     protected bool ZHover = false;
 
     /// <summary>
+    /// Holds the node of the object that is selected
+    /// </summary>
+    protected Node CurrentObject { private get; set; }
+
+    /// <summary>
     /// Whether or not this gizmo is enabled on startup
     /// </summary>
     [Export]
     private bool EnabledByDefault = false;
 
-    /// <summary>
-    /// Available modes of this gizmo
-    /// </summary>
-
-    protected enum Mode
-    {
-        Translate = 0,
-        Rotate = 1,
-        Scale = 2
-    }
-
-    public enum Handles
+    public enum Axis
     {
         X = 0,
         Y = 1,
@@ -94,17 +86,17 @@ public class Gizmo : Spatial
     /// <param name="handle">
     /// Handles enum describing what handle to reset
     /// </param>
-    public void UnhighlightHandle(Handles handle)
+    public void UnhighlightHandle(Axis handle)
     {
         switch(handle)
         {
-            case Handles.X:
+            case Axis.X:
                 HandleX.GetNode<MeshInstance>("Handle").MaterialOverride = Materials.XHandle;
                 break;
-            case Handles.Y:
+            case Axis.Y:
                 HandleY.GetNode<MeshInstance>("Handle").MaterialOverride = Materials.YHandle;
                 break;
-            case Handles.Z:
+            case Axis.Z:
                 HandleZ.GetNode<MeshInstance>("Handle").MaterialOverride = Materials.ZHandle;
                 break;
             default:
@@ -135,7 +127,7 @@ public class Gizmo : Spatial
     public virtual void OnXHandleMouseExit()
     {
         XHover = false;
-        UnhighlightHandle(Handles.X);
+        UnhighlightHandle(Axis.X);
     }
 
     /// <summary>
@@ -145,7 +137,7 @@ public class Gizmo : Spatial
     public virtual void OnYHandleMouseExit()
     {
         YHover = false;
-        UnhighlightHandle(Handles.Y);
+        UnhighlightHandle(Axis.Y);
     }
 
     /// <summary>
@@ -155,7 +147,7 @@ public class Gizmo : Spatial
     public virtual void OnZHandleMouseExit()
     {
         ZHover = false;
-        UnhighlightHandle(Handles.Z);
+        UnhighlightHandle(Axis.Z);
     }
 
     /// <summary>
@@ -169,7 +161,7 @@ public class Gizmo : Spatial
     }
 
     /// <summary>
-    /// Handles when the mouse leaves the Y handle of this gizmo
+    /// Handles when the mouse enters the Y handle of this gizmo
     /// <para>Highlights and sets <see cref="ZHover"/> to true</para>
     /// </summary>
     public virtual void OnYHandleMouseEnter()
@@ -179,7 +171,7 @@ public class Gizmo : Spatial
     }
 
     /// <summary>
-    /// Handles when the mouse leaves the Z handle of this gizmo
+    /// Handles when the mouse enter the Z handle of this gizmo
     /// <para>Highlights and sets <see cref="ZHover"/> to true</para>
     /// </summary>
     public virtual void OnZHandleMouseEnter()
@@ -189,12 +181,69 @@ public class Gizmo : Spatial
     }
 
     /// <summary>
+    /// Gets the object the gizmo is set to manipulate.
+    /// <para>Call GetObject().Type to get what type of Node it is</para>
+    /// </summary>
+    public Node GetObject()
+    {
+        Node env = GetNode<Spatial>("/root/main/env");
+        Node marker = env.FindNode("SelectedObject", true, false);
+    
+        return marker.GetParent();
+    }
+
+    private void OnXHandleEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx)
+    {
+        if(@event is InputEventMouseButton)
+        {
+            EmitSignal("HandlePressedStateChanged");
+            if(@event.IsPressed())
+            {
+                GD.Print("X Pressed");
+                XHandlePressed(GetObject());
+            }
+        }
+    }
+
+    public virtual void XHandlePressed(Node CurrentObject) {}
+
+    private void OnYHandleEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx)
+    {
+        if(@event is InputEventMouseButton)
+        {
+            @event.
+            EmitSignal("HandlePressedStateChanged");
+            if(@event.IsPressed())
+            {
+                GD.Print("Y Pressed");
+                YHandlePressed(GetObject());
+            }
+        }
+    }
+
+    public virtual void YHandlePressed(Node CurrentObject) {}
+
+    private void OnZHandleEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx)
+    {
+        if(@event is InputEventMouseButton)
+        {
+            EmitSignal("HandlePressedStateChanged");
+            if(@event.IsPressed())
+            {
+                GD.Print("Z Pressed");
+                ZHandlePressed(GetObject());
+            }
+        }
+    }
+
+    public virtual void ZHandlePressed(Node CurrentObject) {}
+
+    /// <summary>
     /// Populates the handle variables with the relevant static bodies and
     /// sets the collision masking and visual masking.
     /// </summary>        
     public void SetDefaults()
     {
-        GD.Print(HandleMode);
         HandleX = GetNode<StaticBody>("HandleX");
         HandleY = GetNode<StaticBody>("HandleY");
         HandleZ = GetNode<StaticBody>("HandleZ");
@@ -224,9 +273,13 @@ public class Gizmo : Spatial
         HandleY.Connect("mouse_exited", this, "OnYHandleMouseExit");
         HandleZ.Connect("mouse_exited", this, "OnZHandleMouseExit");
 
-        // if(!EnabledByDefault)
-        // {
-        //     Disable();
-        // }
+        HandleX.Connect("input_event", this, "OnXHandleEvent");
+        HandleY.Connect("input_event", this, "OnYHandleEvent");
+        HandleZ.Connect("input_event", this, "OnZHandleEvent");
+
+        if(!EnabledByDefault)
+        {
+            Disable();
+        }
     }
 }

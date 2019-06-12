@@ -42,7 +42,9 @@ public class env : Spatial
     private Vector3 dragStart = new Vector3();
 
     // Currently selected object in the world
-    private Godot.Collections.Dictionary selectedObject = null;
+    public Godot.Collections.Dictionary selectedObject = null;
+
+    private bool gizmoActive = false;
 
     private ManipType currentManipType = ManipType.Translate;
 
@@ -50,6 +52,8 @@ public class env : Spatial
 
     private Control gizmo;
     private DebugDrawType currentDrawType = DebugDrawType.Disable;
+
+    private Spatial marker;
 
 
     // Called when the node enters the scene tree for the first time.
@@ -61,13 +65,31 @@ public class env : Spatial
 
         mouseInside = true;
 
+        this.PrintTreePretty();
+
+        marker = this.GetNode<Spatial>("SelectedObject");
         // Connect tree update signal
         // Connect(nameof(envUpdated), GetNode("../../../LeftMenu/TreeContainer/Environment"), "UpdateTree");
         
         gizmo = GetNode<Control>("/root/main/UI/AppWindow/EnvironmentContainer/gizmos");
 
+        for(var i = 0; i < gizmo.GetChildCount(); ++i)
+        {
+            gizmo.GetChild(i).Connect("HandlePressedStateChanged", this, "GizmoActiveChange");
+        }
+
         gizmo.Visible = false;
         GD.Print("ENV.CS: READY");
+    }
+
+    public Godot.Collections.Dictionary GetSelectedObject()
+    {
+        return selectedObject;
+    }
+
+    public void GizmoActiveChange()
+    {
+        gizmoActive = !gizmoActive;
     }
 
     private void toolbarChangeManipTypePressed(int id)
@@ -308,12 +330,29 @@ public class env : Spatial
         }
     }
 
+    private void ResetMarkerParent()
+    {
+        UpdateMarkerParent(this);
+    }
+
+    private void UpdateMarkerParent(Node newParent)
+    {
+        Node old_parent = marker.GetParent();
+
+        old_parent.RemoveChild(marker);
+        newParent.AddChild(marker);
+    }
+
     /// <summary>
     ///  Called every physics frame, more reliable than using screen frames
     /// Called by Godot, do not call manually
     /// </summary>
     public override void _PhysicsProcess(float _delta)
     {
+        if(gizmoActive)
+        {
+            return;
+        }
         if(mouseClicked)
         {
             // Get the clicked object (if any)
@@ -323,6 +362,7 @@ public class env : Spatial
             {
                 // User clicked on empty space
                 ResetGizmoPosition();
+                ResetMarkerParent();
                 selectedObject = null;
             }
             else if(selectedObject != null &&
@@ -339,6 +379,7 @@ public class env : Spatial
                 CollisionObject collider = (CollisionObject) selectedObject["collider"];
 
                 UpdateGizmoPosition(collider.GlobalTransform.origin);
+                UpdateMarkerParent(collider);
             }
         }
     }
