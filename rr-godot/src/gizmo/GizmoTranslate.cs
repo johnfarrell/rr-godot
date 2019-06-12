@@ -10,7 +10,7 @@ public class GizmoTranslate : Gizmo
         GD.Print("GIZMOTRANSLATE.CS: READY");
     }
 
-    public override void _Input(InputEvent @event)
+    public override void InputEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx)
     {
         if(@event is InputEventMouseButton)
         {

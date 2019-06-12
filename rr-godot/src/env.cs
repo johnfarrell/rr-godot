@@ -349,7 +349,7 @@ public class env : Spatial
     /// </summary>
     public override void _PhysicsProcess(float _delta)
     {
-        if(gizmoActive)
+        if(gizmoActive && selectedObject != null)
         {   
             CollisionObject collider = (CollisionObject) selectedObject["collider"];
 
