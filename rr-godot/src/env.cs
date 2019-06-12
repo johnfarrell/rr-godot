@@ -90,6 +90,7 @@ public class env : Spatial
     public void GizmoActiveChange()
     {
         gizmoActive = !gizmoActive;
+        GD.Print("ENV.CS: GIZMO ACTIVE: " + gizmoActive);
     }
 
     private void toolbarChangeManipTypePressed(int id)

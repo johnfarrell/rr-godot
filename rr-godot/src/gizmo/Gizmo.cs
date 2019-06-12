@@ -49,6 +49,9 @@ public class Gizmo : Spatial
     /// </summary>
     protected bool ZHover = false;
 
+    protected bool GizmoPressed = false;
+    protected Axis ActiveAxis = Axis.NONE;
+
     /// <summary>
     /// Holds the node of the object that is selected
     /// </summary>
@@ -64,7 +67,8 @@ public class Gizmo : Spatial
     {
         X = 0,
         Y = 1,
-        Z = 2
+        Z = 2,
+        NONE = 3
     }
 
     /// <summary>
@@ -127,6 +131,7 @@ public class Gizmo : Spatial
     public virtual void OnXHandleMouseExit()
     {
         XHover = false;
+        ActiveAxis = Axis.NONE;
         UnhighlightHandle(Axis.X);
     }
 
@@ -137,6 +142,7 @@ public class Gizmo : Spatial
     public virtual void OnYHandleMouseExit()
     {
         YHover = false;
+        ActiveAxis = Axis.NONE;
         UnhighlightHandle(Axis.Y);
     }
 
@@ -147,6 +153,7 @@ public class Gizmo : Spatial
     public virtual void OnZHandleMouseExit()
     {
         ZHover = false;
+        ActiveAxis = Axis.NONE;
         UnhighlightHandle(Axis.Z);
     }
 
@@ -157,6 +164,7 @@ public class Gizmo : Spatial
     public virtual void OnXHandleMouseEnter()
     {
         XHover = true;
+        ActiveAxis = Axis.X;
         HighlightHandle(HandleX);
     }
 
@@ -167,6 +175,7 @@ public class Gizmo : Spatial
     public virtual void OnYHandleMouseEnter()
     {
         YHover = true;
+        ActiveAxis = Axis.Y;
         HighlightHandle(HandleY);
     }
 
@@ -177,6 +186,7 @@ public class Gizmo : Spatial
     public virtual void OnZHandleMouseEnter()
     {
         ZHover = true;
+        ActiveAxis = Axis.Z;
         HighlightHandle(HandleZ);
     }
 
@@ -190,50 +200,6 @@ public class Gizmo : Spatial
         Node marker = env.FindNode("SelectedObject", true, false);
     
         return marker.GetParent();
-    }
-
-    private void OnXHandleEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx)
-    {
-        if(@event is InputEventMouseButton)
-        {
-            EmitSignal("HandlePressedStateChanged");
-            if(@event.IsPressed())
-            {
-                GD.Print("X Pressed");
-                XHandlePressed(GetObject());
-            }
-        }
-    }
-
-    public virtual void XHandlePressed(Node CurrentObject) {}
-
-    private void OnYHandleEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx)
-    {
-        if(@event is InputEventMouseButton)
-        {
-            @event.
-            EmitSignal("HandlePressedStateChanged");
-            if(@event.IsPressed())
-            {
-                GD.Print("Y Pressed");
-                YHandlePressed(GetObject());
-            }
-        }
-    }
-
-    public virtual void YHandlePressed(Node CurrentObject) {}
-
-    private void OnZHandleEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx)
-    {
-        if(@event is InputEventMouseButton)
-        {
-            EmitSignal("HandlePressedStateChanged");
-            if(@event.IsPressed())
-            {
-                GD.Print("Z Pressed");
-                ZHandlePressed(GetObject());
-            }
-        }
     }
 
     public virtual void ZHandlePressed(Node CurrentObject) {}
@@ -272,10 +238,6 @@ public class Gizmo : Spatial
         HandleX.Connect("mouse_exited", this, "OnXHandleMouseExit");
         HandleY.Connect("mouse_exited", this, "OnYHandleMouseExit");
         HandleZ.Connect("mouse_exited", this, "OnZHandleMouseExit");
-
-        HandleX.Connect("input_event", this, "OnXHandleEvent");
-        HandleY.Connect("input_event", this, "OnYHandleEvent");
-        HandleZ.Connect("input_event", this, "OnZHandleEvent");
 
         if(!EnabledByDefault)
         {
