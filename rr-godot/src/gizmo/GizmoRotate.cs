@@ -3,18 +3,37 @@ using System;
 
 public class GizmoRotate : Gizmo
 {
+
+    private int LatestAngle;
+    private Vector3 LatestClickStart;
+
+    Vector3 RotationStart;
+
+    float AngleStart;
+
+    private Vector2 ClickStart;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        LatestAngle = 0;
         SetDefaults();
         GD.Print("GIZMOROTATE.CS: READY");
     }
 
-    public override void _Input(InputEvent @event)
+    public override void InputEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx)
     {
+        Camera cam = (Camera) camera;
+        if(shape_idx != 0)
+        {
+            LatestAngle = shape_idx;
+            LatestClickStart = click_position;
+        }
         if(@event is InputEventMouseButton)
         {
             GizmoPressed = @event.IsActionPressed("mouse_left_click");
+            ClickStart = cam.UnprojectPosition(click_position);
+            
 
             if(ActiveAxis != Axis.NONE)
             {
@@ -23,6 +42,7 @@ public class GizmoRotate : Gizmo
         }
         if(@event is InputEventMouseMotion && GizmoPressed && ActiveAxis != Axis.NONE)
         {   
+            GD.Print(LatestAngle);
             InputEventMouseMotion Event = (InputEventMouseMotion) @event;
 
             Spatial tempObj = GetObject();
@@ -43,28 +63,29 @@ public class GizmoRotate : Gizmo
                 return;
             }
 
+            Vector2 Origin2d = cam.UnprojectPosition(CurrentObject.GlobalTransform.origin);
+            Vector2 MousePos = Event.Position;
+
+            Vector2 StartVector = ClickStart - Origin2d;
+            Vector2 CurrVector = MousePos - Origin2d;
+
+            float AngleCurr = (float) (180 / Math.PI) * StartVector.AngleTo(CurrVector);
+
+
             Vector3 PreviousObjectRotation = CurrentObject.RotationDegrees;
             Vector3 CurrentObjectRotation = PreviousObjectRotation;
-            
-            Vector2 MouseMoveDelta = Event.Relative * new Vector2((float) 0.1, (float) 0.1);
-
-            CurrentObjectRotation += CurrentObject.GlobalTransform.basis.x * MouseMoveDelta.x;
-            CurrentObjectRotation += CurrentObject.GlobalTransform.basis.y * -MouseMoveDelta.y;
 
             if (ActiveAxis == Axis.X)
             {
-                CurrentObjectRotation.y = PreviousObjectRotation.y;
-                CurrentObjectRotation.z = PreviousObjectRotation.z;
+                CurrentObjectRotation.x = AngleCurr;
             }
             else if (ActiveAxis == Axis.Y)
             {
-                CurrentObjectRotation.x = PreviousObjectRotation.x;
-                CurrentObjectRotation.z = PreviousObjectRotation.z;
+                CurrentObjectRotation.y = -1 * AngleCurr;
             }
             else
             {
-                CurrentObjectRotation.x = PreviousObjectRotation.x;
-                CurrentObjectRotation.y = PreviousObjectRotation.y;
+                CurrentObjectRotation.z = AngleCurr;
             }
 
 

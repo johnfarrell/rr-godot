@@ -200,7 +200,7 @@ public class Gizmo : Spatial
     {
         Node env = GetNode<Spatial>("/root/main/env");
         Node marker = env.FindNode("SelectedObject", true, false);
-        
+
         if(marker == null)
         {
             return null;
@@ -208,6 +208,8 @@ public class Gizmo : Spatial
     
         return (Spatial) marker.GetParent();
     }
+
+    public virtual void InputEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx) { }
 
     /// <summary>
     /// Populates the handle variables with the relevant static bodies and
@@ -246,9 +248,18 @@ public class Gizmo : Spatial
         HandleY.Connect("mouse_exited", this, "OnYHandleMouseExit");
         HandleZ.Connect("mouse_exited", this, "OnZHandleMouseExit");
 
+        HandleX.Connect("input_event", this, "InputEvent");
+        HandleY.Connect("input_event", this, "InputEvent");
+        HandleZ.Connect("input_event", this, "InputEvent");
+
         if(!EnabledByDefault)
         {
             Disable();
         }
+    }
+
+    public override void _EnterTree()
+    {
+
     }
 }
