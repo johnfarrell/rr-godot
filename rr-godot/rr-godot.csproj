@@ -49,7 +49,11 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cam.cs" />
+    <Compile Include="IR.cs" />
+    <Compile Include="scenes\Camera.cs" />
     <Compile Include="scenes\DebugDraw.cs" />
+    <Compile Include="scenes\Spatial.cs" />
     <Compile Include="scenes\ToolboxPanel.cs" />
     <Compile Include="scenes\VerticalSplit.cs" />
     <Compile Include="scenes\Viewport1.cs" />
@@ -68,6 +72,8 @@
     <Compile Include="src\gizmos.cs" />
     <Compile Include="src\gridGenerator.cs" />
     <Compile Include="src\TitleBar.cs" />
+    <Compile Include="theme\LIDAR.cs" />
+    <Compile Include="theme\LIDARCAM1.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

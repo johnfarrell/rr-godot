@@ -488,6 +488,7 @@ split_offset = 100
 script = ExtResource( 5 )
 
 [node name="LeftMenu" type="VBoxContainer" parent="AppWindow"]
+editor/display_folded = true
 margin_right = 350.0
 margin_bottom = 1050.0
 grow_horizontal = 2
@@ -501,6 +502,7 @@ margin_right = 350.0
 margin_bottom = 4.0
 
 [node name="TreeContainer" type="TabContainer" parent="AppWindow/LeftMenu"]
+editor/display_folded = true
 margin_top = 14.0
 margin_right = 350.0
 margin_bottom = 1050.0
@@ -541,6 +543,7 @@ size_flags_vertical = 3
 [node name="env" parent="AppWindow/EnvironmentContainer" instance=ExtResource( 8 )]
 
 [node name="TitleBar" type="Control" parent="."]
+editor/display_folded = true
 anchor_right = 1.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
@@ -553,6 +556,7 @@ mouse_filter = 1
 color = Color( 0.462745, 0.462745, 0.462745, 1 )
 
 [node name="TitleButtons" type="HBoxContainer" parent="TitleBar"]
+editor/display_folded = true
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -596,6 +600,7 @@ align = 1
 valign = 1
 
 [node name="menuBar2" type="HBoxContainer" parent="TitleBar"]
+editor/display_folded = true
 anchor_bottom = 1.0
 
 [node name="btnFile" type="MenuButton" parent="TitleBar/menuBar2"]

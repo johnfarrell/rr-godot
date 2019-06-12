@@ -63,7 +63,7 @@ public class env : Spatial
         Connect(nameof(envUpdated), GetNode("/root/main/AppWindow/LeftMenu/TreeContainer/Environment/"), "UpdateTree");
         
         Node gizmo = gizmoScene.Instance();
-        AddChild(gizmo);
+        //AddChild(gizmo);
 
         GD.Print("ENV.CS: READY");
     }

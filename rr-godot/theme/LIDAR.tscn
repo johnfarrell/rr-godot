@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://theme/camCapTemp.tres" type="CapsuleMesh" id=1]
+[ext_resource path="res://theme/cam_temp.tres" type="Material" id=2]
+
+[node name="LIDAR" type="Spatial"]
+
+[node name="LIDARMesh" type="MeshInstance" parent="."]
+
+[node name="LIDARBody" type="SoftBody" parent="LIDARMesh"]
+mesh = ExtResource( 1 )
+material/0 = ExtResource( 2 )
+parent_collision_ignore = NodePath("..")
+simulation_precision = 15
+
+[node name="LIDARCAM1" type="Camera" parent="LIDARMesh"]
+fov = 120.212
