@@ -4,7 +4,7 @@ using System;
 public class gizmos : Control
 {
     [Export]
-    Camera mainCam;
+    Godot.Camera mainCam;
 
     [Export]
     public NodePath CamPath;
@@ -12,7 +12,7 @@ public class gizmos : Control
     public override void _Ready()
     {
         // TODO: Find some way to make this dynamic instead of a static path
-        mainCam = GetNode<Camera>(CamPath);
+        mainCam = GetNode<Godot.Camera>(CamPath);
         
         GD.Print("GIZMOS.CS: READY");
     }

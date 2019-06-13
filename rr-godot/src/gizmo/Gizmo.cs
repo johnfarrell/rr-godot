@@ -31,15 +31,15 @@ public class Gizmo : Spatial
     /// <summary>
     /// Node of the X Handle for this gizmo
     /// </summary>
-    protected StaticBody HandleX { get; set; }
+    protected Godot.StaticBody HandleX { get; set; }
     /// <summary>
     /// Node of the Y Handle for this gizmo
     /// </summary>
-    protected StaticBody HandleY { get; set; }
+    protected Godot.StaticBody HandleY { get; set; }
     /// <summary>
     /// Node of the Z Handle for this gizmo
     /// </summary>
-    protected StaticBody HandleZ { get; set; }
+    protected Godot.StaticBody HandleZ { get; set; }
 
     /// <summary>
     /// Whether or not the X handle is currently hovered over by the user
@@ -60,7 +60,7 @@ public class Gizmo : Spatial
     /// <summary>
     /// Holds the node of the object that is selected
     /// </summary>
-    protected Spatial CurrentObject { get; set; }
+    protected Godot.Spatial CurrentObject { get; set; }
 
     /// <summary>
     /// Whether or not this gizmo is enabled on startup
@@ -83,7 +83,7 @@ public class Gizmo : Spatial
     /// <param name="handle">
     /// Handles enum describing what handle to highlight
     /// </param>
-    public void HighlightHandle(StaticBody handle)
+    public void HighlightHandle(Godot.StaticBody handle)
     {
         handle.GetNode<MeshInstance>("Handle").MaterialOverride = Materials.Highlight;
     }
@@ -203,7 +203,7 @@ public class Gizmo : Spatial
     /// Gets the object the gizmo is set to manipulate.
     /// <para>Call GetObject().Type to get what type of Node it is</para>
     /// </summary>
-    public Spatial GetObject()
+    public Godot.Spatial GetObject()
     {
         Node env = GetNode<Spatial>("/root/main/env");
         Node marker = env.FindNode("SelectedObject", true, false);
@@ -213,7 +213,7 @@ public class Gizmo : Spatial
             return null;
         }
     
-        return (Spatial) marker.GetParent();
+        return (Godot.Spatial) marker.GetParent();
     }
 
     public virtual void ManipToggled(bool pressed)
@@ -238,9 +238,9 @@ public class Gizmo : Spatial
     {
         EditorViewport = GetNode<Viewport>("/root/main/UI/AppWindow/EnvironmentContainer/4way/HSplitContainer/ViewportContainer/Viewport");
 
-        HandleX = GetNode<StaticBody>("HandleX");
-        HandleY = GetNode<StaticBody>("HandleY");
-        HandleZ = GetNode<StaticBody>("HandleZ");
+        HandleX = GetNode<Godot.StaticBody>("HandleX");
+        HandleY = GetNode<Godot.StaticBody>("HandleY");
+        HandleZ = GetNode<Godot.StaticBody>("HandleZ");
 
         // Set collision layers to layer 2 so the handles don't
         // collide with anything.

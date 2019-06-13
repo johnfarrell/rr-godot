@@ -25,7 +25,7 @@ public class GizmoRotate : Gizmo
 
     public override void InputEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx)
     {
-        Camera cam = (Camera) camera;
+        Godot.Camera cam = (Godot.Camera) camera;
         if(shape_idx != 0)
         {
             LatestAngle = shape_idx;
@@ -51,7 +51,7 @@ public class GizmoRotate : Gizmo
             GD.Print(LatestAngle);
             InputEventMouseMotion Event = (InputEventMouseMotion) @event;
 
-            Spatial tempObj = GetObject();
+            Godot.Spatial tempObj = GetObject();
             if(tempObj == null)
             {
                 return;

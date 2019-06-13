@@ -1,5 +1,5 @@
-using Godot;
 using System;
+using Godot;
 
 public class env : Spatial
 {
@@ -51,7 +51,7 @@ public class env : Spatial
     private Control gizmo;
     private DebugDrawType currentDrawType = DebugDrawType.Disable;
 
-    private Node marker;
+    private Godot.Spatial marker;
 
     private Viewport CurrentViewport;
 
@@ -64,7 +64,9 @@ public class env : Spatial
 
         this.PrintTreePretty();
 
-        marker = GetNode("SelectedObject");
+        Node temp = GetNode("SelectedObject");
+        GD.Print(temp.GetType());
+        marker = (Godot.Spatial) temp;
         // Connect tree update signal
         Connect(nameof(envUpdated), GetNode("/root/main/UI/AppWindow/LeftMenu/TreeContainer/Environment/"), "UpdateTree");
 

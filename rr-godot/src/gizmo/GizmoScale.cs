@@ -37,7 +37,7 @@ public class GizmoScale : Gizmo
         {   
             InputEventMouseMotion Event = (InputEventMouseMotion) @event;
 
-            Spatial tempObj = GetObject();
+            Godot.Spatial tempObj = GetObject();
             if(tempObj == null)
             {
                 return;
