@@ -63,7 +63,7 @@ public class env : Spatial
 
         marker = this.GetNode<Spatial>("SelectedObject");
         // Connect tree update signal
-        Connect(nameof(envUpdated), GetNode("/root/main/AppWindow/LeftMenu/TreeContainer/Environment/"), "UpdateTree");
+        Connect(nameof(envUpdated), GetNode("/root/main/UI/AppWindow/LeftMenu/TreeContainer/Environment/"), "UpdateTree");
 
         
         gizmo = GetNode<Control>("/root/main/UI/AppWindow/EnvironmentContainer/gizmos");
