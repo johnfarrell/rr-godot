@@ -1,21 +1,19 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://src/TitleBar.cs" type="Script" id=1]
-[ext_resource path="res://src/AppWindow.cs" type="Script" id=2]
+[ext_resource path="res://scenes/gizmos.tscn" type="PackedScene" id=2]
 [ext_resource path="res://theme/toolbarPopupMenu.tres" type="Theme" id=3]
 [ext_resource path="res://theme/cb_button_hover.tres" type="StyleBox" id=4]
 [ext_resource path="res://theme/button_pressed.tres" type="StyleBox" id=5]
-[ext_resource path="res://scenes/gizmos.tscn" type="PackedScene" id=6]
+[ext_resource path="res://theme/button_disabled.tres" type="StyleBox" id=6]
 [ext_resource path="res://src/EnvironmentTree.cs" type="Script" id=7]
-[ext_resource path="res://theme/button_normal.tres" type="StyleBox" id=8]
-[ext_resource path="res://theme/button_disabled.tres" type="StyleBox" id=9]
-[ext_resource path="res://theme/button_hover.tres" type="StyleBox" id=10]
+[ext_resource path="res://theme/button_hover.tres" type="StyleBox" id=8]
+[ext_resource path="res://theme/button_normal.tres" type="StyleBox" id=9]
+[ext_resource path="res://scenes/env.tscn" type="PackedScene" id=10]
 [ext_resource path="res://src/ToolboxPanel.cs" type="Script" id=11]
 [ext_resource path="res://src/CameraObj.gd" type="Script" id=12]
 [ext_resource path="res://theme/addMesh.png" type="Texture" id=13]
 [ext_resource path="res://src/MouseEventPassthrough.cs" type="Script" id=14]
-[ext_resource path="res://scenes/env.tscn" type="PackedScene" id=15]
-[ext_resource path="res://scenes/4WayViewport.tscn" type="PackedScene" id=16]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
@@ -65,10 +63,10 @@ Button/colors/font_color_hover = Color( 0.972549, 0.972549, 0.972549, 1 )
 Button/colors/font_color_pressed = Color( 0.972549, 0.972549, 0.972549, 1 )
 Button/constants/hseparation = 2
 Button/fonts/font = null
-Button/styles/disabled = ExtResource( 1 )
+Button/styles/disabled = ExtResource( 6 )
 Button/styles/focus = null
-Button/styles/hover = ExtResource( 2 )
-Button/styles/normal = ExtResource( 3 )
+Button/styles/hover = ExtResource( 8 )
+Button/styles/normal = ExtResource( 9 )
 Button/styles/pressed = ExtResource( 4 )
 CheckBox/colors/font_color = Color( 0, 0, 0, 1 )
 CheckBox/colors/font_color_disabled = Color( 0, 0, 0, 1 )
@@ -246,10 +244,10 @@ MenuButton/colors/font_color_hover = Color( 0.972549, 0.972549, 0.972549, 1 )
 MenuButton/colors/font_color_pressed = Color( 0.972549, 0.972549, 0.972549, 1 )
 MenuButton/constants/hseparation = 3
 MenuButton/fonts/font = null
-MenuButton/styles/disabled = ExtResource( 1 )
+MenuButton/styles/disabled = ExtResource( 6 )
 MenuButton/styles/focus = null
-MenuButton/styles/hover = ExtResource( 2 )
-MenuButton/styles/normal = ExtResource( 3 )
+MenuButton/styles/hover = ExtResource( 8 )
+MenuButton/styles/normal = ExtResource( 9 )
 MenuButton/styles/pressed = ExtResource( 4 )
 OptionButton/colors/font_color = Color( 0, 0, 0, 1 )
 OptionButton/colors/font_color_disabled = Color( 0, 0, 0, 1 )
@@ -485,7 +483,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 theme = SubResource( 8 )
 
-[node name="env" parent="." instance=ExtResource( 15 )]
+[node name="env" parent="." instance=ExtResource( 10 )]
 
 [node name="UI" type="Control" parent="."]
 anchor_right = 1.0
@@ -520,7 +518,6 @@ mouse_filter = 2
 margin_right = 40.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 40, 0 )
-mouse_filter = 1
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "-"
 
@@ -529,7 +526,6 @@ margin_left = 44.0
 margin_right = 84.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 40, 0 )
-mouse_filter = 1
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "O"
 
@@ -538,7 +534,6 @@ margin_left = 88.0
 margin_right = 128.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 40, 0 )
-mouse_filter = 1
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "X"
 
@@ -563,7 +558,6 @@ mouse_filter = 2
 margin_right = 50.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 50, 30 )
-mouse_filter = 1
 text = "File"
 flat = false
 switch_on_hover = true
@@ -573,7 +567,6 @@ margin_left = 54.0
 margin_right = 104.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 50, 30 )
-mouse_filter = 1
 text = "Edit"
 flat = false
 switch_on_hover = true
@@ -583,7 +576,6 @@ margin_left = 108.0
 margin_right = 158.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 50, 30 )
-mouse_filter = 1
 text = "View"
 flat = false
 switch_on_hover = true
@@ -593,7 +585,6 @@ margin_left = 162.0
 margin_right = 212.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 50, 30 )
-mouse_filter = 1
 text = "Help"
 flat = false
 switch_on_hover = true
@@ -689,7 +680,6 @@ msaa = 3
 render_target_update_mode = 3
 physics_object_picking = true
 
-
 [node name="Camera" type="Camera" parent="UI/AppWindow/EnvironmentContainer/4way/HSplitContainer/ViewportContainer/Viewport"]
 transform = Transform( -0.0951428, 0, -0.995464, 0, 1, 0, 0.995464, 0, -0.0951428, -3.82534, 1.20773, -0.327002 )
 current = true
@@ -712,7 +702,7 @@ margin_bottom = 55.0
 mouse_filter = 2
 
 [node name="AddMeshMenuButton" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
-margin_right = 41.0
+margin_right = 53.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 40, 40 )
 mouse_filter = 1
@@ -720,39 +710,38 @@ custom_styles/hover = ExtResource( 4 )
 icon = ExtResource( 13 )
 
 [node name="ManipulationType" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
-margin_left = 45.0
-margin_right = 95.0
+margin_left = 57.0
+margin_right = 107.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 mouse_filter = 1
 text = "B"
 
 [node name="RenderStyle" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
-margin_left = 99.0
-margin_right = 149.0
+margin_left = 111.0
+margin_right = 161.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 mouse_filter = 1
 text = "C"
 
 [node name="ControlA4" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
-margin_left = 153.0
-margin_right = 203.0
+margin_left = 165.0
+margin_right = 215.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 mouse_filter = 1
 text = "D"
 
 [node name="ControlA5" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
-margin_left = 207.0
-margin_right = 257.0
+margin_left = 219.0
+margin_right = 269.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
-
 mouse_filter = 1
 text = "E"
 
-[node name="gizmos" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 6 )]
+[node name="gizmos" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 2 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 1
