@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://src/TitleBar.cs" type="Script" id=1]
 [ext_resource path="res://src/AppWindow.cs" type="Script" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://theme/addMesh.png" type="Texture" id=13]
 [ext_resource path="res://src/MouseEventPassthrough.cs" type="Script" id=14]
 [ext_resource path="res://scenes/env.tscn" type="PackedScene" id=15]
+[ext_resource path="res://scenes/4WayViewport.tscn" type="PackedScene" id=16]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
@@ -53,7 +54,6 @@ border_width_top = 5
 border_color = Color( 0.921569, 0.921569, 0.921569, 1 )
 expand_margin_top = 1.0
 shadow_size = 2
-shadow_offset = Vector2( 0, -2 )
 
 [sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
@@ -65,11 +65,11 @@ Button/colors/font_color_hover = Color( 0.972549, 0.972549, 0.972549, 1 )
 Button/colors/font_color_pressed = Color( 0.972549, 0.972549, 0.972549, 1 )
 Button/constants/hseparation = 2
 Button/fonts/font = null
-Button/styles/disabled = ExtResource( 9 )
+Button/styles/disabled = ExtResource( 1 )
 Button/styles/focus = null
-Button/styles/hover = ExtResource( 10 )
-Button/styles/normal = ExtResource( 8 )
-Button/styles/pressed = ExtResource( 5 )
+Button/styles/hover = ExtResource( 2 )
+Button/styles/normal = ExtResource( 3 )
+Button/styles/pressed = ExtResource( 4 )
 CheckBox/colors/font_color = Color( 0, 0, 0, 1 )
 CheckBox/colors/font_color_disabled = Color( 0, 0, 0, 1 )
 CheckBox/colors/font_color_hover = Color( 0, 0, 0, 1 )
@@ -246,11 +246,11 @@ MenuButton/colors/font_color_hover = Color( 0.972549, 0.972549, 0.972549, 1 )
 MenuButton/colors/font_color_pressed = Color( 0.972549, 0.972549, 0.972549, 1 )
 MenuButton/constants/hseparation = 3
 MenuButton/fonts/font = null
-MenuButton/styles/disabled = ExtResource( 9 )
+MenuButton/styles/disabled = ExtResource( 1 )
 MenuButton/styles/focus = null
-MenuButton/styles/hover = ExtResource( 10 )
-MenuButton/styles/normal = ExtResource( 8 )
-MenuButton/styles/pressed = ExtResource( 5 )
+MenuButton/styles/hover = ExtResource( 2 )
+MenuButton/styles/normal = ExtResource( 3 )
+MenuButton/styles/pressed = ExtResource( 4 )
 OptionButton/colors/font_color = Color( 0, 0, 0, 1 )
 OptionButton/colors/font_color_disabled = Color( 0, 0, 0, 1 )
 OptionButton/colors/font_color_hover = Color( 0, 0, 0, 1 )
@@ -606,7 +606,7 @@ mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 split_offset = 100
-script = ExtResource( 2 )
+script = ExtResource( 5 )
 
 [node name="LeftMenu" type="VBoxContainer" parent="UI/AppWindow"]
 margin_right = 350.0
@@ -689,6 +689,7 @@ msaa = 3
 render_target_update_mode = 3
 physics_object_picking = true
 
+
 [node name="Camera" type="Camera" parent="UI/AppWindow/EnvironmentContainer/4way/HSplitContainer/ViewportContainer/Viewport"]
 transform = Transform( -0.0951428, 0, -0.995464, 0, 1, 0, 0.995464, 0, -0.0951428, -3.82534, 1.20773, -0.327002 )
 current = true
@@ -747,6 +748,7 @@ margin_left = 207.0
 margin_right = 257.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
+
 mouse_filter = 1
 text = "E"
 

@@ -8,6 +8,7 @@ public class ToolboxPanel : Panel
     public override void _Ready()
     {
         
+
         // Add the AddMesh pop-up menu items
         MenuButton addMeshButton = GetNode<MenuButton>("ToolboxContainer/AddMeshMenuButton");
         addMeshButton.GetPopup().AddItem("Cube");
@@ -17,19 +18,15 @@ public class ToolboxPanel : Panel
         addMeshButton.GetPopup().AddItem("Capsule");
 
         // Connect the pressed signals to the environment
-        addMeshButton.GetPopup().Connect("id_pressed", GetNode("../env/"), "toolbarAddMeshItemPressed");
+        addMeshButton.GetPopup().Connect("id_pressed", GetNode("/root/main/AppWindow/EnvironmentContainer/env/"), "toolbarAddMeshItemPressed");
 
         MenuButton manipTypeButton = GetNode<MenuButton>("ToolboxContainer/ManipulationType");
         manipTypeButton.GetPopup().AddCheckItem("Translate");
         manipTypeButton.GetPopup().AddCheckItem("Rotate");
         manipTypeButton.GetPopup().AddCheckItem("Scale");
 
-        manipTypeButton.GetPopup().SetItemChecked(0, true);
+        manipTypeButton.GetPopup().Connect("id_pressed", GetNode("/root/main/AppWindow/EnvironmentContainer/env/"), "toolbarChangeManipTypePressed");
         manipTypeButton.GetPopup().Connect("id_pressed", this, "UpdateManipType");
-        manipTypeButton.GetPopup().Connect("id_pressed", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Translate"), "ChangeManipType");
-        manipTypeButton.GetPopup().Connect("id_pressed", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Rotate"), "ChangeManipType");
-        manipTypeButton.GetPopup().Connect("id_pressed", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Scale"), "ChangeManipType");
-
 
 
         MenuButton rendTypeButton = GetNode<MenuButton>("ToolboxContainer/RenderStyle");
@@ -38,30 +35,27 @@ public class ToolboxPanel : Panel
         rendTypeButton.GetPopup().AddItem("Overdraw");
         rendTypeButton.GetPopup().AddItem("Wireframe");
 
+        rendTypeButton.GetPopup().Connect("id_pressed", GetNode<Control>("../DebugDraw/"), "toolbarChangeRendTypePressed");
 
-        rendTypeButton.GetPopup().Connect("id_pressed", GetNode("../env/"), "toolbarChangeRendTypePressed");
+
+        MenuButton cameraPerspectiveButton = GetNode<MenuButton>("ToolboxContainer/CameraPerspective");
+        cameraPerspectiveButton.GetPopup().AddItem("Front");
+        cameraPerspectiveButton.GetPopup().AddItem("Back");
+        cameraPerspectiveButton.GetPopup().AddItem("Orthogonal On");
+        cameraPerspectiveButton.GetPopup().AddItem("Orthogonal Off");
+
+        cameraPerspectiveButton.GetPopup().Connect("id_pressed",GetNode<Control>("../DebugDraw/"),"toolbarChangePerspective");
+
 
         GD.Print("TOOLBOXPANEL.CS: READY");
     }
 
-    public override void _Process(float delta)
-    {
-        if(this.GetNode<MenuButton>("ToolboxContainer/AddMeshMenuButton").HasFocus()) {
-            GD.Print("TOOLBOX PANEL FOCUS ");
-        }
-    }
-
     public void UpdateManipType(int id)
     {
-        for(var i = 0; i < 3; ++i)
-        {
-            if(i != id)
-            {
-                GetNode<MenuButton>("ToolboxContainer/ManipulationType").GetPopup().SetItemChecked(i, false);
-            }
-            else{
-                GetNode<MenuButton>("ToolboxContainer/ManipulationType").GetPopup().SetItemChecked(i, true);
-            }
-        }
+        GD.Print(id);
     }
+
+
+   
+     
 }

@@ -49,7 +49,16 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    
+    <Compile Include="scenes\DebugDraw.cs" />
+    <Compile Include="scenes\VerticalSplit.cs" />
+    <Compile Include="scenes\Viewport1.cs" />
+    <Compile Include="scenes\Viewport2.cs" />
+    <Compile Include="scenes\Viewport3.cs" />
+    <Compile Include="scenes\Viewport4.cs" />
+    <Compile Include="scenes\ViewportLL.cs" />
+    <Compile Include="scenes\ViewportLR.cs" />
+    <Compile Include="scenes\ViewportUL.cs" />
+    <Compile Include="scenes\ViewportUR.cs" />
     <Compile Include="src\AppWindow.cs" />
     <Compile Include="src\AxisLineGenerator.cs" />
     <Compile Include="src\env.cs" />
