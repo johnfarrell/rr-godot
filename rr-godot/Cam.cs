@@ -12,16 +12,18 @@ public class Cam : Camera
     float fov;
     String docLoc;
     int sequence;
-    
+    Vector3 pos;
     public Cam()
     {
         
     }
-    public Cam(String connection,String loc,int seq)
+    public Cam(String connection,String loc,int seq,Vector3 pos)
     {
         this.connect = connection;
         this.docLoc = loc;
         this.sequence = seq;
+        this.pos = pos;
+
     }
 
 
@@ -30,18 +32,23 @@ public class Cam : Camera
     {
         //hookup to RR will be needed here but does not exist at the present
         //for now we will substitute for a connection to a hardcoded local host, and in the interest of storage, we will store fewer images than optimal
-
+        this.SetTranslation(pos);
+        GD.Print("YeeHaw");
+        GD.Print(this.GetParent().GetParent().GetName());
+        GD.Print(this.GetParent().GetParent().GetParent().GetName());
+        GD.Print(this.GetParent().GetParent().GetParent().GetParent().GetName());
+        GD.Print(this.GetParent().GetParent().GetParent().GetParent().GetParent().GetName());
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
-        if((int)delta%10==0)
+        if((int)delta%100==0)
         {
-            this.SetCurrent(true);
+            
             var capture = this.GetViewport().GetTexture().GetData();
-            capture.SavePng("c://Users/John Parent/AppData/Local/Temp/Godot");
-            this.SetCurrent(false);
+            capture.SavePng("c://Users/John Parent/Dropbox/a/img"+delta+".png");
+            
         }
 
 

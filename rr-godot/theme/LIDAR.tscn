@@ -3,7 +3,6 @@
 [ext_resource path="res://theme/LIDAR.cs" type="Script" id=1]
 
 [node name="LIDAR" type="Spatial"]
-editor/display_folded = true
 script = ExtResource( 1 )
 
 [node name="LIDARMesh" type="MeshInstance" parent="."]
@@ -11,29 +10,47 @@ script = ExtResource( 1 )
 [node name="LIDARCAM1" type="Camera" parent="LIDARMesh" groups=[
 "liCams",
 ]]
+editor/display_folded = true
 fov = 120.212
+
+[node name="RayCast" type="RayCast" parent="LIDARMesh/LIDARCAM1"]
 
 [node name="LIDARCAM2" type="Camera" parent="LIDARMesh" groups=[
 "liCams",
 ]]
+editor/display_folded = true
 fov = 120.212
+
+[node name="RayCast" type="RayCast" parent="LIDARMesh/LIDARCAM2"]
 
 [node name="LIDARCAM3" type="Camera" parent="LIDARMesh" groups=[
 "liCams",
 ]]
+editor/display_folded = true
 fov = 120.212
+
+[node name="RayCast" type="RayCast" parent="LIDARMesh/LIDARCAM3"]
 
 [node name="LIDARCAM4" type="Camera" parent="LIDARMesh" groups=[
 "liCams",
 ]]
+editor/display_folded = true
 fov = 120.212
+
+[node name="RayCast" type="RayCast" parent="LIDARMesh/LIDARCAM4"]
 
 [node name="LIDARCAM5" type="Camera" parent="LIDARMesh" groups=[
 "liCams",
 ]]
+editor/display_folded = true
 fov = 120.212
+
+[node name="RayCast" type="RayCast" parent="LIDARMesh/LIDARCAM5"]
 
 [node name="LIDARCAM6" type="Camera" parent="LIDARMesh" groups=[
 "liCams",
 ]]
+editor/display_folded = true
 fov = 120.212
+
+[node name="RayCast" type="RayCast" parent="LIDARMesh/LIDARCAM6"]

@@ -72,8 +72,11 @@
     <Compile Include="src\gizmos.cs" />
     <Compile Include="src\gridGenerator.cs" />
     <Compile Include="src\TitleBar.cs" />
+    <Compile Include="theme\CamTest1.cs" />
+    <Compile Include="theme\IRTest.cs" />
     <Compile Include="theme\LIDAR.cs" />
     <Compile Include="theme\LIDARCAM1.cs" />
+    <Compile Include="theme\StaticBody.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

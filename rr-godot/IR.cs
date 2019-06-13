@@ -20,7 +20,7 @@ public class IR : Camera
     
     public IR()
     {
-        
+        this.saveData = new File();
     }
     public IR(string connection)
     {
@@ -34,6 +34,7 @@ public class IR : Camera
     {
         //an rr connection will be established here given by the user in the contructor when they create an instance of this IR sensor
         //for now, and json will be written to a local repository so we can verify information.
+        this.saveData = new File();
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -52,31 +53,35 @@ public class IR : Camera
 
     public override void _PhysicsProcess(float delta)
     {
-    
-        saveData.Open("user://savegame.save", (int)File.ModeFlags.Write);
+        GD.Print(delta);
+        saveData.Open("c://Users/John Parent/Dropbox/a/saveData.json", (int)File.ModeFlags.Write);
         var dir = -GlobalTransform.basis.z;
-        Vector3 ro = this.ProjectRayOrigin(new Vector2(dir.x,dir.y));
-        Vector3 rn = ro + this.ProjectRayNormal(new Vector2(dir.x,dir.y))*maxDist;
         
-        var spaceState = GetWorld().DirectSpaceState;
+        var ray = (RayCast)GetNode("RayCast");
+        ray.SetCastTo(dir*100);
+        ray.SetEnabled(true);
         
-        
-        Array[] execptions = {};
-        execptions.SetValue(this,0);
+        if(ray.IsEnabled() && ray.IsColliding())
+        {
+            saveData.StoreLine(JSON.Print(ray.GetCollisionPoint()));
 
-        //this ray needs to be pointed in the direction of the camera
-        var result = spaceState.IntersectRay(dir, rn,new Godot.Collections.Array{this} );
-
-        
-        saveData.StoreLine(JSON.Print(result["position"]));
-        
-
+        }
+       
+        //code for projecting the simulation of the IR sensor
+        // ImmediateGeometry g = new ImmediateGeometry();
+        // this.AddChild(g);
+        // ImmediateGeometry t = (ImmediateGeometry)this.GetChild(0);
+        // t.Begin(Mesh.PrimitiveType.Lines,null);
+        // t.AddVertex(dir);
+        // t.AddVertex(rn);
+        // t.End();
         saveData.Close();
-        this.SetCurrent(false);
+        ray.SetEnabled(false);
     }
     public override void _ExitTree()
     {
-        this.SetCurrent(false);
+        var ray = (RayCast)GetNode("RayCast");
+        ray.SetEnabled(false);
         
     }
 

@@ -6,8 +6,8 @@ public class LIDAR : Spatial
     // Declare member variables here. Examples:
     // private int a = 2;
     // private string b = "text";
-    float _minAng;
-    float _maxAng;
+    double _minAng;
+    double _maxAng;
     float _resolution;
     int _beamNum;
     float _beamMax;
@@ -25,7 +25,7 @@ public class LIDAR : Spatial
     {
         
     }
-    public LIDAR(float minAng,float maxAng, float resolution,int beamNum,float beamMax)
+    public LIDAR(double minAng,double maxAng, float resolution,int beamNum,float beamMax,Vector3 pos)
     {
         this._minAng=minAng;
         this._maxAng = maxAng;
@@ -40,13 +40,14 @@ public class LIDAR : Spatial
         else{
             interpolation=false;
         }
-
+        
+        this.SetTranslation(pos);
     }
     
     public override void _Ready()
     {
         pointCloud = new Godot.Collections.Array();
-        resultPCD.Open("user://pc.PCD", (int)File.ModeFlags.Write);
+        
     }
 
     public override void _PhysicsProcess(float delta)
@@ -91,10 +92,10 @@ public class LIDAR : Spatial
             for(int j=0;j<sideSide;j++)
             {
                 var result = imaging();
-                if(result.Count>0)
+                if(!result.Equals(new Vector3(0,0,0)))
                 {
-                    var collisionLoc = result["position"];
-                    float collisionDist = distancing((Vector3)collisionLoc);
+                    var collisionLoc = result;
+                    float collisionDist = distancing(result);
                     pointCloud.Add(collisionLoc);
                     distCloud.Add(collisionDist);
 
@@ -140,24 +141,24 @@ public class LIDAR : Spatial
 
     }
     //responsible for actually taking the raycast and returning the collision data
-    private Godot.Collections.Dictionary imaging()
+    private Vector3 imaging()
     {
+        
+        
         var dir = -GlobalTransform.basis.z;
-        Vector3 ro = ((Camera)(this.GetChild(0).GetChild(0))).ProjectRayOrigin(new Vector2(dir.x,dir.y));
-        Vector3 rn = ro + ((Camera)(this.GetChild(0).GetChild(0))).ProjectRayNormal(new Vector2(dir.x,dir.y))*_beamMax;
         
-        var spaceState = GetWorld().DirectSpaceState;
+        var ray = (RayCast)GetNode("RayCast");
+        ray.SetCastTo(dir*100);
+        ray.SetEnabled(true);
         
-        
-        Array[] execptions = {};
-        execptions.SetValue(this,0);
+        if(ray.IsEnabled() && ray.IsColliding())
+        {
+            return ray.GetCollisionPoint();
 
-        //this ray needs to be pointed in the direction of the camera
-        var result = spaceState.IntersectRay(dir, rn,new Godot.Collections.Array{this} );
+        }
         
         
-        
-        return result;
+        return new Vector3(0,0,0);
     }
 
     private float distancing(Vector3 collisionLocation)
@@ -170,10 +171,10 @@ public class LIDAR : Spatial
     //returns camera jump distance in Return[0],number samples needed on larger side in Return[1], and number of samples on smaller side in Return[2]
     private Godot.Collections.Array gridding()
     {
-        float totalRads = maxLR + _maxAng + _minAng;
-        float spacing = totalRads/dataSampleSize;
+        double totalRads = maxLR + _maxAng + _minAng;
+        double spacing = totalRads/dataSampleSize;
         string larger;
-        float largerDim = Math.Max(maxLR,(_maxAng+_minAng));
+        double largerDim = Math.Max(maxLR,(_maxAng+_minAng));
         if(largerDim.Equals(maxLR))
         {
             larger = "lr";
@@ -181,7 +182,7 @@ public class LIDAR : Spatial
         else{
             larger = "ud";
         }
-        float largerRatio = largerDim/spacing;
+        double largerRatio = largerDim/spacing;
         int numOnLarger = (int)(largerDim/(largerRatio+1));
         int numOnSmaller = (int)dataSampleSize - numOnLarger;
                 
@@ -231,6 +232,8 @@ public class LIDAR : Spatial
     //handles actually writing to the file with the data from the class variable array set aside for temporarily storing this data
     private void writeFile()
     {
+        resultPCD = new File();
+        resultPCD.Open("c://Users/John Parent/Dropbox/a/pc.json", (int)File.ModeFlags.Write);
         resultPCD.StoreLine("VERSION .7");
         resultPCD.StoreLine("FIELDS x y z");
         resultPCD.StoreLine("SIZE 4 4 4");

@@ -488,7 +488,6 @@ split_offset = 100
 script = ExtResource( 5 )
 
 [node name="LeftMenu" type="VBoxContainer" parent="AppWindow"]
-editor/display_folded = true
 margin_right = 350.0
 margin_bottom = 1050.0
 grow_horizontal = 2
@@ -502,7 +501,6 @@ margin_right = 350.0
 margin_bottom = 4.0
 
 [node name="TreeContainer" type="TabContainer" parent="AppWindow/LeftMenu"]
-editor/display_folded = true
 margin_top = 14.0
 margin_right = 350.0
 margin_bottom = 1050.0
