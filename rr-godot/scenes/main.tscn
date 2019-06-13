@@ -595,11 +595,11 @@ text = "RR-Godot - Untitled Project (*)"
 align = 1
 valign = 1
 
-[node name="menuBar2" type="HBoxContainer" parent="UI/TitleBar"]
+[node name="MenuBar" type="HBoxContainer" parent="UI/TitleBar"]
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="btnFile" type="MenuButton" parent="UI/TitleBar/menuBar2"]
+[node name="btnFile" type="MenuButton" parent="UI/TitleBar/MenuBar"]
 margin_right = 50.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 50, 30 )
@@ -607,7 +607,7 @@ text = "File"
 flat = false
 switch_on_hover = true
 
-[node name="btnEdit" type="MenuButton" parent="UI/TitleBar/menuBar2"]
+[node name="btnEdit" type="MenuButton" parent="UI/TitleBar/MenuBar"]
 margin_left = 54.0
 margin_right = 104.0
 margin_bottom = 30.0
@@ -616,7 +616,7 @@ text = "Edit"
 flat = false
 switch_on_hover = true
 
-[node name="btnView" type="MenuButton" parent="UI/TitleBar/menuBar2"]
+[node name="btnView" type="MenuButton" parent="UI/TitleBar/MenuBar"]
 margin_left = 108.0
 margin_right = 158.0
 margin_bottom = 30.0
@@ -625,7 +625,7 @@ text = "View"
 flat = false
 switch_on_hover = true
 
-[node name="btnHelp" type="MenuButton" parent="UI/TitleBar/menuBar2"]
+[node name="btnHelp" type="MenuButton" parent="UI/TitleBar/MenuBar"]
 margin_left = 162.0
 margin_right = 212.0
 margin_bottom = 30.0
