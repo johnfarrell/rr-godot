@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Cam.cs" type="Script" id=1]
+
+[node name="CamSensor" type="Spatial"]
+
+[node name="CamContainer" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.07918, 0 )
+
+[node name="Cam" type="Camera" parent="CamContainer"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.28875, -1.10997, -0.253451 )
+fov = 113.403
+script = ExtResource( 1 )

@@ -69,7 +69,10 @@ public class env : Spatial
         Connect(nameof(envUpdated), GetNode("/root/main/UI/AppWindow/LeftMenu/TreeContainer/Environment/"), "UpdateTree");
 
         
+
+
         gizmo = GetNode<Control>("/root/main/UI/AppWindow/EnvironmentContainer/gizmos");
+
 
         for(var i = 0; i < gizmo.GetChildCount(); ++i)
         {

@@ -539,7 +539,12 @@ mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+
+[node name="env" parent="AppWindow/EnvironmentContainer" instance=ExtResource( 8 )]
+
 [node name="TitleBar" type="Control" parent="UI"]
+editor/display_folded = true
+
 anchor_right = 1.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
@@ -553,6 +558,7 @@ mouse_filter = 2
 color = Color( 0.462745, 0.462745, 0.462745, 1 )
 
 [node name="TitleButtons" type="HBoxContainer" parent="UI/TitleBar"]
+editor/display_folded = true
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -595,7 +601,9 @@ text = "RR-Godot - Untitled Project (*)"
 align = 1
 valign = 1
 
+
 [node name="MenuBar" type="HBoxContainer" parent="UI/TitleBar"]
+
 anchor_bottom = 1.0
 mouse_filter = 2
 
@@ -735,7 +743,8 @@ anchor_bottom = 1.0
 mouse_filter = 1
 CamPath = NodePath("../4way/HSplitContainer/ViewportContainer/Viewport/Camera")
 
-[node name="ToolboxPanel" type="Panel" parent="UI/AppWindow/EnvironmentContainer"]
+[node name="
+Panel" type="Panel" parent="UI/AppWindow/EnvironmentContainer"]
 margin_left = 500.0
 margin_right = 845.0
 margin_bottom = 60.0

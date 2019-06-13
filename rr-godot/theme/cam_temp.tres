@@ -1,0 +1,18 @@
+[gd_resource type="SpatialMaterial" load_steps=2 format=2]
+
+[sub_resource type="ImageTexture" id=1]
+
+[resource]
+albedo_color = Color( 0.835294, 0.862745, 0.886275, 1 )
+albedo_texture = SubResource( 1 )
+roughness = 0.0
+depth_enabled = true
+depth_scale = 0.05
+depth_deep_parallax = true
+depth_min_layers = 8
+depth_max_layers = 32
+depth_flip_tangent = false
+depth_flip_binormal = false
+refraction_enabled = true
+refraction_scale = 0.05
+refraction_texture_channel = 0
