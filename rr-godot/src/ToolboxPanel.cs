@@ -17,7 +17,7 @@ public class ToolboxPanel : Panel
         addMeshButton.GetPopup().AddItem("Capsule");
 
         // Connect the pressed signals to the environment
-        addMeshButton.GetPopup().Connect("id_pressed", GetNode("../env/"), "toolbarAddMeshItemPressed");
+        addMeshButton.GetPopup().Connect("id_pressed", GetNode("/root/main/env/"), "toolbarAddMeshItemPressed");
 
         MenuButton manipTypeButton = GetNode<MenuButton>("ToolboxContainer/ManipulationType");
         manipTypeButton.GetPopup().AddCheckItem("Translate");
@@ -39,7 +39,7 @@ public class ToolboxPanel : Panel
         rendTypeButton.GetPopup().AddItem("Wireframe");
 
 
-        rendTypeButton.GetPopup().Connect("id_pressed", GetNode("../env/"), "toolbarChangeRendTypePressed");
+        rendTypeButton.GetPopup().Connect("id_pressed", GetNode("/root/main/env/"), "toolbarChangeRendTypePressed");
 
         GD.Print("TOOLBOXPANEL.CS: READY");
     }
