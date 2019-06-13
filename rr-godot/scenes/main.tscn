@@ -4,7 +4,7 @@
 [ext_resource path="res://scenes/gizmos.tscn" type="PackedScene" id=2]
 [ext_resource path="res://theme/toolbarPopupMenu.tres" type="Theme" id=3]
 [ext_resource path="res://theme/cb_button_hover.tres" type="StyleBox" id=4]
-[ext_resource path="res://theme/button_pressed.tres" type="StyleBox" id=5]
+[ext_resource path="res://src/AppWindow.cs" type="Script" id=5]
 [ext_resource path="res://theme/button_disabled.tres" type="StyleBox" id=6]
 [ext_resource path="res://src/EnvironmentTree.cs" type="Script" id=7]
 [ext_resource path="res://theme/button_hover.tres" type="StyleBox" id=8]
@@ -730,12 +730,9 @@ current = true
 script = ExtResource( 12 )
 
 [node name="ToolboxPanel" type="Panel" parent="UI/AppWindow/EnvironmentContainer"]
-anchor_left = 0.385
-anchor_right = 0.569
-anchor_bottom = 0.057
-margin_left = 0.169983
-margin_right = 113.498
-margin_bottom = 0.149998
+margin_left = 500.0
+margin_right = 845.0
+margin_bottom = 60.0
 theme = ExtResource( 3 )
 custom_styles/panel = SubResource( 9 )
 script = ExtResource( 11 )
@@ -743,22 +740,28 @@ script = ExtResource( 11 )
 [node name="ToolboxContainer" type="HBoxContainer" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel"]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 394.0
-margin_bottom = 55.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+alignment = 1
 
 [node name="AddMeshMenuButton" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
 margin_right = 41.0
-margin_bottom = 50.0
+margin_bottom = 49.0
 rect_min_size = Vector2( 40, 40 )
+size_flags_horizontal = 2
+size_flags_vertical = 0
 custom_styles/hover = ExtResource( 4 )
 icon = ExtResource( 13 )
 
 [node name="ModeTranslate" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
 margin_left = 45.0
 margin_right = 85.0
-margin_bottom = 50.0
+margin_bottom = 40.0
 rect_min_size = Vector2( 40, 40 )
 focus_mode = 0
+mouse_filter = 1
+size_flags_horizontal = 2
+size_flags_vertical = 0
 custom_styles/hover = SubResource( 10 )
 custom_styles/pressed = SubResource( 11 )
 custom_styles/normal = SubResource( 12 )
@@ -768,9 +771,11 @@ enabled_focus_mode = 0
 [node name="ModeRotate" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
 margin_left = 89.0
 margin_right = 129.0
-margin_bottom = 50.0
+margin_bottom = 40.0
 rect_min_size = Vector2( 40, 40 )
 focus_mode = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
 custom_styles/hover = SubResource( 13 )
 custom_styles/pressed = SubResource( 14 )
 custom_styles/normal = SubResource( 15 )
@@ -780,9 +785,11 @@ enabled_focus_mode = 0
 [node name="ModeScale" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
 margin_left = 133.0
 margin_right = 173.0
-margin_bottom = 50.0
+margin_bottom = 40.0
 rect_min_size = Vector2( 40, 40 )
 focus_mode = 0
+size_flags_horizontal = 2
+size_flags_vertical = 0
 custom_styles/hover = SubResource( 16 )
 custom_styles/pressed = SubResource( 17 )
 custom_styles/normal = SubResource( 18 )
@@ -795,6 +802,8 @@ margin_right = 227.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 mouse_filter = 1
+size_flags_horizontal = 2
+size_flags_vertical = 0
 text = "C"
 
 [node name="ControlA4" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
@@ -803,6 +812,8 @@ margin_right = 281.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 mouse_filter = 1
+size_flags_horizontal = 2
+size_flags_vertical = 0
 text = "D"
 
 [node name="ControlA5" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
@@ -811,6 +822,8 @@ margin_right = 335.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 mouse_filter = 1
+size_flags_horizontal = 2
+size_flags_vertical = 0
 text = "E"
 
 [node name="gizmos" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 2 )]
