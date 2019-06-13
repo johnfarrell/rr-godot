@@ -729,6 +729,12 @@ transform = Transform( -0.0951428, 0, -0.995464, 0, 1, 0, 0.995464, 0, -0.095142
 current = true
 script = ExtResource( 12 )
 
+[node name="gizmos" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 2 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+CamPath = NodePath("../4way/HSplitContainer/ViewportContainer/Viewport/Camera")
+
 [node name="ToolboxPanel" type="Panel" parent="UI/AppWindow/EnvironmentContainer"]
 margin_left = 500.0
 margin_right = 845.0
@@ -748,6 +754,7 @@ alignment = 1
 margin_right = 41.0
 margin_bottom = 49.0
 rect_min_size = Vector2( 40, 40 )
+mouse_filter = 1
 size_flags_horizontal = 2
 size_flags_vertical = 0
 custom_styles/hover = ExtResource( 4 )
@@ -774,6 +781,7 @@ margin_right = 129.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 40, 40 )
 focus_mode = 0
+mouse_filter = 1
 size_flags_horizontal = 2
 size_flags_vertical = 0
 custom_styles/hover = SubResource( 13 )
@@ -788,6 +796,7 @@ margin_right = 173.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 40, 40 )
 focus_mode = 0
+mouse_filter = 1
 size_flags_horizontal = 2
 size_flags_vertical = 0
 custom_styles/hover = SubResource( 16 )
@@ -825,12 +834,6 @@ mouse_filter = 1
 size_flags_horizontal = 2
 size_flags_vertical = 0
 text = "E"
-
-[node name="gizmos" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 2 )]
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 1
-CamPath = NodePath("../4way/HSplitContainer/ViewportContainer/Viewport/Camera")
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/MinimizeButton" to="UI/TitleBar" method="MinimizeButtonPressedHandler"]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/MaximizeButton" to="UI/TitleBar" method="MaximizeButtonPressedHandler"]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/QuitButton" to="UI/TitleBar" method="QuitButtonPressedHandler"]
