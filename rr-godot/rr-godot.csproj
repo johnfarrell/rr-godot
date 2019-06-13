@@ -53,11 +53,7 @@
     <Compile Include="IR.cs" />
     <Compile Include="scenes\Camera.cs" />
     <Compile Include="scenes\DebugDraw.cs" />
-
     <Compile Include="scenes\Spatial.cs" />
-  
-
-
     <Compile Include="scenes\VerticalSplit.cs" />
     <Compile Include="src\viewport\Viewport1.cs" />
     <Compile Include="src\viewport\Viewport2.cs" />
@@ -78,16 +74,13 @@
     <Compile Include="src\gizmo\GizmoTranslate.cs" />
     <Compile Include="src\gridGenerator.cs" />
     <Compile Include="src\TitleBar.cs" />
-
     <Compile Include="theme\CamTest1.cs" />
     <Compile Include="theme\IRTest.cs" />
     <Compile Include="theme\LIDAR.cs" />
     <Compile Include="theme\LIDARCAM1.cs" />
     <Compile Include="theme\StaticBody.cs" />
-
     <Compile Include="src\ToolboxPanel.cs" />
     <Compile Include="src\MouseEventPassthrough.cs" />
-
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

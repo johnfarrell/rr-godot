@@ -233,7 +233,7 @@ public class LIDAR : Spatial
     private void writeFile()
     {
         resultPCD = new File();
-        resultPCD.Open("c://Users/John Parent/Dropbox/a/pc.json", (int)File.ModeFlags.Write);
+        resultPCD.Open("c://Users/John Parent/Dropbox/a/pc.json", File.ModeFlags.Write);
         resultPCD.StoreLine("VERSION .7");
         resultPCD.StoreLine("FIELDS x y z");
         resultPCD.StoreLine("SIZE 4 4 4");

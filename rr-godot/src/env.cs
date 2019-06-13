@@ -51,7 +51,7 @@ public class env : Spatial
     private Control gizmo;
     private DebugDrawType currentDrawType = DebugDrawType.Disable;
 
-    private Spatial marker;
+    private Node marker;
 
     private Viewport CurrentViewport;
 
@@ -64,7 +64,7 @@ public class env : Spatial
 
         this.PrintTreePretty();
 
-        marker = this.GetNode<Spatial>("SelectedObject");
+        marker = GetNode("SelectedObject");
         // Connect tree update signal
         Connect(nameof(envUpdated), GetNode("/root/main/UI/AppWindow/LeftMenu/TreeContainer/Environment/"), "UpdateTree");
 
