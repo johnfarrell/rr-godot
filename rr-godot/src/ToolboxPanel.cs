@@ -17,15 +17,20 @@ public class ToolboxPanel : Panel
         addMeshButton.GetPopup().AddItem("Capsule");
 
         // Connect the pressed signals to the environment
-        addMeshButton.GetPopup().Connect("id_pressed", GetNode("../env/"), "toolbarAddMeshItemPressed");
+        addMeshButton.GetPopup().Connect("id_pressed", GetNode("/root/main/env/"), "toolbarAddMeshItemPressed");
 
-        MenuButton manipTypeButton = GetNode<MenuButton>("ToolboxContainer/ManipulationType");
-        manipTypeButton.GetPopup().AddCheckItem("Translate");
-        manipTypeButton.GetPopup().AddCheckItem("Rotate");
-        manipTypeButton.GetPopup().AddCheckItem("Scale");
+        Button ModeTranslateButton = GetNode<Button>("ToolboxContainer/ModeTranslate");
+        ModeTranslateButton.Connect("toggled", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Translate"), "ManipToggled");
+        ModeTranslateButton.Connect("toggled", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Scale"), "TurnOffOnTrans");
+        ModeTranslateButton.Connect("toggled", this, "ToggleScaleOnTrans");
+    
+        Button ModeRotateButton = GetNode<Button>("ToolboxContainer/ModeRotate");
+        ModeRotateButton.Connect("toggled", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Rotate"), "ManipToggled");
 
-        manipTypeButton.GetPopup().Connect("id_pressed", GetNode("../env/"), "toolbarChangeManipTypePressed");
-        manipTypeButton.GetPopup().Connect("id_pressed", this, "UpdateManipType");
+        Button ModeScaleButton = GetNode<Button>("ToolboxContainer/ModeScale");
+        ModeScaleButton.Connect("toggled", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Scale"), "ManipToggled");
+        ModeScaleButton.Connect("toggled", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Translate"), "TurnOffOnScale");
+        ModeScaleButton.Connect("toggled", this, "ToggleTransOnScale");
 
 
         MenuButton rendTypeButton = GetNode<MenuButton>("ToolboxContainer/RenderStyle");
@@ -34,13 +39,32 @@ public class ToolboxPanel : Panel
         rendTypeButton.GetPopup().AddItem("Overdraw");
         rendTypeButton.GetPopup().AddItem("Wireframe");
 
-        rendTypeButton.GetPopup().Connect("id_pressed", GetNode("../env/"), "toolbarChangeRendTypePressed");
+
+        rendTypeButton.GetPopup().Connect("id_pressed", GetNode("/root/main/env/"), "toolbarChangeRendTypePressed");
 
         GD.Print("TOOLBOXPANEL.CS: READY");
     }
 
-    public void UpdateManipType(int id)
+    public override void _Process(float delta)
     {
-        GD.Print(id);
+        if(this.GetNode<MenuButton>("ToolboxContainer/AddMeshMenuButton").HasFocus()) {
+            GD.Print("TOOLBOX PANEL FOCUS ");
+        }
+    }
+
+    public void ToggleScaleOnTrans(bool Toggled)
+    {   
+        if(Toggled)
+        {
+            GetNode<Button>("ToolboxContainer/ModeScale").Pressed = false;
+        }
+    }
+
+    public void ToggleTransOnScale(bool Toggled)
+    {
+        if(Toggled)
+        {
+            GetNode<Button>("ToolboxContainer/ModeTranslate").Pressed = false;
+        }
     }
 }

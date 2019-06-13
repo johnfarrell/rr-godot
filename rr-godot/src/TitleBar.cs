@@ -3,9 +3,10 @@ using System;
 
 public class TitleBar : Control
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
+    MenuButton FileButton;
+    MenuButton EditButton;
+    MenuButton ViewButton;
+    MenuButton HelpButton;
 
     private bool Following = false;
     private Vector2 DragStart = new Vector2();
@@ -13,6 +14,20 @@ public class TitleBar : Control
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        // Set up the menu bar items
+        FileButton = GetNode<MenuButton>("MenuBar/btnFile");
+        EditButton = GetNode<MenuButton>("MenuBar/btnEdit");
+        ViewButton = GetNode<MenuButton>("MenuBar/btnView");
+        HelpButton = GetNode<MenuButton>("MenuBar/btnHelp");
+
+        // Populate file
+        FileButton.GetPopup().AddItem("New");
+        FileButton.GetPopup().AddItem("Open");
+        FileButton.GetPopup().AddSeparator();
+        FileButton.GetPopup().AddItem("Save");
+        FileButton.GetPopup().AddItem("Save As");
+        FileButton.GetPopup().AddSeparator();
+        FileButton.GetPopup().AddItem("Exit");
         
         this.Connect("gui_input", this, "TitleBarGUIInputHandler");
         GD.Print("TITLEBAR.CS: READY");

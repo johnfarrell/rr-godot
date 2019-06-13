@@ -95,7 +95,7 @@ func _process(delta):
 	if movement:
 		_update_movement(delta)
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	# Called when collision are enabled
 	_update_distance()
 	if mouselook:
