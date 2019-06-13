@@ -42,41 +42,50 @@ public class env : Spatial
     private Vector3 dragStart = new Vector3();
 
     // Currently selected object in the world
-    private Godot.Collections.Dictionary selectedObject = null;
+    public Godot.Collections.Dictionary selectedObject = null;
 
-    private ManipType currentManipType = ManipType.Translate;
+    private bool gizmoActive = false;
 
     private PackedScene gizmoScene = (PackedScene)GD.Load("res://scenes/gizmos.tscn");
 
-    private Node gizmo;
+    private Control gizmo;
     private DebugDrawType currentDrawType = DebugDrawType.Disable;
+
+    private Spatial marker;
 
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        // Connect signals from EnvironmentContainer for mouse enter/exit
-        GetNode("../../").Connect("mouse_entered", this, "OnEnvContainerMouseEntered");
-        GetNode("../../").Connect("mouse_exited", this, "OnEnvContainerMouseExit");
+        mouseInside = true;
 
+        this.PrintTreePretty();
+
+        marker = this.GetNode<Spatial>("SelectedObject");
         // Connect tree update signal
         Connect(nameof(envUpdated), GetNode("/root/main/AppWindow/LeftMenu/TreeContainer/Environment/"), "UpdateTree");
-        
-        Node gizmo = gizmoScene.Instance();
-        AddChild(gizmo);
 
+        
+        gizmo = GetNode<Control>("/root/main/UI/AppWindow/EnvironmentContainer/gizmos");
+
+        for(var i = 0; i < gizmo.GetChildCount(); ++i)
+        {
+            gizmo.GetChild(i).Connect("HandlePressedStateChanged", this, "GizmoActiveChange");
+        }
+
+        gizmo.Visible = false;
         GD.Print("ENV.CS: READY");
     }
 
-    private void toolbarChangeManipTypePressed(int id)
-    {   
-        currentManipType = (ManipType) id;
-        GD.Print("currentManipType: " + currentManipType);
+    public Godot.Collections.Dictionary GetSelectedObject()
+    {
+        return selectedObject;
     }
 
-    private void toolbarAddMeshItemPressed()
+    public void GizmoActiveChange()
     {
-        GD.Print("fjeioajfioesa");
+        gizmoActive = !gizmoActive;
+        GD.Print("ENV.CS: GIZMO ACTIVE: " + gizmoActive);
     }
 
     /// <summary>
@@ -145,8 +154,6 @@ public class env : Spatial
                 GD.Print("Unrecognized Menu Item");
                 break;
         }
-        
-        
 
     }
     /// <summary>
@@ -155,15 +162,22 @@ public class env : Spatial
     /// </summary>
     private void addCubeMesh()
     {
-        var temp = new MeshInstance();
-        temp.Mesh = new CubeMesh();
-        temp.CreateTrimeshCollision();
+        StaticBody temp = new StaticBody();
+        MeshInstance tempMesh = new MeshInstance();
+        tempMesh.Mesh = new CubeMesh();
 
-        temp.Name = "Cube";
-        temp.Translate(lastPos + update);
-        lastPos = temp.Translation;
+        tempMesh.CreateTrimeshCollision();
 
-        AddChild(temp, true);
+        // Get the collision shape and reparent it to the StaticBody
+        CollisionShape collision = (CollisionShape) tempMesh.GetChild(0).GetChild(0);
+
+        tempMesh.GetChild(0).RemoveChild(collision);
+        tempMesh.RemoveChild(tempMesh.GetChild(0));
+
+        temp.AddChild(collision);
+        temp.AddChild(tempMesh);
+
+        this.AddChild(temp, true);
     }
 
     /// <summary>
@@ -241,20 +255,19 @@ public class env : Spatial
     /// <param name="@event">InputEvent obj containing Godot event information</param>
     public override void _Input(InputEvent @event)
     {
-        // GD.Print("ENV.CS: " + @event);
-        // GetNode("/root")._Input(@event);
         if(mouseInside)
         {
             if(@event is InputEventMouseButton && @event.IsAction("mouse_left_click"))
             {
                 mouseClicked = !mouseClicked;
-                if(selectedObject != null)
-                {
-                    selectedObject = null;
-                }
             }
         }
     }
+
+    // public override void _UnhandledInput(InputEvent @event)
+    // {
+    //     gizmo._UnhandledInput(@event);
+    // }
 
     /// <summary>
     /// Signal reciever for MouseEnter signal sent by EnvironmentContainer node
@@ -277,14 +290,47 @@ public class env : Spatial
     /// </summary>
     private Godot.Collections.Dictionary GetObjUnderMouse()
     {
-        Vector2 mousePos = GetViewport().GetMousePosition();
-        Vector3 rayFrom = GetViewport().GetCamera().ProjectRayOrigin(mousePos);
-        Vector3 rayTo = rayFrom + GetViewport().GetCamera().ProjectRayNormal(mousePos) * 1000;
+        Viewport viewport = GetNode<Viewport>("/root/main/UI/AppWindow/EnvironmentContainer/4way/HSplitContainer/ViewportContainer/Viewport");
+        // Viewport viewport = GetViewport();
+        Vector2 mousePos = viewport.GetMousePosition();
+        Vector3 rayFrom = viewport.GetCamera().ProjectRayOrigin(mousePos);
+        Vector3 rayTo = rayFrom + viewport.GetCamera().ProjectRayNormal(mousePos) * 1000;
         PhysicsDirectSpaceState spaceState = GetWorld().DirectSpaceState;
 
         var selection = spaceState.IntersectRay(rayFrom, rayTo);
 
         return selection;
+    }
+
+    // TODO: Move this out of the env file so there isn't a
+    // god class
+    private void ResetGizmoPosition()
+    {
+        UpdateGizmoPosition(new Vector3(0, 0, 0), false);
+    }
+
+    // TODO: Move this out of the env file also
+    private void UpdateGizmoPosition(Vector3 TargetPos, bool SetVisible = true)
+    {
+        for(var x = 0; x < gizmo.GetChildCount(); ++x) {
+            Spatial temp = gizmo.GetChild<Spatial>(x);
+
+            temp.Visible = SetVisible;
+            temp.GlobalTranslate(TargetPos - temp.GlobalTransform.origin);
+        }
+    }
+
+    private void ResetMarkerParent()
+    {
+        UpdateMarkerParent(GetNode("/root/main/env"));
+    }
+
+    private void UpdateMarkerParent(Node newParent)
+    {
+        Node old_parent = marker.GetParent();
+
+        old_parent.RemoveChild(marker);
+        newParent.AddChild(marker);
     }
 
     /// <summary>
@@ -293,103 +339,41 @@ public class env : Spatial
     /// </summary>
     public override void _PhysicsProcess(float _delta)
     {
-        if(mouseClicked && selectedObject == null)
-        {
-            GD.Print("fjieosj");
-            // Select the proper thingy
-            selectedObject = GetObjUnderMouse();
-            if(selectedObject.Count == 0)
-            {   
-                GD.Print("1");
-                // Raycast returned an empty dictionary, user clicked in empty space
-                selectedObject = null;
-                
-            }
-            else
-            {
-                GD.Print("2");
-                // User clicked on an actual object, so updated the dragStart vector
-                dragStart = (Vector3) selectedObject["position"];
-
-                // Get the origin of the selected object and update the gizmos
-                CollisionObject collider = (CollisionObject) selectedObject["collider"];
-                Vector3 selectedObjectOrigin = collider.GlobalTransform.origin;
-
-                // Node gizmo = gizmos.Instance();
-                RemoveChild(gizmo);
-                collider.AddChild(gizmo);
-
-                
-                // gizmoScene.Translate(selectedObjectOrigin - gizmoScene.GlobalTransform.origin);
-            }
-            
-        }
-        if(mouseClicked && selectedObject != null)
-        {
-            // Handle moving the thingy
-            // Get position of new ray cast from camera to mouse
+        if(gizmoActive && selectedObject != null)
+        {   
             CollisionObject collider = (CollisionObject) selectedObject["collider"];
-            var obj = GetObjUnderMouse();
-            if(obj.Count == 0)
+
+            UpdateGizmoPosition(collider.GlobalTransform.origin);
+            return;
+        }
+        if(mouseClicked)
+        {
+            // Get the clicked object (if any)
+            Godot.Collections.Dictionary tempObj = GetObjUnderMouse();
+
+            if(tempObj.Count == 0)
             {
-                GD.Print("3");
-                // gizmoScene.Translate(gizmoScene.GlobalTransform.origin * -1);
-                // gizmoScene.Visible = false;
-
-                collider.RemoveChild(gizmo);
-
-                AddChild(gizmo);
-
-                
-                // Process the case where the mouse has left the object
-                return;
+                // User clicked on empty space
+                ResetGizmoPosition();
+                ResetMarkerParent();
+                selectedObject = null;
             }
-            Vector3 newPos = (Vector3) obj["position"];
-            Vector3 dragDelta = newPos - dragStart;
-
-            // Update gizmoscene location
-            // Vector3 selectedObjectOrigin = collider.GlobalTransform.origin;
-            // gizmoScene.Translate(selectedObjectOrigin - gizmoScene.GlobalTransform.origin);
-            GD.Print("4");
-        
-            Type parType = collider.GetParent().GetType();
-
-            GD.Print(parType.ToString() == "Godot.MeshInstance");
-
-            if(parType.ToString() == "Godot.MeshInstance")
+            else if(selectedObject != null &&
+                tempObj["collider"] == selectedObject["collider"])
             {
-                MeshInstance parMesh = collider.GetParent<MeshInstance>();
-                switch (currentManipType)
-                {
-                    case ManipType.Translate:
-                        parMesh.Translate(dragDelta);
-                        break;
-                    case ManipType.Rotate:
-                        break;
-                    case ManipType.Scale:
-                        Vector3 normal = (Vector3) obj["normal"];
-                        parMesh.Scale += (normal / 50);
-                        break;
-                    default:
-                        break;
-                }
-            
-                dragStart = newPos;
+                // User clicked on the same object
+
             }
             else
             {
-                GD.Print(parType);
+                // User clicked on a different object
+                selectedObject = tempObj;
+
+                CollisionObject collider = (CollisionObject) selectedObject["collider"];
+
+                UpdateGizmoPosition(collider.GlobalTransform.origin);
+                UpdateMarkerParent(collider);
             }
-
-            
-        }
-        if(!mouseClicked && selectedObject != null)
-        {
-        //     CollisionObject collider = (CollisionObject) selectedObject["collider"];
-
-        //     // Update gizmoscene location
-        //     Vector3 selectedObjectOrigin = collider.GlobalTransform.origin;
-        //     gizmoScene.Translate(selectedObjectOrigin - gizmoScene.GlobalTransform.origin);
         }
     }
 }

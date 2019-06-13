@@ -24,8 +24,12 @@ public class ToolboxPanel : Panel
         manipTypeButton.GetPopup().AddCheckItem("Rotate");
         manipTypeButton.GetPopup().AddCheckItem("Scale");
 
-        manipTypeButton.GetPopup().Connect("id_pressed", GetNode("../env/"), "toolbarChangeManipTypePressed");
+        manipTypeButton.GetPopup().SetItemChecked(0, true);
         manipTypeButton.GetPopup().Connect("id_pressed", this, "UpdateManipType");
+        manipTypeButton.GetPopup().Connect("id_pressed", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Translate"), "ChangeManipType");
+        manipTypeButton.GetPopup().Connect("id_pressed", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Rotate"), "ChangeManipType");
+        manipTypeButton.GetPopup().Connect("id_pressed", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Scale"), "ChangeManipType");
+
 
 
         MenuButton rendTypeButton = GetNode<MenuButton>("ToolboxContainer/RenderStyle");
@@ -34,13 +38,30 @@ public class ToolboxPanel : Panel
         rendTypeButton.GetPopup().AddItem("Overdraw");
         rendTypeButton.GetPopup().AddItem("Wireframe");
 
+
         rendTypeButton.GetPopup().Connect("id_pressed", GetNode("../env/"), "toolbarChangeRendTypePressed");
 
         GD.Print("TOOLBOXPANEL.CS: READY");
     }
 
+    public override void _Process(float delta)
+    {
+        if(this.GetNode<MenuButton>("ToolboxContainer/AddMeshMenuButton").HasFocus()) {
+            GD.Print("TOOLBOX PANEL FOCUS ");
+        }
+    }
+
     public void UpdateManipType(int id)
     {
-        GD.Print(id);
+        for(var i = 0; i < 3; ++i)
+        {
+            if(i != id)
+            {
+                GetNode<MenuButton>("ToolboxContainer/ManipulationType").GetPopup().SetItemChecked(i, false);
+            }
+            else{
+                GetNode<MenuButton>("ToolboxContainer/ManipulationType").GetPopup().SetItemChecked(i, true);
+            }
+        }
     }
 }

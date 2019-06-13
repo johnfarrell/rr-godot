@@ -1,14 +1,21 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=30 format=2]
 
-[ext_resource path="res://theme/button_disabled.tres" type="StyleBox" id=1]
-[ext_resource path="res://theme/button_hover.tres" type="StyleBox" id=2]
-[ext_resource path="res://theme/button_normal.tres" type="StyleBox" id=3]
-[ext_resource path="res://theme/button_pressed.tres" type="StyleBox" id=4]
-[ext_resource path="res://src/AppWindow.cs" type="Script" id=5]
-[ext_resource path="res://src/EnvironmentTree.cs" type="Script" id=6]
-[ext_resource path="res://scenes/4WayViewport.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scenes/env.tscn" type="PackedScene" id=8]
-[ext_resource path="res://src/TitleBar.cs" type="Script" id=9]
+[ext_resource path="res://src/TitleBar.cs" type="Script" id=1]
+[ext_resource path="res://src/AppWindow.cs" type="Script" id=2]
+[ext_resource path="res://theme/toolbarPopupMenu.tres" type="Theme" id=3]
+[ext_resource path="res://theme/cb_button_hover.tres" type="StyleBox" id=4]
+[ext_resource path="res://theme/button_pressed.tres" type="StyleBox" id=5]
+[ext_resource path="res://scenes/gizmos.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/EnvironmentTree.cs" type="Script" id=7]
+[ext_resource path="res://theme/button_normal.tres" type="StyleBox" id=8]
+[ext_resource path="res://theme/button_disabled.tres" type="StyleBox" id=9]
+[ext_resource path="res://theme/button_hover.tres" type="StyleBox" id=10]
+[ext_resource path="res://src/ToolboxPanel.cs" type="Script" id=11]
+[ext_resource path="res://src/CameraObj.gd" type="Script" id=12]
+[ext_resource path="res://theme/addMesh.png" type="Texture" id=13]
+[ext_resource path="res://src/MouseEventPassthrough.cs" type="Script" id=14]
+[ext_resource path="res://scenes/env.tscn" type="PackedScene" id=15]
+[ext_resource path="res://scenes/4WayViewport.tscn" type="PackedScene" id=16]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
@@ -469,124 +476,77 @@ WindowDialog/icons/close = null
 WindowDialog/icons/close_highlight = null
 WindowDialog/styles/panel = null
 
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
+
 [node name="main" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 theme = SubResource( 8 )
 
-[node name="ColorRect" type="ColorRect" parent="."]
-margin_right = 1558.0
-color = Color( 0.921569, 0.921569, 0.921569, 1 )
+[node name="env" parent="." instance=ExtResource( 15 )]
 
-[node name="AppWindow" type="HSplitContainer" parent="."]
+[node name="UI" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 30.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-split_offset = 100
-script = ExtResource( 5 )
-
-[node name="LeftMenu" type="VBoxContainer" parent="AppWindow"]
-margin_right = 350.0
-margin_bottom = 1050.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 250, 0 )
-size_flags_vertical = 5
-custom_constants/separation = 10
-
-[node name="HSeparator" type="HSeparator" parent="AppWindow/LeftMenu"]
-margin_right = 350.0
-margin_bottom = 4.0
-
-[node name="TreeContainer" type="TabContainer" parent="AppWindow/LeftMenu"]
-margin_top = 14.0
-margin_right = 350.0
-margin_bottom = 1050.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-tab_align = 0
-
-[node name="Environment" type="Tree" parent="AppWindow/LeftMenu/TreeContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 10.0
-margin_top = 34.0
-margin_bottom = -10.0
-script = ExtResource( 6 )
-
-[node name="Object Catalog" type="Tree" parent="AppWindow/LeftMenu/TreeContainer"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 10.0
-margin_top = 34.0
-margin_bottom = -10.0
-
-[node name="EnvironmentContainer" type="ViewportContainer" parent="AppWindow"]
-margin_left = 362.0
-margin_right = 1920.0
-margin_bottom = 1050.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-stretch = true
-
-[node name="4WayViewport" parent="AppWindow/EnvironmentContainer" instance=ExtResource( 7 )]
-anchor_right = 1.0
-anchor_bottom = 1.0
+margin_top = 1.0
+margin_bottom = 1.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="env" parent="AppWindow/EnvironmentContainer" instance=ExtResource( 8 )]
-
-[node name="TitleBar" type="Control" parent="."]
+[node name="TitleBar" type="Control" parent="UI"]
 anchor_right = 1.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
-script = ExtResource( 9 )
+mouse_filter = 1
+script = ExtResource( 1 )
 
-[node name="TitleBarBackground" type="ColorRect" parent="TitleBar"]
+[node name="TitleBarBackground" type="ColorRect" parent="UI/TitleBar"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 1
+mouse_filter = 2
 color = Color( 0.462745, 0.462745, 0.462745, 1 )
 
-[node name="TitleButtons" type="HBoxContainer" parent="TitleBar"]
+[node name="TitleButtons" type="HBoxContainer" parent="UI/TitleBar"]
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -128.0
+mouse_filter = 2
 
-[node name="MinimizeButton" type="Button" parent="TitleBar/TitleButtons"]
+[node name="MinimizeButton" type="Button" parent="UI/TitleBar/TitleButtons"]
 margin_right = 40.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 40, 0 )
+mouse_filter = 1
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "-"
 
-[node name="MaximizeButton" type="Button" parent="TitleBar/TitleButtons"]
+[node name="MaximizeButton" type="Button" parent="UI/TitleBar/TitleButtons"]
 margin_left = 44.0
 margin_right = 84.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 40, 0 )
+mouse_filter = 1
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "O"
 
-[node name="QuitButton" type="Button" parent="TitleBar/TitleButtons"]
+[node name="QuitButton" type="Button" parent="UI/TitleBar/TitleButtons"]
 margin_left = 88.0
 margin_right = 128.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 40, 0 )
+mouse_filter = 1
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "X"
 
-[node name="TitleText" type="Label" parent="TitleBar"]
+[node name="TitleText" type="Label" parent="UI/TitleBar"]
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -95.0
-mouse_filter = 1
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
 custom_constants/shadow_offset_x = 0
@@ -595,47 +555,210 @@ text = "RR-Godot - Untitled Project (*)"
 align = 1
 valign = 1
 
-[node name="menuBar2" type="HBoxContainer" parent="TitleBar"]
+[node name="menuBar2" type="HBoxContainer" parent="UI/TitleBar"]
 anchor_bottom = 1.0
+mouse_filter = 2
 
-[node name="btnFile" type="MenuButton" parent="TitleBar/menuBar2"]
+[node name="btnFile" type="MenuButton" parent="UI/TitleBar/menuBar2"]
 margin_right = 50.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 50, 30 )
+mouse_filter = 1
 text = "File"
 flat = false
 switch_on_hover = true
 
-[node name="btnEdit" type="MenuButton" parent="TitleBar/menuBar2"]
+[node name="btnEdit" type="MenuButton" parent="UI/TitleBar/menuBar2"]
 margin_left = 54.0
 margin_right = 104.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 50, 30 )
+mouse_filter = 1
 text = "Edit"
 flat = false
 switch_on_hover = true
 
-[node name="btnView" type="MenuButton" parent="TitleBar/menuBar2"]
+[node name="btnView" type="MenuButton" parent="UI/TitleBar/menuBar2"]
 margin_left = 108.0
 margin_right = 158.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 50, 30 )
+mouse_filter = 1
 text = "View"
 flat = false
 switch_on_hover = true
 
-[node name="btnHelp" type="MenuButton" parent="TitleBar/menuBar2"]
+[node name="btnHelp" type="MenuButton" parent="UI/TitleBar/menuBar2"]
 margin_left = 162.0
 margin_right = 212.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 50, 30 )
+mouse_filter = 1
 text = "Help"
 flat = false
 switch_on_hover = true
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-[connection signal="resized" from="." to="AppWindow" method="WindowResizeHandler"]
-[connection signal="resized" from="AppWindow/EnvironmentContainer" to="AppWindow" method="EnvironmentContainerResizeHandler"]
-[connection signal="pressed" from="TitleBar/TitleButtons/MinimizeButton" to="TitleBar" method="MinimizeButtonPressedHandler"]
-[connection signal="pressed" from="TitleBar/TitleButtons/MaximizeButton" to="TitleBar" method="MaximizeButtonPressedHandler"]
-[connection signal="pressed" from="TitleBar/TitleButtons/QuitButton" to="TitleBar" method="QuitButtonPressedHandler"]
+[node name="AppWindow" type="HSplitContainer" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 30.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+split_offset = 100
+script = ExtResource( 5 )
+
+[node name="LeftMenu" type="VBoxContainer" parent="UI/AppWindow"]
+margin_right = 350.0
+margin_bottom = 1050.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 250, 0 )
+mouse_filter = 2
+size_flags_vertical = 5
+custom_constants/separation = 10
+
+[node name="HSeparator" type="HSeparator" parent="UI/AppWindow/LeftMenu"]
+margin_right = 350.0
+margin_bottom = 4.0
+mouse_filter = 2
+
+[node name="TreeContainer" type="TabContainer" parent="UI/AppWindow/LeftMenu"]
+margin_top = 14.0
+margin_right = 350.0
+margin_bottom = 1050.0
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+tab_align = 0
+
+[node name="Environment" type="Tree" parent="UI/AppWindow/LeftMenu/TreeContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 34.0
+margin_bottom = -10.0
+mouse_filter = 1
+script = ExtResource( 7 )
+
+[node name="Object Catalog" type="Tree" parent="UI/AppWindow/LeftMenu/TreeContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 34.0
+margin_bottom = -10.0
+mouse_filter = 1
+
+[node name="EnvironmentContainer" type="Control" parent="UI/AppWindow"]
+margin_left = 362.0
+margin_right = 1920.0
+margin_bottom = 1050.0
+focus_mode = 2
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="4way" type="Control" parent="UI/AppWindow/EnvironmentContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HSplitContainer" type="HSplitContainer" parent="UI/AppWindow/EnvironmentContainer/4way"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ViewportContainer" type="ViewportContainer" parent="UI/AppWindow/EnvironmentContainer/4way/HSplitContainer"]
+margin_right = 1558.0
+margin_bottom = 1050.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+script = ExtResource( 14 )
+
+[node name="Viewport" type="Viewport" parent="UI/AppWindow/EnvironmentContainer/4way/HSplitContainer/ViewportContainer"]
+size = Vector2( 1558, 1050 )
+handle_input_locally = false
+msaa = 3
+render_target_update_mode = 3
+physics_object_picking = true
+
+
+[node name="Camera" type="Camera" parent="UI/AppWindow/EnvironmentContainer/4way/HSplitContainer/ViewportContainer/Viewport"]
+transform = Transform( -0.0951428, 0, -0.995464, 0, 1, 0, 0.995464, 0, -0.0951428, -3.82534, 1.20773, -0.327002 )
+current = true
+script = ExtResource( 12 )
+
+[node name="ToolboxPanel" type="Panel" parent="UI/AppWindow/EnvironmentContainer"]
+margin_left = 712.0
+margin_right = 998.0
+margin_bottom = 60.0
+mouse_filter = 2
+theme = ExtResource( 3 )
+custom_styles/panel = SubResource( 9 )
+script = ExtResource( 11 )
+
+[node name="ToolboxContainer" type="HBoxContainer" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel"]
+margin_left = 10.0
+margin_top = 5.0
+margin_right = 276.0
+margin_bottom = 55.0
+mouse_filter = 2
+
+[node name="AddMeshMenuButton" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
+margin_right = 41.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 40, 40 )
+mouse_filter = 1
+custom_styles/hover = ExtResource( 4 )
+icon = ExtResource( 13 )
+
+[node name="ManipulationType" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
+margin_left = 45.0
+margin_right = 95.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+mouse_filter = 1
+text = "B"
+
+[node name="RenderStyle" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
+margin_left = 99.0
+margin_right = 149.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+mouse_filter = 1
+text = "C"
+
+[node name="ControlA4" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
+margin_left = 153.0
+margin_right = 203.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+mouse_filter = 1
+text = "D"
+
+[node name="ControlA5" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
+margin_left = 207.0
+margin_right = 257.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+
+mouse_filter = 1
+text = "E"
+
+[node name="gizmos" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 6 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+CamPath = NodePath("../4way/HSplitContainer/ViewportContainer/Viewport/Camera")
+[connection signal="resized" from="." to="UI/AppWindow" method="WindowResizeHandler"]
+[connection signal="pressed" from="UI/TitleBar/TitleButtons/MinimizeButton" to="UI/TitleBar" method="MinimizeButtonPressedHandler"]
+[connection signal="pressed" from="UI/TitleBar/TitleButtons/MaximizeButton" to="UI/TitleBar" method="MaximizeButtonPressedHandler"]
+[connection signal="pressed" from="UI/TitleBar/TitleButtons/QuitButton" to="UI/TitleBar" method="QuitButtonPressedHandler"]
+[connection signal="resized" from="UI/AppWindow/EnvironmentContainer" to="UI/AppWindow" method="EnvironmentContainerResizeHandler"]

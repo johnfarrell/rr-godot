@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="scenes\DebugDraw.cs" />
-    <Compile Include="scenes\ToolboxPanel.cs" />
     <Compile Include="scenes\VerticalSplit.cs" />
     <Compile Include="scenes\Viewport1.cs" />
     <Compile Include="scenes\Viewport2.cs" />
@@ -64,10 +63,15 @@
     <Compile Include="src\AxisLineGenerator.cs" />
     <Compile Include="src\env.cs" />
     <Compile Include="src\EnvironmentTree.cs" />
-    <Compile Include="src\GizmoHandleHover.cs" />
     <Compile Include="src\gizmos.cs" />
+    <Compile Include="src\gizmo\Gizmo.cs" />
+    <Compile Include="src\gizmo\GizmoRotate.cs" />
+    <Compile Include="src\gizmo\GizmoScale.cs" />
+    <Compile Include="src\gizmo\GizmoTranslate.cs" />
     <Compile Include="src\gridGenerator.cs" />
     <Compile Include="src\TitleBar.cs" />
+    <Compile Include="src\ToolboxPanel.cs" />
+    <Compile Include="src\MouseEventPassthrough.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
