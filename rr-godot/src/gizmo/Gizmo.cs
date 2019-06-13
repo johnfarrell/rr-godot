@@ -14,14 +14,17 @@ public class Gizmo : Spatial
     /// </summary>
     class Materials
     {
-        public static Material Highlight = (Material) GD.Load("res://theme/gizmo_HandleHighlight.tres");
-        public static Material XHandle = (Material) GD.Load("res://theme/gizmo_XHandleMat.tres");
-        public static Material YHandle = (Material) GD.Load("res://theme/gizmo_YHandleMat.tres");
-        public static Material ZHandle = (Material) GD.Load("res://theme/gizmo_ZHandleMat.tres");
+        public static Material Highlight = (Material) GD.Load("res://theme/mats/gizmo/gizmo_HandleHighlight.tres");
+        public static Material XHandle = (Material) GD.Load("res://theme/mats/gizmo/gizmo_XHandleMat.tres");
+        public static Material YHandle = (Material) GD.Load("res://theme/mats/gizmo/gizmo_YHandleMat.tres");
+        public static Material ZHandle = (Material) GD.Load("res://theme/mats/gizmo/gizmo_ZHandleMat.tres");
     }
 
     [Signal]
-    public delegate void HandlePressedStateChanged();
+    public delegate void HandlePressed();
+
+    [Signal]
+    public delegate void HandleUnpressed();
 
     public Viewport EditorViewport;
 
@@ -213,7 +216,17 @@ public class Gizmo : Spatial
         return (Spatial) marker.GetParent();
     }
 
-    public virtual void ChangeManipType(int id) { }
+    public virtual void ManipToggled(bool pressed)
+    {
+        if(pressed)
+        {
+            ToggleEnabled(true);
+        }
+        else
+        {
+            ToggleEnabled(false);
+        }
+    }
 
     public virtual void InputEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx) { }
 

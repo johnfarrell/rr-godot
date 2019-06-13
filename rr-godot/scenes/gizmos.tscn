@@ -1,11 +1,11 @@
 [gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://theme/gizmo_XHandleMat.tres" type="Material" id=1]
-[ext_resource path="res://theme/gizmo_ZHandleMat.tres" type="Material" id=2]
-[ext_resource path="res://theme/gizmo_YHandleMat.tres" type="Material" id=3]
-[ext_resource path="res://theme/gizmo-handlerotate.obj" type="ArrayMesh" id=4]
-[ext_resource path="res://theme/gizmo-handletranslate.obj" type="ArrayMesh" id=5]
-[ext_resource path="res://theme/gizmo-handlescale.obj" type="ArrayMesh" id=6]
+[ext_resource path="res://theme/mats/gizmo/gizmo_XHandleMat.tres" type="Material" id=1]
+[ext_resource path="res://theme/mats/gizmo/gizmo_ZHandleMat.tres" type="Material" id=2]
+[ext_resource path="res://theme/mats/gizmo/gizmo_YHandleMat.tres" type="Material" id=3]
+[ext_resource path="res://theme/objs/gizmo/gizmo-handlerotate.obj" type="ArrayMesh" id=4]
+[ext_resource path="res://theme/objs/gizmo/gizmo-handletranslate.obj" type="ArrayMesh" id=5]
+[ext_resource path="res://theme/objs/gizmo/gizmo-handlescale.obj" type="ArrayMesh" id=6]
 [ext_resource path="res://src/gizmos.cs" type="Script" id=7]
 [ext_resource path="res://theme/gizmo_HandleCollision.tres" type="Shape" id=8]
 [ext_resource path="res://src/gizmo/GizmoScale.cs" type="Script" id=9]
@@ -115,7 +115,6 @@ mesh = ExtResource( 4 )
 material/0 = null
 
 [node name="Scale" type="Spatial" parent="."]
-visible = false
 script = ExtResource( 9 )
 
 [node name="HandleX" type="StaticBody" parent="Scale"]

@@ -9,8 +9,11 @@ public class AppWindow : HSplitContainer
     public override void _Ready()
     {
         UpdateSplitOffset();
-        //UpdateControlBoxPosition();
+        UpdateControlBoxPosition();
         GD.Print("APPWINDOW.CS: READY");
+
+        GetNode("EnvironmentContainer").Connect("resized", this, "EnvironmentContainerResizeHandler");
+        GetNode("/root/main").Connect("resized", this, "WindowResizeHandler");
     }
 
     /// <summary>
@@ -29,8 +32,8 @@ public class AppWindow : HSplitContainer
     private void UpdateControlBoxPosition()
     {
 
-        Panel cbNode = GetNode<Panel>("/root/main/Appwindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1");
-        Panel envContainer = cbNode.GetParent<Panel>();
+        Panel cbNode = GetNode<Panel>("/root/main/Appwindow/EnvironmentContainer/ToolboxPanel");
+        Control envContainer = cbNode.GetParent<Control>();
 
         // Get the necessary size and position values
         Vector2 initialCbPos = cbNode.RectPosition;
@@ -50,7 +53,7 @@ public class AppWindow : HSplitContainer
     public void WindowResizeHandler()
     {
         UpdateSplitOffset();
-        //UpdateControlBoxPosition();
+        UpdateControlBoxPosition();
     }
 
     /// <summary>
@@ -58,6 +61,6 @@ public class AppWindow : HSplitContainer
     /// </summary>
     public void EnvironmentContainerResizeHandler()
     {
-        //UpdateControlBoxPosition();
+        UpdateControlBoxPosition();
     }
 }

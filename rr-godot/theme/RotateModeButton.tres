@@ -1,0 +1,5 @@
+[gd_resource type="StreamTexture" format=2]
+
+[resource]
+flags = 4
+load_path = "res://.import/gizmo_rotate_icon.png-52750ff34a7b33645029a73f96eb934e.stex"

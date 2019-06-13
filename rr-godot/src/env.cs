@@ -53,11 +53,14 @@ public class env : Spatial
 
     private Spatial marker;
 
+    private Viewport CurrentViewport;
+
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        mouseInside = true;
+
+        CurrentViewport = GetNode<Viewport>("/root/main/UI/AppWindow/EnvironmentContainer/4way/HSplitContainer/ViewportContainer/Viewport");
 
         this.PrintTreePretty();
 
@@ -70,7 +73,8 @@ public class env : Spatial
 
         for(var i = 0; i < gizmo.GetChildCount(); ++i)
         {
-            gizmo.GetChild(i).Connect("HandlePressedStateChanged", this, "GizmoActiveChange");
+            gizmo.GetChild(i).Connect("HandlePressed", this, "GizmoClicked");
+            gizmo.GetChild(i).Connect("HandleUnpressed", this, "GizmoUnclicked");
         }
 
         gizmo.Visible = false;
@@ -80,6 +84,16 @@ public class env : Spatial
     public Godot.Collections.Dictionary GetSelectedObject()
     {
         return selectedObject;
+    }
+
+    public void GizmoClicked()
+    {
+        gizmoActive = true;
+    }
+    
+    public void GizmoUnclicked()
+    {
+        gizmoActive = false;
     }
 
     public void GizmoActiveChange()
@@ -128,27 +142,21 @@ public class env : Spatial
         switch(currentDrawType)
         {
             case DebugDrawType.Disable:
-                GetNode<Viewport>("..").DebugDraw = Viewport.DebugDrawEnum.Disabled;
+                CurrentViewport.DebugDraw = Viewport.DebugDrawEnum.Disabled;
                 GD.Print(currentDrawType);
-                EmitSignal("envUpdated");
-                
                 break;
 
             case DebugDrawType.Overdraw:
-                GetNode<Viewport>("..").DebugDraw = Viewport.DebugDrawEnum.Overdraw;
+                CurrentViewport.DebugDraw = Viewport.DebugDrawEnum.Overdraw;
                 GD.Print(currentDrawType);
-                EmitSignal("envUpdated");
                 break;
-
             case DebugDrawType.Unshaded:
-                GetNode<Viewport>("..").DebugDraw = Viewport.DebugDrawEnum.Unshaded;
+                CurrentViewport.DebugDraw = Viewport.DebugDrawEnum.Unshaded;
                 GD.Print(currentDrawType);
-                EmitSignal("envUpdated");
                 break;
             case DebugDrawType.Wireframe:
-                GetNode<Viewport>("..").DebugDraw = Viewport.DebugDrawEnum.Wireframe;
+                CurrentViewport.DebugDraw = Viewport.DebugDrawEnum.Wireframe;
                 GD.Print(currentDrawType);
-                EmitSignal("envUpdated");
                 break;
             default:
                 GD.Print("Unrecognized Menu Item");
@@ -274,6 +282,7 @@ public class env : Spatial
     /// </summary>
     private void OnEnvContainerMouseEntered()
     {
+        GD.Print("MouseEnter");
         mouseInside = true;
     }
 
@@ -282,6 +291,7 @@ public class env : Spatial
     /// </summary>
     private void OnEnvContainerMouseExit()
     {
+        GD.Print("MouseExit");
         mouseInside = false;
     }
 

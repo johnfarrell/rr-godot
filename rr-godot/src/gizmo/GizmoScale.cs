@@ -3,7 +3,6 @@ using System;
 
 public class GizmoScale : Gizmo
 {
-    
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -11,16 +10,11 @@ public class GizmoScale : Gizmo
         GD.Print("GIZMOSCALE.CS: READY");
     }
 
-    public override void ChangeManipType(int id)
+    public void TurnOffOnTrans(bool trans)
     {
-        if(id == 2)
+        if(trans)
         {
-            GD.Print("Changing to Scale");
-            ToggleEnabled(true);
-        }
-        else
-        {
-            ToggleEnabled(false);
+            this.Disable();
         }
     }
 
@@ -32,7 +26,11 @@ public class GizmoScale : Gizmo
 
             if(ActiveAxis != Axis.NONE)
             {
-                EmitSignal("HandlePressedStateChanged");
+                EmitSignal("HandlePressed");
+            }
+            if(@event.IsActionReleased("mouse_left_click"))
+            {
+                EmitSignal("HandleUnpressed");
             }
         }
         if(@event is InputEventMouseMotion && GizmoPressed && ActiveAxis != Axis.NONE)

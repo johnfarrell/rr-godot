@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://src/TitleBar.cs" type="Script" id=1]
 [ext_resource path="res://scenes/gizmos.tscn" type="PackedScene" id=2]
@@ -14,6 +14,15 @@
 [ext_resource path="res://src/CameraObj.gd" type="Script" id=12]
 [ext_resource path="res://theme/addMesh.png" type="Texture" id=13]
 [ext_resource path="res://src/MouseEventPassthrough.cs" type="Script" id=14]
+[ext_resource path="res://theme/image/gizmo_menu_buttons/gizmo_rotate_icon.png" type="Texture" id=15]
+[ext_resource path="res://theme/image/gizmo_menu_buttons/gizmo_scale_icon.png" type="Texture" id=16]
+[ext_resource path="res://theme/image/gizmo_menu_buttons/gizmo_translate_icon.png" type="Texture" id=17]
+[ext_resource path="res://theme/image/gizmo_menu_buttons/gizmo_translate_hover.png" type="Texture" id=18]
+[ext_resource path="res://theme/image/gizmo_menu_buttons/gizmo_translate_active.png" type="Texture" id=19]
+[ext_resource path="res://theme/image/gizmo_menu_buttons/gizmo_rotate_hover.png" type="Texture" id=20]
+[ext_resource path="res://theme/image/gizmo_menu_buttons/gizmo_rotate_active.png" type="Texture" id=21]
+[ext_resource path="res://theme/image/gizmo_menu_buttons/gizmo_scale_hover.png" type="Texture" id=22]
+[ext_resource path="res://theme/image/gizmo_menu_buttons/gizmo_scale_active.png" type="Texture" id=23]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
@@ -477,6 +486,42 @@ WindowDialog/styles/panel = null
 [sub_resource type="StyleBoxFlat" id=9]
 bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
 
+[sub_resource type="StyleBoxTexture" id=10]
+texture = ExtResource( 18 )
+region_rect = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="StyleBoxTexture" id=11]
+texture = ExtResource( 19 )
+region_rect = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="StyleBoxTexture" id=12]
+texture = ExtResource( 17 )
+region_rect = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="StyleBoxTexture" id=13]
+texture = ExtResource( 20 )
+region_rect = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="StyleBoxTexture" id=14]
+texture = ExtResource( 21 )
+region_rect = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="StyleBoxTexture" id=15]
+texture = ExtResource( 15 )
+region_rect = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="StyleBoxTexture" id=16]
+texture = ExtResource( 22 )
+region_rect = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="StyleBoxTexture" id=17]
+texture = ExtResource( 23 )
+region_rect = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="StyleBoxTexture" id=18]
+texture = ExtResource( 16 )
+region_rect = Rect2( 0, 0, 40, 40 )
+
 [node name="main" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -605,7 +650,6 @@ margin_bottom = 1050.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 250, 0 )
-mouse_filter = 2
 size_flags_vertical = 5
 custom_constants/separation = 10
 
@@ -686,56 +730,84 @@ current = true
 script = ExtResource( 12 )
 
 [node name="ToolboxPanel" type="Panel" parent="UI/AppWindow/EnvironmentContainer"]
-margin_left = 712.0
-margin_right = 998.0
-margin_bottom = 60.0
-mouse_filter = 2
+anchor_left = 0.385
+anchor_right = 0.569
+anchor_bottom = 0.057
+margin_left = 0.169983
+margin_right = 113.498
+margin_bottom = 0.149998
 theme = ExtResource( 3 )
 custom_styles/panel = SubResource( 9 )
 script = ExtResource( 11 )
 
 [node name="ToolboxContainer" type="HBoxContainer" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel"]
-margin_left = 10.0
+margin_left = 5.0
 margin_top = 5.0
-margin_right = 276.0
+margin_right = 394.0
 margin_bottom = 55.0
-mouse_filter = 2
 
 [node name="AddMeshMenuButton" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
-margin_right = 53.0
+margin_right = 41.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 40, 40 )
-mouse_filter = 1
 custom_styles/hover = ExtResource( 4 )
 icon = ExtResource( 13 )
 
-[node name="ManipulationType" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
-margin_left = 57.0
-margin_right = 107.0
+[node name="ModeTranslate" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
+margin_left = 45.0
+margin_right = 85.0
 margin_bottom = 50.0
-rect_min_size = Vector2( 50, 50 )
-mouse_filter = 1
-text = "B"
+rect_min_size = Vector2( 40, 40 )
+focus_mode = 0
+custom_styles/hover = SubResource( 10 )
+custom_styles/pressed = SubResource( 11 )
+custom_styles/normal = SubResource( 12 )
+toggle_mode = true
+enabled_focus_mode = 0
+
+[node name="ModeRotate" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
+margin_left = 89.0
+margin_right = 129.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 40, 40 )
+focus_mode = 0
+custom_styles/hover = SubResource( 13 )
+custom_styles/pressed = SubResource( 14 )
+custom_styles/normal = SubResource( 15 )
+toggle_mode = true
+enabled_focus_mode = 0
+
+[node name="ModeScale" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
+margin_left = 133.0
+margin_right = 173.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 40, 40 )
+focus_mode = 0
+custom_styles/hover = SubResource( 16 )
+custom_styles/pressed = SubResource( 17 )
+custom_styles/normal = SubResource( 18 )
+toggle_mode = true
+enabled_focus_mode = 0
 
 [node name="RenderStyle" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
-margin_left = 111.0
-margin_right = 161.0
+margin_left = 177.0
+margin_right = 227.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 mouse_filter = 1
 text = "C"
 
 [node name="ControlA4" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
-margin_left = 165.0
-margin_right = 215.0
+margin_left = 231.0
+margin_right = 281.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 mouse_filter = 1
 text = "D"
 
 [node name="ControlA5" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanel/ToolboxContainer"]
-margin_left = 219.0
-margin_right = 269.0
+margin_left = 285.0
+margin_right = 335.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 mouse_filter = 1
@@ -746,8 +818,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 1
 CamPath = NodePath("../4way/HSplitContainer/ViewportContainer/Viewport/Camera")
-[connection signal="resized" from="." to="UI/AppWindow" method="WindowResizeHandler"]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/MinimizeButton" to="UI/TitleBar" method="MinimizeButtonPressedHandler"]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/MaximizeButton" to="UI/TitleBar" method="MaximizeButtonPressedHandler"]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/QuitButton" to="UI/TitleBar" method="QuitButtonPressedHandler"]
-[connection signal="resized" from="UI/AppWindow/EnvironmentContainer" to="UI/AppWindow" method="EnvironmentContainerResizeHandler"]
+[connection signal="mouse_entered" from="UI/AppWindow/LeftMenu" to="env" method="OnEnvContainerMouseExit"]
+[connection signal="mouse_exited" from="UI/AppWindow/LeftMenu" to="env" method="OnEnvContainerMouseEntered"]
+[connection signal="mouse_entered" from="UI/AppWindow/EnvironmentContainer/ToolboxPanel" to="env" method="OnEnvContainerMouseExit"]
+[connection signal="mouse_exited" from="UI/AppWindow/EnvironmentContainer/ToolboxPanel" to="env" method="OnEnvContainerMouseEntered"]

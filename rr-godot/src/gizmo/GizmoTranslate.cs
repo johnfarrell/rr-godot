@@ -10,16 +10,11 @@ public class GizmoTranslate : Gizmo
         GD.Print("GIZMOTRANSLATE.CS: READY");
     }
 
-    public override void ChangeManipType(int id)
+    public void TurnOffOnScale(bool scale)
     {
-        if(id == 0)
+        if(scale)
         {
-            GD.Print("Changing to Translate");
-            ToggleEnabled(true);
-        }
-        else
-        {
-            ToggleEnabled(false);
+            this.Disable();
         }
     }
 
@@ -31,7 +26,11 @@ public class GizmoTranslate : Gizmo
 
             if(ActiveAxis != Axis.NONE)
             {
-                EmitSignal("HandlePressedStateChanged");
+                EmitSignal("HandlePressed");
+            }
+            if(@event.IsActionReleased("mouse_left_click"))
+            {
+                EmitSignal("HandleUnpressed");
             }
         }
         if(@event is InputEventMouseMotion && GizmoPressed && ActiveAxis != Axis.NONE)
