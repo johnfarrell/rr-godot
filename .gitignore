@@ -5,5 +5,7 @@ rr-godot/export_presets.cfg
 rr-godot/.mono/
 rr-godot/mono_crash*
 
+*.xcf
+
 *.odt
 *lock*
