@@ -23,6 +23,19 @@ public class GizmoRotate : Gizmo
         GD.Print("GIZMOROTATE.CS: READY");
     }
 
+    public override void ChangeManipType(int id)
+    {
+        if(id == 1)
+        {
+            GD.Print("Changing to Rotate");
+            ToggleEnabled(true);
+        }
+        else
+        {
+            ToggleEnabled(false);
+        }
+    }
+
     public override void InputEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx)
     {
         Camera cam = (Camera) camera;

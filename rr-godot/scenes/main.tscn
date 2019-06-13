@@ -685,6 +685,7 @@ script = ExtResource( 14 )
 [node name="Viewport" type="Viewport" parent="UI/AppWindow/EnvironmentContainer/4way/HSplitContainer/ViewportContainer"]
 size = Vector2( 1558, 1050 )
 handle_input_locally = false
+msaa = 3
 render_target_update_mode = 3
 physics_object_picking = true
 
@@ -753,6 +754,7 @@ text = "E"
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 1
+CamPath = NodePath("../4way/HSplitContainer/ViewportContainer/Viewport/Camera")
 [connection signal="resized" from="." to="UI/AppWindow" method="WindowResizeHandler"]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/MinimizeButton" to="UI/TitleBar" method="MinimizeButtonPressedHandler"]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/MaximizeButton" to="UI/TitleBar" method="MaximizeButtonPressedHandler"]

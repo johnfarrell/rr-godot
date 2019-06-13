@@ -46,8 +46,6 @@ public class env : Spatial
 
     private bool gizmoActive = false;
 
-    private ManipType currentManipType = ManipType.Translate;
-
     private PackedScene gizmoScene = (PackedScene)GD.Load("res://scenes/gizmos.tscn");
 
     private Control gizmo;
@@ -59,10 +57,6 @@ public class env : Spatial
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        // Connect signals from EnvironmentContainer for mouse enter/exit
-        // GetNode("../../").Connect("mouse_entered", this, "OnEnvContainerMouseEntered");
-        // GetNode("../../").Connect("mouse_exited", this, "OnEnvContainerMouseExit");
-
         mouseInside = true;
 
         this.PrintTreePretty();
@@ -91,12 +85,6 @@ public class env : Spatial
     {
         gizmoActive = !gizmoActive;
         GD.Print("ENV.CS: GIZMO ACTIVE: " + gizmoActive);
-    }
-
-    private void toolbarChangeManipTypePressed(int id)
-    {   
-        currentManipType = (ManipType) id;
-        GD.Print("currentManipType: " + currentManipType);
     }
 
     /// <summary>
@@ -367,7 +355,6 @@ public class env : Spatial
                 ResetGizmoPosition();
                 ResetMarkerParent();
                 selectedObject = null;
-                GD.Print("NOW NULL");
             }
             else if(selectedObject != null &&
                 tempObj["collider"] == selectedObject["collider"])

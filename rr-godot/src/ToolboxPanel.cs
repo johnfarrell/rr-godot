@@ -26,8 +26,11 @@ public class ToolboxPanel : Panel
 
         manipTypeButton.GetPopup().SetItemChecked(0, true);
 
-        manipTypeButton.GetPopup().Connect("id_pressed", GetNode("/root/main/env"), "toolbarChangeManipTypePressed");
         manipTypeButton.GetPopup().Connect("id_pressed", this, "UpdateManipType");
+        manipTypeButton.GetPopup().Connect("id_pressed", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Translate"), "ChangeManipType");
+        manipTypeButton.GetPopup().Connect("id_pressed", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Rotate"), "ChangeManipType");
+        manipTypeButton.GetPopup().Connect("id_pressed", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Scale"), "ChangeManipType");
+
 
 
         MenuButton rendTypeButton = GetNode<MenuButton>("ToolboxContainer/RenderStyle");

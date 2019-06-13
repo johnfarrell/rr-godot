@@ -115,15 +115,19 @@ public class Gizmo : Spatial
     /// </summary>
     public void Disable()
     {   
-        // Disable collision checking on the handles
-        HandleX.GetNode<CollisionShape>("CollisionShape").Disabled = true;
-        HandleY.GetNode<CollisionShape>("CollisionShape").Disabled = true;
-        HandleZ.GetNode<CollisionShape>("CollisionShape").Disabled = true;
+        ToggleEnabled(false);
+    }
+
+    public void ToggleEnabled(bool Enable)
+    {
+        HandleX.GetNode<CollisionShape>("CollisionShape").Disabled = !Enable;
+        HandleY.GetNode<CollisionShape>("CollisionShape").Disabled = !Enable;
+        HandleZ.GetNode<CollisionShape>("CollisionShape").Disabled = !Enable;
 
         // Set the handles to invisible.
-        HandleX.Visible = false;
-        HandleY.Visible = false;
-        HandleZ.Visible = false;
+        HandleX.Visible = Enable;
+        HandleY.Visible = Enable;
+        HandleZ.Visible = Enable;
     }
 
     /// <summary>
@@ -208,6 +212,8 @@ public class Gizmo : Spatial
     
         return (Spatial) marker.GetParent();
     }
+
+    public virtual void ChangeManipType(int id) { }
 
     public virtual void InputEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx) { }
 

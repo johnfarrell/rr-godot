@@ -29,7 +29,6 @@ script = ExtResource( 7 )
 
 [node name="Translate" type="Spatial" parent="."]
 script = ExtResource( 10 )
-EnabledByDefault = true
 
 [node name="HandleX" type="StaticBody" parent="Translate"]
 transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0 )
@@ -75,7 +74,6 @@ material/0 = null
 
 [node name="Rotate" type="Spatial" parent="."]
 script = ExtResource( 11 )
-EnabledByDefault = true
 
 [node name="HandleX" type="StaticBody" parent="Rotate"]
 transform = Transform( -8.74228e-08, -2, 0, 2, -8.74228e-08, 0, 0, 0, 2, 0, 0, 0 )

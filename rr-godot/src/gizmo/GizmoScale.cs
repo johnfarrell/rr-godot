@@ -11,6 +11,19 @@ public class GizmoScale : Gizmo
         GD.Print("GIZMOSCALE.CS: READY");
     }
 
+    public override void ChangeManipType(int id)
+    {
+        if(id == 2)
+        {
+            GD.Print("Changing to Scale");
+            ToggleEnabled(true);
+        }
+        else
+        {
+            ToggleEnabled(false);
+        }
+    }
+
     public override void InputEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx)
     {
         if(@event is InputEventMouseButton)

@@ -10,6 +10,19 @@ public class GizmoTranslate : Gizmo
         GD.Print("GIZMOTRANSLATE.CS: READY");
     }
 
+    public override void ChangeManipType(int id)
+    {
+        if(id == 0)
+        {
+            GD.Print("Changing to Translate");
+            ToggleEnabled(true);
+        }
+        else
+        {
+            ToggleEnabled(false);
+        }
+    }
+
     public override void InputEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx)
     {
         if(@event is InputEventMouseButton)
