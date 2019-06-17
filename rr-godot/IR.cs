@@ -54,7 +54,7 @@ public class IR : Camera
     public override void _PhysicsProcess(float delta)
     {
         GD.Print(delta);
-        saveData.Open("c://Users/John Parent/Dropbox/a/saveData.json", File.ModeFlags.Write);
+        saveData.Open("c://Users/John Parent/Dropbox/a/saveData.json", (int)File.ModeFlags.Write);
         var dir = -GlobalTransform.basis.z;
         
         var ray = (RayCast)GetNode("RayCast");

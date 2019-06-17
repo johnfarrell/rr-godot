@@ -13,7 +13,7 @@ public class Viewport1 : ViewportContainer
     public override void _Ready()
     {
         //UpdateControlBoxPosition();
-        toolbox = GetNode<Panel>("/root/main/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1/ToolboxPanel/");
+        toolbox = GetNode<Panel>("/root/main/UI/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1/ToolboxPanel/");
         toolbox.Hide();
     }
 

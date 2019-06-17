@@ -236,7 +236,7 @@ public class Gizmo : Spatial
     /// </summary>        
     public void SetDefaults()
     {
-        EditorViewport = GetNode<Viewport>("/root/main/UI/AppWindow/EnvironmentContainer/4way/HSplitContainer/ViewportContainer/Viewport");
+        EditorViewport = GetNode<Viewport>("/root/main/UI/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1/Viewport");
 
         HandleX = GetNode<Godot.StaticBody>("HandleX");
         HandleY = GetNode<Godot.StaticBody>("HandleY");

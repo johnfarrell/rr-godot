@@ -20,6 +20,8 @@ public class GizmoScale : Gizmo
 
     public override void InputEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx)
     {
+        GD.Print("GIZMO SCALE INPUT EVENT");
+        
         if(@event is InputEventMouseButton)
         {
             GizmoPressed = @event.IsActionPressed("mouse_left_click");

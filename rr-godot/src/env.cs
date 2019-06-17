@@ -53,14 +53,14 @@ public class env : Spatial
 
     private Godot.Spatial marker;
 
-    private Viewport CurrentViewport;
+    
 
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
 
-        CurrentViewport = GetNode<Viewport>("/root/main/UI/AppWindow/EnvironmentContainer/4way/HSplitContainer/ViewportContainer/Viewport");
+        
 
         this.PrintTreePretty();
 
@@ -139,36 +139,7 @@ public class env : Spatial
                 break;
         }
     }
-    //TODO:  Determine if we can delete this, then if so, do that////////////////////////////////
-    //Godot signal handler for the use of the debug draw dropdown menu    
-    private void toolbarChangeRendTypePressed(int id)
-    {
-        currentDrawType = (DebugDrawType) id;
-        switch(currentDrawType)
-        {
-            case DebugDrawType.Disable:
-                CurrentViewport.DebugDraw = Viewport.DebugDrawEnum.Disabled;
-                GD.Print(currentDrawType);
-                break;
-
-            case DebugDrawType.Overdraw:
-                CurrentViewport.DebugDraw = Viewport.DebugDrawEnum.Overdraw;
-                GD.Print(currentDrawType);
-                break;
-            case DebugDrawType.Unshaded:
-                CurrentViewport.DebugDraw = Viewport.DebugDrawEnum.Unshaded;
-                GD.Print(currentDrawType);
-                break;
-            case DebugDrawType.Wireframe:
-                CurrentViewport.DebugDraw = Viewport.DebugDrawEnum.Wireframe;
-                GD.Print(currentDrawType);
-                break;
-            default:
-                GD.Print("Unrecognized Menu Item");
-                break;
-        }
-
-    }
+    
     /// <summary>
     /// Adds a CubeMesh node to the world as a child
     /// of the root node.
@@ -305,7 +276,7 @@ public class env : Spatial
     /// </summary>
     private Godot.Collections.Dictionary GetObjUnderMouse()
     {
-        Viewport viewport = GetNode<Viewport>("/root/main/UI/AppWindow/EnvironmentContainer/4way/HSplitContainer/ViewportContainer/Viewport");
+        Viewport viewport = GetNode<Viewport>("/root/main/UI/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1/Viewport");
         // Viewport viewport = GetViewport();
         Vector2 mousePos = viewport.GetMousePosition();
         Vector3 rayFrom = viewport.GetCamera().ProjectRayOrigin(mousePos);
@@ -363,8 +334,16 @@ public class env : Spatial
         }
         if(mouseClicked)
         {
+            Godot.Collections.Dictionary tempObj = new Godot.Collections.Dictionary();
             // Get the clicked object (if any)
-            Godot.Collections.Dictionary tempObj = GetObjUnderMouse();
+            try{
+               tempObj  = GetObjUnderMouse();
+            }
+            catch(Exception e)
+            {
+                
+            }
+            
 
             if(tempObj.Count == 0)
             {
