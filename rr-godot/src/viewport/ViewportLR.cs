@@ -45,7 +45,7 @@ public class ViewportLR : Viewport
         bool mouseLoc = false;
         Vector2 m = GetMousePosition();
         Vector2 v = GetViewport().Size;
-        Vector2 winSize = OS.GetWindowSize();
+        Vector2 winSize = OS.WindowSize;
         float xDim = winSize.x-v.x;
         if((m.x < v.x && m.x >0)&&(m.y < v.y && m.y > 0))
         {
