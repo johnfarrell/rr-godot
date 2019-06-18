@@ -41,7 +41,7 @@ public class LIDAR : Spatial
             interpolation=false;
         }
         
-        this.SetTranslation(pos);
+        this.Translation = pos;
     }
     
     public override void _Ready()
@@ -148,10 +148,10 @@ public class LIDAR : Spatial
         var dir = -GlobalTransform.basis.z;
         
         var ray = (RayCast)GetNode("RayCast");
-        ray.SetCastTo(dir*100);
-        ray.SetEnabled(true);
+        ray.CastTo = dir*100;
+        ray.Enabled = true;
         
-        if(ray.IsEnabled() && ray.IsColliding())
+        if(ray.Enabled && ray.IsColliding())
         {
             return ray.GetCollisionPoint();
 
@@ -163,7 +163,7 @@ public class LIDAR : Spatial
 
     private float distancing(Vector3 collisionLocation)
     {   
-        return this.GetTranslation().DistanceTo(collisionLocation);
+        return this.Translation.DistanceTo(collisionLocation);
     }
 
     //divides the fov of the LIDAR sensor into sectors in order to take the correct number of points as per

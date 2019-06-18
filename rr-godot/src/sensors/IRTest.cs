@@ -11,7 +11,7 @@ public class IRTest : Spatial
     {
         var scene = GD.Load<PackedScene>("res://theme/LIDAR.tscn");
         var node =  scene.Instance();
-        Vector3 loc = this.GetTranslation();
+        Vector3 loc = this.Translation;
         loc.x = loc.x+1;
         loc.y = loc.y+1;
         node = new LIDAR(-0.53529248,0.18622663,1,64,100,loc);

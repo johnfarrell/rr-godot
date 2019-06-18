@@ -71,7 +71,7 @@ public class DebugDraw : Control
     {
         currentPerspective = (PerspectiveType) id;
         Node tmp = this.GetNode("../Viewport/Camera/CameraObj");
-        GD.Print(tmp.GetName());
+        GD.Print(tmp.Name);
         GD.Print(tmp.GetType());
         Godot.Camera tmp2 = (Godot.Camera)tmp;
 
@@ -107,7 +107,7 @@ public class DebugDraw : Control
                 gdCam.Call("_update_movement");
                 break;
             case PerspectiveType.NOrthogonal:
-                subCam.SetProjection(0);
+                subCam.Projection = 0;
                 gdCam.Call("_update_mouselook");
                 gdCam.Call("_update_movement");
                 break;

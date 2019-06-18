@@ -14,7 +14,7 @@ public class CamTest1 : Spatial
         var node =  scene.Instance();
         Node container = node.GetChild(0);
         Camera cam = (Camera)container.GetChild(0);
-        Vector3 loc = this.GetTranslation();
+        Vector3 loc = this.Translation;
         loc.z = loc.z+10;
         cam = new Cam(" "," ",1,loc);
         GetChild(GetChildCount()-1).AddChild(node);

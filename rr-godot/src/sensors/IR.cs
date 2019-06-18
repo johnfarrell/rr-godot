@@ -58,10 +58,10 @@ public class IR : Camera
         var dir = -GlobalTransform.basis.z;
         
         var ray = (RayCast)GetNode("RayCast");
-        ray.SetCastTo(dir*100);
-        ray.SetEnabled(true);
+        ray.CastTo = dir*100;
+        ray.Enabled = true;
         
-        if(ray.IsEnabled() && ray.IsColliding())
+        if(ray.Enabled && ray.IsColliding())
         {
             saveData.StoreLine(JSON.Print(ray.GetCollisionPoint()));
 
@@ -76,12 +76,12 @@ public class IR : Camera
         // t.AddVertex(rn);
         // t.End();
         saveData.Close();
-        ray.SetEnabled(false);
+        ray.Enabled = false;
     }
     public override void _ExitTree()
     {
         var ray = (RayCast)GetNode("RayCast");
-        ray.SetEnabled(false);
+        ray.Enabled = false;
         
     }
 
