@@ -113,7 +113,8 @@ public class env : Spatial
     /// <param name="id">Index number of the button pressed on the menu</param>
     private void toolbarAddMeshItemPressed(int id)
     {
-        switch(id) {
+        switch(id) 
+        {
             case (int) MeshID.Cube:
                 addCubeMesh();
                 EmitSignal("envUpdated");
@@ -199,15 +200,22 @@ public class env : Spatial
     /// </summary>
     private void addSphereMesh()
     {
-        var temp = new MeshInstance();
-        temp.Mesh = new SphereMesh();
-        temp.CreateTrimeshCollision();
+        StaticBody temp = new StaticBody();
+        MeshInstance tempMesh = new MeshInstance();
+        tempMesh.Mesh = new SphereMesh();
 
-        temp.Name = "Sphere";
-        temp.Translate(lastPos + update);
-        lastPos = temp.Translation;
+        tempMesh.CreateTrimeshCollision();
 
-        AddChild(temp, true);
+        // Get the collision shape and reparent it to the StaticBody
+        CollisionShape collision = (CollisionShape) tempMesh.GetChild(0).GetChild(0);
+
+        tempMesh.GetChild(0).RemoveChild(collision);
+        tempMesh.RemoveChild(tempMesh.GetChild(0));
+
+        temp.AddChild(collision);
+        temp.AddChild(tempMesh);
+
+        this.AddChild(temp, true);
     }
 
     /// <summary>
@@ -216,15 +224,22 @@ public class env : Spatial
     /// </summary>
     private void addCylinderMesh()
     {
-        var temp = new MeshInstance();
-        temp.Mesh = new CylinderMesh();
-        temp.CreateTrimeshCollision();
-        
-        temp.Name = "Cylinder";
-        temp.Translate(lastPos + update);
-        lastPos = temp.Translation;
+        StaticBody temp = new StaticBody();
+        MeshInstance tempMesh = new MeshInstance();
+        tempMesh.Mesh = new CylinderMesh();
 
-        AddChild(temp, true);
+        tempMesh.CreateTrimeshCollision();
+
+        // Get the collision shape and reparent it to the StaticBody
+        CollisionShape collision = (CollisionShape) tempMesh.GetChild(0).GetChild(0);
+
+        tempMesh.GetChild(0).RemoveChild(collision);
+        tempMesh.RemoveChild(tempMesh.GetChild(0));
+
+        temp.AddChild(collision);
+        temp.AddChild(tempMesh);
+
+        this.AddChild(temp, true);
     }
 
     /// <summary>
@@ -233,15 +248,22 @@ public class env : Spatial
     /// </summary>
     private void addPrismMesh()
     {
-        var temp = new MeshInstance();
-        temp.Mesh = new PrismMesh();
-        temp.CreateTrimeshCollision();
+        StaticBody temp = new StaticBody();
+        MeshInstance tempMesh = new MeshInstance();
+        tempMesh.Mesh = new PrismMesh();
 
-        temp.Name = "Prism";
-        temp.Translate(lastPos + update);
-        lastPos = temp.Translation;
+        tempMesh.CreateTrimeshCollision();
 
-        AddChild(temp, true);
+        // Get the collision shape and reparent it to the StaticBody
+        CollisionShape collision = (CollisionShape) tempMesh.GetChild(0).GetChild(0);
+
+        tempMesh.GetChild(0).RemoveChild(collision);
+        tempMesh.RemoveChild(tempMesh.GetChild(0));
+
+        temp.AddChild(collision);
+        temp.AddChild(tempMesh);
+
+        this.AddChild(temp, true);
     }
 
     /// <summary>
@@ -250,15 +272,22 @@ public class env : Spatial
     /// </summary>
     private void addCapsuleMesh()
     {
-        var temp = new MeshInstance();
-        temp.Mesh = new CapsuleMesh();
-        temp.CreateTrimeshCollision();
+        StaticBody temp = new StaticBody();
+        MeshInstance tempMesh = new MeshInstance();
+        tempMesh.Mesh = new CapsuleMesh();
 
-        temp.Name = "Capsule";
-        temp.Translate(lastPos + update);
-        lastPos = temp.Translation;
+        tempMesh.CreateTrimeshCollision();
 
-        AddChild(temp, true);
+        // Get the collision shape and reparent it to the StaticBody
+        CollisionShape collision = (CollisionShape) tempMesh.GetChild(0).GetChild(0);
+
+        tempMesh.GetChild(0).RemoveChild(collision);
+        tempMesh.RemoveChild(tempMesh.GetChild(0));
+
+        temp.AddChild(collision);
+        temp.AddChild(tempMesh);
+
+        this.AddChild(temp, true);
     }
 
     /// <summary>
