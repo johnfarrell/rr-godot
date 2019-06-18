@@ -25,6 +25,7 @@ public class GizmoRotate : Gizmo
 
     public override void InputEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx)
     {
+        GD.Print("GIZMO SCALE INPUT EVENT");
         Godot.Camera cam = (Godot.Camera) camera;
         if(shape_idx != 0)
         {

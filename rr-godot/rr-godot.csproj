@@ -54,6 +54,7 @@
     <Compile Include="scenes\Camera.cs" />
     <Compile Include="scenes\DebugDraw.cs" />
     <Compile Include="scenes\Spatial.cs" />
+    <Compile Include="scenes\ToolboxPanelFixed.cs" />
     <Compile Include="scenes\VerticalSplit.cs" />
     <Compile Include="src\viewport\Viewport1.cs" />
     <Compile Include="src\viewport\Viewport2.cs" />

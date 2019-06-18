@@ -11,9 +11,11 @@ public class gizmos : Control
 
     public override void _Ready()
     {
-        // TODO: Find some way to make this dynamic instead of a static path
-        mainCam = GetNode<Godot.Camera>(CamPath);
         
+        // TODO: Find some way to make this dynamic instead of a static path
+        var node = GetNode<Godot.Camera>("/root/main/UI/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1/Viewport/Camera/CameraObj");
+        this.mainCam = node;
+        GD.Print(node.GetPath());
         GD.Print("GIZMOS.CS: READY");
     }
 
