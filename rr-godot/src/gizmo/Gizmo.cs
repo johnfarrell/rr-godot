@@ -228,6 +228,14 @@ public class Gizmo : Spatial
         }
     }
 
+    /// <summary>
+    /// Wrapper for Godot.InputEvent signal from StaticBody nodes.
+    /// </summary>
+    /// <param name="camera">Camera that sent the raycast</param>
+    /// <param name="event">Godot.InputEvent object of the event</param>
+    /// <param name="click_position">Position in worldspace of the click</param>
+    /// <param name="click_normal">Normal on the StaticBody of the click</param>
+    /// <param name="shape_idx">Location of the normal</param>
     public virtual void InputEvent(Node camera, InputEvent @event, Vector3 click_position, Vector3 click_normal, int shape_idx) { }
 
     /// <summary>

@@ -25,6 +25,11 @@ public class LIDAR : Spatial
     {
         
     }
+    /// <summary>
+    /// Creates a LIDAR object to be instantiated on a model by a model parser
+    /// </summary>
+    /// <param name = "minAng", name = "maxAng">minAng and maxAng define the yz limits of the LIDAR's scanning<param>
+    /// <param name = "pos">pos: Vector3 coordinate of the LIDAR sensor</param>
     public LIDAR(double minAng,double maxAng, float resolution,int beamNum,float beamMax,Vector3 pos)
     {
         this._minAng=minAng;
@@ -41,7 +46,7 @@ public class LIDAR : Spatial
             interpolation=false;
         }
         
-        this.SetTranslation(pos);
+        this.Translation = pos;
     }
     
     public override void _Ready()
@@ -50,6 +55,9 @@ public class LIDAR : Spatial
         
     }
 
+    /// <summary>
+    /// Is called by the main process 60x per second, calls the LIDAR detector to collect data, and then resets the LIDAR's oritentation
+    /// </summary>
     public override void _PhysicsProcess(float delta)
     {
         LIDAR_DRIVER();
@@ -59,8 +67,9 @@ public class LIDAR : Spatial
             Cam.Orthonormalize();
         }
     }
-
-    //drives, writes to file, closes file, handles interpolation logic and camera movement control
+    /// <summary>
+    /// Drives the LIDAR process, writes to file, closes file, handles interpolation logic and  LIDAR camera movement control
+    /// </summary>
     public void LIDAR_DRIVER()
     {
         Godot.Collections.Array gridSpace = gridding();
@@ -148,10 +157,10 @@ public class LIDAR : Spatial
         var dir = -GlobalTransform.basis.z;
         
         var ray = (RayCast)GetNode("RayCast");
-        ray.SetCastTo(dir*100);
-        ray.SetEnabled(true);
+        ray.CastTo = dir*100;
+        ray.Enabled = true;
         
-        if(ray.IsEnabled() && ray.IsColliding())
+        if(ray.Enabled && ray.IsColliding())
         {
             return ray.GetCollisionPoint();
 
@@ -163,7 +172,7 @@ public class LIDAR : Spatial
 
     private float distancing(Vector3 collisionLocation)
     {   
-        return this.GetTranslation().DistanceTo(collisionLocation);
+        return this.Translation.DistanceTo(collisionLocation);
     }
 
     //divides the fov of the LIDAR sensor into sectors in order to take the correct number of points as per
@@ -249,6 +258,9 @@ public class LIDAR : Spatial
             resultPCD.StoreLine(xyz.x + " " +xyz.y + " " +xyz.z );
         }
     }
+    /// <summary>
+    /// when LIDAR exits and data is no longer needed the file written to is closed
+    /// </summary>
     public override void _ExitTree()
     {
         resultPCD.Close();

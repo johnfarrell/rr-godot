@@ -32,12 +32,12 @@ public class Cam : Camera
     {
         //hookup to RR will be needed here but does not exist at the present
         //for now we will substitute for a connection to a hardcoded local host, and in the interest of storage, we will store fewer images than optimal
-        this.SetTranslation(pos);
+        this.Translation = pos;
         GD.Print("YeeHaw");
-        GD.Print(this.GetParent().GetParent().GetName());
-        GD.Print(this.GetParent().GetParent().GetParent().GetName());
-        GD.Print(this.GetParent().GetParent().GetParent().GetParent().GetName());
-        GD.Print(this.GetParent().GetParent().GetParent().GetParent().GetParent().GetName());
+        GD.Print(this.GetParent().GetParent().Name);
+        GD.Print(this.GetParent().GetParent().GetParent().Name);
+        GD.Print(this.GetParent().GetParent().GetParent().GetParent().Name);
+        GD.Print(this.GetParent().GetParent().GetParent().GetParent().GetParent().Name);
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -45,12 +45,9 @@ public class Cam : Camera
     {
         if((int)delta%100==0)
         {
-            
             var capture = this.GetViewport().GetTexture().GetData();
             capture.SavePng("c://Users/John Parent/Dropbox/a/img"+delta+".png");
             
         }
-
-
     }
 }

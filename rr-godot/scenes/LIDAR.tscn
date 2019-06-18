@@ -1,6 +1,8 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://theme/LIDAR.cs" type="Script" id=1]
+[ext_resource path="res://src/sensors/LIDAR.cs" type="Script" id=1]
+
+
 
 [node name="LIDAR" type="Spatial"]
 script = ExtResource( 1 )

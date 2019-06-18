@@ -47,41 +47,34 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cam.cs" />
-    <Compile Include="IR.cs" />
-    <Compile Include="scenes\Camera.cs" />
-    <Compile Include="scenes\DebugDraw.cs" />
-    <Compile Include="scenes\Spatial.cs" />
-    <Compile Include="scenes\ToolboxPanelFixed.cs" />
-    <Compile Include="scenes\VerticalSplit.cs" />
-    <Compile Include="src\viewport\Viewport1.cs" />
-    <Compile Include="src\viewport\Viewport2.cs" />
-    <Compile Include="src\viewport\Viewport3.cs" />
-    <Compile Include="src\viewport\Viewport4.cs" />
-    <Compile Include="src\viewport\ViewportLL.cs" />
-    <Compile Include="src\viewport\ViewportLR.cs" />
-    <Compile Include="src\viewport\ViewportUL.cs" />
-    <Compile Include="src\viewport\ViewportUR.cs" />
-    <Compile Include="src\AppWindow.cs" />
-    <Compile Include="src\AxisLineGenerator.cs" />
+    <Compile Include="src\gui\AppWindow.cs" />
+    <Compile Include="src\gui\AxisLineGenerator.cs" />
+    <Compile Include="src\gui\DebugDraw.cs" />
+    <Compile Include="src\gui\EnvironmentTree.cs" />
+    <Compile Include="src\gui\gridGenerator.cs" />
+    <Compile Include="src\gui\MouseEventPassthrough.cs" />
+    <Compile Include="src\gui\TitleBar.cs" />
+    <Compile Include="src\gui\ToolboxPanel.cs" />
+    <Compile Include="src\gui\ToolboxPanelFixed.cs" />
+    <Compile Include="src\gui\viewport\Viewport1.cs" />
+    <Compile Include="src\gui\viewport\Viewport2.cs" />
+    <Compile Include="src\gui\viewport\Viewport3.cs" />
+    <Compile Include="src\gui\viewport\Viewport4.cs" />
+    <Compile Include="src\gui\viewport\ViewportLL.cs" />
+    <Compile Include="src\gui\viewport\ViewportLR.cs" />
+    <Compile Include="src\gui\viewport\ViewportUR.cs" />
+    <Compile Include="src\sensors\Cam.cs" />
+    <Compile Include="src\urdf\UrdfDriver.cs" />
+    <Compile Include="src\urdf\UrdfParser.cs" />
     <Compile Include="src\env.cs" />
-    <Compile Include="src\EnvironmentTree.cs" />
     <Compile Include="src\gizmos.cs" />
     <Compile Include="src\gizmo\Gizmo.cs" />
     <Compile Include="src\gizmo\GizmoRotate.cs" />
     <Compile Include="src\gizmo\GizmoScale.cs" />
     <Compile Include="src\gizmo\GizmoTranslate.cs" />
-    <Compile Include="src\gridGenerator.cs" />
-    <Compile Include="src\TitleBar.cs" />
-    <Compile Include="theme\CamTest1.cs" />
-    <Compile Include="theme\IRTest.cs" />
-    <Compile Include="theme\LIDAR.cs" />
-    <Compile Include="theme\LIDARCAM1.cs" />
-    <Compile Include="theme\StaticBody.cs" />
-    <Compile Include="src\ToolboxPanel.cs" />
-    <Compile Include="src\MouseEventPassthrough.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

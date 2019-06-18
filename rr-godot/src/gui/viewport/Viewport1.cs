@@ -1,18 +1,21 @@
 using Godot;
 using System;
 
-public class Viewport4 : ViewportContainer
+public class Viewport1 : ViewportContainer
 {
     // Declare member variables here. Examples:
     // private int a = 2;
     // private string b = "text";
     private Panel toolbox;
 
-    // Called when the node enters the scene tree for the first time.
+
+    /// <summary>
+    /// Called when the node enters the scene tree for the first time.
+    /// </summary>
     public override void _Ready()
     {
         //UpdateControlBoxPosition();
-        toolbox = GetNode<Panel>("/root/main/UI/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit2/Viewport4/ToolboxPanel/");
+        toolbox = GetNode<Panel>("/root/main/UI/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1/ToolboxPanel/");
         toolbox.Hide();
     }
 
@@ -22,22 +25,29 @@ public class Viewport4 : ViewportContainer
     //     toolboxInToggle();
     // }
 
-    
-    
 
-    public void _on_Viewport4_mouse_exited()
+
+    /// <summary>
+    /// When the mouse exits the borders of this viewport, the toolbox contained in the viewport is hidden.
+    /// </summary>
+    public void _on_Viewport1_mouse_exited()
     {
         if(toolbox.GetLocalMousePosition().x > toolbox.GetEnd().x || toolbox.GetLocalMousePosition().y >toolbox.GetEnd().y)
         {
            
            toolbox.Hide();
         }
+        
+        
     }
 
 
-
-    public void _on_Viewport4_mouse_entered()
+    /// <summary>
+    /// When the mouse enters the borders of the viewport, the toolbox is displayed.
+    /// </summary>
+    public void _on_Viewport1_mouse_entered()
     {
         toolbox.Show();
+                
     }
 }

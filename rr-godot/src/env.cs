@@ -370,7 +370,7 @@ public class env : Spatial
             }
             catch(Exception e)
             {
-                
+                GD.Print(e);
             }
             
 
