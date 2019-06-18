@@ -12,7 +12,7 @@ namespace UrdfParser
         public string name;
         System.Collections.ArrayList joints;
         System.Collections.ArrayList links;
-        System.Collections.ArrayList materials
+        System.Collections.ArrayList materials;
         
     }
 
@@ -29,10 +29,10 @@ namespace UrdfParser
         Node parent;
         Node child;
         Node type;
-        Vector3 axis
-        vector3 origin
-        bool fixed;
-
+        Vector3 axis;
+        Vector3 origin;
+        bool fix;
+        
     }
 
      

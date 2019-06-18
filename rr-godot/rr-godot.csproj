@@ -47,8 +47,11 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Xml"/>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\urdf\UrdfDriver.cs"/>
+    <Compile Include="src\urdf\UrdfParser.cs"/>
     <Compile Include="Cam.cs" />
     <Compile Include="IR.cs" />
     <Compile Include="scenes\Camera.cs" />
