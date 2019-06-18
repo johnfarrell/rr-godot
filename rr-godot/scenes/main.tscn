@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://theme/button_disabled.tres" type="StyleBox" id=1]
 [ext_resource path="res://theme/button_hover.tres" type="StyleBox" id=2]
@@ -8,8 +8,8 @@
 [ext_resource path="res://src/gui/TitleBar.cs" type="Script" id=6]
 [ext_resource path="res://src/gui/AppWindow.cs" type="Script" id=7]
 [ext_resource path="res://src/gui/EnvironmentTree.cs" type="Script" id=8]
-[ext_resource path="res://scenes/4WayViewport.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scenes/env.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/env.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/4WayViewport.tscn" type="PackedScene" id=10]
 [ext_resource path="res://src/gui/MouseEventPassthrough.cs" type="Script" id=11]
 [ext_resource path="res://theme/toolbarPopupMenu.tres" type="Theme" id=12]
 [ext_resource path="res://src/gui/ToolboxPanelFixed.cs" type="Script" id=13]
@@ -29,6 +29,38 @@ bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
+
+[sub_resource type="StyleBoxFlat" id=21]
+bg_color = Color( 0.713726, 0.713726, 0.713726, 1 )
+border_width_left = 1
+border_width_right = 1
+border_color = Color( 0.462745, 0.462745, 0.462745, 1 )
+expand_margin_left = 5.0
+
+[sub_resource type="StyleBoxFlat" id=19]
+content_margin_left = 10.0
+content_margin_right = 5.0
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
+border_width_left = 2
+border_width_top = 1
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.462745, 0.462745, 0.462745, 1 )
+expand_margin_top = 1.0
+expand_margin_bottom = 2.0
+shadow_color = Color( 0.156863, 0.156863, 0.156863, 0.392157 )
+shadow_size = 1
+shadow_offset = Vector2( 1, 1 )
+
+[sub_resource type="StyleBoxFlat" id=20]
+bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
+border_width_top = 1
+border_color = Color( 0.462745, 0.462745, 0.462745, 1 )
+corner_detail = 1
+expand_margin_left = 10.0
+expand_margin_right = 5.0
 
 [sub_resource type="StyleBoxFlat" id=3]
 content_margin_left = 10.0
@@ -273,24 +305,24 @@ OptionButton/styles/normal = null
 OptionButton/styles/pressed = null
 Panel/styles/panel = null
 PanelContainer/styles/panel = null
-PopupMenu/colors/font_color = Color( 0, 0, 0, 1 )
+PopupMenu/colors/font_color = Color( 0.101961, 0.101961, 0.101961, 1 )
 PopupMenu/colors/font_color_accel = Color( 0, 0, 0, 1 )
 PopupMenu/colors/font_color_disabled = Color( 0, 0, 0, 1 )
-PopupMenu/colors/font_color_hover = Color( 0, 0, 0, 1 )
+PopupMenu/colors/font_color_hover = Color( 0.921569, 0.921569, 0.921569, 1 )
 PopupMenu/constants/hseparation = 4
-PopupMenu/constants/vseparation = 4
+PopupMenu/constants/vseparation = 10
 PopupMenu/fonts/font = null
 PopupMenu/icons/checked = null
 PopupMenu/icons/radio_checked = null
 PopupMenu/icons/radio_unchecked = null
 PopupMenu/icons/submenu = null
 PopupMenu/icons/unchecked = null
-PopupMenu/styles/hover = null
+PopupMenu/styles/hover = SubResource( 21 )
 PopupMenu/styles/labeled_separator_left = null
 PopupMenu/styles/labeled_separator_right = null
-PopupMenu/styles/panel = null
+PopupMenu/styles/panel = SubResource( 19 )
 PopupMenu/styles/panel_disabled = null
-PopupMenu/styles/separator = null
+PopupMenu/styles/separator = SubResource( 20 )
 PopupPanel/styles/panel = null
 ProgressBar/colors/font_color = Color( 0, 0, 0, 1 )
 ProgressBar/colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -528,7 +560,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 theme = SubResource( 8 )
 
-[node name="env" parent="." instance=ExtResource( 10 )]
+[node name="env" parent="." instance=ExtResource( 9 )]
 
 [node name="UI" type="Control" parent="."]
 anchor_right = 1.0
@@ -700,7 +732,7 @@ anchor_bottom = 1.0
 mouse_filter = 1
 CamPath = NodePath("../4WayViewport")
 
-[node name="4WayViewport" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 9 )]
+[node name="4WayViewport" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 10 )]
 margin_left = -10.0
 margin_top = -3.0
 margin_right = 1556.0
