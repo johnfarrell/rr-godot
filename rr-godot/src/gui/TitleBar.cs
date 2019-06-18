@@ -8,6 +8,11 @@ public class TitleBar : Control
     MenuButton ViewButton;
     MenuButton HelpButton;
 
+    [Signal]
+    public delegate void PreferencesPressed();
+
+    WindowDialog PreferencesWindow;
+
     private bool Following = false;
     private Vector2 DragStart = new Vector2();
 
@@ -16,21 +21,66 @@ public class TitleBar : Control
     {
         // Set up the menu bar items
         FileButton = GetNode<MenuButton>("MenuBar/btnFile");
+        PopupMenu FileButtonPopup = FileButton.GetPopup();
         EditButton = GetNode<MenuButton>("MenuBar/btnEdit");
+        PopupMenu EditButtonPopup = EditButton.GetPopup();
         ViewButton = GetNode<MenuButton>("MenuBar/btnView");
         HelpButton = GetNode<MenuButton>("MenuBar/btnHelp");
 
         // Populate file
-        FileButton.GetPopup().AddItem("New");
-        FileButton.GetPopup().AddItem("Open");
-        FileButton.GetPopup().AddSeparator();
-        FileButton.GetPopup().AddItem("Save");
-        FileButton.GetPopup().AddItem("Save As");
-        FileButton.GetPopup().AddSeparator();
-        FileButton.GetPopup().AddItem("Exit");
+        FileButtonPopup.AddItem("New");
+        FileButtonPopup.AddItem("Open");
+        FileButtonPopup.AddSeparator();
+        FileButtonPopup.AddItem("Save");
+        FileButtonPopup.AddItem("Save As");
+        FileButtonPopup.AddSeparator();
+        FileButtonPopup.AddItem("Preferences");
+        FileButtonPopup.AddSeparator();
+        FileButtonPopup.AddItem("Exit");
+        FileButtonPopup.Connect("id_pressed", this, "FileButtonPressed");
+
+        PreferencesWindow = GetNode<WindowDialog>("/root/main/UI/PreferencesWindow");
+        // Populate edit
+
+        // Create Insert shape submenu
+        PopupMenu AddShapeMenu = new PopupMenu();
+        AddShapeMenu.Name = "Shape";
+        AddShapeMenu.AddItem("Square");
+        AddShapeMenu.AddItem("Sphere");
+        AddShapeMenu.AddItem("Cylinder");
+        AddShapeMenu.AddItem("Prism");
+        AddShapeMenu.AddItem("Capsule");
+        EditButtonPopup.AddChild(AddShapeMenu);
+
+        EditButtonPopup.AddSubmenuItem("Add Shape", "Shape");
+
         
         this.Connect("gui_input", this, "TitleBarGUIInputHandler");
         GD.Print("TITLEBAR.CS: READY");
+    }
+
+    public void FileButtonPressed(int id)
+    {   
+        GD.Print(id);
+        switch (id)
+        {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 6:
+                PreferencesWindow.Show();
+                EmitSignal("PreferencesPressed");
+                break;
+            case 8:
+                break;
+            default:
+                break;
+        }
     }
 
     /// <summary>

@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=15 format=2]
+[gd_resource type="Theme" load_steps=17 format=2]
 
 [ext_resource path="res://theme/button_disabled.tres" type="StyleBox" id=1]
 [ext_resource path="res://theme/button_hover.tres" type="StyleBox" id=2]
@@ -11,16 +11,20 @@ bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
 
+[sub_resource type="StyleBoxFlat" id=24]
+bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
+
 [sub_resource type="StyleBoxFlat" id=21]
 bg_color = Color( 0.713726, 0.713726, 0.713726, 1 )
 border_width_left = 1
 border_width_right = 1
 border_color = Color( 0.462745, 0.462745, 0.462745, 1 )
 expand_margin_left = 5.0
+expand_margin_right = 25.0
 
 [sub_resource type="StyleBoxFlat" id=19]
 content_margin_left = 10.0
-content_margin_right = 5.0
+content_margin_right = 30.0
 content_margin_top = 5.0
 content_margin_bottom = 5.0
 bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
@@ -41,7 +45,7 @@ border_width_top = 1
 border_color = Color( 0.462745, 0.462745, 0.462745, 1 )
 corner_detail = 1
 expand_margin_left = 10.0
-expand_margin_right = 5.0
+expand_margin_right = 30.0
 
 [sub_resource type="StyleBoxFlat" id=3]
 content_margin_left = 10.0
@@ -77,6 +81,15 @@ shadow_size = 2
 
 [sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
+
+[sub_resource type="StyleBoxFlat" id=22]
+bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
+border_width_top = 25
+border_color = Color( 0.768627, 0.768627, 0.768627, 1 )
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_top = 25.0
+expand_margin_bottom = 5.0
 
 [resource]
 Button/colors/font_color = Color( 0.101961, 0.101961, 0.101961, 1 )
@@ -223,7 +236,7 @@ ItemList/constants/icon_margin = 4
 ItemList/constants/line_separation = 2
 ItemList/constants/vseparation = 2
 ItemList/fonts/font = null
-ItemList/styles/bg = null
+ItemList/styles/bg = SubResource( 24 )
 ItemList/styles/bg_focus = null
 ItemList/styles/cursor = null
 ItemList/styles/cursor_unfocused = null
@@ -494,4 +507,4 @@ WindowDialog/constants/title_height = 20
 WindowDialog/fonts/title_font = null
 WindowDialog/icons/close = null
 WindowDialog/icons/close_highlight = null
-WindowDialog/styles/panel = null
+WindowDialog/styles/panel = SubResource( 22 )

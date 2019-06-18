@@ -1,15 +1,15 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=50 format=2]
 
 [ext_resource path="res://theme/button_disabled.tres" type="StyleBox" id=1]
 [ext_resource path="res://theme/button_hover.tres" type="StyleBox" id=2]
 [ext_resource path="res://theme/button_normal.tres" type="StyleBox" id=3]
 [ext_resource path="res://theme/cb_button_hover.tres" type="StyleBox" id=4]
-[ext_resource path="res://scenes/gizmos.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/env.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/gui/TitleBar.cs" type="Script" id=6]
 [ext_resource path="res://src/gui/AppWindow.cs" type="Script" id=7]
 [ext_resource path="res://src/gui/EnvironmentTree.cs" type="Script" id=8]
-[ext_resource path="res://scenes/env.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scenes/4WayViewport.tscn" type="PackedScene" id=10]
+[ext_resource path="res://src/gui/PreferencesWindow.cs" type="Script" id=9]
+[ext_resource path="res://scenes/gizmos.tscn" type="PackedScene" id=10]
 [ext_resource path="res://src/gui/MouseEventPassthrough.cs" type="Script" id=11]
 [ext_resource path="res://theme/toolbarPopupMenu.tres" type="Theme" id=12]
 [ext_resource path="res://src/gui/ToolboxPanelFixed.cs" type="Script" id=13]
@@ -23,11 +23,15 @@
 [ext_resource path="res://theme/image/gizmo_menu_buttons/gizmo_scale_hover.png" type="Texture" id=21]
 [ext_resource path="res://theme/image/gizmo_menu_buttons/gizmo_scale_active.png" type="Texture" id=22]
 [ext_resource path="res://theme/image/gizmo_menu_buttons/gizmo_scale_icon.png" type="Texture" id=23]
+[ext_resource path="res://scenes/4WayViewport.tscn" type="PackedScene" id=24]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
 
 [sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
+
+[sub_resource type="StyleBoxFlat" id=24]
 bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
 
 [sub_resource type="StyleBoxFlat" id=21]
@@ -36,10 +40,11 @@ border_width_left = 1
 border_width_right = 1
 border_color = Color( 0.462745, 0.462745, 0.462745, 1 )
 expand_margin_left = 5.0
+expand_margin_right = 25.0
 
 [sub_resource type="StyleBoxFlat" id=19]
 content_margin_left = 10.0
-content_margin_right = 5.0
+content_margin_right = 30.0
 content_margin_top = 5.0
 content_margin_bottom = 5.0
 bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
@@ -60,7 +65,7 @@ border_width_top = 1
 border_color = Color( 0.462745, 0.462745, 0.462745, 1 )
 corner_detail = 1
 expand_margin_left = 10.0
-expand_margin_right = 5.0
+expand_margin_right = 30.0
 
 [sub_resource type="StyleBoxFlat" id=3]
 content_margin_left = 10.0
@@ -96,6 +101,15 @@ shadow_size = 2
 
 [sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
+
+[sub_resource type="StyleBoxFlat" id=22]
+bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
+border_width_top = 25
+border_color = Color( 0.768627, 0.768627, 0.768627, 1 )
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_top = 25.0
+expand_margin_bottom = 5.0
 
 [sub_resource type="Theme" id=8]
 Button/colors/font_color = Color( 0.101961, 0.101961, 0.101961, 1 )
@@ -242,7 +256,7 @@ ItemList/constants/icon_margin = 4
 ItemList/constants/line_separation = 2
 ItemList/constants/vseparation = 2
 ItemList/fonts/font = null
-ItemList/styles/bg = null
+ItemList/styles/bg = SubResource( 24 )
 ItemList/styles/bg_focus = null
 ItemList/styles/cursor = null
 ItemList/styles/cursor_unfocused = null
@@ -513,7 +527,7 @@ WindowDialog/constants/title_height = 20
 WindowDialog/fonts/title_font = null
 WindowDialog/icons/close = null
 WindowDialog/icons/close_highlight = null
-WindowDialog/styles/panel = null
+WindowDialog/styles/panel = SubResource( 22 )
 
 [sub_resource type="StyleBoxFlat" id=9]
 bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
@@ -554,13 +568,19 @@ region_rect = Rect2( 0, 0, 40, 40 )
 texture = ExtResource( 23 )
 region_rect = Rect2( 0, 0, 40, 40 )
 
+[sub_resource type="StyleBoxFlat" id=25]
+bg_color = Color( 0, 0, 0, 0.588235 )
+
+[sub_resource type="StyleBoxFlat" id=23]
+bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
+
 [node name="main" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 theme = SubResource( 8 )
 
-[node name="env" parent="." instance=ExtResource( 9 )]
+[node name="env" parent="." instance=ExtResource( 5 )]
 
 [node name="UI" type="Control" parent="."]
 anchor_right = 1.0
@@ -582,7 +602,7 @@ script = ExtResource( 6 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-color = Color( 0.462745, 0.462745, 0.462745, 1 )
+color = Color( 0.768627, 0.768627, 0.768627, 1 )
 
 [node name="TitleButtons" type="HBoxContainer" parent="UI/TitleBar"]
 anchor_left = 1.0
@@ -597,6 +617,7 @@ margin_bottom = 30.0
 rect_min_size = Vector2( 40, 0 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "-"
+flat = true
 
 [node name="MaximizeButton" type="Button" parent="UI/TitleBar/TitleButtons"]
 margin_left = 44.0
@@ -605,6 +626,7 @@ margin_bottom = 30.0
 rect_min_size = Vector2( 40, 0 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "O"
+flat = true
 
 [node name="QuitButton" type="Button" parent="UI/TitleBar/TitleButtons"]
 margin_left = 88.0
@@ -613,6 +635,7 @@ margin_bottom = 30.0
 rect_min_size = Vector2( 40, 0 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "X"
+flat = true
 
 [node name="TitleText" type="Label" parent="UI/TitleBar"]
 anchor_left = 0.5
@@ -636,7 +659,6 @@ margin_right = 50.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 50, 30 )
 text = "File"
-flat = false
 switch_on_hover = true
 
 [node name="btnEdit" type="MenuButton" parent="UI/TitleBar/MenuBar"]
@@ -645,7 +667,6 @@ margin_right = 104.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 50, 30 )
 text = "Edit"
-flat = false
 switch_on_hover = true
 
 [node name="btnView" type="MenuButton" parent="UI/TitleBar/MenuBar"]
@@ -654,7 +675,6 @@ margin_right = 158.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 50, 30 )
 text = "View"
-flat = false
 switch_on_hover = true
 
 [node name="btnHelp" type="MenuButton" parent="UI/TitleBar/MenuBar"]
@@ -663,7 +683,6 @@ margin_right = 212.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 50, 30 )
 text = "Help"
-flat = false
 switch_on_hover = true
 
 [node name="AppWindow" type="HSplitContainer" parent="UI"]
@@ -726,13 +745,13 @@ mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="gizmos" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 5 )]
+[node name="gizmos" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 10 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 1
 CamPath = NodePath("../4WayViewport")
 
-[node name="4WayViewport" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 10 )]
+[node name="4WayViewport" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 24 )]
 margin_left = -10.0
 margin_top = -3.0
 margin_right = 1556.0
@@ -809,6 +828,56 @@ custom_styles/pressed = SubResource( 17 )
 custom_styles/normal = SubResource( 18 )
 toggle_mode = true
 enabled_focus_mode = 0
+
+[node name="ShadowBox" type="Panel" parent="UI"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 25 )
+
+[node name="PreferencesWindow" type="WindowDialog" parent="UI"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -250.0
+margin_top = -150.0
+margin_right = 250.0
+margin_bottom = 150.0
+window_title = "Preferences"
+resizable = true
+script = ExtResource( 9 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/PreferencesWindow"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 5.0
+
+[node name="HSplitContainer" type="HSplitContainer" parent="UI/PreferencesWindow/VBoxContainer"]
+margin_right = 500.0
+margin_bottom = 263.0
+size_flags_vertical = 3
+custom_constants/separation = 5
+
+[node name="ItemList" type="ItemList" parent="UI/PreferencesWindow/VBoxContainer/HSplitContainer"]
+margin_right = 100.0
+margin_bottom = 263.0
+rect_min_size = Vector2( 100, 0 )
+
+[node name="Panel" type="Panel" parent="UI/PreferencesWindow/VBoxContainer/HSplitContainer"]
+margin_left = 108.0
+margin_right = 500.0
+margin_bottom = 263.0
+custom_styles/panel = SubResource( 23 )
+
+[node name="CloseButton" type="Button" parent="UI/PreferencesWindow/VBoxContainer"]
+margin_left = 232.0
+margin_top = 273.0
+margin_right = 267.0
+margin_bottom = 295.0
+size_flags_horizontal = 4
+text = "Close"
+flat = true
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/MinimizeButton" to="UI/TitleBar" method="MinimizeButtonPressedHandler"]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/MaximizeButton" to="UI/TitleBar" method="MaximizeButtonPressedHandler"]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/QuitButton" to="UI/TitleBar" method="QuitButtonPressedHandler"]
