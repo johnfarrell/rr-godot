@@ -1,16 +1,17 @@
 [gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://theme/rr-godot-theme.tres" type="Theme" id=1]
-[ext_resource path="res://src/viewport/Viewport1.cs" type="Script" id=2]
-[ext_resource path="res://src/viewport/ViewportUR.cs" type="Script" id=3]
+[ext_resource path="res://src/gui/viewport/Viewport1.cs" type="Script" id=2]
+[ext_resource path="res://src/gui/viewport/ViewportUR.cs" type="Script" id=3]
 [ext_resource path="res://scenes/camera.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/gui/ToolboxPanel.cs" type="Script" id=5]
 [ext_resource path="res://src/gui/DebugDraw.cs" type="Script" id=6]
-[ext_resource path="res://src/viewport/Viewport2.cs" type="Script" id=7]
-[ext_resource path="res://src/viewport/Viewport3.cs" type="Script" id=8]
-[ext_resource path="res://src/viewport/ViewportLL.cs" type="Script" id=9]
-[ext_resource path="res://src/viewport/Viewport4.cs" type="Script" id=10]
-[ext_resource path="res://src/viewport/ViewportLR.cs" type="Script" id=11]
+[ext_resource path="res://src/gui/viewport/Viewport2.cs" type="Script" id=7]
+[ext_resource path="res://src/gui/viewport/Viewport3.cs" type="Script" id=8]
+[ext_resource path="res://src/gui/viewport/ViewportLL.cs" type="Script" id=9]
+[ext_resource path="res://src/gui/viewport/Viewport4.cs" type="Script" id=10]
+[ext_resource path="res://src/gui/viewport/ViewportLR.cs" type="Script" id=11]
+
 
 
 

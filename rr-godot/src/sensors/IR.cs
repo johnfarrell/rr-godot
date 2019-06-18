@@ -10,6 +10,8 @@ public class IR : Camera
     float fov = 0.10F;
     Array distances;
 
+    
+
     float maxDist;
     float minDist;
     string connection;

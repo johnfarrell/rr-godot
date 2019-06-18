@@ -45,12 +45,9 @@ public class Cam : Camera
     {
         if((int)delta%100==0)
         {
-            
             var capture = this.GetViewport().GetTexture().GetData();
             capture.SavePng("c://Users/John Parent/Dropbox/a/img"+delta+".png");
             
         }
-
-
     }
 }

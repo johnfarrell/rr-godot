@@ -8,8 +8,8 @@
 [ext_resource path="res://src/gui/TitleBar.cs" type="Script" id=6]
 [ext_resource path="res://src/gui/AppWindow.cs" type="Script" id=7]
 [ext_resource path="res://src/gui/EnvironmentTree.cs" type="Script" id=8]
-[ext_resource path="res://scenes/env.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scenes/4WayViewport.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/4WayViewport.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/env.tscn" type="PackedScene" id=10]
 [ext_resource path="res://src/gui/MouseEventPassthrough.cs" type="Script" id=11]
 [ext_resource path="res://theme/toolbarPopupMenu.tres" type="Theme" id=12]
 [ext_resource path="res://src/gui/ToolboxPanelFixed.cs" type="Script" id=13]
@@ -528,7 +528,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 theme = SubResource( 8 )
 
-[node name="env" parent="." instance=ExtResource( 9 )]
+[node name="env" parent="." instance=ExtResource( 10 )]
 
 [node name="UI" type="Control" parent="."]
 anchor_right = 1.0
@@ -700,7 +700,7 @@ anchor_bottom = 1.0
 mouse_filter = 1
 CamPath = NodePath("../4WayViewport")
 
-[node name="4WayViewport" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 10 )]
+[node name="4WayViewport" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 9 )]
 margin_left = -10.0
 margin_top = -3.0
 margin_right = 1556.0

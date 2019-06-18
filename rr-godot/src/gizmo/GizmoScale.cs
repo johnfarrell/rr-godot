@@ -10,6 +10,10 @@ public class GizmoScale : Gizmo
         GD.Print("GIZMOSCALE.CS: READY");
     }
 
+    /// <summary>
+    /// Handler for when the Translate gizmo is selected. Disables this gizmo
+    /// </summary>
+    /// <param name="trans">Whether or not to disable the gizmo</param>
     public void TurnOffOnTrans(bool trans)
     {
         if(trans)
