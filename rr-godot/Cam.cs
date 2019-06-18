@@ -27,20 +27,16 @@ public class Cam : Camera
     }
 
 
-    // Called when the node enters the scene tree for the first time.
+    /// Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         //hookup to RR will be needed here but does not exist at the present
         //for now we will substitute for a connection to a hardcoded local host, and in the interest of storage, we will store fewer images than optimal
         this.SetTranslation(pos);
-        GD.Print("YeeHaw");
-        GD.Print(this.GetParent().GetParent().GetName());
-        GD.Print(this.GetParent().GetParent().GetParent().GetName());
-        GD.Print(this.GetParent().GetParent().GetParent().GetParent().GetName());
-        GD.Print(this.GetParent().GetParent().GetParent().GetParent().GetParent().GetName());
+        
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    /// Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(float delta)
     {
         if((int)delta%100==0)

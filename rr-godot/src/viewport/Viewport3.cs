@@ -9,7 +9,9 @@ public class Viewport3 : ViewportContainer
     private Panel toolbox;
     
 
-    // Called when the node enters the scene tree for the first time.
+    /// <summary>
+    /// Called when the node enters the scene tree for the first time.
+    /// </summary>
     public override void _Ready()
     {
         //UpdateControlBoxPosition();
@@ -26,7 +28,9 @@ public class Viewport3 : ViewportContainer
 
     
 
-
+    /// <summary>
+    /// When the mouse exits the borders of this viewport, the toolbox contained in the viewport is hidden.
+    /// </summary>
     public void _on_Viewport3_mouse_exited()
     {
         if(toolbox.GetLocalMousePosition().x > toolbox.GetEnd().x || toolbox.GetLocalMousePosition().y >toolbox.GetEnd().y)
@@ -37,7 +41,9 @@ public class Viewport3 : ViewportContainer
     }
 
 
-
+    /// <summary>
+    /// When the mouse enters the borders of the viewport, the toolbox is displayed.
+    /// </summary>
     public void _on_Viewport3_mouse_entered()
     {
         toolbox.Show();

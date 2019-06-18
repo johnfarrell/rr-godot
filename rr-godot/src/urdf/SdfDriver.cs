@@ -1,15 +1,15 @@
 using Godot;
 using System;
-using UrdfParser;
+using SdfParser;
 using System.Xml;
 
-namespace UrdfDriver
+namespace SdfDriver
 {
-    public class UrdfDriver
+    public class SdfDriver
     {
     
         XMLParser p;
-        UrdfDriver()
+        SdfDriver()
         {
             
         }

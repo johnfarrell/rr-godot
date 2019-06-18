@@ -51,9 +51,12 @@ public class IR : Camera
     //     this.SetCurrent(false);
     // }
 
+    /// <summary>
+    /// Called 60x per second by main, sends out raycast to simulate IR sensor,
+    /// Collects and writes data
+    /// </summary>
     public override void _PhysicsProcess(float delta)
     {
-        GD.Print(delta);
         saveData.Open("c://Users/John Parent/Dropbox/a/saveData.json", (int)File.ModeFlags.Write);
         var dir = -GlobalTransform.basis.z;
         
@@ -78,6 +81,9 @@ public class IR : Camera
         saveData.Close();
         ray.SetEnabled(false);
     }
+    /// <summary>
+    /// Turns off raycaster when sensor data is no longer needed
+    /// </summary>
     public override void _ExitTree()
     {
         var ray = (RayCast)GetNode("RayCast");
