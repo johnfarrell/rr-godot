@@ -7,6 +7,7 @@ public class DebugDraw : Control
     // Declare member variables here. Examples:
     // private int a = 2;
     // private string b = "text";
+
     public enum DebugDrawType
     {
         Disable = 0, Unshaded = 1, Overdraw = 2, Wireframe = 3
@@ -25,7 +26,12 @@ public class DebugDraw : Control
         
     }
 
-
+    ///<summary>
+    ///Sets the viewport's debug draw to the type specified by the button press id
+    ///passed by the button connection signal. 
+    ///</summary>
+    ///<param name = "id">The DebugDrawEmun value for the debugdraw type associated with the toolbar button</param>
+    ///
     private void toolbarChangeRendTypePressed(int id)
     {
         currentDrawType = (DebugDrawType) id;
@@ -66,7 +72,12 @@ public class DebugDraw : Control
 //  {
 //      
 //  }
-
+    /// <summary>
+    /// Sets the viewport's camera to the perspective specified by the button press id
+    /// passed by the button connection signal. 
+    /// </summary>
+    /// <param name = "id">The PerspectiveTypeEmun value for the camera perspective associated with the toolbar button</param>
+    ///
     private void toolbarChangePerspective(int id)
     {
         currentPerspective = (PerspectiveType) id;

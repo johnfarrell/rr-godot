@@ -2,9 +2,9 @@
 using System;
 using System.Xml;
 
-//This namespace contains .urdf defined elements that can be imported into Godot
-//each object can be instantiated and called to create an object in Godot based on .urdf specs
-namespace UrdfParser
+//This namespace contains .sdf defined elements that can be imported into Godot
+//each object can be instantiated and called to create an object in Godot based on .sdf specs
+namespace SdfParser
 {
     
     public class Robot
