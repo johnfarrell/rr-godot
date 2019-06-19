@@ -273,25 +273,24 @@ CamPath = NodePath("../4WayViewport")
 [node name="4WayViewport" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 9 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = 55.0
 script = ExtResource( 11 )
 
-[node name="ToolboxPanelFixed" type="Panel" parent="UI/AppWindow/EnvironmentContainer/4WayViewport"]
-margin_left = 418.0
-margin_top = 3.0
+[node name="ToolboxPanelFixed" type="Panel" parent="UI/AppWindow/EnvironmentContainer"]
 margin_right = 763.0
-margin_bottom = 54.0
+margin_bottom = 55.0
 theme = ExtResource( 12 )
 custom_styles/panel = SubResource( 9 )
 script = ExtResource( 13 )
 
-[node name="ToolboxContainer" type="HBoxContainer" parent="UI/AppWindow/EnvironmentContainer/4WayViewport/ToolboxPanelFixed"]
+[node name="ToolboxContainer" type="HBoxContainer" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed"]
 margin_left = 5.0
 margin_top = 5.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 alignment = 1
 
-[node name="AddMeshMenuButton" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/4WayViewport/ToolboxPanelFixed/ToolboxContainer"]
+[node name="AddMeshMenuButton" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer"]
 margin_right = 41.0
 margin_bottom = 49.0
 rect_min_size = Vector2( 40, 40 )
@@ -301,7 +300,7 @@ size_flags_vertical = 0
 custom_styles/hover = ExtResource( 4 )
 icon = ExtResource( 14 )
 
-[node name="ModeTranslate" type="Button" parent="UI/AppWindow/EnvironmentContainer/4WayViewport/ToolboxPanelFixed/ToolboxContainer"]
+[node name="ModeTranslate" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer"]
 margin_left = 45.0
 margin_right = 85.0
 margin_bottom = 40.0
@@ -316,7 +315,7 @@ custom_styles/normal = SubResource( 12 )
 toggle_mode = true
 enabled_focus_mode = 0
 
-[node name="ModeRotate" type="Button" parent="UI/AppWindow/EnvironmentContainer/4WayViewport/ToolboxPanelFixed/ToolboxContainer"]
+[node name="ModeRotate" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer"]
 margin_left = 89.0
 margin_right = 129.0
 margin_bottom = 40.0
@@ -331,7 +330,7 @@ custom_styles/normal = SubResource( 15 )
 toggle_mode = true
 enabled_focus_mode = 0
 
-[node name="ModeScale" type="Button" parent="UI/AppWindow/EnvironmentContainer/4WayViewport/ToolboxPanelFixed/ToolboxContainer"]
+[node name="ModeScale" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer"]
 margin_left = 133.0
 margin_right = 173.0
 margin_bottom = 40.0
@@ -353,11 +352,10 @@ anchor_bottom = 1.0
 custom_styles/panel = SubResource( 25 )
 
 [node name="PreferencesWindow" parent="UI" instance=ExtResource( 24 )]
-visible = false
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/MinimizeButton" to="UI/TitleBar" method="MinimizeButtonPressedHandler"]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/MaximizeButton" to="UI/TitleBar" method="MaximizeButtonPressedHandler"]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/QuitButton" to="UI/TitleBar" method="QuitButtonPressedHandler"]
 [connection signal="mouse_entered" from="UI/AppWindow/LeftMenu" to="env" method="OnEnvContainerMouseExit"]
 [connection signal="mouse_exited" from="UI/AppWindow/LeftMenu" to="env" method="OnEnvContainerMouseEntered"]
-[connection signal="mouse_entered" from="UI/AppWindow/EnvironmentContainer/4WayViewport/ToolboxPanelFixed" to="env" method="OnEnvContainerMouseExit"]
-[connection signal="mouse_exited" from="UI/AppWindow/EnvironmentContainer/4WayViewport/ToolboxPanelFixed" to="env" method="OnEnvContainerMouseEntered"]
+[connection signal="mouse_entered" from="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed" to="env" method="OnEnvContainerMouseExit"]
+[connection signal="mouse_exited" from="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed" to="env" method="OnEnvContainerMouseEntered"]

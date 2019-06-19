@@ -33,7 +33,7 @@ public class AppWindow : HSplitContainer
     private void UpdateControlBoxPosition()
     {
 
-        Panel cbNode = GetNode<Panel>("/root/main/UI/AppWindow/EnvironmentContainer/4WayViewport/ToolboxPanelFixed");
+        Panel cbNode = GetNode<Panel>("/root/main/UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed");
         Control envContainer = cbNode.GetParent<Control>();
 
         Vector2 ButtonRowSize = cbNode.GetNode<HBoxContainer>("ToolboxContainer").RectSize;
