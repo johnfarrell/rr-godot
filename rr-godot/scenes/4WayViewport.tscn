@@ -12,10 +12,6 @@
 [ext_resource path="res://src/gui/viewport/Viewport4.cs" type="Script" id=10]
 [ext_resource path="res://src/gui/viewport/ViewportLR.cs" type="Script" id=11]
 
-
-
-
-
 [sub_resource type="StyleBoxFlat" id=1]
 
 [node name="4WayViewport" type="Control"]
@@ -51,7 +47,7 @@ script = ExtResource( 3 )
 [node name="Camera" parent="VerticalSplit/HSplit1/Viewport1/Viewport" instance=ExtResource( 4 )]
 
 [node name="ToolboxPanel" type="Panel" parent="VerticalSplit/HSplit1/Viewport1"]
-editor/display_folded = true
+margin_top = 10.0
 margin_right = 125.0
 margin_bottom = 55.0
 grow_horizontal = 0
@@ -96,7 +92,6 @@ script = ExtResource( 3 )
 [node name="Camera" parent="VerticalSplit/HSplit1/Viewport2/Viewport" instance=ExtResource( 4 )]
 
 [node name="ToolboxPanel" type="Panel" parent="VerticalSplit/HSplit1/Viewport2"]
-editor/display_folded = true
 margin_left = -12.0
 margin_right = 113.0
 margin_bottom = 55.0
