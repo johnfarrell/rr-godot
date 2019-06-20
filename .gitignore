@@ -5,6 +5,8 @@ rr-godot/export_presets.cfg
 rr-godot/.mono/
 rr-godot/mono_crash*
 
+rr-godot/.vscode
+
 *.xcf
 
 *.odt
