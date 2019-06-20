@@ -1,13 +1,17 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/gui/PreferencesWindow.cs" type="Script" id=1]
+[ext_resource path="res://scenes/PluginPreferences.tscn" type="PackedScene" id=2]
 [ext_resource path="res://theme/new_theme.tres" type="Theme" id=3]
 
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
-
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.882353, 0.882353, 0.882353, 1 )
+bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.105882, 0.105882, 0.105882, 0.392157 )
+border_blend = true
 
 [node name="PreferencesWindow" type="WindowDialog"]
 visible = true
@@ -34,7 +38,7 @@ margin_right = 500.0
 margin_bottom = 263.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 2 )
+custom_styles/panel = SubResource( 1 )
 
 [node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/Panel"]
 anchor_right = 1.0
@@ -51,13 +55,8 @@ margin_right = 100.0
 margin_bottom = 253.0
 rect_min_size = Vector2( 100, 0 )
 theme = ExtResource( 3 )
-items = [ "Item 0", null, false, "Item 1", null, false ]
 
-[node name="Panel" type="Panel" parent="VBoxContainer/Panel/HSplitContainer"]
-margin_left = 108.0
-margin_right = 490.0
-margin_bottom = 253.0
-custom_styles/panel = SubResource( 1 )
+[node name="Panel" parent="VBoxContainer/Panel/HSplitContainer" instance=ExtResource( 2 )]
 
 [node name="CloseButton" type="Button" parent="VBoxContainer"]
 margin_left = 232.0

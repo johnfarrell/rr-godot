@@ -1,13 +1,14 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://theme/new_theme.tres" type="Theme" id=1]
+[ext_resource path="res://scenes/gizmos.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/4WayViewport.tscn" type="PackedScene" id=3]
 [ext_resource path="res://theme/cb_button_hover.tres" type="StyleBox" id=4]
-[ext_resource path="res://scenes/env.tscn" type="PackedScene" id=5]
+[ext_resource path="res://PreferencesWindow.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/gui/TitleBar.cs" type="Script" id=6]
 [ext_resource path="res://src/gui/AppWindow.cs" type="Script" id=7]
 [ext_resource path="res://src/gui/EnvironmentTree.cs" type="Script" id=8]
-[ext_resource path="res://scenes/4WayViewport.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scenes/gizmos.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/env.tscn" type="PackedScene" id=9]
 [ext_resource path="res://src/gui/MouseEventPassthrough.cs" type="Script" id=11]
 [ext_resource path="res://theme/toolbarPopupMenu.tres" type="Theme" id=12]
 [ext_resource path="res://src/gui/ToolboxPanelFixed.cs" type="Script" id=13]
@@ -21,57 +22,53 @@
 [ext_resource path="res://theme/image/gizmo_menu_buttons/gizmo_scale_hover.png" type="Texture" id=21]
 [ext_resource path="res://theme/image/gizmo_menu_buttons/gizmo_scale_active.png" type="Texture" id=22]
 [ext_resource path="res://theme/image/gizmo_menu_buttons/gizmo_scale_icon.png" type="Texture" id=23]
-[ext_resource path="res://PreferencesWindow.tscn" type="PackedScene" id=24]
 
-[sub_resource type="StyleBoxFlat" id=27]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.921569, 0.921569, 0.921569, 1 )
 
-[sub_resource type="StyleBoxFlat" id=26]
-bg_color = Color( 0.6, 0.6, 0.6, 0 )
-
-[sub_resource type="StyleBoxFlat" id=28]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
 
-[sub_resource type="StyleBoxTexture" id=10]
+[sub_resource type="StyleBoxTexture" id=5]
 texture = ExtResource( 15 )
 region_rect = Rect2( 0, 0, 40, 40 )
 
-[sub_resource type="StyleBoxTexture" id=11]
+[sub_resource type="StyleBoxTexture" id=6]
 texture = ExtResource( 16 )
 region_rect = Rect2( 0, 0, 40, 40 )
 
-[sub_resource type="StyleBoxTexture" id=12]
+[sub_resource type="StyleBoxTexture" id=7]
 texture = ExtResource( 17 )
 region_rect = Rect2( 0, 0, 40, 40 )
 
-[sub_resource type="StyleBoxTexture" id=13]
+[sub_resource type="StyleBoxTexture" id=8]
 texture = ExtResource( 18 )
 region_rect = Rect2( 0, 0, 40, 40 )
 
-[sub_resource type="StyleBoxTexture" id=14]
+[sub_resource type="StyleBoxTexture" id=9]
 texture = ExtResource( 19 )
 region_rect = Rect2( 0, 0, 40, 40 )
 
-[sub_resource type="StyleBoxTexture" id=15]
+[sub_resource type="StyleBoxTexture" id=10]
 texture = ExtResource( 20 )
 region_rect = Rect2( 0, 0, 40, 40 )
 
-[sub_resource type="StyleBoxTexture" id=16]
+[sub_resource type="StyleBoxTexture" id=11]
 texture = ExtResource( 21 )
 region_rect = Rect2( 0, 0, 40, 40 )
 
-[sub_resource type="StyleBoxTexture" id=17]
+[sub_resource type="StyleBoxTexture" id=12]
 texture = ExtResource( 22 )
 region_rect = Rect2( 0, 0, 40, 40 )
 
-[sub_resource type="StyleBoxTexture" id=18]
+[sub_resource type="StyleBoxTexture" id=13]
 texture = ExtResource( 23 )
 region_rect = Rect2( 0, 0, 40, 40 )
 
-[sub_resource type="StyleBoxFlat" id=25]
+[sub_resource type="StyleBoxFlat" id=14]
 bg_color = Color( 0, 0, 0, 0.588235 )
 
 [node name="main" type="Control"]
@@ -80,7 +77,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 theme = ExtResource( 1 )
 
-[node name="env" parent="." instance=ExtResource( 5 )]
+[node name="env" parent="." instance=ExtResource( 9 )]
 
 [node name="UI" type="Control" parent="."]
 anchor_right = 1.0
@@ -94,7 +91,7 @@ size_flags_vertical = 3
 [node name="Background" type="Panel" parent="UI"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 27 )
+custom_styles/panel = SubResource( 1 )
 
 [node name="TitleBar" type="Control" parent="UI"]
 anchor_right = 1.0
@@ -217,13 +214,6 @@ rect_min_size = Vector2( 250, 0 )
 size_flags_vertical = 5
 custom_constants/separation = 10
 
-[node name="HSeparator" type="HSeparator" parent="UI/AppWindow/LeftMenu"]
-visible = false
-margin_right = 350.0
-margin_bottom = 4.0
-mouse_filter = 2
-custom_styles/separator = SubResource( 26 )
-
 [node name="TreeContainer" type="TabContainer" parent="UI/AppWindow/LeftMenu"]
 margin_right = 350.0
 margin_bottom = 1030.0
@@ -262,15 +252,15 @@ mouse_filter = 2
 [node name="Panel" type="Panel" parent="UI/AppWindow/EnvironmentContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 28 )
+custom_styles/panel = SubResource( 3 )
 
-[node name="gizmos" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 10 )]
+[node name="gizmos" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 2 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 1
 CamPath = NodePath("../4WayViewport")
 
-[node name="4WayViewport" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 9 )]
+[node name="4WayViewport" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 3 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 55.0
@@ -280,7 +270,7 @@ script = ExtResource( 11 )
 margin_right = 763.0
 margin_bottom = 55.0
 theme = ExtResource( 12 )
-custom_styles/panel = SubResource( 9 )
+custom_styles/panel = SubResource( 4 )
 script = ExtResource( 13 )
 
 [node name="ToolboxContainer" type="HBoxContainer" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed"]
@@ -309,9 +299,9 @@ focus_mode = 0
 mouse_filter = 1
 size_flags_horizontal = 2
 size_flags_vertical = 0
-custom_styles/hover = SubResource( 10 )
-custom_styles/pressed = SubResource( 11 )
-custom_styles/normal = SubResource( 12 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/normal = SubResource( 7 )
 toggle_mode = true
 enabled_focus_mode = 0
 
@@ -324,9 +314,9 @@ focus_mode = 0
 mouse_filter = 1
 size_flags_horizontal = 2
 size_flags_vertical = 0
-custom_styles/hover = SubResource( 13 )
-custom_styles/pressed = SubResource( 14 )
-custom_styles/normal = SubResource( 15 )
+custom_styles/hover = SubResource( 8 )
+custom_styles/pressed = SubResource( 9 )
+custom_styles/normal = SubResource( 10 )
 toggle_mode = true
 enabled_focus_mode = 0
 
@@ -339,9 +329,9 @@ focus_mode = 0
 mouse_filter = 1
 size_flags_horizontal = 2
 size_flags_vertical = 0
-custom_styles/hover = SubResource( 16 )
-custom_styles/pressed = SubResource( 17 )
-custom_styles/normal = SubResource( 18 )
+custom_styles/hover = SubResource( 11 )
+custom_styles/pressed = SubResource( 12 )
+custom_styles/normal = SubResource( 13 )
 toggle_mode = true
 enabled_focus_mode = 0
 
@@ -349,9 +339,9 @@ enabled_focus_mode = 0
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 25 )
+custom_styles/panel = SubResource( 14 )
 
-[node name="PreferencesWindow" parent="UI" instance=ExtResource( 24 )]
+[node name="PreferencesWindow" parent="UI" instance=ExtResource( 5 )]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/MinimizeButton" to="UI/TitleBar" method="MinimizeButtonPressedHandler"]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/MaximizeButton" to="UI/TitleBar" method="MaximizeButtonPressedHandler"]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/QuitButton" to="UI/TitleBar" method="QuitButtonPressedHandler"]

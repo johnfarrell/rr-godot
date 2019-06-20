@@ -11,14 +11,20 @@ bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.921569, 0.921569, 0.921569, 1 )
 
-[sub_resource type="StyleBoxFlat" id=24]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.882353, 0.882353, 0.882353, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.105882, 0.105882, 0.105882, 0.392157 )
+border_blend = true
 
-[sub_resource type="StyleBoxFlat" id=26]
+[sub_resource type="StyleBoxFlat" id=4]
 content_margin_left = 5.0
 bg_color = Color( 0.768627, 0.768627, 0.768627, 0.392157 )
 
-[sub_resource type="StyleBoxFlat" id=21]
+[sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.713726, 0.713726, 0.713726, 1 )
 border_width_left = 1
 border_width_right = 1
@@ -26,7 +32,7 @@ border_color = Color( 0.462745, 0.462745, 0.462745, 1 )
 expand_margin_left = 5.0
 expand_margin_right = 25.0
 
-[sub_resource type="StyleBoxFlat" id=19]
+[sub_resource type="StyleBoxFlat" id=6]
 content_margin_left = 10.0
 content_margin_right = 30.0
 content_margin_top = 5.0
@@ -43,7 +49,7 @@ shadow_color = Color( 0.156863, 0.156863, 0.156863, 0.392157 )
 shadow_size = 1
 shadow_offset = Vector2( 1, 1 )
 
-[sub_resource type="StyleBoxFlat" id=20]
+[sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
 border_width_top = 1
 border_color = Color( 0.462745, 0.462745, 0.462745, 1 )
@@ -51,40 +57,57 @@ corner_detail = 1
 expand_margin_left = 10.0
 expand_margin_right = 30.0
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=8]
 content_margin_left = 10.0
 content_margin_right = 10.0
 content_margin_top = 10.0
 content_margin_bottom = 10.0
 bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.105882, 0.105882, 0.105882, 0.392157 )
+border_blend = true
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=9]
 content_margin_left = 5.0
 content_margin_right = 5.0
 content_margin_top = 5.0
 content_margin_bottom = 3.0
 bg_color = Color( 0.631373, 0.631373, 0.631373, 1 )
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=10]
 content_margin_left = 5.0
 content_margin_right = 5.0
 content_margin_top = 5.0
 content_margin_bottom = 3.0
 bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=11]
 content_margin_left = 10.0
 content_margin_right = 10.0
 content_margin_top = 7.0
 content_margin_bottom = 3.0
 bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
-border_color = Color( 0.921569, 0.921569, 0.921569, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_color = Color( 0.105882, 0.105882, 0.105882, 0.392157 )
+border_blend = true
 expand_margin_top = 1.0
+expand_margin_bottom = 1.0
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0.882353, 0.882353, 0.882353, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.105882, 0.105882, 0.105882, 0.392157 )
+border_blend = true
 
-[sub_resource type="StyleBoxFlat" id=22]
+[sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 0.921569, 0.921569, 0.921569, 1 )
 border_width_top = 25
 border_color = Color( 0.921569, 0.921569, 0.921569, 1 )
@@ -238,12 +261,12 @@ ItemList/constants/icon_margin = 5
 ItemList/constants/line_separation = 0
 ItemList/constants/vseparation = 5
 ItemList/fonts/font = null
-ItemList/styles/bg = SubResource( 24 )
+ItemList/styles/bg = SubResource( 3 )
 ItemList/styles/bg_focus = null
 ItemList/styles/cursor = null
 ItemList/styles/cursor_unfocused = null
 ItemList/styles/selected = null
-ItemList/styles/selected_focus = SubResource( 26 )
+ItemList/styles/selected_focus = SubResource( 4 )
 Label/colors/font_color = Color( 0, 0, 0, 1 )
 Label/colors/font_color_shadow = Color( 0, 0, 0, 1 )
 Label/colors/font_outline_modulate = Color( 0, 0, 0, 1 )
@@ -313,12 +336,12 @@ PopupMenu/icons/radio_checked = null
 PopupMenu/icons/radio_unchecked = null
 PopupMenu/icons/submenu = null
 PopupMenu/icons/unchecked = null
-PopupMenu/styles/hover = SubResource( 21 )
+PopupMenu/styles/hover = SubResource( 5 )
 PopupMenu/styles/labeled_separator_left = null
 PopupMenu/styles/labeled_separator_right = null
-PopupMenu/styles/panel = SubResource( 19 )
+PopupMenu/styles/panel = SubResource( 6 )
 PopupMenu/styles/panel_disabled = null
-PopupMenu/styles/separator = SubResource( 20 )
+PopupMenu/styles/separator = SubResource( 7 )
 PopupPanel/styles/panel = null
 ProgressBar/colors/font_color = Color( 0, 0, 0, 1 )
 ProgressBar/colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -359,10 +382,10 @@ TabContainer/icons/increment = null
 TabContainer/icons/increment_highlight = null
 TabContainer/icons/menu = null
 TabContainer/icons/menu_highlight = null
-TabContainer/styles/panel = SubResource( 3 )
-TabContainer/styles/tab_bg = SubResource( 4 )
-TabContainer/styles/tab_disabled = SubResource( 5 )
-TabContainer/styles/tab_fg = SubResource( 6 )
+TabContainer/styles/panel = SubResource( 8 )
+TabContainer/styles/tab_bg = SubResource( 9 )
+TabContainer/styles/tab_disabled = SubResource( 10 )
+TabContainer/styles/tab_fg = SubResource( 11 )
 Tabs/colors/font_color_bg = Color( 0, 0, 0, 1 )
 Tabs/colors/font_color_disabled = Color( 0, 0, 0, 1 )
 Tabs/colors/font_color_fg = Color( 0, 0, 0, 1 )
@@ -463,7 +486,7 @@ Tree/icons/checked = null
 Tree/icons/select_arrow = null
 Tree/icons/unchecked = null
 Tree/icons/updown = null
-Tree/styles/bg = SubResource( 7 )
+Tree/styles/bg = SubResource( 12 )
 Tree/styles/bg_focus = null
 Tree/styles/button_pressed = null
 Tree/styles/cursor = null
@@ -509,4 +532,4 @@ WindowDialog/constants/title_height = 20
 WindowDialog/fonts/title_font = null
 WindowDialog/icons/close = null
 WindowDialog/icons/close_highlight = null
-WindowDialog/styles/panel = SubResource( 22 )
+WindowDialog/styles/panel = SubResource( 13 )
