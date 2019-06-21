@@ -53,8 +53,6 @@ public class env : Spatial
 
     private Godot.Spatial marker;
 
-    
-
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

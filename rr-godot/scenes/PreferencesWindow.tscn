@@ -14,15 +14,14 @@ border_color = Color( 0.105882, 0.105882, 0.105882, 0.392157 )
 border_blend = true
 
 [node name="PreferencesWindow" type="WindowDialog"]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -250.0
 margin_top = -150.0
-margin_right = 250.0
-margin_bottom = 150.0
+margin_right = 550.0
+margin_bottom = 350.0
 theme = ExtResource( 3 )
 window_title = "Preferences"
 resizable = true
@@ -34,8 +33,8 @@ anchor_bottom = 1.0
 margin_top = 5.0
 
 [node name="Panel" type="Panel" parent="VBoxContainer"]
-margin_right = 500.0
-margin_bottom = 263.0
+margin_right = 800.0
+margin_bottom = 463.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 1 )
@@ -52,17 +51,29 @@ custom_constants/separation = 5
 
 [node name="ItemList" type="ItemList" parent="VBoxContainer/Panel/HSplitContainer"]
 margin_right = 100.0
-margin_bottom = 253.0
+margin_bottom = 453.0
 rect_min_size = Vector2( 100, 0 )
 theme = ExtResource( 3 )
 
-[node name="Panel" parent="VBoxContainer/Panel/HSplitContainer" instance=ExtResource( 2 )]
+[node name="PanelContainer" type="Control" parent="VBoxContainer/Panel/HSplitContainer"]
+margin_left = 108.0
+margin_right = 790.0
+margin_bottom = 453.0
+
+[node name="Panel" parent="VBoxContainer/Panel/HSplitContainer/PanelContainer" instance=ExtResource( 2 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="CloseButton" type="Button" parent="VBoxContainer"]
-margin_left = 232.0
-margin_top = 273.0
-margin_right = 267.0
-margin_bottom = 295.0
+margin_left = 382.0
+margin_top = 473.0
+margin_right = 417.0
+margin_bottom = 495.0
 size_flags_horizontal = 4
 text = "Close"
 flat = true

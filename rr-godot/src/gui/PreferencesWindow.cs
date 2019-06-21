@@ -13,10 +13,13 @@ public class PreferencesWindow : WindowDialog
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        //10
+        // Save the shadowbox panel for hiding/showing later
         BackgroundShadow = GetNode<Panel>("/root/main/UI/ShadowBox");
-        SettingsList = GetNode<ItemList>("VBoxContainer/HSplitContainer/ItemList");
+        SettingsList = GetNode<ItemList>("VBoxContainer/Panel/HSplitContainer/ItemList");
 
+        SettingsList.AddItem("General");
+        SettingsList.AddItem("Plugins");
+        
         GetNode("../TitleBar").Connect("PreferencesPressed", this, "OnAboutToShow");
         GetNode("VBoxContainer/CloseButton").Connect("pressed", this, "ClosePopup");
         this.Connect("popup_hide", this, "OnPopupHide");
