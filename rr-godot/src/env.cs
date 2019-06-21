@@ -59,11 +59,6 @@ public class env : Spatial
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-
-        
-
-        this.PrintTreePretty();
-
         Node temp = GetNode("SelectedObject");
         GD.Print(temp.GetType());
         marker = (Godot.Spatial) temp;

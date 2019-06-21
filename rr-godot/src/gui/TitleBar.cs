@@ -131,15 +131,10 @@ public class TitleBar : Control
             default:
                 break;
         }
-    }
+    }   
 
-    /// <summary>
-    /// Handles quitting the program safely
-    /// </summary>
-    public void QuitButtonPressedHandler()
-    {
-        GetTree().Quit();
-    }
+    // Quitting is handled in /src/common/Global.cs to allow
+    // saving settings on quit
 
     /// <summary>
     /// Handles maximizing the program

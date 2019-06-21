@@ -21,6 +21,10 @@ config/use_custom_user_dir=true
 config/custom_user_dir_name="rr-godot"
 config/icon="res://theme/icon.png"
 
+[autoload]
+
+Global="*res://src/common/Global.cs"
+
 [display]
 
 window/size/width=1920
