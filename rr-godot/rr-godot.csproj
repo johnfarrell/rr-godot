@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -46,39 +46,40 @@
       <HintPath>$(ProjectDir)/.mono/assemblies/GodotSharpEditor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="System"/>
-    <Reference Include="System.Xml"/>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\gui\AppWindow.cs"/>
-    <Compile Include="src\gui\AxisLineGenerator.cs"/>
-    <Compile Include="src\gui\DebugDraw.cs"/>
-    <Compile Include="src\gui\EnvironmentTree.cs"/>
-    <Compile Include="src\gui\gridGenerator.cs"/>
-    <Compile Include="src\gui\MouseEventPassthrough.cs"/>
-    <Compile Include="src\gui\PreferencesWindow.cs"/>
-    <Compile Include="src\gui\TitleBar.cs"/>
-    <Compile Include="src\gui\ToolboxPanel.cs"/>
-    <Compile Include="src\gui\ToolboxPanelFixed.cs"/>
-    <Compile Include="src\gui\viewport\Viewport1.cs"/>
-    <Compile Include="src\gui\viewport\Viewport2.cs"/>
-    <Compile Include="src\gui\viewport\Viewport3.cs"/>
-    <Compile Include="src\gui\viewport\Viewport4.cs"/>
-    <Compile Include="src\gui\viewport\ViewportLL.cs"/>
-    <Compile Include="src\gui\viewport\ViewportLR.cs"/>
-    <Compile Include="src\gui\viewport\ViewportUR.cs"/>
-    <Compile Include="src\sensors\Cam.cs"/>
-    <Compile Include="src\urdf\SdfDriver.cs"/>
-    <Compile Include="src\urdf\SdfParser.cs"/>
-    <Compile Include="src\env.cs"/>
-    <Compile Include="src\common\Global.cs"/>
-    <Compile Include="src\common\plugin.cs"/>
-    <Compile Include="src\common\config.cs"/>
-    <Compile Include="src\gizmos.cs"/>
-    <Compile Include="src\gizmo\Gizmo.cs"/>
-    <Compile Include="src\gizmo\GizmoRotate.cs"/>
-    <Compile Include="src\gizmo\GizmoScale.cs"/>
-    <Compile Include="src\gizmo\GizmoTranslate.cs"/>
+    <Compile Include="src\gui\AppWindow.cs" />
+    <Compile Include="src\gui\AxisLineGenerator.cs" />
+    <Compile Include="src\gui\DebugDraw.cs" />
+    <Compile Include="src\gui\EnvironmentTree.cs" />
+    <Compile Include="src\gui\gridGenerator.cs" />
+    <Compile Include="src\gui\MouseEventPassthrough.cs" />
+    <Compile Include="src\gui\PluginPreferences.cs" />
+    <Compile Include="src\gui\PreferencesWindow.cs" />
+    <Compile Include="src\gui\TitleBar.cs" />
+    <Compile Include="src\gui\ToolboxPanel.cs" />
+    <Compile Include="src\gui\ToolboxPanelFixed.cs" />
+    <Compile Include="src\gui\viewport\Viewport1.cs" />
+    <Compile Include="src\gui\viewport\Viewport2.cs" />
+    <Compile Include="src\gui\viewport\Viewport3.cs" />
+    <Compile Include="src\gui\viewport\Viewport4.cs" />
+    <Compile Include="src\gui\viewport\ViewportLL.cs" />
+    <Compile Include="src\gui\viewport\ViewportLR.cs" />
+    <Compile Include="src\gui\viewport\ViewportUR.cs" />
+    <Compile Include="src\sensors\Cam.cs" />
+    <Compile Include="src\urdf\SdfDriver.cs" />
+    <Compile Include="src\urdf\SdfParser.cs" />
+    <Compile Include="src\env.cs" />
+    <Compile Include="src\common\Global.cs" />
+    <Compile Include="src\common\plugin.cs" />
+    <Compile Include="src\common\config.cs" />
+    <Compile Include="src\gizmos.cs" />
+    <Compile Include="src\gizmo\Gizmo.cs" />
+    <Compile Include="src\gizmo\GizmoRotate.cs" />
+    <Compile Include="src\gizmo\GizmoScale.cs" />
+    <Compile Include="src\gizmo\GizmoTranslate.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets"/>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

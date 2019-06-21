@@ -31,7 +31,7 @@ script = ExtResource( 1 )
 script = ExtResource( 2 )
 
 [node name="HandleX" type="StaticBody" parent="Translate"]
-transform = Transform( -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0, 1, 0, 0, 0 )
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0 )
 input_capture_on_drag = true
 
 [node name="CollisionShape" type="CollisionShape" parent="Translate/HandleX"]
@@ -39,7 +39,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
 shape = ExtResource( 3 )
 
 [node name="Handle" type="MeshInstance" parent="Translate/HandleX"]
-transform = Transform( 1, 8.88178e-015, 0, -8.88178e-015, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform = Transform( 1, 8.88178e-15, 0, -8.88178e-15, 1, 0, 0, 0, 1, 0, 0, 0 )
 material_override = ExtResource( 4 )
 cast_shadow = 0
 mesh = ExtResource( 5 )
@@ -59,7 +59,7 @@ mesh = ExtResource( 5 )
 material/0 = null
 
 [node name="HandleZ" type="StaticBody" parent="Translate"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
 input_capture_on_drag = true
 
 [node name="CollisionShape" type="CollisionShape" parent="Translate/HandleZ"]
@@ -76,7 +76,7 @@ material/0 = null
 script = ExtResource( 8 )
 
 [node name="HandleX" type="StaticBody" parent="Rotate"]
-transform = Transform( -8.74228e-008, -2, 0, 2, -8.74228e-008, 0, 0, 0, 2, 0, 0, 0 )
+transform = Transform( -8.74228e-08, -2, 0, 2, -8.74228e-08, 0, 0, 0, 2, 0, 0, 0 )
 input_capture_on_drag = true
 
 [node name="CollisionShape" type="CollisionShape" parent="Rotate/HandleX"]
@@ -102,7 +102,7 @@ mesh = ExtResource( 9 )
 material/0 = null
 
 [node name="HandleZ" type="StaticBody" parent="Rotate"]
-transform = Transform( 2, 0, 0, 0, -8.74228e-008, -2, 0, 2, -8.74228e-008, 0, 0, 0 )
+transform = Transform( 2, 0, 0, 0, -8.74228e-08, -2, 0, 2, -8.74228e-08, 0, 0, 0 )
 input_capture_on_drag = true
 
 [node name="CollisionShape" type="CollisionShape" parent="Rotate/HandleZ"]
@@ -118,7 +118,7 @@ material/0 = null
 script = ExtResource( 10 )
 
 [node name="HandleX" type="StaticBody" parent="Scale"]
-transform = Transform( -4.37114e-008, 1, 0, -1, -4.37114e-008, 0, 0, 0, 1, 0, 0, 0 )
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0 )
 input_capture_on_drag = true
 
 [node name="CollisionShape" type="CollisionShape" parent="Scale/HandleX"]
@@ -145,7 +145,7 @@ mesh = ExtResource( 11 )
 material/0 = null
 
 [node name="HandleZ" type="StaticBody" parent="Scale"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-008, -1, 0, 1, -4.37114e-008, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
 input_capture_on_drag = true
 
 [node name="CollisionShape" type="CollisionShape" parent="Scale/HandleZ"]

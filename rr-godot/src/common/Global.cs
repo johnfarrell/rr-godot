@@ -10,7 +10,7 @@ class Global : Node
     /// </summary>
     private Directory PluginDir;
 
-    Config UserConfig;
+    public Config UserConfig;
 
     /// <summary>
     /// Holds all the currently loaded plugins.

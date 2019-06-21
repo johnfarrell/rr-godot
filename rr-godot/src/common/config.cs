@@ -9,7 +9,13 @@ namespace RR_Godot
     /// </summary>
     public class Config
     {
+        /// <summary>
+        /// List of the enabled plugin unique names.
+        /// </summary>
         public List<string> EnabledPlugins;
+        /// <summary>
+        /// List of the disabled plugin unique names.
+        /// </summary>
         public List<string> DisabledPlugins;
 
         public Config()

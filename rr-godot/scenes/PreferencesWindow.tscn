@@ -60,7 +60,7 @@ margin_left = 108.0
 margin_right = 790.0
 margin_bottom = 453.0
 
-[node name="Panel" parent="VBoxContainer/Panel/HSplitContainer/PanelContainer" instance=ExtResource( 2 )]
+[node name="PluginPreferences" parent="VBoxContainer/Panel/HSplitContainer/PanelContainer" instance=ExtResource( 2 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 0.0

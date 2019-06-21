@@ -73,7 +73,7 @@ public class TitleBar : Control
             case 4:
                 break;
             case 6:
-                PreferencesWindow.Show();
+                PreferencesWindow.PopupCentered();
                 EmitSignal("PreferencesPressed");
                 break;
             case 8:
