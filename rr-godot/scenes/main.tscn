@@ -2,9 +2,9 @@
 
 [ext_resource path="res://theme/new_theme.tres" type="Theme" id=1]
 [ext_resource path="res://scenes/env.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scenes/PreferencesWindow.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scenes/gizmos.tscn" type="PackedScene" id=3]
 [ext_resource path="res://theme/cb_button_hover.tres" type="StyleBox" id=4]
-[ext_resource path="res://scenes/gizmos.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/PreferencesWindow.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/gui/TitleBar.cs" type="Script" id=6]
 [ext_resource path="res://src/gui/AppWindow.cs" type="Script" id=7]
 [ext_resource path="res://src/gui/EnvironmentTree.cs" type="Script" id=8]
@@ -103,34 +103,50 @@ script = ExtResource( 6 )
 [node name="TitleButtons" type="HBoxContainer" parent="UI/TitleBar"]
 anchor_left = 1.0
 anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -128.0
+margin_left = -140.0
+margin_bottom = 44.0
 mouse_filter = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
 
 [node name="MinimizeButton" type="Button" parent="UI/TitleBar/TitleButtons"]
-margin_right = 40.0
-margin_bottom = 30.0
+margin_left = 6.0
+margin_top = 11.0
+margin_right = 46.0
+margin_bottom = 33.0
+grow_horizontal = 0
+grow_vertical = 0
 rect_min_size = Vector2( 40, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_hover = Color( 1, 0.745098, 0, 1 )
-text = "-"
+text = "_"
 flat = true
 
 [node name="MaximizeButton" type="Button" parent="UI/TitleBar/TitleButtons"]
-margin_left = 44.0
-margin_right = 84.0
-margin_bottom = 30.0
+margin_left = 50.0
+margin_top = 11.0
+margin_right = 90.0
+margin_bottom = 33.0
 rect_min_size = Vector2( 40, 0 )
+rect_clip_content = true
+size_flags_horizontal = 4
+size_flags_vertical = 4
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_hover = Color( 0.141176, 0.768627, 0, 1 )
 text = "O"
 flat = true
 
 [node name="QuitButton" type="Button" parent="UI/TitleBar/TitleButtons"]
-margin_left = 88.0
-margin_right = 128.0
-margin_bottom = 30.0
+margin_left = 94.0
+margin_top = 11.0
+margin_right = 134.0
+margin_bottom = 33.0
 rect_min_size = Vector2( 40, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_colors/font_color_hover = Color( 0.827451, 0.160784, 0.160784, 1 )
 text = "X"
@@ -254,7 +270,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/panel = SubResource( 2 )
 
-[node name="gizmos" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 5 )]
+[node name="gizmos" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 3 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 1
@@ -341,7 +357,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/panel = SubResource( 13 )
 
-[node name="PreferencesWindow" parent="UI" instance=ExtResource( 3 )]
+[node name="PreferencesWindow" parent="UI" instance=ExtResource( 5 )]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/MinimizeButton" to="UI/TitleBar" method="MinimizeButtonPressedHandler"]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/MaximizeButton" to="UI/TitleBar" method="MaximizeButtonPressedHandler"]
 [connection signal="mouse_entered" from="UI/AppWindow/LeftMenu" to="env" method="OnEnvContainerMouseExit"]

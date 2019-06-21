@@ -22,7 +22,6 @@ public class PreferencesWindow : WindowDialog
         
         GetNode("../TitleBar").Connect("PreferencesPressed", this, "OnAboutToShow");
         GetNode("VBoxContainer/CloseButton").Connect("pressed", this, "ClosePopup");
-        this.Connect("popup_hide", this, "OnPopupHide");
 
         this.GetCloseButton().Connect("pressed", this, "OnPopupClose");
     }

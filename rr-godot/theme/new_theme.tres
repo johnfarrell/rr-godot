@@ -1,9 +1,11 @@
-[gd_resource type="Theme" load_steps=18 format=2]
+[gd_resource type="Theme" load_steps=24 format=2]
 
 [ext_resource path="res://theme/button_hover.tres" type="StyleBox" id=1]
 [ext_resource path="res://theme/button_normal.tres" type="StyleBox" id=2]
 [ext_resource path="res://theme/cb_button_hover.tres" type="StyleBox" id=3]
 [ext_resource path="res://theme/button_disabled.tres" type="StyleBox" id=4]
+[ext_resource path="res://theme/image/file_dialog_parent_folder10x10.png" type="Texture" id=5]
+[ext_resource path="res://theme/image/file_dialog_refresh10x10.png" type="Texture" id=6]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
@@ -23,6 +25,25 @@ border_blend = true
 [sub_resource type="StyleBoxFlat" id=4]
 content_margin_left = 5.0
 bg_color = Color( 0.768627, 0.768627, 0.768627, 0.392157 )
+
+[sub_resource type="StyleBoxFlat" id=14]
+bg_color = Color( 0.105882, 0.105882, 0.105882, 0.392157 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.396078, 0.647059, 0.952941, 1 )
+
+[sub_resource type="StyleBoxFlat" id=15]
+bg_color = Color( 0.105882, 0.105882, 0.105882, 0.392157 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.105882, 0.105882, 0.105882, 0.392157 )
+
+[sub_resource type="StyleBoxFlat" id=17]
+bg_color = Color( 0.921569, 0.921569, 0.921569, 1 )
 
 [sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.713726, 0.713726, 0.713726, 1 )
@@ -45,9 +66,6 @@ border_width_bottom = 2
 border_color = Color( 0.462745, 0.462745, 0.462745, 1 )
 expand_margin_top = 1.0
 expand_margin_bottom = 2.0
-shadow_color = Color( 0.156863, 0.156863, 0.156863, 0.392157 )
-shadow_size = 1
-shadow_offset = Vector2( 1, 1 )
 
 [sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
@@ -107,14 +125,19 @@ border_width_bottom = 1
 border_color = Color( 0.105882, 0.105882, 0.105882, 0.392157 )
 border_blend = true
 
+[sub_resource type="StyleBoxFlat" id=18]
+bg_color = Color( 0.768627, 0.768627, 0.768627, 0.392157 )
+
 [sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 0.921569, 0.921569, 0.921569, 1 )
 border_width_top = 25
-border_color = Color( 0.921569, 0.921569, 0.921569, 1 )
+border_color = Color( 0.768627, 0.768627, 0.768627, 1 )
 expand_margin_left = 5.0
 expand_margin_right = 5.0
 expand_margin_top = 25.0
 expand_margin_bottom = 5.0
+shadow_color = Color( 0.105882, 0.105882, 0.105882, 0.588235 )
+shadow_size = 3
 
 [resource]
 Button/colors/font_color = Color( 0.101961, 0.101961, 0.101961, 1 )
@@ -188,10 +211,10 @@ ColorPickerButton/styles/normal = null
 ColorPickerButton/styles/pressed = null
 Dialogs/constants/button_margin = 32
 Dialogs/constants/margin = 8
-FileDialog/colors/files_disabled = Color( 0, 0, 0, 1 )
+FileDialog/colors/files_disabled = Color( 0, 0, 0, 0.392157 )
 FileDialog/icons/folder = null
-FileDialog/icons/parent_folder = null
-FileDialog/icons/reload = null
+FileDialog/icons/parent_folder = ExtResource( 5 )
+FileDialog/icons/reload = ExtResource( 6 )
 Fonts/fonts/large = null
 Fonts/fonts/normal = null
 GraphEdit/colors/activity = Color( 0, 0, 0, 1 )
@@ -285,8 +308,8 @@ LineEdit/colors/selection_color = Color( 0, 0, 0, 1 )
 LineEdit/constants/minimum_spaces = 12
 LineEdit/fonts/font = null
 LineEdit/icons/clear = null
-LineEdit/styles/focus = null
-LineEdit/styles/normal = null
+LineEdit/styles/focus = SubResource( 14 )
+LineEdit/styles/normal = SubResource( 15 )
 LineEdit/styles/read_only = null
 LinkButton/colors/font_color = Color( 0, 0, 0, 1 )
 LinkButton/colors/font_color_hover = Color( 0, 0, 0, 1 )
@@ -322,7 +345,7 @@ OptionButton/styles/focus = null
 OptionButton/styles/hover = null
 OptionButton/styles/normal = null
 OptionButton/styles/pressed = null
-Panel/styles/panel = null
+Panel/styles/panel = SubResource( 17 )
 PanelContainer/styles/panel = null
 PopupMenu/colors/font_color = Color( 0.101961, 0.101961, 0.101961, 1 )
 PopupMenu/colors/font_color_accel = Color( 0, 0, 0, 1 )
@@ -495,7 +518,7 @@ Tree/styles/custom_button = null
 Tree/styles/custom_button_hover = null
 Tree/styles/custom_button_pressed = null
 Tree/styles/selected = null
-Tree/styles/selected_focus = null
+Tree/styles/selected_focus = SubResource( 18 )
 Tree/styles/title_button_hover = null
 Tree/styles/title_button_normal = null
 Tree/styles/title_button_pressed = null
@@ -524,7 +547,7 @@ VSplitContainer/constants/autohide = 1
 VSplitContainer/constants/separation = 12
 VSplitContainer/icons/grabber = null
 VSplitContainer/styles/bg = null
-WindowDialog/colors/title_color = Color( 0, 0, 0, 1 )
+WindowDialog/colors/title_color = Color( 0.105882, 0.105882, 0.105882, 1 )
 WindowDialog/constants/close_h_ofs = 18
 WindowDialog/constants/close_v_ofs = 18
 WindowDialog/constants/scaleborder_size = 4
