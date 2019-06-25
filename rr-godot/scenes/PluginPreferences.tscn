@@ -108,6 +108,8 @@ margin_bottom = 252.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 2 )
+items = [ "Plugin Name", null, false, "Enabled (y/n)", null, false ]
+max_columns = 2
 same_column_width = true
 
 [node name="FileDialog" type="FileDialog" parent="."]

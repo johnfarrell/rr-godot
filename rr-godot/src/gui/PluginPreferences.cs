@@ -17,16 +17,31 @@ public class PluginPreferences : Panel
         PluginFolderSelector = GetNode<FileDialog>("FileDialog");
 
         PluginItemList.Connect("item_selected", this, "OnItemListItemPressed");
+        
 
         GetNode("VBoxContainer/SearchBar/HBoxContainer/LoadButton").Connect("pressed", this, "SelectPluginFolder");
 
         GetNode("VBoxContainer/SearchBar/HBoxContainer/RefreshButton").Connect("pressed", this, "RefreshPluginList");
+        this.Connect("item_rect_changed", this, "OnRectSizeChanged");
 
         PluginItemList.MaxColumns = 2;
+        PluginItemList.SameColumnWidth = true;
+
+        PluginItemList.FixedColumnWidth = (int) PluginItemList.RectSize.x / PluginItemList.MaxColumns;
+        
 
         CreatePluginListHeader();
 
         RefreshPluginList();
+    }
+
+    public void OnRectSizeChanged()
+    {
+        GD.Print("---");
+        GD.Print(PluginItemList.FixedColumnWidth);
+        GD.Print(PluginItemList.RectSize.x);
+        GD.Print(PluginItemList.MaxColumns);
+        PluginItemList.FixedColumnWidth = (int) PluginItemList.RectSize.x / PluginItemList.MaxColumns;
     }
 
     public void SelectPluginFolder()
