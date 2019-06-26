@@ -106,3 +106,4 @@ editor_down={
 [rendering]
 
 quality/filters/msaa=2
+quality/dynamic_fonts/use_oversampling=false
