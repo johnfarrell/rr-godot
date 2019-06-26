@@ -13,11 +13,6 @@ class Global : Node
     public Config UserConfig;
 
     /// <summary>
-    /// Holds all the currently loaded plugins.
-    /// </summary>
-    private Plugin<Type>[] Plugins;
-
-    /// <summary>
     /// Aboslute path of the user data directory.
     /// </summary>
     private string UserDataDirectory;
