@@ -7,6 +7,8 @@ rr-godot/mono_crash*
 
 rr-godot/.vscode
 
+rr-godot/RR_Godot.Plugins/.mono/
+
 *.xcf
 
 *.odt
