@@ -1,0 +1,9 @@
+/home/john/Documents/Projects/rr-godot/RR_Godot/.mono/temp/bin/Tools/RR_Godot.dll
+/home/john/Documents/Projects/rr-godot/RR_Godot/.mono/temp/bin/Tools/RR_Godot.pdb
+/home/john/Documents/Projects/rr-godot/RR_Godot/.mono/temp/bin/Tools/RR_Godot.Plugins.dll
+/home/john/Documents/Projects/rr-godot/RR_Godot/.mono/temp/bin/Tools/RR_Godot.Plugins.pdb
+/home/john/Documents/Projects/rr-godot/RR_Godot/.mono/temp/obj/Tools/RR_Godot.csprojAssemblyReference.cache
+/home/john/Documents/Projects/rr-godot/RR_Godot/.mono/temp/obj/Tools/RR_Godot.csproj.CoreCompileInputs.cache
+/home/john/Documents/Projects/rr-godot/RR_Godot/.mono/temp/obj/Tools/RR_Godot.csproj.CopyComplete
+/home/john/Documents/Projects/rr-godot/RR_Godot/.mono/temp/obj/Tools/RR_Godot.dll
+/home/john/Documents/Projects/rr-godot/RR_Godot/.mono/temp/obj/Tools/RR_Godot.pdb
