@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using RR_Godot;
+using RR_Godot.Plugins.Loader;
 
 class Global : Node
 {
@@ -9,6 +10,8 @@ class Global : Node
     /// Godot.Directory object containing the plugin directory.
     /// </summary>
     private Directory PluginDir;
+
+    private Loader PlugLoader;
 
     public Config UserConfig;
 
@@ -20,6 +23,8 @@ class Global : Node
     public override void _Ready()
     {
         UserDataDirectory = OS.GetUserDataDir();
+
+        PlugLoader = new Loader(UserDataDirectory + "/plugins/");
 
         // Register close button so we can save the program before quitting
         GetNode("/root/main/UI/TitleBar/TitleButtons/QuitButton").Connect(
@@ -121,13 +126,15 @@ class Global : Node
 
     public void CheckPlugins()
     {
-        PluginDir.ListDirBegin(true);
-        string CurrPlugin = PluginDir.GetNext();
 
-        while(CurrPlugin != "")
-        {
-            CurrPlugin = PluginDir.GetNext();
-        }
+        PlugLoader.LoadAllPlugins();
+        // PluginDir.ListDirBegin(true);
+        // string CurrPlugin = PluginDir.GetNext();
+
+        // while(CurrPlugin != "")
+        // {
+        //     CurrPlugin = PluginDir.GetNext();
+        // }
         
     }
 }

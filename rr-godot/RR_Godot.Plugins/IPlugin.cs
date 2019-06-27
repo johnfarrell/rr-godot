@@ -1,5 +1,18 @@
+using System.Collections.Generic;
+
 namespace RR_Godot.Plugins
 {   
+    public class PluginDirectory
+    {
+        public List<string> LibraryFiles { get; set; }
+        public string ConfigFile { get; set; }
+
+        public PluginDirectory()
+        {
+            LibraryFiles = new List<string>();
+        }
+    }
+
     /// <summary>
     /// <para>IPlugin</para>
     /// <para>Base interface for all plugins.</para>
@@ -24,5 +37,4 @@ namespace RR_Godot.Plugins
         /// <value></value>
         string Name { get;}
     }
-
 }

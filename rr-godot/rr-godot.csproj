@@ -81,7 +81,7 @@
     <Compile Include="src\gizmo\GizmoTranslate.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RR_Godot.Plugins\RR_Godot.Plugins.csproj">
+    <ProjectReference Include="RR_Godot.Plugins\RR_Godot.Plugins.csproj">
       <Name>RR_Godot.Plugins</Name>
     </ProjectReference>
   </ItemGroup>

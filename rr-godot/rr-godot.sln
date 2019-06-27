@@ -2,7 +2,7 @@
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rr-godot", "rr-godot.csproj", "{1323C7EA-65BB-47F0-9488-376295EA76D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RR_Godot.Plugins", "..\RR_Godot.Plugins\RR_Godot.Plugins.csproj", "{1323C7EA-65BB-47F0-9488-376295EA76D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RR_Godot.Plugins", "RR_Godot.Plugins\RR_Godot.Plugins.csproj", "{1323C7EA-65BB-47F0-9488-376295EA76D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
