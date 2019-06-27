@@ -1,0 +1,18 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/gizmo-handlescale.obj-5df9e62d8a25467e940c514be4d6a81b.mesh"
+
+[deps]
+
+files=[ "res://.import/gizmo-handlescale.obj-5df9e62d8a25467e940c514be4d6a81b.mesh" ]
+
+source_file="res://Godot/theme/objs/gizmo/gizmo-handlescale.obj"
+dest_files=[ "res://.import/gizmo-handlescale.obj-5df9e62d8a25467e940c514be4d6a81b.mesh", "res://.import/gizmo-handlescale.obj-5df9e62d8a25467e940c514be4d6a81b.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+optimize_mesh=true

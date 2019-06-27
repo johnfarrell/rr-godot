@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://src/Core/CamTest1.cs" type="Script" id=1]
+[ext_resource path="res://Godot/theme/new_physicsmaterial.tres" type="PhysicsMaterial" id=2]
+[ext_resource path="res://Godot/theme/lineMat.tres" type="Material" id=3]
+[ext_resource path="res://Godot/theme/new_shadermaterial.tres" type="Material" id=4]
+
+
+
+
+[sub_resource type="CylinderShape" id=1]
+radius = 1.04315
+height = 0.705065
+
+[sub_resource type="CylinderMesh" id=2]
+material = ExtResource( 4 )
+
+[sub_resource type="CylinderMesh" id=3]
+top_radius = 100.0
+bottom_radius = 0.001
+height = 100.0
+
+[node name="CamTest1" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="StaticBody" type="StaticBody" parent="."]
+physics_material_override = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0182337, 0.0315094, -0.215549 )
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.159686, -0.110233, -0.224289 )
+material_override = ExtResource( 3 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.45444, -51.1036, -2.46856 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="OmniLight" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.40724, 31.044, 6.4618 )
+omni_range = 144.77

@@ -1,0 +1,9 @@
+/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/.mono/temp/obj/Debug/Core.csprojAssemblyReference.cache
+/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/.mono/temp/obj/Debug/Core.csproj.CoreCompileInputs.cache
+/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/.mono/temp/bin/Debug/Plugins.dll
+/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/.mono/temp/bin/Debug/Plugins.pdb
+/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/.mono/temp/obj/Debug/Core.csproj.CopyComplete
+/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/.mono/temp/bin/Debug/Core.dll
+/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/.mono/temp/bin/Debug/Core.pdb
+/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/.mono/temp/obj/Debug/Core.dll
+/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/.mono/temp/obj/Debug/Core.pdb

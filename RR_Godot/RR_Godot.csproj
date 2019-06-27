@@ -50,40 +50,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\gui\AppWindow.cs" />
-    <Compile Include="src\gui\AxisLineGenerator.cs" />
-    <Compile Include="src\gui\DebugDraw.cs" />
-    <Compile Include="src\gui\EnvironmentTree.cs" />
-    <Compile Include="src\gui\gridGenerator.cs" />
-    <Compile Include="src\gui\MouseEventPassthrough.cs" />
-    <Compile Include="src\gui\PluginPreferences.cs" />
-    <Compile Include="src\gui\PreferencesWindow.cs" />
-    <Compile Include="src\gui\TitleBar.cs" />
-    <Compile Include="src\gui\ToolboxPanel.cs" />
-    <Compile Include="src\gui\ToolboxPanelFixed.cs" />
-    <Compile Include="src\gui\viewport\Viewport1.cs" />
-    <Compile Include="src\gui\viewport\Viewport2.cs" />
-    <Compile Include="src\gui\viewport\Viewport3.cs" />
-    <Compile Include="src\gui\viewport\Viewport4.cs" />
-    <Compile Include="src\gui\viewport\ViewportLL.cs" />
-    <Compile Include="src\gui\viewport\ViewportLR.cs" />
-    <Compile Include="src\gui\viewport\ViewportUR.cs" />
-    <Compile Include="src\sensors\Cam.cs" />
-    <Compile Include="src\urdf\SdfDriver.cs" />
-    <Compile Include="src\urdf\SdfParser.cs" />
-    <Compile Include="src\env.cs" />
-    <Compile Include="src\common\Global.cs" />
-    <Compile Include="src\common\config.cs" />
-    <Compile Include="src\gizmos.cs" />
-    <Compile Include="src\gizmo\Gizmo.cs" />
-    <Compile Include="src\gizmo\GizmoRotate.cs" />
-    <Compile Include="src\gizmo\GizmoScale.cs" />
-    <Compile Include="src\gizmo\GizmoTranslate.cs" />
+    <ProjectReference Include="src/Core/Core.csproj">
+      <Name>RR_Godot.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="src/Core/Plugins/Plugins.csproj">
+      <Name>RR_Godot.Core.Plugins</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="RR_Godot.Plugins\RR_Godot.Plugins.csproj">
-      <Name>RR_Godot.Plugins</Name>
-    </ProjectReference>
+    <Compile Include="src\Core\Common\Global.cs" />
+    <Compile Include="src\Core\env.cs" />
+    <Compile Include="src\Core\gizmos.cs" />
+    <Compile Include="src\Core\Gizmo\GizmoRotate.cs" />
+    <Compile Include="src\Core\Gizmo\GizmoScale.cs" />
+    <Compile Include="src\Core\Gizmo\GizmoTranslate.cs" />
+    <Compile Include="src\Core\Gui\AppWindow.cs" />
+    <Compile Include="src\Core\Gui\AxisLineGenerator.cs" />
+    <Compile Include="src\Core\Gui\DebugDraw.cs" />
+    <Compile Include="src\Core\Gui\EnvironmentTree.cs" />
+    <Compile Include="src\Core\Gui\gridGenerator.cs" />
+    <Compile Include="src\Core\Gui\MouseEventPassthrough.cs" />
+    <Compile Include="src\Core\Gui\PluginPreferences.cs" />
+    <Compile Include="src\Core\Gui\PreferencesWindow.cs" />
+    <Compile Include="src\Core\Gui\TitleBar.cs" />
+    <Compile Include="src\Core\Gui\ToolboxPanel.cs" />
+    <Compile Include="src\Core\Gui\ToolboxPanelFixed.cs" />
+    <Compile Include="src\Core\Gui\viewport\Viewport1.cs" />
+    <Compile Include="src\Core\Gui\viewport\Viewport2.cs" />
+    <Compile Include="src\Core\Gui\viewport\Viewport3.cs" />
+    <Compile Include="src\Core\Gui\viewport\Viewport4.cs" />
+    <Compile Include="src\Core\Gui\viewport\ViewportLL.cs" />
+    <Compile Include="src\Core\Gui\viewport\ViewportLR.cs" />
+    <Compile Include="src\Core\Gui\viewport\ViewportUR.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

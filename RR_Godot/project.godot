@@ -16,14 +16,14 @@ _global_script_class_icons={
 [application]
 
 config/name="RR_Godot"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://Godot/scenes/main.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="rr-godot"
-config/icon="res://theme/icon.png"
+config/icon="res://Godot/theme/icon.png"
 
 [autoload]
 
-Global="*res://src/common/Global.cs"
+Global="*res://src/Core/Common/Global.cs"
 
 [display]
 
