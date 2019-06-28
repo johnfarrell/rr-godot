@@ -1,13 +1,16 @@
-rr-godot/mono*.json
-rr-godot/.import/
-rr-godot/export.cfg
-rr-godot/export_presets.cfg
-rr-godot/.mono/
-rr-godot/mono_crash*
+RR_Godot/mono*.json
+RR_Godot/.import/
+RR_Godot/export.cfg
+RR_Godot/export_presets.cfg
+RR_Godot/.mono/
+RR_Godot/mono_crash*
 
-rr-godot/.vscode
+RR_Godot/.vscode
 
-rr-godot/RR_Godot.Plugins/.mono/
+RR_Godot/src/Core/.mono/
+RR_Godot/src/Core/bin/
+RR_Godot/src/Core/Plugins/.mono/
+RR_Godot/src/Core/Plugins/obj/
 
 *.xcf
 

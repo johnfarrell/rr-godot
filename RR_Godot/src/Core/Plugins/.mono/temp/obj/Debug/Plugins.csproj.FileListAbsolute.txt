@@ -1,6 +1,0 @@
-/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/Plugins/.mono/temp/obj/Debug/Plugins.csproj.CoreCompileInputs.cache
-/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/Plugins/.mono/temp/bin/Debug/Plugins.dll
-/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/Plugins/.mono/temp/bin/Debug/Plugins.pdb
-/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/Plugins/.mono/temp/obj/Debug/Plugins.dll
-/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/Plugins/.mono/temp/obj/Debug/Plugins.pdb
-/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/Plugins/.mono/temp/obj/Debug/Plugins.csprojAssemblyReference.cache
