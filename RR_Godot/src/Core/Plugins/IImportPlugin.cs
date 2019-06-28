@@ -16,7 +16,7 @@ namespace RR_Godot.Core.Plugins
         /// <summary>
         /// <para>Called after GUI is loaded</para>
         /// </summary>
-        void Ready();
+        string Ready();
 
         /// <summary>
         /// <para>Called when a supported extension is trying to be imported.</para>

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 
@@ -50,7 +51,7 @@ namespace RR_Godot.Core.Plugins.Loader
                 foreach (string PluginFolder in PluginFolders)
                 {
                     string PluginName = GetNameFromPath(PluginFolder);
-                    GD.Print("Found plugin: " + PluginName);
+                    GD.Print("Found plugin ahaha: " + PluginName);
 
                     PluginDirectory CurrPlugin;
                     try {
@@ -68,8 +69,22 @@ namespace RR_Godot.Core.Plugins.Loader
                     foreach (string libFile in CurrPlugin.LibraryFiles)
                     {
                         GD.Print("\t- " + libFile);
+                        Assembly.LoadFile(libFile);
                     }
                 }
+            }
+            Type ImportInterface = typeof(IImportPlugin);
+            Type[] types = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(a => a.GetTypes())
+                .Where(p => ImportInterface.IsAssignableFrom(p) && p.IsClass)
+                .ToArray();
+
+            GD.Print("LOADED IMPORT PLUGINS: " + types.Length);
+            foreach (Type type in types)
+            {
+                IImportPlugin importPlug = (IImportPlugin) Activator.CreateInstance(type);
+                Plugins.Add(importPlug);
+                GD.Print(importPlug.Ready());
             }
         }
 
