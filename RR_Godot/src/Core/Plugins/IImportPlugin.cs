@@ -14,11 +14,6 @@ namespace RR_Godot.Core.Plugins
         string[] Extensions { get; set; }
 
         /// <summary>
-        /// <para>Called after GUI is loaded</para>
-        /// </summary>
-        string Ready();
-
-        /// <summary>
         /// <para>Called when a supported extension is trying to be imported.</para>
         /// <para>This is where the meat of the plugin comes from.</para>
         /// </summary>
