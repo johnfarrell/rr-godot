@@ -40,11 +40,25 @@ namespace SampleImportPlugin
         public string ConfigFile { get; }
         public string Name { get; }
 
-        // ImportPlugin requirements
         public string[] Extensions { get; set; }
 
-        public string Ready() {}
-        public void Import(string filePath) {}
+        public SampleImporter()
+        {
+            LibraryFile = "sample_library.dll";
+            ConfigFile = "sample_config.ini";
+            Extensions = new string[1] { "test" };
+            Name = "Sample Importer";
+        }
+
+        public string Ready()
+        {
+            // code..
+        }
+
+        public void Import(string filePath)
+        {
+            // code...
+        }
     }
 }
 ```
@@ -76,13 +90,35 @@ Since we are creating a plugin that adds support for importing a new file, our p
 These three parameters are required by every plugin. They are used in the creation and management of the plugin by the RR_Godot system.
 
 ```C#
-        // ImportPlugin requirements
         public string[] Extensions { get; set; }
-
-        public string Ready() {}
-        public void Import(string filePath) {}
 ```
-The Extensions paramater should contain a list of the supported filetype extensions of this plugin. For example, if you're making a Collada importer, this should be ```[".dae"]```
+This is a property exposed by the IImportPlugin interface. This is where the supported filetypes are stored.
+
+```C#
+        public SampleImporter()
+        {
+            LibraryFile = "sample_library.dll";
+            ConfigFile = "sample_config.ini";
+            Extensions = new string[1] { "test" };
+            Name = "Sample Importer";
+        }
+```
+The constructor is where all the class members are filled out. For an ImportPlugin, the ```Extensions``` setting is one of the most important.
+```C#
+        public void Ready()
+        {
+
+        }
+```
+The ```Ready()``` function is called when the plugins context is loaded. For an import function, this is when the GUI is loaded.
+
+```C#
+        public void Import(string filePath)
+        {
+            // code...
+        }
+```
+
 ```Ready()``` is called when the plugin is loaded into memory. If you want custom startup functionality, add it here.
 ```Import(string filePath)``` is where the bulk of the logic for import functions happens. It is passed an absolute path to the file that is being imported, and it is where the file parsing and translating into something RR_Godot can use happens.
 
