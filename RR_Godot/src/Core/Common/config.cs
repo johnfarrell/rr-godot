@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Godot;
+using RR_Godot.Core.Plugins;
 
 namespace RR_Godot.Core.Common
 {
@@ -12,18 +13,21 @@ namespace RR_Godot.Core.Common
         /// <summary>
         /// List of the enabled plugin unique names.
         /// </summary>
-        public List<string> EnabledPlugins;
+        public List<IPlugin> EnabledPlugins;
         /// <summary>
         /// List of the disabled plugin unique names.
         /// </summary>
-        public List<string> DisabledPlugins;
+        public List<IPlugin> DisabledPlugins;
 
         public Config()
         {
-            EnabledPlugins = new List<string>();
-            DisabledPlugins = new List<string>();
+            EnabledPlugins = new List<IPlugin>();
+            DisabledPlugins = new List<IPlugin>();
         }
 
+        // TODO
+        // * Change to use IPlugins instead of strings to create the 
+        //   settings.
         /// <summary>
         /// <para>
         /// Populates the enabled plugins list from a dictionary object.
@@ -39,16 +43,21 @@ namespace RR_Godot.Core.Common
         /// </param>
         public void AddEnabledPluginsSetting(object SettingVal)
         {
+            return;
+
             if(!(SettingVal is object[]))
                 return;
 
             object[] PluginList = (object[]) SettingVal;
             foreach (var PluginName in PluginList)
             {
-                AddPlugin((string) PluginName);
+                AddPlugin((IPlugin) PluginName);
             }
         }
 
+        // TODO
+        // * Change to use IPlugins instead of strings to create the 
+        //   settings.
         /// <summary>
         /// <para>
         /// Populates the disabled plugins list from a dictionary value object.
@@ -62,14 +71,16 @@ namespace RR_Godot.Core.Common
         /// </param>
         public void AddDisabledPluginsSetting(object SettingVal)
         {
+            return;
+
             if(!(SettingVal is object[]))
                 return;
 
             object[] PluginList = (object[]) SettingVal;
             foreach (var PluginName in PluginList)
             {
-                AddPlugin((string) PluginName);
-                SetPluginDisabled((string) PluginName);
+                AddPlugin((IPlugin) PluginName);
+                SetPluginDisabled((IPlugin) PluginName);
             }
         }
 
@@ -114,7 +125,7 @@ namespace RR_Godot.Core.Common
         /// already added.</para>
         /// </summary>
         /// <param name="PluginName">Name of the plugin to add.</param>
-        public void AddPlugin(string PluginName)
+        public void AddPlugin(IPlugin PluginName)
         {
             if(!EnabledPlugins.Contains(PluginName)
                 && !DisabledPlugins.Contains(PluginName))
@@ -127,16 +138,19 @@ namespace RR_Godot.Core.Common
         /// <para>Removes a plugin if it is either enabled or disabled.</para>
         /// </summary>
         /// <param name="PluginName">Name of the plugin to remove.</param>
-        public void RemovePlugin(string PluginName)
+        public void RemovePlugin(IPlugin PluginName)
         {
             EnabledPlugins.Remove(PluginName);
         }
 
+        // TODO
+        // * Make it take in the name of the plugin as a string
+        //   and do a search by name for the plugin.
         /// <summary>
         /// Moves a plugin from the disabled list to the enabled list.
         /// </summary>
-        /// <param name="PluginName">Name of the plugin to enable.</param>
-        public void SetPluginEnabled(string PluginName)
+        /// <param name="PluginName">The plugin to enable.</param>
+        public void SetPluginEnabled(IPlugin PluginName)
         {
             if(DisabledPlugins.Contains(PluginName))
             {
@@ -145,11 +159,14 @@ namespace RR_Godot.Core.Common
             }
         }
 
+        // TODO
+        // * Make it take in the name of the plugin as a string
+        //   and do a search by name for the plugin.
         /// <summary>
         /// Moves a plugin from the enabled list to the disabled list.
         /// </summary>
-        /// <param name="PluginName">Name of the plugin to disable.</param>
-        public void SetPluginDisabled(string PluginName)
+        /// <param name="PluginName">The plugin to disable.</param>
+        public void SetPluginDisabled(IPlugin PluginName)
         {
             if(EnabledPlugins.Contains(PluginName))
             {
@@ -164,9 +181,9 @@ namespace RR_Godot.Core.Common
         /// <returns>
         /// An array containing the names of the plugins that are enabled.
         /// </returns>
-        public string[] GetEnabledPlugins()
+        public IPlugin[] GetEnabledPlugins()
         {
-            string[] retVal = new string[EnabledPlugins.Count];
+            IPlugin[] retVal = new IPlugin[EnabledPlugins.Count];
 
             for(var i = 0; i < EnabledPlugins.Count; ++i)
             {
@@ -181,9 +198,9 @@ namespace RR_Godot.Core.Common
         /// <returns>
         /// An array containing the names of the plugins that are disabled.
         /// </returns>
-        public string[] GetDisabledPlugins()
+        public IPlugin[] GetDisabledPlugins()
         {
-            string[] retVal = new string[DisabledPlugins.Count];
+            IPlugin[] retVal = new IPlugin[DisabledPlugins.Count];
 
             for(var i = 0; i < DisabledPlugins.Count; ++i)
             {

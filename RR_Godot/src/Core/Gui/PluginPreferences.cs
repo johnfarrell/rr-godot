@@ -1,6 +1,8 @@
 using Godot;
 using System;
+using System.Linq;
 using RR_Godot.Core.Common;
+using RR_Godot.Core.Plugins;
 
 public class PluginPreferences : Panel
 {
@@ -85,16 +87,18 @@ public class PluginPreferences : Panel
 
     public void RefreshPluginList()
     {
+        GlobalSettings.PopulatePluginSettings();
+        
         PluginItemList.Clear();
         CreatePluginListHeader();
 
-        string[] EnabledPluginList = GlobalSettings.UserConfig.GetEnabledPlugins();
+        IPlugin[] EnabledPluginList = GlobalSettings.UserConfig.GetEnabledPlugins();
 
         GD.Print(EnabledPluginList.Length);
 
-        foreach (string EnabledPlugin in EnabledPluginList)
+        foreach (IPlugin EnabledPlugin in EnabledPluginList)
         {
-            PluginItemList.AddItem(EnabledPlugin);
+            PluginItemList.AddItem(EnabledPlugin.Name);
             PluginItemList.AddItem("y");
         }
     }

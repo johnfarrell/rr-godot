@@ -35,12 +35,6 @@ namespace RR_Godot.Core.Common
 
             UserConfig = new Config();
 
-            // Populate config with sample settings, will be removed later
-            UserConfig.AddPlugin("Plugin 1");
-            UserConfig.AddPlugin("Plugin 2");
-            UserConfig.AddPlugin("Disabled Plugin");
-            UserConfig.SetPluginDisabled("Disabled Plugin");
-
             // Make sure everything is working properly
             ValidateConfigExistence();
             ParseConfig();
@@ -130,6 +124,14 @@ namespace RR_Godot.Core.Common
         public void CheckPlugins()
         {
             PlugLoader.LoadAllPlugins();
+        }
+
+        public void PopulatePluginSettings()
+        {
+            foreach (IPlugin plug in PlugLoader.Plugins)
+            {
+                UserConfig.AddPlugin(plug);
+            }
         }
 
         // TODO: Functionalize this and probably move it to plugloader or a different
