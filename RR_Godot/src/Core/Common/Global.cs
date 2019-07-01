@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using RR_Godot;
 using RR_Godot.Core.Plugins.Loader;
+using RR_Godot.Core.Plugins;
 
 namespace RR_Godot.Core.Common
 {
@@ -129,6 +130,34 @@ namespace RR_Godot.Core.Common
         public void CheckPlugins()
         {
             PlugLoader.LoadAllPlugins();
+        }
+
+        // TODO: Functionalize this and probably move it to plugloader or a different
+        // class.
+        /// <summary>
+        /// Searches for a plugin that can import a certain file extension
+        /// and calls that plugins import function.
+        /// </summary>
+        /// <param name="file"></param>
+        public void ImportFile(string file)
+        {
+            GD.Print("IMPORTING " + file);
+            string fileExtension = System.IO.Path.GetExtension(file);
+            foreach (IPlugin plug in PlugLoader.Plugins)
+            {
+                if(plug.GetType().IsAssignableFrom(typeof(IImportPlugin)))
+                {
+                    IImportPlugin temp = (IImportPlugin) plug;
+
+                    foreach (String ext in temp.Extensions)
+                    {
+                        if(ext == fileExtension)
+                        {
+                            temp.Import(file);
+                        }
+                    }
+                }
+            }
         }
     }
 }

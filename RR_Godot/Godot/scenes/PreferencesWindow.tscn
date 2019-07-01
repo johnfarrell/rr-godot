@@ -4,10 +4,6 @@
 [ext_resource path="res://Godot/scenes/PluginPreferences.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Godot/theme/new_theme.tres" type="Theme" id=3]
 
-
-
-
-
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
 border_width_left = 1
@@ -18,7 +14,6 @@ border_color = Color( 0.105882, 0.105882, 0.105882, 0.392157 )
 border_blend = true
 
 [node name="PreferencesWindow" type="WindowDialog"]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

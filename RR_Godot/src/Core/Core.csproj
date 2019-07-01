@@ -60,6 +60,7 @@
     <Compile Include="Gui\AxisLineGenerator.cs" />
     <Compile Include="Gui\DebugDraw.cs" />
     <Compile Include="Gui\EnvironmentTree.cs" />
+    <Compile Include="Gui\ImportWindow.cs" />
     <Compile Include="Gui\gridGenerator.cs" />
     <Compile Include="Gui\MouseEventPassthrough.cs" />
     <Compile Include="Gui\PluginPreferences.cs" />

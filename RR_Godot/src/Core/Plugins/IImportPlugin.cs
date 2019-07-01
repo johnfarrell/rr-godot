@@ -21,8 +21,9 @@ namespace RR_Godot.Core.Plugins
         /// <summary>
         /// <para>Called when a supported extension is trying to be imported.</para>
         /// <para>This is where the meat of the plugin comes from.</para>
-        /// </summary>        
-        void Import();
+        /// </summary>
+        /// <param name="filePath">Absolute path of the file to be imported</param>
+        void Import(string filePath);
     }
 
 }

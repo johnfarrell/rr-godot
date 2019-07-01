@@ -13,6 +13,16 @@ namespace RR_Godot.Core.Plugins.Loader
     /// </summary>
     public class Loader
     {
+
+        // We have a separate app domain to allow loading/unloading of plugins easily
+        // because you cannot load/unload individual assemblies.
+        // Currently not implemented, active TODO item.
+        /// <summary>
+        /// AppDomain of all the plugins.
+        /// </summary>
+        /// <value></value>
+        AppDomain PluginDomain { get; set; }
+
         /// <summary>
         /// List of plugins in the plugins directory.
         /// </summary>
@@ -32,6 +42,8 @@ namespace RR_Godot.Core.Plugins.Loader
         {
             PluginPath = path;
             Plugins = new List<IPlugin>();
+            
+            // PluginDomain = AppDomain.CreateDomain("PluginDomain");
         }
 
         /// <summary>
@@ -43,16 +55,11 @@ namespace RR_Godot.Core.Plugins.Loader
             // Sanity check
             if(System.IO.Directory.Exists(PluginPath))
             {
-                GD.Print(PluginPath);
-
                 // Go through each folder and pull out the library files
                 // and the config.
                 string[] PluginFolders = System.IO.Directory.GetDirectories(PluginPath);
                 foreach (string PluginFolder in PluginFolders)
                 {
-                    string PluginName = GetNameFromPath(PluginFolder);
-                    GD.Print("Found plugin ahaha: " + PluginName);
-
                     PluginDirectory CurrPlugin;
                     try {
                         CurrPlugin = GetPluginDir(PluginFolder);
@@ -60,20 +67,23 @@ namespace RR_Godot.Core.Plugins.Loader
                     catch (Exception e)
                     {
                         GD.Print("\t" + e.Message);
-                        GD.Print("\tSkipping...");
                         continue;
                     }
-                    
-                    // Quick debug print
-                    GD.Print("\t- " + CurrPlugin.ConfigFile);
+
                     foreach (string libFile in CurrPlugin.LibraryFiles)
                     {
-                        GD.Print("\t- " + libFile);
                         Assembly.LoadFile(libFile);
                     }
                 }
             }
-            Type ImportInterface = typeof(IImportPlugin);
+            // TODO: Load all plugin assemblies into a seperate AppDomain
+            // to allow for unloading/reloading of plugins.
+
+            // Instance
+            Type ImportInterface = typeof(IPlugin);
+            // Get all the librarys that have a class that implements IImportPlugin
+            // Original code from DukeOfHaren's plugin tutorial
+            // https://github.com/dukeofharen/tutorials/blob/master/DotNet.Plugin/DotNet.Plugin.Business/PluginLoader.cs
             Type[] types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())
                 .Where(p => ImportInterface.IsAssignableFrom(p) && p.IsClass)
@@ -82,9 +92,12 @@ namespace RR_Godot.Core.Plugins.Loader
             GD.Print("LOADED IMPORT PLUGINS: " + types.Length);
             foreach (Type type in types)
             {
-                IImportPlugin importPlug = (IImportPlugin) Activator.CreateInstance(type);
-                Plugins.Add(importPlug);
-                GD.Print(importPlug.Ready());
+                if(type.GetInterfaces().Contains(typeof(IImportPlugin)))
+                {
+                    IImportPlugin importPlug = (IImportPlugin) Activator.CreateInstance(type);
+                    Plugins.Add(importPlug);
+                    GD.Print(importPlug.Ready());
+                }
             }
         }
 
@@ -93,24 +106,6 @@ namespace RR_Godot.Core.Plugins.Loader
         /// <para>Called during program exit.</para>
         /// </summary>
         public void DeloadAllPlugins()
-        {
-
-        }
-
-        /// <summary>
-        /// Enables plugin that has been disabled.
-        /// </summary>
-        /// <param name="pluginName">Name of the plugin folder.</param>
-        public void EnablePlugin(string pluginName)
-        {
-
-        }
-
-        /// <summary>
-        /// Disables a plugin that has been loaded into memory.
-        /// </summary>
-        /// <param name="pluginName">Name of the plugin folder.</param>
-        public void DisablePlugin(string pluginName)
         {
 
         }

@@ -69,6 +69,7 @@
     <Compile Include="src\Core\Gui\DebugDraw.cs" />
     <Compile Include="src\Core\Gui\EnvironmentTree.cs" />
     <Compile Include="src\Core\Gui\gridGenerator.cs" />
+    <Compile Include="src\Core\Gui\ImportWindow.cs" />
     <Compile Include="src\Core\Gui\MouseEventPassthrough.cs" />
     <Compile Include="src\Core\Gui\PluginPreferences.cs" />
     <Compile Include="src\Core\Gui\PreferencesWindow.cs" />

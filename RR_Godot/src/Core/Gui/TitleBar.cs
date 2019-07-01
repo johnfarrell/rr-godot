@@ -13,6 +13,8 @@ public class TitleBar : Control
 
     WindowDialog PreferencesWindow;
 
+    FileDialog ImportWindow;
+
     private bool Following = false;
     private Vector2 DragStart = new Vector2();
 
@@ -30,6 +32,7 @@ public class TitleBar : Control
         // Populate file
         FileButtonPopup.AddItem("New");
         FileButtonPopup.AddItem("Open");
+        FileButtonPopup.AddItem("Import");
         FileButtonPopup.AddSeparator();
         FileButtonPopup.AddItem("Save");
         FileButtonPopup.AddItem("Save As");
@@ -40,6 +43,7 @@ public class TitleBar : Control
         FileButtonPopup.Connect("id_pressed", this, "FileButtonPressed");
 
         PreferencesWindow = GetNode<WindowDialog>("/root/main/UI/PreferencesWindow");
+        ImportWindow = GetNode<FileDialog>("/root/main/UI/ImportWindow");
         // Populate edit
 
         // Create Insert shape submenu
@@ -68,11 +72,12 @@ public class TitleBar : Control
                 break;
             case 1:
                 break;
-            case 3:
+            case 2:
+                ImportWindow.PopupCentered();
                 break;
             case 4:
                 break;
-            case 6:
+            case 7:
                 PreferencesWindow.PopupCentered();
                 EmitSignal("PreferencesPressed");
                 break;
