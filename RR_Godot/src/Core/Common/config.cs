@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Godot;
 using RR_Godot.Core.Plugins;
 
-namespace RR_Godot.Core.Common
+namespace RR_Godot.Core
 {
     /// <summary>
     /// <para>Config</para>

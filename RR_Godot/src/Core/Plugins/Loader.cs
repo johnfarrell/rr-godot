@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 
-namespace RR_Godot.Core.Plugins.Loader
+namespace RR_Godot.Core.Plugins
 {   
     /// <summary>
     /// <para>Loader</para>
@@ -84,6 +84,11 @@ namespace RR_Godot.Core.Plugins.Loader
             // Get all the librarys that have a class that implements IImportPlugin
             // Original code from DukeOfHaren's plugin tutorial
             // https://github.com/dukeofharen/tutorials/blob/master/DotNet.Plugin/DotNet.Plugin.Business/PluginLoader.cs
+            // foreach(Assembly assm in AppDomain.CurrentDomain.GetAssemblies())
+            // {
+            //     GD.Print("\n------------" + assm.FullName + "-----");
+            //     GD.Print(assm.GetTypes());
+            // }
             Type[] types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())
                 .Where(p => ImportInterface.IsAssignableFrom(p) && p.IsClass)

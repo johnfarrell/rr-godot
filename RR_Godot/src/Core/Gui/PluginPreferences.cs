@@ -1,7 +1,7 @@
 using Godot;
 using System;
 using System.Linq;
-using RR_Godot.Core.Common;
+using RR_Godot.Core;
 using RR_Godot.Core.Plugins;
 
 public class PluginPreferences : Panel

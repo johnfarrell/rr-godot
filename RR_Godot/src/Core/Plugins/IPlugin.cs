@@ -23,19 +23,19 @@ namespace RR_Godot.Core.Plugins
         /// Config.ini file for the plugin.
         /// </summary>
         /// <value></value>
-        string ConfigFile { get; set; }
+        string ConfigFile { get; }
 
         /// <summary>
         /// Shared library files for the plugin.
         /// </summary>
         /// <value></value>
-        string LibraryFile { get; set; }
+        string LibraryFile { get; }
 
         /// <summary>
         /// Name of the plugin.
         /// </summary>
         /// <value></value>
-        string Name { get; set; }
+        string Name { get; }
 
         /// <summary>
         /// Called when this plugin is first loaded.

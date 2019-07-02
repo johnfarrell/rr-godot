@@ -11,6 +11,8 @@ RR_Godot/src/Core/.mono/
 RR_Godot/src/Core/bin/
 RR_Godot/src/Core/Plugins/.mono/
 RR_Godot/src/Core/Plugins/obj/
+RR_Godot/src/Core/Geometry/.mono/
+RR_Godot/src/Core/Geometry/obj/
 
 *.xcf
 

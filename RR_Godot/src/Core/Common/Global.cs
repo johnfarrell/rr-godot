@@ -1,13 +1,20 @@
 using Godot;
 using System;
-using System.Collections.Generic;
-using RR_Godot;
-using RR_Godot.Core.Plugins.Loader;
+// using RR_Godot.Core;
 using RR_Godot.Core.Plugins;
+// using RR_Godot.Core.Plugins.Loader;
 
-namespace RR_Godot.Core.Common
+// public class Global : Node
+// {
+//     public override void _Ready()
+//     {
+//         GD.Print("JFIOEJFIOEJSIOF");
+//     }
+// }
+
+namespace RR_Godot.Core
 {
-    class Global : Node
+    public class Global : Node
     {
         /// <summary>
         /// Godot.Directory object containing the plugin directory.
@@ -53,6 +60,13 @@ namespace RR_Godot.Core.Common
             GD.Print("Saving config");
             UserConfig.Save("user://settings.cfg");
             GetTree().Quit();
+        }
+
+        public void AddMesh(ArrayMesh mesh)
+        {
+            MeshInstance newMesh = new MeshInstance();
+            newMesh.Mesh = mesh;
+            GetNode("/root/main/env").AddChild(newMesh);
         }
 
         /// <summary>
@@ -145,16 +159,20 @@ namespace RR_Godot.Core.Common
         {
             GD.Print("IMPORTING " + file);
             string fileExtension = System.IO.Path.GetExtension(file);
+            GD.Print(fileExtension);
             foreach (IPlugin plug in PlugLoader.Plugins)
             {
-                if(plug.GetType().IsAssignableFrom(typeof(IImportPlugin)))
+                GD.Print("Testing " + plug.Name);
+                if(true)
                 {
                     IImportPlugin temp = (IImportPlugin) plug;
 
+                    GD.Print("Found IImportPlugin " + temp.Name);
                     foreach (String ext in temp.Extensions)
                     {
                         if(ext == fileExtension)
                         {
+                            GD.Print("Calling " + temp.Name + " to import.");
                             temp.Import(file);
                         }
                     }

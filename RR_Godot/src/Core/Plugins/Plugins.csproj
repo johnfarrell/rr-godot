@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1323C7EA-65BB-47F0-9488-376295EA76D7}</ProjectGuid>
+    <ProjectGuid>{3FD630CB-5F60-4F04-B82E-12CFBD57636A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <OutputPath>.mono/temp/bin/$(Configuration)</OutputPath>
     <RootNamespace>RR_Godot.Core.Plugins</RootNamespace>

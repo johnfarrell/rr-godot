@@ -51,15 +51,20 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="src/Core/Core.csproj">
-      <Name>RR_Godot.Core</Name>
+      <Name>Core</Name>
     </ProjectReference>
     <ProjectReference Include="src/Core/Plugins/Plugins.csproj">
-      <Name>RR_Godot.Core.Plugins</Name>
+      <Name>Plugins</Name>
+    </ProjectReference>
+    <ProjectReference Include="src/Core/Geometry/Geometry.csproj">
+      <Name>Geometry</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Core\Common\Global.cs" />
+    <Compile Include="src\Core\Common\config.cs" />
     <Compile Include="src\Core\env.cs" />
+    <Compile Include="src\Core\Geometry\MeshAdder.cs" />
     <Compile Include="src\Core\gizmos.cs" />
     <Compile Include="src\Core\Gizmo\GizmoRotate.cs" />
     <Compile Include="src\Core\Gizmo\GizmoScale.cs" />

@@ -11,7 +11,7 @@ namespace RR_Godot.Core.Plugins
         /// <para>Recognized file extensions that this plugin can import</para>
         /// </summary>
         /// <value></value>
-        string[] Extensions { get; set; }
+        string[] Extensions { get; }
 
         /// <summary>
         /// <para>Called when a supported extension is trying to be imported.</para>

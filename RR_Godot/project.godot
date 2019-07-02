@@ -24,6 +24,7 @@ config/icon="res://Godot/theme/icon.png"
 [autoload]
 
 Global="*res://src/Core/Common/Global.cs"
+MeshAdder="*res://src/Core/Geometry/MeshAdder.cs"
 
 [display]
 
