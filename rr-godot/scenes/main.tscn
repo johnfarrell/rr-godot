@@ -4,12 +4,12 @@
 [ext_resource path="res://theme/button_hover.tres" type="StyleBox" id=2]
 [ext_resource path="res://theme/button_normal.tres" type="StyleBox" id=3]
 [ext_resource path="res://theme/cb_button_hover.tres" type="StyleBox" id=4]
-[ext_resource path="res://scenes/gizmos.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/env.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/gui/TitleBar.cs" type="Script" id=6]
 [ext_resource path="res://src/gui/AppWindow.cs" type="Script" id=7]
 [ext_resource path="res://src/gui/EnvironmentTree.cs" type="Script" id=8]
-[ext_resource path="res://scenes/4WayViewport.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scenes/env.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/gizmos.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/4WayViewport.tscn" type="PackedScene" id=10]
 [ext_resource path="res://src/gui/MouseEventPassthrough.cs" type="Script" id=11]
 [ext_resource path="res://theme/toolbarPopupMenu.tres" type="Theme" id=12]
 [ext_resource path="res://src/gui/ToolboxPanelFixed.cs" type="Script" id=13]
@@ -528,7 +528,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 theme = SubResource( 8 )
 
-[node name="env" parent="." instance=ExtResource( 10 )]
+[node name="env" parent="." instance=ExtResource( 5 )]
 
 [node name="UI" type="Control" parent="."]
 anchor_right = 1.0
@@ -540,6 +540,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="TitleBar" type="Control" parent="UI"]
+editor/display_folded = true
 anchor_right = 1.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
@@ -645,6 +646,7 @@ split_offset = 100
 script = ExtResource( 7 )
 
 [node name="LeftMenu" type="VBoxContainer" parent="UI/AppWindow"]
+editor/display_folded = true
 margin_right = 350.0
 margin_bottom = 1050.0
 grow_horizontal = 2
@@ -694,13 +696,15 @@ mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="gizmos" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 5 )]
+[node name="gizmos" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 9 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -10.0
 mouse_filter = 1
 CamPath = NodePath("../4WayViewport")
 
-[node name="4WayViewport" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 9 )]
+[node name="4WayViewport" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 10 )]
+editor/display_folded = true
 margin_left = -10.0
 margin_top = -3.0
 margin_right = 1556.0
