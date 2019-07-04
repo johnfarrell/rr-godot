@@ -67,8 +67,6 @@
     <Compile Include="src\gui\viewport\ViewportLR.cs" />
     <Compile Include="src\gui\viewport\ViewportUR.cs" />
     <Compile Include="src\sensors\Cam.cs" />
-    <Compile Include="src\urdf\UrdfDriver.cs" />
-    <Compile Include="src\urdf\UrdfParser.cs" />
     <Compile Include="src\env.cs" />
     <Compile Include="src\gizmos.cs" />
     <Compile Include="src\gizmo\Gizmo.cs" />
