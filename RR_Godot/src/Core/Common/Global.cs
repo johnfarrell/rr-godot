@@ -4,13 +4,6 @@ using System;
 using RR_Godot.Core.Plugins;
 // using RR_Godot.Core.Plugins.Loader;
 
-// public class Global : Node
-// {
-//     public override void _Ready()
-//     {
-//         GD.Print("JFIOEJFIOEJSIOF");
-//     }
-// }
 
 namespace RR_Godot.Core
 {
@@ -55,18 +48,12 @@ namespace RR_Godot.Core
             GD.Print("GLOBAL SINGLETON LOADED");
         }
 
+
         public void OnQuitRequest()
         {
             GD.Print("Saving config");
             UserConfig.Save("user://settings.cfg");
             GetTree().Quit();
-        }
-
-        public void AddMesh(ArrayMesh mesh)
-        {
-            MeshInstance newMesh = new MeshInstance();
-            newMesh.Mesh = mesh;
-            GetNode("/root/main/env").AddChild(newMesh);
         }
 
         /// <summary>
@@ -122,7 +109,6 @@ namespace RR_Godot.Core
                 }
             }
 
-            PluginDir.Open(PluginFolderPath);
             GD.Print("PLUGIN DIR SET TO : " + PluginDir.GetCurrentDir());
         }
 

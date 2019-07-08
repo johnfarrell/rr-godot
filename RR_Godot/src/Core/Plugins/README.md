@@ -30,6 +30,7 @@ A bare-bones ImportPlugin will look like this:
 ```C#
 // SampleImporter.cs
 using RR_Godot.Core.Plugins;
+using RR_Godot.Core.Geometry;
 
 namespace SampleImportPlugin
 {
@@ -40,7 +41,7 @@ namespace SampleImportPlugin
         public string ConfigFile { get; }
         public string Name { get; }
 
-        public string[] Extensions { get; set; }
+        public string[] Extensions { get; }
 
         public SampleImporter()
         {
@@ -65,9 +66,11 @@ namespace SampleImportPlugin
 ##### Code Explanation
 
 ```C#
-using RR_Godot.Core.Plugins
+using RR_Godot.Core.Plugins;
+using RR_Godot.Core.Geometry;
 ```
 RR_Godot.Core.Plugins contains the necessary functionality for every plugin.
+RR_Godot.Core.Geometry on the other hand gives the plugin access to the necessary functions for creating and managing meshes, important for importing 3D files.
 
 ```C#
 namespace SampleImportPlugin

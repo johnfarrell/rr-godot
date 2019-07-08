@@ -1,7 +1,6 @@
-using System;
 using Godot;
 
-namespace RR_Godot.Core.Geometry
+namespace RR_Godot.Core
 {
     /// <summary>
     /// Used to command a mesh to draw vertices in a certain way.
@@ -49,10 +48,23 @@ namespace RR_Godot.Core.Geometry
 
         public Mesh()
         {
-            adder = GetNode
             Surface = new SurfaceTool();
+            adder = new MeshAdder();
         }
 
+        /// <summary>
+        /// Sets the mesh into draw mode.
+        /// <para>
+        /// This needs to be called before any vertices or
+        /// indices can be added
+        /// </para>
+        /// </summary>
+        /// <param name="RenderType">
+        /// Defines the way the mesh is drawn.
+        /// <para>
+        /// See <see cref="RR_Godot.Core.PrimitiveType"/> for more info.
+        /// </para>
+        /// </param>
         public void StartDrawing(PrimiteType RenderType)
         {
             GD.Print("STARTED MESH DRAWING");
@@ -60,37 +72,47 @@ namespace RR_Godot.Core.Geometry
             Surface.Begin(type);
         }
 
+        /// <summary>
+        /// Finalizes mesh drawing and adds the built mesh to
+        /// the world environment.
+        /// </summary>
         public void CommitSurface()
         {
             GD.Print("COMMITING DRAWING");
             
             ArrayMesh finalSurface = Surface.Commit();
-            Godot.Collections.Array arr = Surface.CommitToArrays();
 
-            GD.Print(arr);
-            var m = new MeshInstance();
-            m.Mesh = finalSurface;
-
-            MeshAdder.AddMesh(finalSurface);
-            // GetTree().Root.GetNode("main/env").AddChild(m);
+            adder.AddMesh(finalSurface);
         }
 
+        /// <summary>
+        /// Adds an index if building the mesh by indices.
+        /// </summary>
+        /// <param name="index"></param>
         public void AddIndex(int index)
         {
             Surface.AddIndex(index);
         }
 
+        /// <summary>
+        /// Adds a vertex to the mesh being drawn.
+        /// </summary>
+        /// <param name="vertex">Vector3 object of the vertex.</param>
         public void AddVertex(RR_Godot.Core.Geometry.Vector3 vertex)
         {
-            Godot.Vector3 gdCopy = new Godot.Vector3(vertex.x, vertex.y, vertex.z);
-
-            Surface.AddVertex(gdCopy);
+            Surface.AddVertex(new Godot.Vector3(vertex.x, vertex.y, vertex.z));
         }
 
+        /// <summary>
+        /// Adds a vertex to the mesh being drawn.
+        /// <para>Overload of <see cref="AddVertex"/></para>
+        /// </summary>
+        /// <param name="x">X-Coord of the vertex.</param>
+        /// <param name="y">Y-Coord of the vertex.</param>
+        /// <param name="z">Z-Coord of the vertex.</param>
         public void AddVertex(float x, float y, float z)
         {
             Surface.AddVertex(new Godot.Vector3(x, y, z));
         }
-
     }    
 }
