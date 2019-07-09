@@ -126,7 +126,7 @@ namespace RR_Godot.Core
         {
             foreach (IPlugin plug in PlugLoader.Plugins)
             {
-                UserConfig.AddPlugin(plug);
+                UserConfig.AddPlugin(plug.Name);
             }
         }
 
