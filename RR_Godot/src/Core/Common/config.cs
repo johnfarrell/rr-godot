@@ -19,10 +19,13 @@ namespace RR_Godot.Core
         /// </summary>
         public List<IPlugin> DisabledPlugins;
 
+        public List<string> InactivePlugins;
+
         public Config()
         {
             EnabledPlugins = new List<IPlugin>();
             DisabledPlugins = new List<IPlugin>();
+            InactivePlugins = new List<string>();
         }
 
         // TODO
@@ -82,6 +85,11 @@ namespace RR_Godot.Core
                 AddPlugin((IPlugin) PluginName);
                 SetPluginDisabled((IPlugin) PluginName);
             }
+        }
+
+        public void AddInactivePluginAfterRefresh(string PluginName)
+        {
+            InactivePlugins.Add(PluginName);
         }
 
         /// <summary>
@@ -207,6 +215,11 @@ namespace RR_Godot.Core
                 retVal[i] = DisabledPlugins[i];
             }
             return retVal;
+        }
+
+        public string[] GetInactivePlugins()
+        {
+            return InactivePlugins.ToArray();
         }
 
         /// <summary>
