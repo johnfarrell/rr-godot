@@ -129,11 +129,5 @@ public class PluginPreferences : Panel
             PluginItemList.AddItem(PluginName);
             PluginItemList.AddItem("i");
         }
-
-        DisplayRestartPrompt();
-    }
-    public void DisplayRestartPrompt()
-    {
-
     }
 }
