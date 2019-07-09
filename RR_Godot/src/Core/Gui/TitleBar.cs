@@ -59,6 +59,16 @@ public class TitleBar : Control
         EditButtonPopup.AddSubmenuItem("Add Shape", "Shape");
 
         
+
+        // Populate view
+        ViewButton.GetPopup().AddItem("1");
+        ViewButton.GetPopup().AddItem("2");
+        ViewButton.GetPopup().AddItem("2alt");
+        ViewButton.GetPopup().AddItem("3");
+        ViewButton.GetPopup().AddItem("3alt");
+        ViewButton.GetPopup().AddItem("4");
+        ViewButton.GetPopup().Connect("id_pressed", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/4WayViewport/"), "toolbarViewItemPressed");
+
         this.Connect("gui_input", this, "TitleBarGUIInputHandler");
         GD.Print("TITLEBAR.CS: READY");
     }

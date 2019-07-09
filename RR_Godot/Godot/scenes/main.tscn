@@ -2,13 +2,13 @@
 
 [ext_resource path="res://Godot/theme/new_theme.tres" type="Theme" id=1]
 [ext_resource path="res://Godot/scenes/gizmos.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Godot/scenes/env.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Godot/scenes/PreferencesWindow.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Godot/theme/cb_button_hover.tres" type="StyleBox" id=4]
-[ext_resource path="res://Godot/scenes/4WayViewport.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Godot/scenes/env.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/Core/Gui/TitleBar.cs" type="Script" id=6]
 [ext_resource path="res://src/Core/Gui/AppWindow.cs" type="Script" id=7]
 [ext_resource path="res://src/Core/Gui/EnvironmentTree.cs" type="Script" id=8]
-[ext_resource path="res://Godot/scenes/PreferencesWindow.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Godot/scenes/4WayViewport.tscn" type="PackedScene" id=9]
 [ext_resource path="res://src/Core/Gui/ImportWindow.cs" type="Script" id=10]
 [ext_resource path="res://src/Core/Gui/MouseEventPassthrough.cs" type="Script" id=11]
 [ext_resource path="res://Godot/theme/toolbarPopupMenu.tres" type="Theme" id=12]
@@ -81,7 +81,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="env" parent="." instance=ExtResource( 3 )]
+[node name="env" parent="." instance=ExtResource( 5 )]
 
 [node name="UI" type="Control" parent="."]
 anchor_right = 1.0
@@ -287,10 +287,13 @@ anchor_bottom = 1.0
 mouse_filter = 1
 CamPath = NodePath("../4WayViewport")
 
-[node name="4WayViewport" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 5 )]
+[node name="4WayViewport" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 9 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 0.0
 margin_top = 55.0
+margin_right = 0.0
+margin_bottom = 0.0
 script = ExtResource( 11 )
 
 [node name="ToolboxPanelFixed" type="Panel" parent="UI/AppWindow/EnvironmentContainer"]
@@ -368,7 +371,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/panel = SubResource( 13 )
 
-[node name="PreferencesWindow" parent="UI" instance=ExtResource( 9 )]
+[node name="PreferencesWindow" parent="UI" instance=ExtResource( 3 )]
 
 [node name="ImportWindow" type="FileDialog" parent="UI"]
 margin_right = 500.0
