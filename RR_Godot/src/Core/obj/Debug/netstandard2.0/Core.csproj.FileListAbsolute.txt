@@ -1,0 +1,4 @@
+/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/obj/Debug/netstandard2.0/Core.csprojAssemblyReference.cache
+/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/obj/Debug/netstandard2.0/Core.csproj.CoreCompileInputs.cache
+/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/obj/Debug/netstandard2.0/Core.AssemblyInfoInputs.cache
+/home/john/Documents/Projects/rr-godot/RR_Godot/src/Core/obj/Debug/netstandard2.0/Core.AssemblyInfo.cs

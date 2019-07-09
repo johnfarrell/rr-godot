@@ -1,0 +1,390 @@
+[gd_scene load_steps=37 format=2]
+
+[ext_resource path="res://Godot/theme/new_theme.tres" type="Theme" id=1]
+[ext_resource path="res://Godot/scenes/gizmos.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Godot/scenes/PreferencesWindow.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Godot/theme/cb_button_hover.tres" type="StyleBox" id=4]
+[ext_resource path="res://Godot/scenes/env.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/Core/Gui/TitleBar.cs" type="Script" id=6]
+[ext_resource path="res://src/Core/Gui/AppWindow.cs" type="Script" id=7]
+[ext_resource path="res://src/Core/Gui/EnvironmentTree.cs" type="Script" id=8]
+[ext_resource path="res://Godot/scenes/4WayViewport.tscn" type="PackedScene" id=9]
+[ext_resource path="res://src/Core/Gui/ImportWindow.cs" type="Script" id=10]
+[ext_resource path="res://src/Core/Gui/MouseEventPassthrough.cs" type="Script" id=11]
+[ext_resource path="res://Godot/theme/toolbarPopupMenu.tres" type="Theme" id=12]
+[ext_resource path="res://src/Core/Gui/ToolboxPanelFixed.cs" type="Script" id=13]
+[ext_resource path="res://Godot/theme/addMesh.png" type="Texture" id=14]
+[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_translate_hover.png" type="Texture" id=15]
+[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_translate_active.png" type="Texture" id=16]
+[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_translate_icon.png" type="Texture" id=17]
+[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_rotate_hover.png" type="Texture" id=18]
+[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_rotate_active.png" type="Texture" id=19]
+[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_rotate_icon.png" type="Texture" id=20]
+[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_scale_hover.png" type="Texture" id=21]
+[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_scale_active.png" type="Texture" id=22]
+[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_scale_icon.png" type="Texture" id=23]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.921569, 0.921569, 0.921569, 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
+
+[sub_resource type="StyleBoxTexture" id=4]
+texture = ExtResource( 15 )
+region_rect = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="StyleBoxTexture" id=5]
+texture = ExtResource( 16 )
+region_rect = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="StyleBoxTexture" id=6]
+texture = ExtResource( 17 )
+region_rect = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="StyleBoxTexture" id=7]
+texture = ExtResource( 18 )
+region_rect = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="StyleBoxTexture" id=8]
+texture = ExtResource( 19 )
+region_rect = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="StyleBoxTexture" id=9]
+texture = ExtResource( 20 )
+region_rect = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="StyleBoxTexture" id=10]
+texture = ExtResource( 21 )
+region_rect = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="StyleBoxTexture" id=11]
+texture = ExtResource( 22 )
+region_rect = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="StyleBoxTexture" id=12]
+texture = ExtResource( 23 )
+region_rect = Rect2( 0, 0, 40, 40 )
+
+[sub_resource type="StyleBoxFlat" id=13]
+bg_color = Color( 0, 0, 0, 0.588235 )
+
+[node name="main" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="env" parent="." instance=ExtResource( 5 )]
+
+[node name="UI" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 1.0
+margin_bottom = 1.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="Panel" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 1 )
+
+[node name="TitleBar" type="Control" parent="UI"]
+anchor_right = 1.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 0, 30 )
+mouse_filter = 1
+script = ExtResource( 6 )
+
+[node name="TitleButtons" type="HBoxContainer" parent="UI/TitleBar"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -140.0
+margin_bottom = 44.0
+mouse_filter = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MinimizeButton" type="Button" parent="UI/TitleBar/TitleButtons"]
+margin_left = 6.0
+margin_top = 7.0
+margin_right = 46.0
+margin_bottom = 36.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_min_size = Vector2( 40, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 1, 0.745098, 0, 1 )
+text = "_"
+flat = true
+
+[node name="MaximizeButton" type="Button" parent="UI/TitleBar/TitleButtons"]
+margin_left = 50.0
+margin_top = 7.0
+margin_right = 90.0
+margin_bottom = 36.0
+rect_min_size = Vector2( 40, 0 )
+rect_clip_content = true
+size_flags_horizontal = 4
+size_flags_vertical = 4
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0.141176, 0.768627, 0, 1 )
+text = "O"
+flat = true
+
+[node name="QuitButton" type="Button" parent="UI/TitleBar/TitleButtons"]
+margin_left = 94.0
+margin_top = 7.0
+margin_right = 134.0
+margin_bottom = 36.0
+rect_min_size = Vector2( 40, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0.827451, 0.160784, 0.160784, 1 )
+text = "X"
+flat = true
+
+[node name="TitleText" type="Label" parent="UI/TitleBar"]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -95.0
+margin_right = 132.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0 )
+custom_constants/shadow_offset_x = 0
+custom_constants/shadow_offset_y = 0
+text = "RR-Godot - Untitled Project (*)"
+align = 1
+valign = 1
+
+[node name="MenuBar" type="HBoxContainer" parent="UI/TitleBar"]
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="btnFile" type="MenuButton" parent="UI/TitleBar/MenuBar"]
+margin_right = 50.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 50, 30 )
+custom_colors/font_color_hover = Color( 0.254902, 0.415686, 0.607843, 1 )
+custom_colors/font_color_pressed = Color( 0.254902, 0.415686, 0.607843, 1 )
+text = "File"
+switch_on_hover = true
+
+[node name="btnEdit" type="MenuButton" parent="UI/TitleBar/MenuBar"]
+margin_left = 54.0
+margin_right = 104.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 50, 30 )
+custom_colors/font_color_hover = Color( 0.254902, 0.415686, 0.607843, 1 )
+custom_colors/font_color_pressed = Color( 0.254902, 0.415686, 0.607843, 1 )
+text = "Edit"
+switch_on_hover = true
+
+[node name="btnView" type="MenuButton" parent="UI/TitleBar/MenuBar"]
+margin_left = 108.0
+margin_right = 158.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 50, 30 )
+custom_colors/font_color_hover = Color( 0.254902, 0.415686, 0.607843, 1 )
+custom_colors/font_color_pressed = Color( 0.254902, 0.415686, 0.607843, 1 )
+text = "View"
+switch_on_hover = true
+
+[node name="btnHelp" type="MenuButton" parent="UI/TitleBar/MenuBar"]
+margin_left = 162.0
+margin_right = 212.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 50, 30 )
+custom_colors/font_color_hover = Color( 0.254902, 0.415686, 0.607843, 1 )
+custom_colors/font_color_pressed = Color( 0.254902, 0.415686, 0.607843, 1 )
+text = "Help"
+switch_on_hover = true
+
+[node name="AppWindow" type="HSplitContainer" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 40.0
+margin_right = -10.0
+margin_bottom = -10.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+split_offset = 100
+script = ExtResource( 7 )
+
+[node name="LeftMenu" type="VBoxContainer" parent="UI/AppWindow"]
+margin_right = 350.0
+margin_bottom = 1030.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 250, 0 )
+size_flags_vertical = 5
+custom_constants/separation = 10
+
+[node name="TreeContainer" type="TabContainer" parent="UI/AppWindow/LeftMenu"]
+margin_right = 350.0
+margin_bottom = 1030.0
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+tab_align = 0
+
+[node name="Environment" type="Tree" parent="UI/AppWindow/LeftMenu/TreeContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 41.0
+margin_right = -10.0
+margin_bottom = -10.0
+mouse_filter = 1
+script = ExtResource( 8 )
+
+[node name="Object Catalog" type="Tree" parent="UI/AppWindow/LeftMenu/TreeContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 41.0
+margin_right = -10.0
+margin_bottom = -10.0
+mouse_filter = 1
+
+[node name="EnvironmentContainer" type="Control" parent="UI/AppWindow"]
+margin_left = 362.0
+margin_right = 1900.0
+margin_bottom = 1030.0
+focus_mode = 2
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="UI/AppWindow/EnvironmentContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 2 )
+
+[node name="gizmos" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 2 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+CamPath = NodePath("../4WayViewport")
+
+[node name="4WayViewport" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 9 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.0
+margin_top = 55.0
+margin_right = 0.0
+margin_bottom = 0.0
+script = ExtResource( 11 )
+
+[node name="ToolboxPanelFixed" type="Panel" parent="UI/AppWindow/EnvironmentContainer"]
+margin_right = 763.0
+margin_bottom = 55.0
+theme = ExtResource( 12 )
+custom_styles/panel = SubResource( 3 )
+script = ExtResource( 13 )
+
+[node name="ToolboxContainer" type="HBoxContainer" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed"]
+margin_left = 5.0
+margin_top = 5.0
+size_flags_horizontal = 2
+size_flags_vertical = 2
+alignment = 1
+
+[node name="AddMeshMenuButton" type="MenuButton" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer"]
+margin_right = 41.0
+margin_bottom = 49.0
+rect_min_size = Vector2( 40, 40 )
+mouse_filter = 1
+size_flags_horizontal = 2
+size_flags_vertical = 0
+custom_styles/hover = ExtResource( 4 )
+icon = ExtResource( 14 )
+
+[node name="ModeTranslate" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer"]
+margin_left = 45.0
+margin_right = 85.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 40 )
+focus_mode = 0
+mouse_filter = 1
+size_flags_horizontal = 2
+size_flags_vertical = 0
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/normal = SubResource( 6 )
+toggle_mode = true
+enabled_focus_mode = 0
+
+[node name="ModeRotate" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer"]
+margin_left = 89.0
+margin_right = 129.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 40 )
+focus_mode = 0
+mouse_filter = 1
+size_flags_horizontal = 2
+size_flags_vertical = 0
+custom_styles/hover = SubResource( 7 )
+custom_styles/pressed = SubResource( 8 )
+custom_styles/normal = SubResource( 9 )
+toggle_mode = true
+enabled_focus_mode = 0
+
+[node name="ModeScale" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer"]
+margin_left = 133.0
+margin_right = 173.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 40, 40 )
+focus_mode = 0
+mouse_filter = 1
+size_flags_horizontal = 2
+size_flags_vertical = 0
+custom_styles/hover = SubResource( 10 )
+custom_styles/pressed = SubResource( 11 )
+custom_styles/normal = SubResource( 12 )
+toggle_mode = true
+enabled_focus_mode = 0
+
+[node name="ShadowBox" type="Panel" parent="UI"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 13 )
+
+[node name="PreferencesWindow" parent="UI" instance=ExtResource( 3 )]
+
+[node name="ImportWindow" type="FileDialog" parent="UI"]
+margin_right = 500.0
+margin_bottom = 300.0
+rect_min_size = Vector2( 500, 300 )
+popup_exclusive = true
+window_title = "Import File"
+mode_overrides_title = false
+mode = 0
+script = ExtResource( 10 )
+[connection signal="pressed" from="UI/TitleBar/TitleButtons/MinimizeButton" to="UI/TitleBar" method="MinimizeButtonPressedHandler"]
+[connection signal="pressed" from="UI/TitleBar/TitleButtons/MaximizeButton" to="UI/TitleBar" method="MaximizeButtonPressedHandler"]
+[connection signal="mouse_entered" from="UI/AppWindow/LeftMenu" to="env" method="OnEnvContainerMouseExit"]
+[connection signal="mouse_exited" from="UI/AppWindow/LeftMenu" to="env" method="OnEnvContainerMouseEntered"]
+[connection signal="mouse_entered" from="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed" to="env" method="OnEnvContainerMouseExit"]
+[connection signal="mouse_exited" from="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed" to="env" method="OnEnvContainerMouseEntered"]

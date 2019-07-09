@@ -1,0 +1,18 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/gizmo-handlerotate.obj-fabae29b41793922c5544eb9407427a8.mesh"
+
+[deps]
+
+files=[ "res://.import/gizmo-handlerotate.obj-fabae29b41793922c5544eb9407427a8.mesh" ]
+
+source_file="res://Godot/theme/objs/gizmo/gizmo-handlerotate.obj"
+dest_files=[ "res://.import/gizmo-handlerotate.obj-fabae29b41793922c5544eb9407427a8.mesh", "res://.import/gizmo-handlerotate.obj-fabae29b41793922c5544eb9407427a8.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+optimize_mesh=true

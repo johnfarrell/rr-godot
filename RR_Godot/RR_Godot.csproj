@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1323C7EA-65BB-47F0-9488-376295EA76D7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <OutputPath>.mono/temp/bin/$(Configuration)</OutputPath>
+    <RootNamespace>RR_Godot</RootNamespace>
+    <AssemblyName>RR_Godot</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <BaseIntermediateOutputPath>.mono/temp/obj</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)/$(Configuration)</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>portable</DebugType>
+    <Optimize>true</Optimize>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Tools|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;TOOLS;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GodotSharp">
+      <HintPath>$(ProjectDir)/.mono/assemblies/GodotSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="GodotSharpEditor" Condition=" '$(Configuration)' == 'Tools' ">
+      <HintPath>$(ProjectDir)/.mono/assemblies/GodotSharpEditor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="src/Core/Core.csproj">
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="src/Core/Plugins/Plugins.csproj">
+      <Name>Plugins</Name>
+    </ProjectReference>
+    <ProjectReference Include="src/Core/Geometry/Geometry.csproj">
+      <Name>Geometry</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\Core\Common\Global.cs" />
+    <Compile Include="src\Core\Common\config.cs" />
+    <Compile Include="src\Core\env.cs" />
+    <Compile Include="src\Core\Geometry\MeshAdder.cs" />
+    <Compile Include="src\Core\gizmos.cs" />
+    <Compile Include="src\Core\Gizmo\GizmoRotate.cs" />
+    <Compile Include="src\Core\Gizmo\GizmoScale.cs" />
+    <Compile Include="src\Core\Gizmo\GizmoTranslate.cs" />
+    <Compile Include="src\Core\Gui\AppWindow.cs" />
+    <Compile Include="src\Core\Gui\AxisLineGenerator.cs" />
+    <Compile Include="src\Core\Gui\DebugDraw.cs" />
+    <Compile Include="src\Core\Gui\EnvironmentTree.cs" />
+    <Compile Include="src\Core\Gui\gridGenerator.cs" />
+    <Compile Include="src\Core\Gui\ImportWindow.cs" />
+    <Compile Include="src\Core\Gui\MouseEventPassthrough.cs" />
+    <Compile Include="src\Core\Gui\PluginPreferences.cs" />
+    <Compile Include="src\Core\Gui\PreferencesWindow.cs" />
+    <Compile Include="src\Core\Gui\TitleBar.cs" />
+    <Compile Include="src\Core\Gui\ToolboxPanel.cs" />
+    <Compile Include="src\Core\Gui\ToolboxPanelFixed.cs" />
+    <Compile Include="src\Core\Gui\viewport\Viewport1.cs" />
+    <Compile Include="src\Core\Gui\viewport\Viewport2.cs" />
+    <Compile Include="src\Core\Gui\viewport\Viewport3.cs" />
+    <Compile Include="src\Core\Gui\viewport\Viewport4.cs" />
+    <Compile Include="src\Core\Gui\viewport\ViewportLL.cs" />
+    <Compile Include="src\Core\Gui\viewport\ViewportLR.cs" />
+    <Compile Include="src\Core\Gui\viewport\ViewportUR.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

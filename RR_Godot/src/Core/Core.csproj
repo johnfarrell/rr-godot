@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{17E4A418-559C-4055-820A-A8AE3DD89B07}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <OutputPath>.mono/temp/bin/$(Configuration)</OutputPath>
+    <RootNamespace>RR_Godot.Core</RootNamespace>
+    <AssemblyName>Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <BaseIntermediateOutputPath>.mono/temp/obj</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)/$(Configuration)</IntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>portable</DebugType>
+    <Optimize>true</Optimize>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Tools|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>portable</DebugType>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;TOOLS;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GodotSharp">
+      <HintPath>$(SolutionDir)/.mono/assemblies/GodotSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="GodotSharpEditor" Condition=" '$(Configuration)' == 'Tools' ">
+      <HintPath>$(SolutionDir)/.mono/assemblies/GodotSharpEditor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="env.cs" />
+    <Compile Include="gizmos.cs" />
+    <Compile Include="Gizmo\Gizmo.cs" />
+    <Compile Include="Gizmo\GizmoRotate.cs" />
+    <Compile Include="Gizmo\GizmoScale.cs" />
+    <Compile Include="Gizmo\GizmoTranslate.cs" />
+    <Compile Include="Gui\AppWindow.cs" />
+    <Compile Include="Gui\AxisLineGenerator.cs" />
+    <Compile Include="Gui\DebugDraw.cs" />
+    <Compile Include="Gui\EnvironmentTree.cs" />
+    <Compile Include="Gui\ImportWindow.cs" />
+    <Compile Include="Gui\gridGenerator.cs" />
+    <Compile Include="Gui\MouseEventPassthrough.cs" />
+    <Compile Include="Gui\PluginPreferences.cs" />
+    <Compile Include="Gui\PreferencesWindow.cs" />
+    <Compile Include="Gui\TitleBar.cs" />
+    <Compile Include="Gui\ToolboxPanel.cs" />
+    <Compile Include="Gui\ToolboxPanelFixed.cs" />
+    <Compile Include="Gui\viewport\Viewport1.cs" />
+    <Compile Include="Gui\viewport\Viewport2.cs" />
+    <Compile Include="Gui\viewport\Viewport3.cs" />
+    <Compile Include="Gui\viewport\Viewport4.cs" />
+    <Compile Include="Gui\viewport\ViewportLL.cs" />
+    <Compile Include="Gui\viewport\ViewportLR.cs" />
+    <Compile Include="Gui\viewport\ViewportUR.cs" />
+    <Compile Include="Sensors\Cam.cs" />
+    <Compile Include="Common\config.cs" />
+    <Compile Include="Common\Global.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Plugins\Plugins.csproj">
+      <Name>Plugins</Name>
+    </ProjectReference>
+    <ProjectReference Include="Geometry\Geometry.csproj">
+      <Name>Geometry</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
