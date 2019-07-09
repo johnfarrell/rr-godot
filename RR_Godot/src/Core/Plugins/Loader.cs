@@ -79,30 +79,21 @@ namespace RR_Godot.Core.Plugins
             // TODO: Load all plugin assemblies into a seperate AppDomain
             // to allow for unloading/reloading of plugins.
 
-            // Instance
             Type ImportInterface = typeof(IPlugin);
             // Get all the librarys that have a class that implements IImportPlugin
             // Original code from DukeOfHaren's plugin tutorial
             // https://github.com/dukeofharen/tutorials/blob/master/DotNet.Plugin/DotNet.Plugin.Business/PluginLoader.cs
-            // foreach(Assembly assm in AppDomain.CurrentDomain.GetAssemblies())
-            // {
-            //     GD.Print("\n------------" + assm.FullName + "-----");
-            //     GD.Print(assm.GetTypes());
-            // }
             Type[] types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(a => a.GetTypes())
                 .Where(p => ImportInterface.IsAssignableFrom(p) && p.IsClass)
                 .ToArray();
 
-            GD.Print("LOADED IMPORT PLUGINS: " + types.Length);
+            GD.Print("Loaded " + types.Length + " plugins...");
             foreach (Type type in types)
             {
-                if(type.GetInterfaces().Contains(typeof(IImportPlugin)))
-                {
-                    IImportPlugin importPlug = (IImportPlugin) Activator.CreateInstance(type);
-                    Plugins.Add(importPlug);
-                    GD.Print(importPlug.Ready());
-                }
+                IPlugin importPlug = (IPlugin) Activator.CreateInstance(type);
+                Plugins.Add(importPlug);
+                GD.Print(importPlug.Ready());
             }
         }
 
@@ -116,6 +107,8 @@ namespace RR_Godot.Core.Plugins
         }
 
         // ---- Helpers -----
+
+        
         /// <summary>
         /// Goes through a plugin folder and gets the library and config file.
         /// </summary>

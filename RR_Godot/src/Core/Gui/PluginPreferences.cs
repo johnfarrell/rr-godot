@@ -21,10 +21,15 @@ public class PluginPreferences : Panel
 
         PluginItemList.Connect("item_selected", this, "OnItemListItemPressed");
         
+        // Disable the load and refresh buttons because we need to think through them more
+        Button LoadButton = GetNode<Button>("VBoxContainer/SearchBar/HBoxContainer/LoadButton");
+        LoadButton.Disabled = true;
+        LoadButton.Connect("pressed", this, "SelectPluginFolder");
 
-        GetNode("VBoxContainer/SearchBar/HBoxContainer/LoadButton").Connect("pressed", this, "SelectPluginFolder");
+        Button RefreshButton = GetNode<Button>("VBoxContainer/SearchBar/HBoxContainer/RefreshButton");
+        RefreshButton.Disabled = false;
+        RefreshButton.Connect("pressed", this, "RefreshPluginList");
 
-        GetNode("VBoxContainer/SearchBar/HBoxContainer/RefreshButton").Connect("pressed", this, "RefreshPluginList");
         this.Connect("item_rect_changed", this, "OnRectSizeChanged");
 
         PluginItemList.MaxColumns = 2;
@@ -34,8 +39,7 @@ public class PluginPreferences : Panel
         
 
         CreatePluginListHeader();
-
-        RefreshPluginList();
+        RefreshPluginList(true);
     }
 
     public void OnRectSizeChanged()
@@ -85,21 +89,51 @@ public class PluginPreferences : Panel
         PluginItemList.SetItemCustomBgColor(1, HeaderColor);
     }
 
+    /// <summary>
+    /// Helper because Godot signals don't like connecting to functions
+    /// that have arguments.
+    /// </summary>
     public void RefreshPluginList()
     {
-        GlobalSettings.PopulatePluginSettings();
-        
+        RefreshPluginList(false);
+    }
+
+    public void RefreshPluginList(bool StartupCall)
+    {
         PluginItemList.Clear();
         CreatePluginListHeader();
 
-        IPlugin[] EnabledPluginList = GlobalSettings.UserConfig.GetEnabledPlugins();
-
-        GD.Print(EnabledPluginList.Length);
-
-        foreach (IPlugin EnabledPlugin in EnabledPluginList)
+        // Used so we don't go through the plugin directory twice on startup
+        if(!StartupCall)
         {
-            PluginItemList.AddItem(EnabledPlugin.Name);
+            GlobalSettings.CheckForNewPlugins();
+        }
+
+        string[] EnabledPluginNames = GlobalSettings.UserConfig.GetEnabledPlugins();
+        foreach (string PluginName in EnabledPluginNames)
+        {
+            PluginItemList.AddItem(PluginName);
             PluginItemList.AddItem("y");
         }
+
+        string[] DisabledPluginNames = GlobalSettings.UserConfig.GetDisabledPlugins();
+        foreach (string PluginName in DisabledPluginNames)
+        {
+            PluginItemList.AddItem(PluginName);
+            PluginItemList.AddItem("n");
+        }
+
+        string[] InactivePluginNames = GlobalSettings.UserConfig.GetInactivePlugins();
+        foreach (string PluginName in InactivePluginNames)
+        {
+            PluginItemList.AddItem(PluginName);
+            PluginItemList.AddItem("i");
+        }
+
+        DisplayRestartPrompt();
+    }
+    public void DisplayRestartPrompt()
+    {
+
     }
 }

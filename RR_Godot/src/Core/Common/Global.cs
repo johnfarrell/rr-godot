@@ -1,8 +1,6 @@
 using Godot;
 using System;
-// using RR_Godot.Core;
 using RR_Godot.Core.Plugins;
-// using RR_Godot.Core.Plugins.Loader;
 
 
 namespace RR_Godot.Core
@@ -40,10 +38,6 @@ namespace RR_Godot.Core
             ParseConfig();
             ValidatePluginDirectory();
             CheckPlugins();
-
-            // Debug prints, will be removed later
-            GD.Print("ENABLED PLUGINS: " + UserConfig.GetEnabledPlugins().Length);
-            GD.Print("DISABLED PLUGINS: " + UserConfig.GetDisabledPlugins().Length);
             
             GD.Print("GLOBAL SINGLETON LOADED");
         }
@@ -95,9 +89,8 @@ namespace RR_Godot.Core
         /// </summary>
         private void ValidatePluginDirectory()
         {
-            String PluginFolderPath = "user://addons/plugins";
-            PluginDir = new Directory();
-            bool PluginPathExists = PluginDir.DirExists(PluginFolderPath);
+            String PluginFolderPath = UserDataDirectory + "/plugins/";
+            bool PluginPathExists = System.IO.Directory.Exists(PluginFolderPath);
 
             if(!PluginPathExists)
             {
@@ -108,8 +101,10 @@ namespace RR_Godot.Core
                     GD.PushError("ERROR: Cannot create directory, " + err);
                 }
             }
-
-            GD.Print("PLUGIN DIR SET TO : " + PluginDir.GetCurrentDir());
+            PluginDir = new Directory();
+            var err2 = PluginDir.ChangeDir(PluginFolderPath);
+            var curDir = PluginDir.GetCurrentDir();
+            GD.Print("PLUGIN DIR SET TO : " + curDir);
         }
 
         /// <summary>
@@ -124,6 +119,7 @@ namespace RR_Godot.Core
         public void CheckPlugins()
         {
             PlugLoader.LoadAllPlugins();
+            PopulatePluginSettings();
         }
 
         public void PopulatePluginSettings()
@@ -132,6 +128,74 @@ namespace RR_Godot.Core
             {
                 UserConfig.AddPlugin(plug);
             }
+        }
+
+        public void CheckForNewPlugins()
+        {   
+            string[] PluginFolders = System.IO.Directory
+                .GetDirectories(UserDataDirectory + "/plugins/");
+            foreach (string Folder in PluginFolders)
+            {
+                GD.Print("Found plugin folder: " + Folder);
+                var FolderName = System.IO.Path.GetFileName(Folder);
+                if(!IsPluginFolderLoaded(FolderName))
+                {
+                    UserConfig.AddInactivePluginAfterRefresh(FolderName);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks to see if a plugin is loaded based off a folder name.
+        /// </summary>
+        /// <param name="PluginDirName">
+        /// Name of the folder in question.
+        /// </param>
+        /// <returns>
+        /// True if there is a plugin loaded that matches the given folder name.
+        /// </returns>
+        private bool IsPluginFolderLoaded(string PluginDirName)
+        {
+            foreach (IPlugin plug in PlugLoader.Plugins)
+            {
+                if(PluginNameMatchesFolder(plug.Name, PluginDirName))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Checks to see if a specified plugin name matches a specified plugin directory
+        /// given the specified naming conventions for plugins.
+        /// </summary>
+        /// <param name="PluginName">
+        /// Name property of the plugin.
+        /// </param>
+        /// <param name="PluginFolderName">
+        /// Name of the directory where plugin files are located.
+        /// </param>
+        /// <returns>True if the plugin matches naming conventions, false if not</returns>
+        private bool PluginNameMatchesFolder(string PluginName, string PluginFolderName)
+        {
+            string[] plugNameParts = PluginName.Split(' ');
+            string[] plugDirParts = PluginFolderName.Split('_');
+
+            // If the split names aren't equal in length, the plugin doesn't
+            // match naming conventions. 
+            if(plugNameParts.Length != plugDirParts.Length)
+            {
+                return false;
+            }
+            for(int i = 0; i < plugNameParts.Length; ++i)
+            {
+                if(plugNameParts[i].ToLower() != plugDirParts[i].ToLower())
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         // TODO: Functionalize this and probably move it to plugloader or a different
@@ -151,17 +215,25 @@ namespace RR_Godot.Core
                 GD.Print("Testing " + plug.Name);
                 if(true)
                 {
-                    IImportPlugin temp = (IImportPlugin) plug;
-
-                    GD.Print("Found IImportPlugin " + temp.Name);
-                    foreach (String ext in temp.Extensions)
+                    try
                     {
-                        if(ext == fileExtension)
+                        IImportPlugin temp = (IImportPlugin) plug;
+
+                        GD.Print("Found IImportPlugin " + temp.Name);
+                        foreach (String ext in temp.Extensions)
                         {
-                            GD.Print("Calling " + temp.Name + " to import.");
-                            temp.Import(file);
+                            if(ext == fileExtension)
+                            {
+                                GD.Print("Calling " + temp.Name + " to import.");
+                                temp.Import(file);
+                            }
                         }
                     }
+                    catch (Exception e)
+                    {
+                        GD.Print(e);
+                    }
+                    
                 }
             }
         }
