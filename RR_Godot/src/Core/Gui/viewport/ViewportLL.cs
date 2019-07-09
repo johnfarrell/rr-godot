@@ -3,15 +3,11 @@ using System;
 
 public class ViewportLL : Viewport
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
-
-    // Called when the node enters the scene tree for the first time.
     Node c1;
     Viewport v1;
 
     String loc = "LL";
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -19,13 +15,7 @@ public class ViewportLL : Viewport
         c1= this.GetChild(0);
         v1 = this;
     }
-
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
-    
+ 
     //Input proccessor for UL hand camera
     public override void _Input(InputEvent @event)
     {  
@@ -45,21 +35,10 @@ public class ViewportLL : Viewport
         Vector2 m = GetMousePosition();
         Vector2 v = GetViewport().Size;
         
-
         if((m.x < v.x && m.x >0)&&(m.y < v.y && m.y > 0))
         {
-            mouseLoc = true;
-           
+            mouseLoc = true;   
         }
-
-
-
         return mouseLoc;
     }
-
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
 }
