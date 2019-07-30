@@ -46,6 +46,9 @@
       <HintPath>$(SolutionDir)/.mono/assemblies/GodotSharpEditor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="RosSharp.Urdf">
+      <HintPath>$(SolutionDir)/Urdf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
   </ItemGroup>
