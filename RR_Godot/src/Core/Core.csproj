@@ -81,6 +81,7 @@
     <Compile Include="Sensors\Cam.cs" />
     <Compile Include="Common\config.cs" />
     <Compile Include="Common\Global.cs" />
+    <Compile Include="Urdf\UrdfImporter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Plugins\Plugins.csproj">
