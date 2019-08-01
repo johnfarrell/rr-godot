@@ -11,14 +11,14 @@ public class ViewportUR : Viewport
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        this.GetChild(0).SetProcessInput(false);
+        this.GetChild(0).SetProcessInput(true);
         c1= this.GetChild(0);
         v1 = this;
     }
     
-    //Input proccessor for UL hand camera
+    // Input proccessor for UL hand camera
     public override void _Input(InputEvent @event)
-    {  
+    {
         if ( @event is InputEventMouseMotion && mouseMoveIn())
         { 
             c1.SetProcessInput(true);

@@ -17,12 +17,7 @@ public class Viewport1 : ViewportContainer
 
     public override void _UnhandledInput(InputEvent @event)
     {
-        GetNode("Viewport")._UnhandledInput(@event);
-    }
-
-    public override void _Input(InputEvent @event)
-    {
-        GetNode("Viewport")._Input(@event);
+        GetNode<Viewport>("Viewport")._UnhandledInput(@event);
     }
 
     /// <summary>
@@ -41,7 +36,6 @@ public class Viewport1 : ViewportContainer
     /// </summary>
     public void _on_Viewport1_mouse_entered()
     {
-        toolbox.Show();
-                
+        toolbox.Show();             
     }
 }

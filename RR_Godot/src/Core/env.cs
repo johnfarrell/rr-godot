@@ -48,7 +48,8 @@ public class env : Spatial
 
     private PackedScene gizmoScene = (PackedScene) GD.Load("res://Godot/scenes/gizmos.tscn");
 
-    private Control gizmo;
+    private Spatial gizmo;
+
     private DebugDrawType currentDrawType = DebugDrawType.Disable;
 
     private Godot.Spatial marker;
@@ -64,11 +65,7 @@ public class env : Spatial
         // Connect tree update signal
         Connect(nameof(envUpdated), GetNode("/root/main/UI/AppWindow/LeftMenu/TreeContainer/Environment/"), "UpdateTree");
 
-        
-
-
-        gizmo = GetNode<Control>("/root/main/UI/AppWindow/EnvironmentContainer/gizmos");
-
+        gizmo = GetNode<Spatial>("/root/main/UI/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1/Viewport/gizmos");
 
         for(var i = 0; i < gizmo.GetChildCount(); ++i)
         {
@@ -76,7 +73,7 @@ public class env : Spatial
             gizmo.GetChild(i).Connect("HandleUnpressed", this, "GizmoUnclicked");
         }
 
-        gizmo.Visible = false;
+        // gizmo.Visible = false;
         GD.Print("ENV.CS: READY");
     }
 
@@ -143,7 +140,9 @@ public class env : Spatial
     {
         StaticBody temp = new StaticBody();
         MeshInstance tempMesh = new MeshInstance();
-        tempMesh.Mesh = new CubeMesh();
+        Resource tempres = GD.Load("/home/john/Downloads/baxter_torso.dae");
+        GD.Print(tempres);
+        // tempMesh.Mesh = (Godot.Mesh) GD.Load("res://ScrewSizer.stl");
 
         tempMesh.CreateTrimeshCollision();
 
@@ -262,19 +261,12 @@ public class env : Spatial
     /// <param name="@event">InputEvent obj containing Godot event information</param>
     public override void _Input(InputEvent @event)
     {
-        if(mouseInside)
+        gizmo._Input(@event);
+        if(@event is InputEventMouseButton && @event.IsAction("mouse_left_click"))
         {
-            if(@event is InputEventMouseButton && @event.IsAction("mouse_left_click"))
-            {
-                mouseClicked = !mouseClicked;
-            }
+            mouseClicked = !mouseClicked;
         }
     }
-
-    // public override void _UnhandledInput(InputEvent @event)
-    // {
-    //     gizmo._UnhandledInput(@event);
-    // }
 
     /// <summary>
     /// Signal reciever for MouseEnter signal sent by EnvironmentContainer node
@@ -308,6 +300,8 @@ public class env : Spatial
 
         var selection = spaceState.IntersectRay(rayFrom, rayTo);
 
+        
+
         return selection;
     }
 
@@ -324,14 +318,14 @@ public class env : Spatial
         for(var x = 0; x < gizmo.GetChildCount(); ++x) {
             Spatial temp = gizmo.GetChild<Spatial>(x);
 
-            temp.Visible = SetVisible;
+            // temp.Visible = SetVisible;
             temp.GlobalTranslate(TargetPos - temp.GlobalTransform.origin);
         }
     }
 
     private void ResetMarkerParent()
     {
-        UpdateMarkerParent(GetNode("/root/main/env"));
+        UpdateMarkerParent(this);
     }
 
     private void UpdateMarkerParent(Node newParent)
@@ -365,8 +359,7 @@ public class env : Spatial
             catch(Exception e)
             {
                 GD.Print(e);
-            }
-            
+            }   
 
             if(tempObj.Count == 0)
             {
@@ -379,7 +372,6 @@ public class env : Spatial
                 tempObj["collider"] == selectedObject["collider"])
             {
                 // User clicked on the same object
-
             }
             else
             {

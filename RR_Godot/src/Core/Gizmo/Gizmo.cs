@@ -14,12 +14,12 @@ namespace RR_Godot.Core.Gizmo
         /// Class to hold the material locations for each handle along with the highlight
         /// material
         /// </summary>
-        class Materials
+        static class Materials
         {
-            public static Material Highlight = (Material) GD.Load("res://theme/mats/gizmo/gizmo_HandleHighlight.tres");
-            public static Material XHandle = (Material) GD.Load("res://theme/mats/gizmo/gizmo_XHandleMat.tres");
-            public static Material YHandle = (Material) GD.Load("res://theme/mats/gizmo/gizmo_YHandleMat.tres");
-            public static Material ZHandle = (Material) GD.Load("res://theme/mats/gizmo/gizmo_ZHandleMat.tres");
+            public static Material Highlight = (Material) GD.Load("res://Godot/theme/mats/gizmo/gizmo_HandleHighlight.tres");
+            public static Material XHandle = (Material) GD.Load("res://Godot/theme/mats/gizmo/gizmo_XHandleMat.tres");
+            public static Material YHandle = (Material) GD.Load("res://Godot/theme/mats/gizmo/gizmo_YHandleMat.tres");
+            public static Material ZHandle = (Material) GD.Load("res://Godot/theme/mats/gizmo/gizmo_ZHandleMat.tres");
         }
 
         [Signal]
@@ -226,7 +226,7 @@ namespace RR_Godot.Core.Gizmo
             }
             else
             {
-                ToggleEnabled(false);
+                // ToggleEnabled(false);
             }
         }
 
@@ -246,6 +246,8 @@ namespace RR_Godot.Core.Gizmo
         /// </summary>        
         public void SetDefaults()
         {
+            SetProcess(true);
+            SetProcessPriority(0);
             EditorViewport = GetNode<Viewport>("/root/main/UI/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1/Viewport");
 
             HandleX = GetNode<Godot.StaticBody>("HandleX");
@@ -254,19 +256,23 @@ namespace RR_Godot.Core.Gizmo
 
             // Set collision layers to layer 2 so the handles don't
             // collide with anything.
-            HandleX.CollisionMask = 0b10;
-            HandleX.CollisionLayer = 0b10;
+            HandleX.CollisionMask = 0b11;
+            HandleX.CollisionLayer = 0b11;
 
-            HandleY.CollisionMask = 0b10;
-            HandleY.CollisionLayer = 0b10;
+            HandleY.CollisionMask = 0b11;
+            HandleY.CollisionLayer = 0b11;
 
-            HandleZ.CollisionMask = 0b10;
-            HandleZ.CollisionLayer = 0b10;
+            HandleZ.CollisionMask = 0b11;
+            HandleZ.CollisionLayer = 0b11;
 
             // Set visual layers to draw handles over whole environment.
             HandleX.GetNode<MeshInstance>("Handle").Layers = 0b10;
             HandleY.GetNode<MeshInstance>("Handle").Layers = 0b10;
             HandleZ.GetNode<MeshInstance>("Handle").Layers = 0b10;
+
+            HandleX.SetProcessUnhandledInput(true);
+            HandleY.SetProcessUnhandledInput(true);
+            HandleZ.SetProcessUnhandledInput(true);
 
             // Connect mouse enter/exit signals
             HandleX.Connect("mouse_entered", this, "OnXHandleMouseEnter");

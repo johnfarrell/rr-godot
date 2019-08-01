@@ -1,7 +1,6 @@
 using Godot;
 
-
-public class gizmos : Control
+public class gizmos : Spatial
 {
     [Export]
     Godot.Camera mainCam;
@@ -11,7 +10,6 @@ public class gizmos : Control
 
     public override void _Ready()
     {
-        
         // TODO: Find some way to make this dynamic instead of a static path
         var node = GetNode<Godot.Camera>("/root/main/UI/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1/Viewport/Camera/CameraObj");
         this.mainCam = node;
@@ -24,7 +22,7 @@ public class gizmos : Control
         var distance = this.GetChild<Spatial>(0).GlobalTransform.origin.DistanceTo(mainCam.GlobalTransform.origin);
 
         for(var x = 0; x < this.GetChildCount(); ++x) {
-            this.GetChild<Spatial>(x).Scale = new Vector3(distance / 4, distance / 4, distance / 4); 
+            this.GetChild<Spatial>(x).Scale = new Vector3(distance / 3, distance / 3, distance / 3); 
         }
     }
 }

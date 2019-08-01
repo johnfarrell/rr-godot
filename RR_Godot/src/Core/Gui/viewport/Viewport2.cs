@@ -22,7 +22,6 @@ public class Viewport2 : ViewportContainer
     {
        if(toolbox.GetLocalMousePosition().x > toolbox.GetEnd().x || toolbox.GetLocalMousePosition().y >toolbox.GetEnd().y)
         {
-           
            toolbox.Hide();
         }
     }

@@ -24,13 +24,28 @@ public class MeshAdder : Spatial
         SpatialMaterial mat = new SpatialMaterial();
         mat.VertexColorUseAsAlbedo = true;
         mat.FlagsUsePointSize = true;
-        mat.ParamsPointSize = 4;
+        mat.ParamsPointSize = 8;
 
         m.MaterialOverride = mat;
         m.Mesh = mesh;
         m.Name = "Custom Mesh";
 
+        m.CreateConvexCollision();
+
+        StaticBody temp = new StaticBody();
+        temp.Name = "Mesh Static Body";
+
+        // Get the collision shape and reparent it to the StaticBody
+        CollisionShape collision = (CollisionShape) m.GetChild(0).GetChild(0);
+        collision.Name = "Custom Mesh Collision";
+
+        m.GetChild(0).RemoveChild(collision);
+        m.RemoveChild(m.GetChild(0));
+
+        temp.AddChild(collision);
+        temp.AddChild(m);
+
         GD.Print("Adding mesh to environment...");
-        RootView.GetNode("main/env").AddChild(m);
+        RootView.GetNode("main/env").AddChild(temp);
     }
 }
