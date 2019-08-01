@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Godot/theme/rr-godot-theme.tres" type="Theme" id=1]
 [ext_resource path="res://src/Core/Gui/viewport/Viewport1.cs" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://src/Core/Gui/viewport/ViewportLL.cs" type="Script" id=9]
 [ext_resource path="res://src/Core/Gui/viewport/Viewport4.cs" type="Script" id=10]
 [ext_resource path="res://src/Core/Gui/viewport/ViewportLR.cs" type="Script" id=11]
+[ext_resource path="res://Godot/scenes/gizmos.tscn" type="PackedScene" id=12]
 
 [sub_resource type="StyleBoxFlat" id=1]
 
@@ -18,9 +19,13 @@
 margin_left = 1.0
 margin_right = 613.0
 margin_bottom = 451.0
+mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="VerticalSplit" type="VSplitContainer" parent="."]
 anchor_right = 1.0
@@ -29,20 +34,25 @@ margin_left = 2.44354
 margin_top = 2.44354
 margin_right = 2.44354
 margin_bottom = 2.44354
+mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="HSplit1" type="HSplitContainer" parent="VerticalSplit"]
 margin_right = 612.0
 margin_bottom = 451.0
+mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 1 )
 
 [node name="Viewport1" type="ViewportContainer" parent="VerticalSplit/HSplit1"]
-margin_right = 612.0
+margin_right = 300.0
 margin_bottom = 451.0
-mouse_filter = 2
+mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 1 )
@@ -50,17 +60,21 @@ stretch = true
 script = ExtResource( 2 )
 
 [node name="Viewport" type="Viewport" parent="VerticalSplit/HSplit1/Viewport1"]
-size = Vector2( 612, 451 )
+size = Vector2( 300, 451 )
 handle_input_locally = false
 render_target_update_mode = 3
+physics_object_picking = true
+gui_snap_controls_to_pixels = false
 script = ExtResource( 3 )
 
 [node name="Camera" parent="VerticalSplit/HSplit1/Viewport1/Viewport" instance=ExtResource( 4 )]
+transform = Transform( -0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, 0.5, -0.5, -2, 2, -2 )
+
+[node name="gizmos" parent="VerticalSplit/HSplit1/Viewport1/Viewport" instance=ExtResource( 12 )]
 
 [node name="ToolboxPanel" type="Panel" parent="VerticalSplit/HSplit1/Viewport1"]
-margin_top = 10.0
-margin_right = 125.0
-margin_bottom = 55.0
+margin_right = 85.0
+margin_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource( 1 )
@@ -68,6 +82,8 @@ custom_styles/panel = SubResource( 1 )
 script = ExtResource( 5 )
 
 [node name="ToolboxContainer" type="HBoxContainer" parent="VerticalSplit/HSplit1/Viewport1/ToolboxPanel"]
+margin_right = 77.0
+margin_bottom = 22.0
 theme = ExtResource( 1 )
 
 [node name="RenderStyle" type="MenuButton" parent="VerticalSplit/HSplit1/Viewport1/ToolboxPanel/ToolboxContainer"]
@@ -77,9 +93,9 @@ text = "Render"
 
 [node name="CameraPerspective" type="MenuButton" parent="VerticalSplit/HSplit1/Viewport1/ToolboxPanel/ToolboxContainer"]
 margin_left = 49.0
-margin_right = 57.0
+margin_right = 77.0
 margin_bottom = 22.0
-text = "C"
+text = "Cam"
 
 [node name="DebugDraw" type="Control" parent="VerticalSplit/HSplit1/Viewport1"]
 visible = false
@@ -88,10 +104,10 @@ margin_bottom = 40.0
 script = ExtResource( 6 )
 
 [node name="Viewport2" type="ViewportContainer" parent="VerticalSplit/HSplit1"]
-visible = false
 margin_left = 312.0
 margin_right = 612.0
 margin_bottom = 451.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
@@ -100,15 +116,16 @@ script = ExtResource( 7 )
 [node name="Viewport" type="Viewport" parent="VerticalSplit/HSplit1/Viewport2"]
 size = Vector2( 300, 451 )
 handle_input_locally = false
-render_target_update_mode = 0
+render_target_update_mode = 3
+physics_object_picking = true
 script = ExtResource( 3 )
 
 [node name="Camera" parent="VerticalSplit/HSplit1/Viewport2/Viewport" instance=ExtResource( 4 )]
+transform = Transform( -1, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, 0, 5, 0 )
 
 [node name="ToolboxPanel" type="Panel" parent="VerticalSplit/HSplit1/Viewport2"]
-margin_left = -12.0
-margin_right = 113.0
-margin_bottom = 55.0
+margin_right = 85.0
+margin_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource( 1 )
@@ -125,9 +142,9 @@ text = "Render"
 
 [node name="CameraPerspective" type="MenuButton" parent="VerticalSplit/HSplit1/Viewport2/ToolboxPanel/ToolboxContainer"]
 margin_left = 49.0
-margin_right = 57.0
+margin_right = 77.0
 margin_bottom = 22.0
-text = "C"
+text = "Cam"
 
 [node name="DebugDraw" type="Control" parent="VerticalSplit/HSplit1/Viewport2"]
 visible = false
@@ -141,29 +158,32 @@ visible = false
 margin_top = 231.0
 margin_right = 612.0
 margin_bottom = 451.0
+mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Viewport3" type="ViewportContainer" parent="VerticalSplit/HSplit2"]
-margin_right = 612.0
+margin_right = 300.0
 margin_bottom = 220.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
 script = ExtResource( 8 )
 
 [node name="Viewport" type="Viewport" parent="VerticalSplit/HSplit2/Viewport3"]
-size = Vector2( 612, 220 )
+size = Vector2( 300, 220 )
 handle_input_locally = false
 render_target_update_mode = 0
+physics_object_picking = true
 script = ExtResource( 9 )
 
 [node name="Camera" parent="VerticalSplit/HSplit2/Viewport3/Viewport" instance=ExtResource( 4 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, 0, 0 )
 
 [node name="ToolboxPanel" type="Panel" parent="VerticalSplit/HSplit2/Viewport3"]
-margin_top = -12.0
-margin_right = 128.0
-margin_bottom = 43.0
+margin_right = 85.0
+margin_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource( 1 )
@@ -171,20 +191,23 @@ custom_styles/panel = SubResource( 1 )
 script = ExtResource( 5 )
 
 [node name="ToolboxContainer" type="HBoxContainer" parent="VerticalSplit/HSplit2/Viewport3/ToolboxPanel"]
-margin_right = 154.0
-margin_bottom = 49.0
+margin_right = 85.0
+margin_bottom = 22.0
 theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="RenderStyle" type="MenuButton" parent="VerticalSplit/HSplit2/Viewport3/ToolboxPanel/ToolboxContainer"]
 margin_right = 45.0
-margin_bottom = 49.0
+margin_bottom = 22.0
 text = "Render"
 
 [node name="CameraPerspective" type="MenuButton" parent="VerticalSplit/HSplit2/Viewport3/ToolboxPanel/ToolboxContainer"]
 margin_left = 49.0
-margin_right = 57.0
-margin_bottom = 49.0
-text = "C"
+margin_right = 77.0
+margin_bottom = 22.0
+text = "Cam"
 
 [node name="DebugDraw" type="Control" parent="VerticalSplit/HSplit2/Viewport3"]
 visible = false
@@ -194,27 +217,28 @@ margin_bottom = 28.0
 script = ExtResource( 6 )
 
 [node name="Viewport4" type="ViewportContainer" parent="VerticalSplit/HSplit2"]
-visible = false
+margin_left = 312.0
 margin_right = 612.0
 margin_bottom = 220.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
 script = ExtResource( 10 )
 
 [node name="Viewport" type="Viewport" parent="VerticalSplit/HSplit2/Viewport4"]
-size = Vector2( 612, 220 )
+size = Vector2( 300, 220 )
 handle_input_locally = false
 render_target_update_mode = 0
+physics_object_picking = true
 script = ExtResource( 11 )
 
 [node name="Camera" parent="VerticalSplit/HSplit2/Viewport4/Viewport" instance=ExtResource( 4 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -5 )
 
 [node name="ToolboxPanel" type="Panel" parent="VerticalSplit/HSplit2/Viewport4"]
-margin_left = -12.0
-margin_top = -12.0
-margin_right = 115.0
-margin_bottom = 43.0
+margin_right = 85.0
+margin_bottom = 20.0
 grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource( 1 )
@@ -231,9 +255,9 @@ text = "Render"
 
 [node name="CameraPerspective" type="MenuButton" parent="VerticalSplit/HSplit2/Viewport4/ToolboxPanel/ToolboxContainer"]
 margin_left = 49.0
-margin_right = 57.0
+margin_right = 77.0
 margin_bottom = 22.0
-text = "C"
+text = "Cam"
 
 [node name="DebugDraw" type="Control" parent="VerticalSplit/HSplit2/Viewport4"]
 visible = false

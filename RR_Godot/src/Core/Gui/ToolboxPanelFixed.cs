@@ -21,18 +21,18 @@ public class ToolboxPanelFixed : Panel
 
         /// Addthe translate button to the fixed menu
         Button ModeTranslateButton = GetNode<Button>("ToolboxContainer/ModeTranslate");
-        ModeTranslateButton.Connect("toggled", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Translate"), "ManipToggled");
-        ModeTranslateButton.Connect("toggled", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Scale"), "TurnOffOnTrans");
+        ModeTranslateButton.Connect("toggled", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1/Viewport/gizmos/Translate"), "ManipToggled");
+        ModeTranslateButton.Connect("toggled", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1/Viewport/gizmos/Scale"), "TurnOffOnTrans");
         ModeTranslateButton.Connect("toggled", this, "ToggleScaleOnTrans");
 
         ///Connect and create the rotate gizmo button on the fixed menu
         Button ModeRotateButton = GetNode<Button>("ToolboxContainer/ModeRotate");
-        ModeRotateButton.Connect("toggled", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Rotate"), "ManipToggled");
+        ModeRotateButton.Connect("toggled", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1/Viewport/gizmos/Rotate"), "ManipToggled");
 
         ///Connect and create the scaling button on the fixed menu
         Button ModeScaleButton = GetNode<Button>("ToolboxContainer/ModeScale");
-        ModeScaleButton.Connect("toggled", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Scale"), "ManipToggled");
-        ModeScaleButton.Connect("toggled", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/gizmos/Translate"), "TurnOffOnScale");
+        ModeScaleButton.Connect("toggled", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1/Viewport/gizmos/Scale"), "ManipToggled");
+        ModeScaleButton.Connect("toggled", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1/Viewport/gizmos/Translate"), "TurnOffOnScale");
         ModeScaleButton.Connect("toggled", this, "ToggleTransOnScale");
 
 

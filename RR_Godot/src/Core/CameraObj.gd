@@ -46,6 +46,8 @@ var pressed = false
 var _direction = Vector3(0.0, 0.0, 0.0)
 var _speed = Vector3(0.0, 0.0, 0.0)
 
+var send_raycast = false
+
 func _ready():
 	_check_actions([forward_action, backward_action, left_action, right_action, up_action, down_action])
 
@@ -59,6 +61,7 @@ func _ready():
 func _input(event):
 	if mouselook:
 		if event is InputEventMouseButton and event.is_action("mouse_right_click"):
+			send_raycast = true
 			pressed = !pressed
 			
 	if mouselook:
@@ -105,6 +108,17 @@ func _physics_process(_delta):
 	var obstacle = space_state.intersect_ray(privot.get_translation(),  get_translation())
 	if not obstacle.empty():
 		set_translation(obstacle.position)
+		
+	if (send_raycast == true):
+		
+		print("cast")
+		send_raycast = false;
+		
+		var raycast_from = $CameraObj.project_ray_origin(get_tree().root.get_mouse_position())
+		var raycast_to = raycast_from + $cameraObj.project_ray_normal(get_tree().root.get_mouse_position() * 100)
+		
+		var result = space_state.intersect_ray(raycast_from, raycast_to, [self], 0b11)
+		
 
 func _update_movement(delta):
 	var offset = max_speed * acceleration * _direction

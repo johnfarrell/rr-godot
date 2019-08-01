@@ -16,20 +16,20 @@ public class ViewportLR : Viewport
         v1 = this;
     }
     
-    //Input proccessor for UL hand camera
-    public override void _Input(InputEvent @event)
-    {  
+    // //Input proccessor for UL hand camera
+    // public override void _Input(InputEvent @event)
+    // {  
         
-        if ( @event is InputEventMouseMotion && mouseMoveIn())
-        {
+    //     if ( @event is InputEventMouseMotion && mouseMoveIn())
+    //     {
             
-            c1.SetProcessInput(true);
-        }
-        else if (@event is InputEventMouseMotion && !mouseMoveIn())
-        {
-            c1.SetProcessInput(false);
-        }
-    }
+    //         c1.SetProcessInput(true);
+    //     }
+    //     else if (@event is InputEventMouseMotion && !mouseMoveIn())
+    //     {
+    //         c1.SetProcessInput(false);
+    //     }
+    // }
 
     private bool mouseMoveIn()
     { 

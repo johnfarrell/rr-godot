@@ -107,7 +107,7 @@ namespace RR_Godot.Core
             // Go through the JSON file and add the necessary items
             Godot.Collections.Dictionary nsetting = 
                 (Godot.Collections.Dictionary) setting;
-            foreach (System.Collections.DictionaryEntry entry in nsetting)
+            foreach (System.Collections.Generic.KeyValuePair<object, object> entry in nsetting)
             {
                 switch (entry.Key)
                 {
@@ -224,7 +224,7 @@ namespace RR_Godot.Core
         public void Save(string ConfigPath)
         {
             var configFile = new File();
-            configFile.Open(ConfigPath, File.ModeFlags.Write);
+            configFile.Open(ConfigPath, (int) File.ModeFlags.Write);
 
             var ConfigDict = CreateSettingsDictionary();
 

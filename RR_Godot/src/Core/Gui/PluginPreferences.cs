@@ -109,25 +109,25 @@ public class PluginPreferences : Panel
             GlobalSettings.CheckForNewPlugins();
         }
 
-        string[] EnabledPluginNames = GlobalSettings.UserConfig.GetEnabledPlugins();
+        string[] EnabledPluginNames = (string[]) GlobalSettings.UserConfig.GetValue("plugins", "enabled_plugins");
         foreach (string PluginName in EnabledPluginNames)
         {
             PluginItemList.AddItem(PluginName);
             PluginItemList.AddItem("y");
         }
 
-        string[] DisabledPluginNames = GlobalSettings.UserConfig.GetDisabledPlugins();
+        string[] DisabledPluginNames = (string[]) GlobalSettings.UserConfig.GetValue("plugins", "disabled_plugins");
         foreach (string PluginName in DisabledPluginNames)
         {
             PluginItemList.AddItem(PluginName);
             PluginItemList.AddItem("n");
         }
 
-        string[] InactivePluginNames = GlobalSettings.UserConfig.GetInactivePlugins();
-        foreach (string PluginName in InactivePluginNames)
-        {
-            PluginItemList.AddItem(PluginName);
-            PluginItemList.AddItem("i");
-        }
+        // string[] InactivePluginNames = GlobalSettings.UserConfig.GetInactivePlugins();
+        // foreach (string PluginName in InactivePluginNames)
+        // {
+        //     PluginItemList.AddItem(PluginName);
+        //     PluginItemList.AddItem("i");
+        // }
     }
 }

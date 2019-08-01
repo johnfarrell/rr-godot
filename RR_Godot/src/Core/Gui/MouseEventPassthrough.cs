@@ -16,10 +16,7 @@ public class MouseEventPassthrough : Control
     String V2 = "VerticalSplit/HSplit1/Viewport2";
     String V3 = "VerticalSplit/HSplit2/Viewport3";
     String V4 = "VerticalSplit/HSplit2/Viewport4";
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        GetNode<Viewport>("VerticalSplit/HSplit1/Viewport1/Viewport")._UnhandledInput(@event);
-    }
+
     /// <summary>
     /// handles view switching between different numbers of viewports
     /// and alterantive styles of viewing those viewports
@@ -52,8 +49,6 @@ public class MouseEventPassthrough : Control
                 GetNode<ViewportContainer>(V3).Visible = true;
                 GetNode<ViewportContainer>(V4).Visible = false;
                 break;
-
-
             //both horizontal visible, viewports 1,2, + 3
             case (int)View.three:
                 GetNode<ViewportContainer>(V1).Visible = true;
@@ -79,9 +74,5 @@ public class MouseEventPassthrough : Control
             default:
                 break;
         }
-
-
-
-
     }
 }

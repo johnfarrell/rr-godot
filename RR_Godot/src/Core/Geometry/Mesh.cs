@@ -94,6 +94,16 @@ namespace RR_Godot.Core
             Surface.AddIndex(index);
         }
 
+        public void AddNormal(RR_Godot.Core.Geometry.Vector3 normal)
+        {
+            Surface.AddNormal(new Godot.Vector3(normal.x, normal.y, normal.z));
+        }
+
+        public void AddNormal(float x, float y, float z)
+        {
+            Surface.AddNormal(new Godot.Vector3(x, y, z));
+        }
+
         /// <summary>
         /// Adds a vertex to the mesh being drawn.
         /// </summary>

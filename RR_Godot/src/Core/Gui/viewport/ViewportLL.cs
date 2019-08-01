@@ -17,17 +17,17 @@ public class ViewportLL : Viewport
     }
  
     //Input proccessor for UL hand camera
-    public override void _Input(InputEvent @event)
-    {  
-        if ( @event is InputEventMouseMotion && mouseMoveIn())
-        {
-            c1.SetProcessInput(true);
-        }
-        else if (@event is InputEventMouseMotion && !mouseMoveIn())
-        {
-            c1.SetProcessInput(false);
-        }
-    }
+    // public override void _Input(InputEvent @event)
+    // {  
+    //     if ( @event is InputEventMouseMotion && mouseMoveIn())
+    //     {
+    //         c1.SetProcessInput(true);
+    //     }
+    //     else if (@event is InputEventMouseMotion && !mouseMoveIn())
+    //     {
+    //         c1.SetProcessInput(false);
+    //     }
+    // }
 
     private bool mouseMoveIn()
     {
