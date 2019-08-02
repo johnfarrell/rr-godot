@@ -1,10 +1,33 @@
+using Godot;
 using RosSharp.Urdf;
 using System.Collections.Generic;
 
 namespace RR_Godot.Core.Urdf
 {
+    // TODO
+    // * Move this to its own file
+    /// <summary>
+    /// Class to translate between a Godot physics
+    /// representation of a Urdf Link
+    /// </summary>
+    public class GLink
+    {
+        public RigidBody _rigidBody { get; set; }
+        public CollisionShape _colShape { get; set; }
+        public MeshInstance _meshInst { get; set; }
+
+        public GLink()
+        {
+            _rigidBody = new RigidBody();
+            _colShape = new CollisionShape();
+            _meshInst = new MeshInstance();
+        }
+    }
+
     public class UrdfNode
     {
+        
+
         // Whether or not this node represents the root node
         public bool _isRoot { get; set; }
 
@@ -18,7 +41,7 @@ namespace RR_Godot.Core.Urdf
         // Link elemnt of this node
         public Link _link { get; private set; }
         // Joint element of this node
-        public Joint _joint { get; private set; }
+        public RosSharp.Urdf.Joint _joint { get; private set; }
 
         // X Y Z offset from parent node in meters
         public double[] _offsetXyz { get; set; }
@@ -33,7 +56,7 @@ namespace RR_Godot.Core.Urdf
             _link = null;
             _joint = null;
         }
-        public UrdfNode(UrdfNode parent, Link link, Joint joint)
+        public UrdfNode(UrdfNode parent, Link link, RosSharp.Urdf.Joint joint)
         {
             _children = new List<UrdfNode>();
             _parent = parent;
@@ -129,6 +152,32 @@ namespace RR_Godot.Core.Urdf
             }
             this._parent = parent;
             return true;
+        }
+
+        /// <summary>
+        /// Creates a GLink object containing the necessary
+        /// structures for representing this node
+        /// inside of a 3D Godot environment.
+        /// </summary>
+        /// <returns></returns>
+        public GLink CreateGLink()
+        {
+            GLink retVal = new GLink();
+
+            // Create Rigid Body
+            retVal._rigidBody.Name = _link.name;
+            retVal._rigidBody.SetMass((float) _link.inertial.mass);
+
+            // Create the MeshInstance
+            retVal._meshInst.Name = _link.name + "_mesh";
+            // retVal._meshInst.Mesh = CreateMesh(_link.visuals);
+
+            // Create the CollisionShape from _meshInst
+            retVal._colShape.Name = _link.name + "_collision";
+
+            // Add the children
+
+            return retVal;
         }
     }
 }

@@ -235,6 +235,7 @@ namespace RR_Godot.Core
             if (fileExtension == ".urdf")
             {
                 UrdfHandler.Parse(file);
+                UrdfHandler.PrintTree(UrdfHandler._robotRoot);
             }
             // foreach (IPlugin plug in PlugLoader.Plugins)
             // {

@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using Godot;
 using RosSharp.Urdf;
 
+
 namespace RR_Godot.Core.Urdf
 {
     public class UrdfImporter
     {
         Robot _robot;
+
+        public UrdfNode _robotRoot;
 
         private void UrdfPrint(string msg, int indent = 0)
         {
@@ -17,62 +20,30 @@ namespace RR_Godot.Core.Urdf
             GD.Print(form_msg);
         }
 
-        private bool HandleJoints(List<RosSharp.Urdf.Joint> joint_list)
-        {
-            UrdfPrint("Parsing joints...");
-            foreach (var joint in joint_list)
-            {
-                UrdfPrint("\tFound Joint: " + joint.name);
-            }
-            return false;
-        }
-
-        private bool HandleLinks(List<RosSharp.Urdf.Link> link_list)
-        {
-            UrdfPrint("Parsing links...");
-            foreach (var link in link_list)
-            {
-                UrdfPrint("\tFound Link: " + link.name);
-
-                UrdfPrint("\t  parsing link visuals...");
-                foreach (var vis in link.visuals)
-                {
-                    try
-                    {
-                        UrdfPrint("\t\tVisual: " + vis.geometry.mesh.filename);
-                    }
-                    catch
-                    {
-                        // GD.Print("No visual data");
-                    }
-                }
-            }
-            return false;
-        }
-
-        private bool HandleMaterials(List<Link.Visual.Material> mat_list)
-        {
-            UrdfPrint("Parsing materials...");
-            foreach (var mat in mat_list)
-            {
-                UrdfPrint("\tFound Material: " + mat.name);
-            }
-
-            return false;
-        }
-
         /// <summary>
         /// <para>PrintTree</para>
-        /// Recursively prints the tree structure of
-        /// the Urdf file
+        /// Prints the tree structure of
+        /// the Urdf file.
         /// </summary>
         /// <param name="root">
-        /// Root UrdfNode of the tree
+        /// Root UrdfNode of the tree.
         /// </param>
-        /// <param name="level">
-        /// Current level of recursion.
-        /// </param>
-        public void PrintTree(UrdfNode root, int level = 0)
+        public void PrintTree(UrdfNode root)
+        {
+            int count = 1;
+
+            foreach (var childNode in root.GetChildren())
+            {
+                string status = "(" + count + ") - Node " + childNode._name + ": " + childNode.GetNumChildren();
+                UrdfPrint(status);
+
+                PrintTree(childNode, 1);
+                count += 1;
+            }
+        }
+
+
+        private void PrintTree(UrdfNode root, int level)
         {
             int count = 1;
 
@@ -96,12 +67,12 @@ namespace RR_Godot.Core.Urdf
         /// UrdfNode of the root node in the
         /// tree.
         /// </returns>
-        public UrdfNode CreateNodeTree()
+        private UrdfNode CreateNodeTree(Robot bot)
         {
             // Create the root node
-            UrdfNode rootNode = new UrdfNode(null, _robot.root, null);
+            UrdfNode rootNode = new UrdfNode(null, bot.root, null);
             rootNode._isRoot = true;
-            rootNode._name = _robot.root.name;
+            rootNode._name = bot.root.name;
 
             PopulateChildren(rootNode);
 
@@ -136,21 +107,50 @@ namespace RR_Godot.Core.Urdf
             }
         }
 
+        private void PrintRobotInfo(Robot bot)
+        {
+            if (bot != null)
+            {
+                var botName = bot.name;
+                var fileName = bot.filename;
+
+                UrdfPrint("Parsed robot " + botName + " from file: " + fileName);
+            }
+        }
+
         public bool Parse(string file_name)
         {
-            UrdfPrint("Parsing file: " + file_name);
-            _robot = new Robot(file_name);
+            try
+            {
+                _robot = new Robot(file_name);
+                _robotRoot = CreateNodeTree(_robot);
+            }
+            catch
+            {
+                UrdfPrint("Error parsing Urdf file.\tRobot not parsed!");
+                return false;
+            }
+            PrintRobotInfo(_robot);
 
-            UrdfPrint("Robot name: " + _robot.name);
+            return true;
+        }
 
-            int child_count = _robot.root.joints.Count;
-            string status = "Root " + _robot.root.name + " has " + child_count + " children";
-            UrdfPrint(status);
-            UrdfNode root = CreateNodeTree();
+        public Spatial GenerateSpatial(UrdfNode base_node)
+        {
+            // Create the empty spatial node
+            Spatial rootSpat = new Spatial();
+            rootSpat.Name = base_node._name;
 
-            PrintTree(root, 2);
+            // Add children recursively
+            foreach (var child in base_node.GetChildren())
+            {
+                // Create a Godot joint
 
-            return false;
+                // Create a GLink
+                GLink tempLink = child.CreateGLink();
+            }
+
+            return rootSpat;
         }
     }
 }
