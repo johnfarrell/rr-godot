@@ -4,30 +4,8 @@ using System.Collections.Generic;
 
 namespace RR_Godot.Core.Urdf
 {
-    // TODO
-    // * Move this to its own file
-    /// <summary>
-    /// Class to translate between a Godot physics
-    /// representation of a Urdf Link
-    /// </summary>
-    public class GLink
-    {
-        public RigidBody _rigidBody { get; set; }
-        public CollisionShape _colShape { get; set; }
-        public MeshInstance _meshInst { get; set; }
-
-        public GLink()
-        {
-            _rigidBody = new RigidBody();
-            _colShape = new CollisionShape();
-            _meshInst = new MeshInstance();
-        }
-    }
-
     public class UrdfNode
     {
-        
-
         // Whether or not this node represents the root node
         public bool _isRoot { get; set; }
 
@@ -158,6 +136,10 @@ namespace RR_Godot.Core.Urdf
         /// Creates a GLink object containing the necessary
         /// structures for representing this node
         /// inside of a 3D Godot environment.
+        /// <para>
+        /// Does not apply necessary transformations to 
+        /// position the node in the 3D space.
+        /// </para>
         /// </summary>
         /// <returns></returns>
         public GLink CreateGLink()
@@ -168,15 +150,33 @@ namespace RR_Godot.Core.Urdf
             retVal._rigidBody.Name = _link.name;
             retVal._rigidBody.SetMass((float) _link.inertial.mass);
 
-            // Create the MeshInstance
-            retVal._meshInst.Name = _link.name + "_mesh";
-            // retVal._meshInst.Mesh = CreateMesh(_link.visuals);
+            // Create temporary cylinder mesh
+            CylinderMesh temp = new CylinderMesh();
+            temp.RadialSegments = 16;
+            temp.Height = 0.5F;
+            temp.BottomRadius = 0.2F;
+            temp.TopRadius = 0.2F;
 
-            // Create the CollisionShape from _meshInst
+            // Create the MeshInstance
+            retVal._meshInst.Mesh = temp;
+            retVal._meshInst.Name = _link.name + "_mesh";
+
+            // Create the CollisionShape from _meshInstame = _link.name + "_collision";
+            retVal._meshInst.CreateTrimeshCollision();
+            CollisionShape coll = (CollisionShape) retVal._meshInst.GetChild(0).GetChild(0);
+
+            // Remove both children
+            retVal._meshInst.GetChild(0).RemoveChild(coll);
+            retVal._meshInst.RemoveChild(retVal._meshInst.GetChild(0));
+
+            retVal._colShape = coll;
             retVal._colShape.Name = _link.name + "_collision";
 
-            // Add the children
-
+            // Add the meshinstance and collisionshape as children
+            // of the rigidbody.
+            retVal._rigidBody.AddChild(retVal._colShape);
+            retVal._rigidBody.AddChild(retVal._meshInst);
+            
             return retVal;
         }
     }
