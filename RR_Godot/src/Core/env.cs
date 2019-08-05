@@ -140,9 +140,7 @@ public class env : Spatial
     {
         StaticBody temp = new StaticBody();
         MeshInstance tempMesh = new MeshInstance();
-        Resource tempres = GD.Load("/home/john/Downloads/baxter_torso.dae");
-        GD.Print(tempres);
-        // tempMesh.Mesh = (Godot.Mesh) GD.Load("res://ScrewSizer.stl");
+        tempMesh.Mesh = new CubeMesh();
 
         tempMesh.CreateTrimeshCollision();
 
