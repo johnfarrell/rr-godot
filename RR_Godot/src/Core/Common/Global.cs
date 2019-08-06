@@ -239,6 +239,8 @@ namespace RR_Godot.Core
                 Spatial temp = UrdfHandler.GenerateSpatial(UrdfHandler._robotRoot);
 
                 GetNode("/root/main/env").AddChild(temp);
+
+                GetNode("/root/main/env").EmitSignal("envUpdated");
             }
             // foreach (IPlugin plug in PlugLoader.Plugins)
             // {
