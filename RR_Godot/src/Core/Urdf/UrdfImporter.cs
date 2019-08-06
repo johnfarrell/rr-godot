@@ -12,6 +12,12 @@ namespace RR_Godot.Core.Urdf
 
         public UrdfNode _robotRoot;
 
+        /// <summary>
+        /// <para>UrdfPrint</para>
+        /// Helper function to format debug messages for Urdf handling.
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="indent">Indent level of the line. Multiplied by 2.</param>
         private void UrdfPrint(string msg, int indent = 0)
         {
             string form_msg = " U\t";
@@ -118,6 +124,15 @@ namespace RR_Godot.Core.Urdf
             }
         }
 
+        /// <summary>
+        /// <para>Parse</para>
+        /// Parses a Urdf file into class RosSharp.Urdf.Robot member.
+        /// </summary>
+        /// <param name="file_name">Name of the Urdf file.</param>
+        /// <returns>
+        /// <para>True if the file was succesfully parsed.</para>
+        /// <para>False if there was an error while parsing.<para>
+        /// </returns>
         public bool Parse(string file_name)
         {
             try
@@ -135,6 +150,19 @@ namespace RR_Godot.Core.Urdf
             return true;
         }
 
+        /// <summary>
+        /// <para>GenerateSpatial</para>
+        /// <para>
+        /// Generates a tree of Godot objects capable of
+        /// being inserted into a Godot SceneTree.
+        /// </para>
+        /// <para>
+        /// This tree accurately represents Urdf Joints and Links
+        /// in Godot terms.
+        /// </para>
+        /// </summary>
+        /// <param name="base_node">UrdfNode containing the root Urdf component.</param>
+        /// <returns>A Godot.Spatial containing the root of the Godot tree.</returns>
         public Spatial GenerateSpatial(UrdfNode base_node)
         {
             // Create the empty spatial node
@@ -149,6 +177,10 @@ namespace RR_Godot.Core.Urdf
                 rootSpat.AddChild(childJoint);
 
                 // Transform according to the child joint transformations
+                // Godot's 3D scene has X forward, Y up, and Z right, while
+                // Urdf uses X forward, Y right, Z up. 
+                // This is why the indices below aren't in order, it translates
+                // the Urdf coordinates into Godot coordinates.
                 childJoint.TranslateObjectLocal(new Vector3(
                     (float) child._joint.origin.Xyz[0],
                     (float) child._joint.origin.Xyz[2],
@@ -162,7 +194,20 @@ namespace RR_Godot.Core.Urdf
             return rootSpat;
         }
 
-        public Generic6DOFJoint GenerateSpatialRec(UrdfNode base_node)
+        /// <summary>
+        /// <para>GenerateSpatialRec</para>
+        /// Recursive component to generate the Godot SceneTree
+        /// structure of the URDF file, complete with joints and
+        /// collision shapes.
+        /// </summary>
+        /// <param name="base_node">
+        /// UrdfNode containing the node to generate off of.
+        /// </param>
+        /// <returns>
+        /// A Godot.Generic6DOFJoint that represents the start of the Godot 
+        /// representation of the URDF tree structure.
+        /// </returns>
+        private Generic6DOFJoint GenerateSpatialRec(UrdfNode base_node)
         {
             // Create the return joint
             Generic6DOFJoint finJoint = ConfigureJoint(base_node._joint);
@@ -172,9 +217,10 @@ namespace RR_Godot.Core.Urdf
             GLink tempLink = base_node.CreateGLink();
             finJoint.AddChild(tempLink._rigidBody);
             
-
             foreach (var child in base_node.GetChildren())
             {
+                // This is the same as GenerateSpatial(), so look at that
+                // function for the explanation.
                 Generic6DOFJoint childJoint = GenerateSpatialRec(child);
                 tempLink._rigidBody.AddChild(childJoint);
 
@@ -194,6 +240,12 @@ namespace RR_Godot.Core.Urdf
         private Generic6DOFJoint ConfigureJoint(RosSharp.Urdf.Joint base_joint)
         {
             Generic6DOFJoint genJoint = new Generic6DOFJoint();
+
+            // The Urdf joint axis specifies the axis of rotation for revolute joints,
+            // axis of translation for prismatic joints, and the surface normal
+            // for planar joints.
+            // If it's not specified accessing it will error out, so we need to
+            // manually specify the default (X-axis).
             double[] j_axis;
             try 
             {
@@ -204,12 +256,15 @@ namespace RR_Godot.Core.Urdf
                 j_axis = new double[] {1.0, 0.0, 0.0};
             }
 
-            // Limit all the axis
+            // Limit all the axis, has the effect of making it a fixed joint.
+            // All the limits will be equal, making it unable to move.
+            // Doing this allows us to set limits only where we need to.
             genJoint.AngularLimitX__enabled = true;
             genJoint.AngularLimitY__enabled = true;
             genJoint.AngularLimitZ__enabled = true;
-
-            
+            genJoint.LinearLimitX__enabled = true;
+            genJoint.LinearLimitY__enabled = true;
+            genJoint.LinearLimitZ__enabled = true;
 
             UrdfPrint(base_joint.name + " AXIS: " + j_axis[0] + " " + j_axis[1] + " " + j_axis[2]);
 
@@ -226,13 +281,13 @@ namespace RR_Godot.Core.Urdf
                     }
                     if(j_axis[1] == 1.0)
                     {
-                        genJoint.AngularLimitY__lowerAngle = (float) base_joint.limit.lower;
-                        genJoint.AngularLimitY__upperAngle = (float) base_joint.limit.upper;
+                        genJoint.AngularLimitZ__lowerAngle = (float) base_joint.limit.lower;
+                        genJoint.AngularLimitZ__upperAngle = (float) base_joint.limit.upper;
                     }
                     if(j_axis[2] == 0.0)
                     {
-                        genJoint.AngularLimitZ__lowerAngle = (float) base_joint.limit.lower;
-                        genJoint.AngularLimitZ__upperAngle = (float) base_joint.limit.upper;
+                        genJoint.AngularLimitY__lowerAngle = (float) base_joint.limit.lower;
+                        genJoint.AngularLimitY__upperAngle = (float) base_joint.limit.upper;
                     }
                     
                     break;
