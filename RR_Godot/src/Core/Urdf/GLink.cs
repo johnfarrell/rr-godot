@@ -10,13 +10,13 @@ namespace RR_Godot.Core.Urdf
     /// </summary>
     public class GLink
     {
-        public StaticBody _rigidBody { get; set; }
+        public RigidBody _rigidBody { get; set; }
         public CollisionShape _colShape { get; set; }
         public MeshInstance _meshInst { get; set; }
 
         public GLink()
         {
-            _rigidBody = new StaticBody();
+            _rigidBody = new RigidBody();
             _colShape = new CollisionShape();
             _meshInst = new MeshInstance();
         }

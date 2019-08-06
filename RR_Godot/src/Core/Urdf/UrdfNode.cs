@@ -148,7 +148,8 @@ namespace RR_Godot.Core.Urdf
 
             // Create Rigid Body
             retVal._rigidBody.Name = _link.name;
-            // retVal._rigidBody.SetMass((float) _link.inertial.mass);
+            retVal._rigidBody.Mode = RigidBody.ModeEnum.Rigid;
+            retVal._rigidBody.SetMass((float) _link.inertial.mass);
 
             // Create temporary cylinder mesh
             CylinderMesh temp = new CylinderMesh();
@@ -163,13 +164,16 @@ namespace RR_Godot.Core.Urdf
 
             // Create the CollisionShape from _meshInstame = _link.name + "_collision";
             retVal._meshInst.CreateTrimeshCollision();
-            CollisionShape coll = (CollisionShape) retVal._meshInst.GetChild(0).GetChild(0);
+            // retVal._meshInst.cr
+            StaticBody coll = (StaticBody) retVal._meshInst.GetChild(0);
+
 
             // Remove both children
-            retVal._meshInst.GetChild(0).RemoveChild(coll);
-            retVal._meshInst.RemoveChild(retVal._meshInst.GetChild(0));
+            // retVal._meshInst.GetChild(0).RemoveChild(coll);
+            // retVal._meshInst.RemoveChild(retVal._meshInst.GetChild(0));
+            var shape_owner = retVal._rigidBody.CreateShapeOwner(new Object());
 
-            retVal._colShape = coll;
+            retVal._rigidBody.ShapeOwnerAddShape(shape_owner,coll.ShapeOwnerGetShape(0,0));
             retVal._colShape.Name = _link.name + "_collision";
 
             // retVal._rigidBody.ShapeOwnerAddShape(0, retVal._colShape);

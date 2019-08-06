@@ -234,6 +234,7 @@ namespace RR_Godot.Core
             GD.Print(fileExtension);
             if (fileExtension == ".urdf")
             {
+                GetNode("/root/main/env").GetTree().Paused = true;
                 UrdfHandler.Parse(file);
                 UrdfHandler.PrintTree(UrdfHandler._robotRoot);
                 Spatial temp = UrdfHandler.GenerateSpatial(UrdfHandler._robotRoot);
@@ -241,6 +242,8 @@ namespace RR_Godot.Core
                 GetNode("/root/main/env").AddChild(temp);
 
                 GetNode("/root/main/env").EmitSignal("envUpdated");
+
+                GetNode("/root/main/env").GetTree().Paused = false;
             }
             // foreach (IPlugin plug in PlugLoader.Plugins)
             // {
