@@ -236,6 +236,9 @@ namespace RR_Godot.Core
             {
                 UrdfHandler.Parse(file);
                 UrdfHandler.PrintTree(UrdfHandler._robotRoot);
+                Spatial temp = UrdfHandler.GenerateSpatial(UrdfHandler._robotRoot);
+
+                GetNode("/root/main/env").AddChild(temp);
             }
             // foreach (IPlugin plug in PlugLoader.Plugins)
             // {

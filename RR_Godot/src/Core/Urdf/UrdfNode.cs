@@ -148,14 +148,14 @@ namespace RR_Godot.Core.Urdf
 
             // Create Rigid Body
             retVal._rigidBody.Name = _link.name;
-            retVal._rigidBody.SetMass((float) _link.inertial.mass);
+            // retVal._rigidBody.SetMass((float) _link.inertial.mass);
 
             // Create temporary cylinder mesh
             CylinderMesh temp = new CylinderMesh();
             temp.RadialSegments = 16;
-            temp.Height = 0.5F;
-            temp.BottomRadius = 0.2F;
-            temp.TopRadius = 0.2F;
+            temp.Height = 0.25F;
+            temp.BottomRadius = 0.05F;
+            temp.TopRadius = 0.05F;
 
             // Create the MeshInstance
             retVal._meshInst.Mesh = temp;
@@ -171,6 +171,8 @@ namespace RR_Godot.Core.Urdf
 
             retVal._colShape = coll;
             retVal._colShape.Name = _link.name + "_collision";
+
+            // retVal._rigidBody.ShapeOwnerAddShape(0, retVal._colShape);
 
             // Add the meshinstance and collisionshape as children
             // of the rigidbody.

@@ -144,13 +144,129 @@ namespace RR_Godot.Core.Urdf
             // Add children recursively
             foreach (var child in base_node.GetChildren())
             {
-                // Create a Godot joint
+                // Returns a joint connected to a rigid body
+                Generic6DOFJoint childJoint = GenerateSpatialRec(child);
+                rootSpat.AddChild(childJoint);
 
-                // Create a GLink
-                GLink tempLink = child.CreateGLink();
+                // Transform according to the child joint transformations
+                childJoint.TranslateObjectLocal(new Vector3(
+                    (float) child._joint.origin.Xyz[0],
+                    (float) child._joint.origin.Xyz[2],
+                    (float) child._joint.origin.Xyz[1]
+                ));
+                childJoint.RotateX((float) child._joint.origin.Rpy[0]);
+                childJoint.RotateY((float) child._joint.origin.Rpy[2]);
+                childJoint.RotateZ(-1.0F * (float) child._joint.origin.Rpy[1]);
             }
 
             return rootSpat;
+        }
+
+        public Generic6DOFJoint GenerateSpatialRec(UrdfNode base_node)
+        {
+            // Create the return joint
+            Generic6DOFJoint finJoint = ConfigureJoint(base_node._joint);
+            finJoint.Name = base_node._joint.name;
+
+            // Create the return RigidBody
+            GLink tempLink = base_node.CreateGLink();
+            finJoint.AddChild(tempLink._rigidBody);
+            
+
+            foreach (var child in base_node.GetChildren())
+            {
+                Generic6DOFJoint childJoint = GenerateSpatialRec(child);
+                tempLink._rigidBody.AddChild(childJoint);
+
+                childJoint.TranslateObjectLocal(new Vector3(
+                    (float) child._joint.origin.Xyz[0],
+                    (float) child._joint.origin.Xyz[2],
+                    (float) child._joint.origin.Xyz[1]
+                ));
+                childJoint.RotateX((float) child._joint.origin.Rpy[0]);
+                childJoint.RotateY((float) child._joint.origin.Rpy[2]);
+                childJoint.RotateZ(-1.0F * (float) child._joint.origin.Rpy[1]);
+            }
+
+            return finJoint;
+        }
+
+        private Generic6DOFJoint ConfigureJoint(RosSharp.Urdf.Joint base_joint)
+        {
+            Generic6DOFJoint genJoint = new Generic6DOFJoint();
+            double[] j_axis;
+            try 
+            {
+                j_axis = base_joint.axis.xyz;
+            }
+            catch
+            {
+                j_axis = new double[] {1.0, 0.0, 0.0};
+            }
+
+            // Limit all the axis
+            genJoint.AngularLimitX__enabled = true;
+            genJoint.AngularLimitY__enabled = true;
+            genJoint.AngularLimitZ__enabled = true;
+
+            
+
+            UrdfPrint(base_joint.name + " AXIS: " + j_axis[0] + " " + j_axis[1] + " " + j_axis[2]);
+
+            // Type comments taken from https://wiki.ros.org/urdf/XML/joint 
+            switch (base_joint.type)
+            {
+                case "revolute":
+                    // A hinge joint that rotates along the axis and has a
+                    // limited range specified by the upper and lower limits.
+                    if(j_axis[0] == 1.0)
+                    {
+                        genJoint.AngularLimitX__lowerAngle = (float) base_joint.limit.lower;
+                        genJoint.AngularLimitX__upperAngle = (float) base_joint.limit.upper;
+                    }
+                    if(j_axis[1] == 1.0)
+                    {
+                        genJoint.AngularLimitY__lowerAngle = (float) base_joint.limit.lower;
+                        genJoint.AngularLimitY__upperAngle = (float) base_joint.limit.upper;
+                    }
+                    if(j_axis[2] == 0.0)
+                    {
+                        genJoint.AngularLimitZ__lowerAngle = (float) base_joint.limit.lower;
+                        genJoint.AngularLimitZ__upperAngle = (float) base_joint.limit.upper;
+                    }
+                    
+                    break;
+                case "continuous":
+                    // a continuous hinge joint that rotates around the axis 
+                    // and has no upper and lower limits.
+                    GD.Print("c");
+                    break;
+                case "prismatic":
+                    // a sliding joint that slides along the axis, and has a
+                    // limited range specified by the upper and lower limits. 
+                    GD.Print("p");
+                    break;
+                case "fixed":
+                    // This is not really a joint because it cannot move.
+                    // All degrees of freedom are locked. This type of joint 
+                    // does not require the axis, calibration, dynamics, 
+                    // limits or safety_controller. 
+                    GD.Print("f");
+                    break;
+                case "floating":
+                    // This joint allows motion for all 6 degrees of freedom. 
+                    GD.Print("fl");
+                    break;
+                case "planar":
+                    // This joint allows motion in a plane perpendicular to the axis. 
+                    GD.Print("pl");
+                    break;
+                default:
+                    GD.Print(base_joint.type);
+                    break;
+            }
+
+            return genJoint;
         }
     }
 }

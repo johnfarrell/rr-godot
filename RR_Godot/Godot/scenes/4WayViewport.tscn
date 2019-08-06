@@ -4,14 +4,14 @@
 [ext_resource path="res://src/Core/Gui/viewport/Viewport1.cs" type="Script" id=2]
 [ext_resource path="res://src/Core/Gui/viewport/ViewportUR.cs" type="Script" id=3]
 [ext_resource path="res://Godot/scenes/camera.tscn" type="PackedScene" id=4]
-[ext_resource path="res://src/Core/Gui/ToolboxPanel.cs" type="Script" id=5]
-[ext_resource path="res://src/Core/Gui/DebugDraw.cs" type="Script" id=6]
-[ext_resource path="res://src/Core/Gui/viewport/Viewport2.cs" type="Script" id=7]
-[ext_resource path="res://src/Core/Gui/viewport/Viewport3.cs" type="Script" id=8]
-[ext_resource path="res://src/Core/Gui/viewport/ViewportLL.cs" type="Script" id=9]
-[ext_resource path="res://src/Core/Gui/viewport/Viewport4.cs" type="Script" id=10]
-[ext_resource path="res://src/Core/Gui/viewport/ViewportLR.cs" type="Script" id=11]
-[ext_resource path="res://Godot/scenes/gizmos.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Godot/scenes/gizmos.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/Core/Gui/ToolboxPanel.cs" type="Script" id=6]
+[ext_resource path="res://src/Core/Gui/DebugDraw.cs" type="Script" id=7]
+[ext_resource path="res://src/Core/Gui/viewport/Viewport2.cs" type="Script" id=8]
+[ext_resource path="res://src/Core/Gui/viewport/Viewport3.cs" type="Script" id=9]
+[ext_resource path="res://src/Core/Gui/viewport/ViewportLL.cs" type="Script" id=10]
+[ext_resource path="res://src/Core/Gui/viewport/Viewport4.cs" type="Script" id=11]
+[ext_resource path="res://src/Core/Gui/viewport/ViewportLR.cs" type="Script" id=12]
 
 [sub_resource type="StyleBoxFlat" id=1]
 
@@ -70,7 +70,7 @@ script = ExtResource( 3 )
 [node name="Camera" parent="VerticalSplit/HSplit1/Viewport1/Viewport" instance=ExtResource( 4 )]
 transform = Transform( -0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, 0.5, -0.5, -2, 2, -2 )
 
-[node name="gizmos" parent="VerticalSplit/HSplit1/Viewport1/Viewport" instance=ExtResource( 12 )]
+[node name="gizmos" parent="VerticalSplit/HSplit1/Viewport1/Viewport" instance=ExtResource( 5 )]
 
 [node name="ToolboxPanel" type="Panel" parent="VerticalSplit/HSplit1/Viewport1"]
 margin_right = 85.0
@@ -79,7 +79,7 @@ grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource( 1 )
 custom_styles/panel = SubResource( 1 )
-script = ExtResource( 5 )
+script = ExtResource( 6 )
 
 [node name="ToolboxContainer" type="HBoxContainer" parent="VerticalSplit/HSplit1/Viewport1/ToolboxPanel"]
 margin_right = 77.0
@@ -101,7 +101,7 @@ text = "Cam"
 visible = false
 margin_right = 40.0
 margin_bottom = 40.0
-script = ExtResource( 6 )
+script = ExtResource( 7 )
 
 [node name="Viewport2" type="ViewportContainer" parent="VerticalSplit/HSplit1"]
 margin_left = 312.0
@@ -111,7 +111,7 @@ mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
-script = ExtResource( 7 )
+script = ExtResource( 8 )
 
 [node name="Viewport" type="Viewport" parent="VerticalSplit/HSplit1/Viewport2"]
 size = Vector2( 300, 451 )
@@ -130,7 +130,7 @@ grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource( 1 )
 custom_styles/panel = SubResource( 1 )
-script = ExtResource( 5 )
+script = ExtResource( 6 )
 
 [node name="ToolboxContainer" type="HBoxContainer" parent="VerticalSplit/HSplit1/Viewport2/ToolboxPanel"]
 theme = ExtResource( 1 )
@@ -151,7 +151,7 @@ visible = false
 margin_left = -12.0
 margin_right = 28.0
 margin_bottom = 40.0
-script = ExtResource( 6 )
+script = ExtResource( 7 )
 
 [node name="HSplit2" type="HSplitContainer" parent="VerticalSplit"]
 visible = false
@@ -169,14 +169,14 @@ mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
-script = ExtResource( 8 )
+script = ExtResource( 9 )
 
 [node name="Viewport" type="Viewport" parent="VerticalSplit/HSplit2/Viewport3"]
 size = Vector2( 300, 220 )
 handle_input_locally = false
 render_target_update_mode = 0
 physics_object_picking = true
-script = ExtResource( 9 )
+script = ExtResource( 10 )
 
 [node name="Camera" parent="VerticalSplit/HSplit2/Viewport3/Viewport" instance=ExtResource( 4 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -5, 0, 0 )
@@ -188,7 +188,7 @@ grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource( 1 )
 custom_styles/panel = SubResource( 1 )
-script = ExtResource( 5 )
+script = ExtResource( 6 )
 
 [node name="ToolboxContainer" type="HBoxContainer" parent="VerticalSplit/HSplit2/Viewport3/ToolboxPanel"]
 margin_right = 85.0
@@ -214,7 +214,7 @@ visible = false
 margin_top = -12.0
 margin_right = 40.0
 margin_bottom = 28.0
-script = ExtResource( 6 )
+script = ExtResource( 7 )
 
 [node name="Viewport4" type="ViewportContainer" parent="VerticalSplit/HSplit2"]
 margin_left = 312.0
@@ -224,14 +224,14 @@ mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 stretch = true
-script = ExtResource( 10 )
+script = ExtResource( 11 )
 
 [node name="Viewport" type="Viewport" parent="VerticalSplit/HSplit2/Viewport4"]
 size = Vector2( 300, 220 )
 handle_input_locally = false
 render_target_update_mode = 0
 physics_object_picking = true
-script = ExtResource( 11 )
+script = ExtResource( 12 )
 
 [node name="Camera" parent="VerticalSplit/HSplit2/Viewport4/Viewport" instance=ExtResource( 4 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -5 )
@@ -243,7 +243,7 @@ grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource( 1 )
 custom_styles/panel = SubResource( 1 )
-script = ExtResource( 5 )
+script = ExtResource( 6 )
 
 [node name="ToolboxContainer" type="HBoxContainer" parent="VerticalSplit/HSplit2/Viewport4/ToolboxPanel"]
 theme = ExtResource( 1 )
@@ -265,7 +265,7 @@ margin_left = -12.0
 margin_top = -12.0
 margin_right = 28.0
 margin_bottom = 28.0
-script = ExtResource( 6 )
+script = ExtResource( 7 )
 [connection signal="mouse_entered" from="VerticalSplit/HSplit1/Viewport2" to="VerticalSplit/HSplit1/Viewport2" method="_on_Viewport2_mouse_entered"]
 [connection signal="mouse_exited" from="VerticalSplit/HSplit1/Viewport2" to="VerticalSplit/HSplit1/Viewport2" method="_on_Viewport2_mouse_exited"]
 [connection signal="mouse_entered" from="VerticalSplit/HSplit2/Viewport3" to="VerticalSplit/HSplit2/Viewport3" method="_on_Viewport3_mouse_entered"]
