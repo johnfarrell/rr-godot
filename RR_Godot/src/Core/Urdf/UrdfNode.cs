@@ -44,7 +44,7 @@ namespace RR_Godot.Core.Urdf
 
         /// <summary>
         /// <para>AddChild</para>
-        /// Adds a child node to this node
+        /// Adds a child node to this node.
         /// </summary>
         /// <param name="child">
         /// Fully defined UrdfNode to be
@@ -156,28 +156,46 @@ namespace RR_Godot.Core.Urdf
             retVal._meshInst.Mesh = CreateVisualGeometry(_link.visuals);
             retVal._meshInst.Name = _link.name + "_mesh";
 
+            // Add the collision information to the RigidBody
+            Shape colShape = CreateCollisionGeometry(_link.collisions);
 
-            // Create the CollisionShape from _meshInstame = _link.name + "_collision";
-            // retVal._meshInst.CreateTrimeshCollision();
-            // StaticBody coll = (StaticBody)retVal._meshInst.GetChild(0);
-
-
-            // Remove both children
-            // retVal._meshInst.GetChild(0).RemoveChild(coll);
-            // retVal._meshInst.RemoveChild(retVal._meshInst.GetChild(0));
-            // var shape_owner = retVal._rigidBody.CreateShapeOwner(new Object());
-
-            // retVal._rigidBody.ShapeOwnerAddShape(shape_owner,coll.ShapeOwnerGetShape(0,0));
-            retVal._colShape.Name = _link.name + "_collision";
-
-            // retVal._rigidBody.ShapeOwnerAddShape(0, retVal._colShape);
-
-            // Add the meshinstance and collisionshape as children
-            // of the rigidbody.
-            retVal._rigidBody.AddChild(retVal._colShape);
             retVal._rigidBody.AddChild(retVal._meshInst);
 
             return retVal;
+        }
+
+        /// <summary>
+        /// <para>CreateCollisionGeometry</para>
+        /// Similar to CreateVisualGeometry, except it uses a links
+        /// collision information to generate a Godot Shape.
+        /// </summary>
+        /// <param name="collisions">List of Collision information.</param>
+        /// <returns></returns>
+        public Shape CreateCollisionGeometry(List<Link.Collision> collisions)
+        {
+            if (collisions.Count < 1)
+            {
+                return null;
+            }
+            Link.Collision workingCol = collisions[0];
+
+            if (workingCol.geometry.box != null)
+            {
+                return CreateBox(workingCol.geometry.box).CreateConvexShape();
+            }
+            if (workingCol.geometry.cylinder != null)
+            {
+                return CreateCylinder(workingCol.geometry.cylinder).CreateConvexShape();
+            }
+            if (workingCol.geometry.sphere != null)
+            {
+                return CreateSphere(workingCol.geometry.sphere).CreateConvexShape();
+            }
+            if (workingCol.geometry.mesh != null)
+            {
+                return CreateMesh(workingCol.geometry.mesh).CreateConvexShape();
+            }
+            return null;
         }
 
         // TODO
@@ -207,16 +225,7 @@ namespace RR_Godot.Core.Urdf
             Link.Visual workingVis = visuals[0];
 
             // Create the material if it exists
-            SpatialMaterial linkMat = new Godot.SpatialMaterial();
-            if (workingVis.material != null)
-            {
-                var matColor = new Godot.Color();
-                matColor.r = (float)workingVis.material.color.rgba[0];
-                matColor.g = (float)workingVis.material.color.rgba[1];
-                matColor.b = (float)workingVis.material.color.rgba[2];
-                matColor.a = (float)workingVis.material.color.rgba[3];
-                linkMat.AlbedoColor = matColor;
-            }
+            SpatialMaterial linkMat = CreateMaterial(workingVis.material);
 
             // Create the meshs
             if (workingVis.geometry.box != null)
@@ -236,6 +245,24 @@ namespace RR_Godot.Core.Urdf
                 return CreateMesh(workingVis.geometry.mesh);
             }
             return null;
+        }
+
+        private SpatialMaterial CreateMaterial(Link.Visual.Material baseMat)
+        {
+            if (baseMat == null)
+            {
+                return null;
+            }
+
+            SpatialMaterial temp = new SpatialMaterial();
+            var matColor = new Godot.Color();
+            matColor.r = (float)baseMat.color.rgba[0];
+            matColor.g = (float)baseMat.color.rgba[1];
+            matColor.b = (float)baseMat.color.rgba[2];
+            matColor.a = (float)baseMat.color.rgba[3];
+            temp.AlbedoColor = matColor;
+
+            return temp;
         }
 
         private Godot.Mesh CreateBox(
@@ -270,7 +297,7 @@ namespace RR_Godot.Core.Urdf
 
             temp.RadialSegments = 16;
             temp.TopRadius = (float)cyl.radius;
-            temp.BottomRadius= (float)cyl.radius;
+            temp.BottomRadius = (float)cyl.radius;
             temp.Height = (float)cyl.length;
 
             return temp;
@@ -293,6 +320,14 @@ namespace RR_Godot.Core.Urdf
             return temp;
         }
 
+        /// <summary>
+        /// <para>CreateMesh</para>
+        /// Creates a Godot mesh instance using a Urdf
+        /// defined Mesh geometry object.
+        /// </summary>
+        /// <param name="mesh">Urdf mesh object generated from a link.</param>
+        /// <param name="mat">Optional material to apply to the mesh.</param>
+        /// <returns>A Godot.Mesh representing the Urdf mesh data.</returns>
         private Godot.Mesh CreateMesh(
             Link.Geometry.Mesh mesh,
             SpatialMaterial mat = null)
