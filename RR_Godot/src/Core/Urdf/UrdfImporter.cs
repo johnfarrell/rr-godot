@@ -214,15 +214,15 @@ namespace RR_Godot.Core.Urdf
             finJoint.Name = base_node._joint.name;
 
             // Create the return RigidBody
-            GLink tempLink = base_node.CreateGLink();
-            finJoint.AddChild(tempLink._rigidBody);
+            RigidBody tempLink = base_node.CreateLink();
+            finJoint.AddChild(tempLink);
 
             foreach (var child in base_node.GetChildren())
             {
                 // This is the same as GenerateSpatial(), so look at that
                 // function for the explanation.
                 Generic6DOFJoint childJoint = GenerateSpatialRec(child);
-                tempLink._rigidBody.AddChild(childJoint);
+                tempLink.AddChild(childJoint);
 
                 childJoint.TranslateObjectLocal(new Vector3(
                     (float) child._joint.origin.Xyz[0],

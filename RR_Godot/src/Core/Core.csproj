@@ -83,7 +83,6 @@
     <Compile Include="Common\Global.cs" />
     <Compile Include="Urdf\UrdfImporter.cs" />
     <Compile Include="Urdf\UrdfNode.cs" />
-    <Compile Include="Urdf\GLink.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Plugins\Plugins.csproj">

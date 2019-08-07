@@ -142,24 +142,25 @@ namespace RR_Godot.Core.Urdf
         /// </para>
         /// </summary>
         /// <returns></returns>
-        public GLink CreateGLink()
+        public RigidBody CreateLink()
         {
-            GLink retVal = new GLink();
+            RigidBody retVal = new RigidBody();
 
             // Create Rigid Body
-            retVal._rigidBody.Name = _link.name;
-            retVal._rigidBody.Mode = RigidBody.ModeEnum.Rigid;
-            retVal._rigidBody.SetMass((float)_link.inertial.mass);
+            retVal.Name = _link.name;
+            retVal.Mode = RigidBody.ModeEnum.Rigid;
+            retVal.SetMass((float)_link.inertial.mass);
 
 
             // Create the MeshInstance
-            retVal._meshInst.Mesh = CreateVisualGeometry(_link.visuals);
-            retVal._meshInst.Name = _link.name + "_mesh";
+            MeshInstance tempMesh = new MeshInstance();
+            tempMesh.Mesh = CreateVisualGeometry(_link.visuals);
+            tempMesh.Name = _link.name + "_mesh";
 
             // Add the collision information to the RigidBody
             Shape colShape = CreateCollisionGeometry(_link.collisions);
 
-            retVal._rigidBody.AddChild(retVal._meshInst);
+            retVal.AddChild(tempMesh);
 
             return retVal;
         }
