@@ -151,14 +151,15 @@ namespace RR_Godot.Core.Urdf
             retVal._rigidBody.Mode = RigidBody.ModeEnum.Rigid;
             retVal._rigidBody.SetMass((float)_link.inertial.mass);
 
+
             // Create the MeshInstance
             retVal._meshInst.Mesh = CreateVisualGeometry(_link.visuals);
             retVal._meshInst.Name = _link.name + "_mesh";
 
+
             // Create the CollisionShape from _meshInstame = _link.name + "_collision";
-            retVal._meshInst.CreateTrimeshCollision();
-            // retVal._meshInst.cr
-            StaticBody coll = (StaticBody)retVal._meshInst.GetChild(0);
+            // retVal._meshInst.CreateTrimeshCollision();
+            // StaticBody coll = (StaticBody)retVal._meshInst.GetChild(0);
 
 
             // Remove both children
@@ -180,7 +181,6 @@ namespace RR_Godot.Core.Urdf
         }
 
         // TODO
-        // * Functionalize this into seperate functions for each visual type
         /// <summary>
         /// <para>CreateVisualGeometry</para>
         /// Parses a ROS link and creates a MeshInstance for the visual
@@ -221,61 +221,90 @@ namespace RR_Godot.Core.Urdf
             // Create the meshs
             if (workingVis.geometry.box != null)
             {
-                double[] uSize = workingVis.geometry.box.size;
-
-                CubeMesh temp = new CubeMesh();
-                temp.Material = linkMat;
-                temp.Size = new Vector3(
-                    (float)uSize[0],
-                    (float)uSize[2],
-                    (float)uSize[1]
-                );
-
-                return temp;
+                return CreateBox(workingVis.geometry.box, linkMat);
             }
             if (workingVis.geometry.cylinder != null)
             {
-                double length = workingVis.geometry.cylinder.length;
-                double radius = workingVis.geometry.cylinder.radius;
-
-                CylinderMesh temp = new CylinderMesh();
-                temp.RadialSegments = 16;
-                temp.Material = linkMat;
-                temp.TopRadius = (float)radius;
-                temp.BottomRadius = (float)radius;
-                temp.Height = (float)length;
-
-
-                return temp;
+                return CreateCylinder(workingVis.geometry.cylinder, linkMat);
             }
             if (workingVis.geometry.sphere != null)
             {
-                double radius = workingVis.geometry.sphere.radius;
-
-                SphereMesh temp = new SphereMesh();
-                temp.RadialSegments = 16;
-                temp.Material = linkMat;
-                temp.Radius = (float)radius;
-                temp.Height = (float)(radius * 2.0);
-
-                return temp;
+                return CreateSphere(workingVis.geometry.sphere, linkMat);
             }
             if (workingVis.geometry.mesh != null)
             {
-                string filename = workingVis.geometry.mesh.filename;
-                double[] scale = workingVis.geometry.mesh.scale;
-
-                // Right now we are just using a placeholder cylinder
-                // until runtime importing is working
-                CylinderMesh temp = new CylinderMesh();
-                temp.RadialSegments = 16;
-                temp.Height = 0.25F;
-                temp.BottomRadius = 0.05F;
-                temp.TopRadius = 0.05F;
-
-                return temp;
+                return CreateMesh(workingVis.geometry.mesh);
             }
             return null;
+        }
+
+        private Godot.Mesh CreateBox(
+            Link.Geometry.Box box,
+            SpatialMaterial mat = null)
+        {
+            CubeMesh temp = new CubeMesh();
+
+            if (mat != null)
+            {
+                temp.Material = mat;
+            }
+            temp.Size = new Vector3(
+                (float)box.size[0],
+                (float)box.size[2],
+                (float)box.size[1]
+            );
+
+            return temp;
+        }
+
+        private Godot.Mesh CreateCylinder(
+            Link.Geometry.Cylinder cyl,
+            SpatialMaterial mat = null)
+        {
+            CylinderMesh temp = new CylinderMesh();
+
+            if (mat != null)
+            {
+                temp.Material = mat;
+            }
+
+            temp.RadialSegments = 16;
+            temp.TopRadius = (float)cyl.radius;
+            temp.BottomRadius= (float)cyl.radius;
+            temp.Height = (float)cyl.length;
+
+            return temp;
+        }
+
+        private Godot.Mesh CreateSphere(
+            Link.Geometry.Sphere sphere,
+            SpatialMaterial mat = null)
+        {
+            SphereMesh temp = new SphereMesh();
+            if (mat != null)
+            {
+                temp.Material = mat;
+            }
+
+            temp.RadialSegments = 16;
+            temp.Radius = (float)sphere.radius;
+            temp.Height = (float)(sphere.radius * 2.0);
+
+            return temp;
+        }
+
+        private Godot.Mesh CreateMesh(
+            Link.Geometry.Mesh mesh,
+            SpatialMaterial mat = null)
+        {
+            // Temporary placeholder code
+            CylinderMesh temp = new CylinderMesh();
+            temp.RadialSegments = 16;
+            temp.Height = 0.25F;
+            temp.BottomRadius = 0.05F;
+            temp.TopRadius = 0.05F;
+
+            return temp;
         }
     }
 }
