@@ -151,7 +151,6 @@ namespace RR_Godot.Core.Urdf
             retVal.Mode = RigidBody.ModeEnum.Rigid;
             retVal.SetMass((float)_link.inertial.mass);
 
-
             // Create the MeshInstance
             MeshInstance tempMesh = new MeshInstance();
             tempMesh.Mesh = CreateVisualGeometry(_link.visuals);
@@ -159,6 +158,8 @@ namespace RR_Godot.Core.Urdf
 
             // Add the collision information to the RigidBody
             Shape colShape = CreateCollisionGeometry(_link.collisions);
+            var id = retVal.CreateShapeOwner(new Object());
+            retVal.ShapeOwnerAddShape(id, colShape);
 
             retVal.AddChild(tempMesh);
 
