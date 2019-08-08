@@ -182,13 +182,13 @@ namespace RR_Godot.Core.Urdf
                 // This is why the indices below aren't in order, it translates
                 // the Urdf coordinates into Godot coordinates.
                 childJoint.TranslateObjectLocal(new Vector3(
-                    (float) child._joint.origin.Xyz[0],
-                    (float) child._joint.origin.Xyz[2],
-                    (float) child._joint.origin.Xyz[1]
+                    (float)child._joint.origin.Xyz[0],
+                    (float)child._joint.origin.Xyz[2],
+                    (float)child._joint.origin.Xyz[1]
                 ));
-                childJoint.RotateX((float) child._joint.origin.Rpy[0]);
-                childJoint.RotateY((float) child._joint.origin.Rpy[2]);
-                childJoint.RotateZ(-1.0F * (float) child._joint.origin.Rpy[1]);
+                childJoint.RotateX((float)child._joint.origin.Rpy[0]);
+                childJoint.RotateY((float)child._joint.origin.Rpy[2]);
+                childJoint.RotateZ(-1.0F * (float)child._joint.origin.Rpy[1]);
             }
 
             return rootSpat;
@@ -225,13 +225,13 @@ namespace RR_Godot.Core.Urdf
                 tempLink.AddChild(childJoint);
 
                 childJoint.TranslateObjectLocal(new Vector3(
-                    (float) child._joint.origin.Xyz[0],
-                    (float) child._joint.origin.Xyz[2],
-                    (float) child._joint.origin.Xyz[1]
+                    (float)child._joint.origin.Xyz[0],
+                    (float)child._joint.origin.Xyz[2],
+                    (float)child._joint.origin.Xyz[1]
                 ));
-                childJoint.RotateX((float) child._joint.origin.Rpy[0]);
-                childJoint.RotateY((float) child._joint.origin.Rpy[2]);
-                childJoint.RotateZ(-1.0F * (float) child._joint.origin.Rpy[1]);
+                childJoint.RotateX((float)child._joint.origin.Rpy[0]);
+                childJoint.RotateY((float)child._joint.origin.Rpy[2]);
+                childJoint.RotateZ(-1.0F * (float)child._joint.origin.Rpy[1]);
             }
 
             return finJoint;
@@ -250,13 +250,13 @@ namespace RR_Godot.Core.Urdf
 
             foreach (var child in root.GetChildren())
             {
-                nodeQueue.Enqueue((Spatial) child);
+                nodeQueue.Enqueue((Spatial)child);
             }
 
             Spatial curr = nodeQueue.Dequeue();
-            while(curr != null)
+            while (curr != null)
             {
-                if(curr.GetType() != typeof(Godot.Generic6DOFJoint))
+                if (curr.GetType() != typeof(Godot.Generic6DOFJoint))
                 {
                     // If the current object isn't a joint, its a link so you need
                     // to add all of the children to the queue.
@@ -264,9 +264,9 @@ namespace RR_Godot.Core.Urdf
                     // will get filtered out.
                     foreach (var child in curr.GetChildren())
                     {
-                        nodeQueue.Enqueue((Spatial) child);
+                        nodeQueue.Enqueue((Spatial)child);
                     }
-                    if(nodeQueue.Count == 0)
+                    if (nodeQueue.Count == 0)
                     {
                         break;
                     }
@@ -274,8 +274,8 @@ namespace RR_Godot.Core.Urdf
                     continue;
                 }
 
-                Generic6DOFJoint tempJoint = (Generic6DOFJoint) curr;
-                
+                Generic6DOFJoint tempJoint = (Generic6DOFJoint)curr;
+
                 // We have a joint, set the endpoints
 
                 // A joints parent will always be a RigidBody.
@@ -287,9 +287,9 @@ namespace RR_Godot.Core.Urdf
                 tempJoint.SetNodeA(parentPath);
                 tempJoint.SetNodeB(childPath);
 
-                nodeQueue.Enqueue((Spatial) curr.GetChild(0));
+                nodeQueue.Enqueue((Spatial)curr.GetChild(0));
 
-                if(nodeQueue.Count == 0)
+                if (nodeQueue.Count == 0)
                 {
                     break;
                 }
@@ -297,6 +297,9 @@ namespace RR_Godot.Core.Urdf
             }
         }
 
+        // TODO
+        // * Support Urdf axis that aren't directly aligned with the
+        //    X, Y, or Z axis
         /// <summary>
         /// <para>ConfigureJoint</para>
         /// Configures the Godot Generic6DOFJoint
@@ -315,13 +318,13 @@ namespace RR_Godot.Core.Urdf
             // If it's not specified accessing it will error out, so we need to
             // manually specify the default (X-axis).
             double[] j_axis;
-            try 
+            try
             {
                 j_axis = base_joint.axis.xyz;
             }
             catch
             {
-                j_axis = new double[] {1.0, 0.0, 0.0};
+                j_axis = new double[] { 1.0, 0.0, 0.0 };
             }
 
             // Limit all the axis, has the effect of making it a fixed joint.
@@ -342,47 +345,95 @@ namespace RR_Godot.Core.Urdf
                 case "revolute":
                     // A hinge joint that rotates along the axis and has a
                     // limited range specified by the upper and lower limits.
-                    if(j_axis[0] == 1.0)
+                    if (j_axis[0] == 1.0)
                     {
-                        genJoint.AngularLimitX__lowerAngle = (float) base_joint.limit.lower;
-                        genJoint.AngularLimitX__upperAngle = (float) base_joint.limit.upper;
+                        genJoint.AngularLimitX__lowerAngle = (float)base_joint.limit.lower;
+                        genJoint.AngularLimitX__upperAngle = (float)base_joint.limit.upper;
                     }
-                    if(j_axis[1] == 1.0)
+                    if (j_axis[1] == 1.0)
                     {
-                        genJoint.AngularLimitZ__lowerAngle = (float) base_joint.limit.lower;
-                        genJoint.AngularLimitZ__upperAngle = (float) base_joint.limit.upper;
+                        genJoint.AngularLimitZ__lowerAngle = (float)base_joint.limit.lower;
+                        genJoint.AngularLimitZ__upperAngle = (float)base_joint.limit.upper;
                     }
-                    if(j_axis[2] == 0.0)
+                    if (j_axis[2] == 0.0)
                     {
-                        genJoint.AngularLimitY__lowerAngle = (float) base_joint.limit.lower;
-                        genJoint.AngularLimitY__upperAngle = (float) base_joint.limit.upper;
+                        genJoint.AngularLimitY__lowerAngle = (float)base_joint.limit.lower;
+                        genJoint.AngularLimitY__upperAngle = (float)base_joint.limit.upper;
                     }
-                    
                     break;
                 case "continuous":
                     // a continuous hinge joint that rotates around the axis 
                     // and has no upper and lower limits.
-                    GD.Print("c");
+                    if (j_axis[0] == 1.0)
+                    {
+                        genJoint.AngularLimitX__enabled = false;
+                    }
+                    if (j_axis[1] == 1.0)
+                    {
+                        genJoint.AngularLimitZ__enabled = false;
+                    }
+                    if (j_axis[2] == 1.0)
+                    {
+                        genJoint.AngularLimitY__enabled = false;
+                    }
                     break;
                 case "prismatic":
                     // a sliding joint that slides along the axis, and has a
                     // limited range specified by the upper and lower limits. 
-                    GD.Print("p");
+                    if (j_axis[0] == 1.0)
+                    {
+                        genJoint.LinearLimitX__lowerDistance = (float)base_joint.limit.lower;
+                        genJoint.LinearLimitX__upperDistance = (float)base_joint.limit.upper;
+                    }
+                    if (j_axis[1] == 1.0)
+                    {
+                        genJoint.LinearLimitZ__lowerDistance = (float)base_joint.limit.lower;
+                        genJoint.LinearLimitZ__upperDistance = (float)base_joint.limit.upper;
+                    }
+                    if (j_axis[2] == 1.0)
+                    {
+                        genJoint.LinearLimitY__lowerDistance = (float)base_joint.limit.lower;
+                        genJoint.LinearLimitY__upperDistance = (float)base_joint.limit.upper;
+                    }
                     break;
                 case "fixed":
                     // This is not really a joint because it cannot move.
                     // All degrees of freedom are locked. This type of joint 
                     // does not require the axis, calibration, dynamics, 
                     // limits or safety_controller. 
-                    GD.Print("f");
                     break;
                 case "floating":
-                    // This joint allows motion for all 6 degrees of freedom. 
-                    GD.Print("fl");
+                    // This joint allows motion for all 6 degrees of freedom.
+                    genJoint.AngularLimitX__enabled = false;
+                    genJoint.AngularLimitY__enabled = false;
+                    genJoint.AngularLimitZ__enabled = false;
+                    genJoint.LinearLimitX__enabled = false;
+                    genJoint.LinearLimitY__enabled = false;
+                    genJoint.LinearLimitZ__enabled = false;
                     break;
                 case "planar":
-                    // This joint allows motion in a plane perpendicular to the axis. 
-                    GD.Print("pl");
+                    // This joint allows motion in a plane perpendicular to the axis.
+                    if (j_axis[0] == 1.0)
+                    {
+                        genJoint.LinearLimitY__upperDistance = (float)base_joint.limit.upper;
+                        genJoint.LinearLimitY__lowerDistance = (float)base_joint.limit.lower;
+                        genJoint.LinearLimitZ__upperDistance = (float)base_joint.limit.upper;
+                        genJoint.LinearLimitZ__lowerDistance = (float)base_joint.limit.lower;
+                    }
+                    if (j_axis[1] == 1.0)
+                    {
+                        genJoint.LinearLimitX__upperDistance = (float)base_joint.limit.upper;
+                        genJoint.LinearLimitX__lowerDistance = (float)base_joint.limit.lower;
+                        genJoint.LinearLimitY__upperDistance = (float)base_joint.limit.upper;
+                        genJoint.LinearLimitY__lowerDistance = (float)base_joint.limit.lower;
+                    }
+                    if (j_axis[2] == 1.0)
+                    {
+                        genJoint.LinearLimitX__upperDistance = (float)base_joint.limit.upper;
+                        genJoint.LinearLimitX__lowerDistance = (float)base_joint.limit.lower;
+                        genJoint.LinearLimitZ__upperDistance = (float)base_joint.limit.upper;
+                        genJoint.LinearLimitZ__lowerDistance = (float)base_joint.limit.lower;
+                    }
                     break;
                 default:
                     GD.Print(base_joint.type);
