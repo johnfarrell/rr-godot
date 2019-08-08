@@ -163,10 +163,10 @@ namespace RR_Godot.Core.Urdf
         /// </summary>
         /// <param name="base_node">UrdfNode containing the root Urdf component.</param>
         /// <returns>A Godot.Spatial containing the root of the Godot tree.</returns>
-        public Spatial GenerateSpatial(UrdfNode base_node)
+        public RigidBody GenerateSpatial(UrdfNode base_node)
         {
             // Create the empty spatial node
-            Spatial rootSpat = new Spatial();
+            RigidBody rootSpat = new RigidBody();
             rootSpat.Name = base_node._name;
 
             // Add children recursively

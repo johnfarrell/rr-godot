@@ -237,7 +237,7 @@ namespace RR_Godot.Core
                 GetNode("/root/main/env").GetTree().Paused = true;
                 UrdfHandler.Parse(file);
                 UrdfHandler.PrintTree(UrdfHandler._robotRoot);
-                Spatial temp = UrdfHandler.GenerateSpatial(UrdfHandler._robotRoot);                
+                RigidBody temp = UrdfHandler.GenerateSpatial(UrdfHandler._robotRoot);                
 
                 GetNode("/root/main/env").AddChild(temp);
 
