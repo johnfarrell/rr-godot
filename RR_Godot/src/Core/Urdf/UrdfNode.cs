@@ -158,9 +158,12 @@ namespace RR_Godot.Core.Urdf
 
             // Add the collision information to the RigidBody
             Shape colShape = CreateCollisionGeometry(_link.collisions);
-            var id = retVal.CreateShapeOwner(new Object());
-            retVal.ShapeOwnerAddShape(id, colShape);
-
+            if(colShape != null)
+            {
+                var id = retVal.CreateShapeOwner(new Object());
+                retVal.ShapeOwnerAddShape(id, colShape);
+            }
+            
             retVal.AddChild(tempMesh);
 
             return retVal;
