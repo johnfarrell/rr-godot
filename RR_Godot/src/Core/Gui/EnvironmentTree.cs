@@ -30,6 +30,7 @@ public class EnvironmentTree : Tree
         root.SetText(0, "Environment");
         
         PopulateTree(root, env);
+        root.Collapsed = false;
     }
 
     private void PopulateTree(TreeItem root, Spatial currEnvBase)
@@ -41,5 +42,6 @@ public class EnvironmentTree : Tree
 
             PopulateTree(tempChild, (Spatial) currEnvBase.GetChild(i));
         }
+        root.Collapsed = true;
     }
 }
