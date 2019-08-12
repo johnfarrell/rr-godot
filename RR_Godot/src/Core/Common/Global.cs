@@ -242,6 +242,7 @@ namespace RR_Godot.Core
                 GetNode("/root/main/env").AddChild(temp);
 
                 UrdfHandler.ConnectJoints(temp);
+                temp.Translate(new Vector3(0F, 1.5F, 0F));
 
                 GetNode("/root/main/env").EmitSignal("envUpdated");
 

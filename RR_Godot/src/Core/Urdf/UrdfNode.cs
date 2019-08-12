@@ -158,12 +158,12 @@ namespace RR_Godot.Core.Urdf
 
             // Add the collision information to the RigidBody
             Shape colShape = CreateCollisionGeometry(_link.collisions);
-            if(colShape != null)
+            if (colShape != null)
             {
                 var id = retVal.CreateShapeOwner(new Object());
                 retVal.ShapeOwnerAddShape(id, colShape);
             }
-            
+
             retVal.AddChild(tempMesh);
 
             return retVal;
@@ -198,7 +198,8 @@ namespace RR_Godot.Core.Urdf
             }
             if (workingCol.geometry.mesh != null)
             {
-                return CreateMesh(workingCol.geometry.mesh).CreateConvexShape();
+                return new BoxShape();
+                // return CreateMesh(workingCol.geometry.mesh).CreateConvexShape();
             }
             return null;
         }
@@ -337,14 +338,34 @@ namespace RR_Godot.Core.Urdf
             Link.Geometry.Mesh mesh,
             SpatialMaterial mat = null)
         {
-            // Temporary placeholder code
-            CylinderMesh temp = new CylinderMesh();
-            temp.RadialSegments = 16;
-            temp.Height = 0.25F;
-            temp.BottomRadius = 0.05F;
-            temp.TopRadius = 0.05F;
+            string fileName = mesh.filename;
 
-            return temp;
+            fileName = GetFullPath(fileName);
+
+            GD.Print(fileName);
+            MeshMaker mmaker = new MeshMaker();
+
+            var meshMat = (MeshInstance) mmaker.CreateMesh(fileName);
+
+            return meshMat.Mesh;
+        }
+
+        private string GetFullPath(string file)
+        {
+            string[] splitPath = file.Split('/');
+
+            // Path is a ROS package path, have to convert
+            // to an absolute path
+            string packPath = OS.GetUserDataDir() + "/models";
+            if (splitPath[0] == "package:")
+            {
+                for (var i = 2; i < splitPath.Length; ++i)
+                {
+                    packPath += "/";
+                    packPath += splitPath[i];
+                }
+            }
+            return packPath;
         }
     }
 }

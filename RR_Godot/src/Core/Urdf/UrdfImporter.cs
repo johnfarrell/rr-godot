@@ -227,7 +227,7 @@ namespace RR_Godot.Core.Urdf
                 childJoint.TranslateObjectLocal(new Vector3(
                     (float)child._joint.origin.Xyz[0],
                     (float)child._joint.origin.Xyz[2],
-                    (float)child._joint.origin.Xyz[1]
+                    -1.0F * (float)child._joint.origin.Xyz[1]
                 ));
                 childJoint.RotateX((float)child._joint.origin.Rpy[0]);
                 childJoint.RotateY((float)child._joint.origin.Rpy[2]);
