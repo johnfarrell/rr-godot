@@ -35,8 +35,8 @@ public class ToolboxPanelFixed : Panel
         ModeScaleButton.Connect("toggled", GetNode("/root/main/UI/AppWindow/EnvironmentContainer/4WayViewport/VerticalSplit/HSplit1/Viewport1/Viewport/gizmos/Translate"), "TurnOffOnScale");
         ModeScaleButton.Connect("toggled", this, "ToggleTransOnScale");
 
-
-        
+        Button SimControlButton = GetNode<Button>("ToolboxContainer/SimControl");
+        SimControlButton.Connect("pressed", GetNode("/root/main/env"), "ToggleSimState");
 
         GD.Print("TOOLBOXPANELFIXED.CS: READY");
     }

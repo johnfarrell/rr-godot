@@ -54,6 +54,10 @@ public class env : Spatial
 
     private Godot.Spatial marker;
 
+    // True if the SceneTree is paused,
+    // False if the SceneTree is running
+    private bool simState;
+
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -72,6 +76,9 @@ public class env : Spatial
             gizmo.GetChild(i).Connect("HandlePressed", this, "GizmoClicked");
             gizmo.GetChild(i).Connect("HandleUnpressed", this, "GizmoUnclicked");
         }
+
+        simState = true;
+        GetTree().Paused = simState;
 
         // gizmo.Visible = false;
         GD.Print("ENV.CS: READY");
@@ -96,6 +103,15 @@ public class env : Spatial
     {
         gizmoActive = !gizmoActive;
         GD.Print("ENV.CS: GIZMO ACTIVE: " + gizmoActive);
+    }
+
+    public void ToggleSimState()
+    {
+        simState = !simState;
+
+        GetTree().Paused = !GetTree().Paused;
+
+        GD.Print("SceneTree Paused Status: " + simState);
     }
 
     /// <summary>

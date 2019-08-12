@@ -234,6 +234,8 @@ namespace RR_Godot.Core
             GD.Print(fileExtension);
             if (fileExtension == ".urdf")
             {
+                var beforeStatus = GetNode("/root/main/env").GetTree().Paused;
+                
                 GetNode("/root/main/env").GetTree().Paused = true;
                 UrdfHandler.Parse(file);
                 UrdfHandler.PrintTree(UrdfHandler._robotRoot);
@@ -246,7 +248,7 @@ namespace RR_Godot.Core
 
                 GetNode("/root/main/env").EmitSignal("envUpdated");
 
-                GetNode("/root/main/env").GetTree().Paused = false;
+                GetNode("/root/main/env").GetTree().Paused = beforeStatus;
             }
             // foreach (IPlugin plug in PlugLoader.Plugins)
             // {

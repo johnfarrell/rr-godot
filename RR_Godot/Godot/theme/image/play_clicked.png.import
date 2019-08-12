@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tree_down.png-6d07f5ab50295c0260a85ceb6dc1d40e.stex"
+path="res://.import/play_clicked.png-9685973062cabae6735425611fc7c4e7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tree_down.png"
-dest_files=[ "res://.import/tree_down.png-6d07f5ab50295c0260a85ceb6dc1d40e.stex" ]
+source_file="res://Godot/theme/image/play_clicked.png"
+dest_files=[ "res://.import/play_clicked.png-9685973062cabae6735425611fc7c4e7.stex" ]
 
 [params]
 
