@@ -1,7 +1,9 @@
 using Godot;
 using System;
+using System.Reflection;
 using RR_Godot.Core.Plugins;
-
+using RR_Godot.Core.Urdf;
+using RosSharp.Urdf;
 
 namespace RR_Godot.Core
 {
@@ -12,17 +14,29 @@ namespace RR_Godot.Core
         /// </summary>
         private Directory PluginDir;
 
+        private UrdfImporter UrdfHandler;
+
         private Loader PlugLoader;
 
-        public Config UserConfig;
+        public ConfigFile UserConfig;
 
         /// <summary>
         /// Aboslute path of the user data directory.
         /// </summary>
         private string UserDataDirectory;
 
+        private string width;
+        private string height;
+
+        private string plugin_directory;
+        private string[] enabled_plugins;
+        private string[] disabled_plugins;
+
+
         public override void _Ready()
         {
+            UrdfHandler = new UrdfImporter();
+
             UserDataDirectory = OS.GetUserDataDir();
 
             PlugLoader = new Loader(UserDataDirectory + "/plugins/");
@@ -31,17 +45,16 @@ namespace RR_Godot.Core
             GetNode("/root/main/UI/TitleBar/TitleButtons/QuitButton").Connect(
                     "pressed", this, "OnQuitRequest");
 
-            UserConfig = new Config();
+            UserConfig = new ConfigFile();
 
             // Make sure everything is working properly
-            ValidateConfigExistence();
             ParseConfig();
+
             ValidatePluginDirectory();
             CheckPlugins();
-            
+
             GD.Print("GLOBAL SINGLETON LOADED");
         }
-
 
         public void OnQuitRequest()
         {
@@ -51,36 +64,41 @@ namespace RR_Godot.Core
         }
 
         /// <summary>
-        /// Makes sure the config file exists
-        /// </summary>
-        private void ValidateConfigExistence()
-        {
-            File config = new File();
-
-            if(!config.FileExists("user://settings.cfg"))
-            {
-                System.IO.File.Create(UserDataDirectory + "/settings.cfg");
-            }
-        }
-
-        /// <summary>
         /// Sets all the necessary variables from the configuration file
         /// </summary>
         private void ParseConfig()
         {
-            File ConfigFile = new File();
+            Error err = UserConfig.Load("user://settings.cfg");
 
-            ConfigFile.Open("user://settings.cfg", File.ModeFlags.Read);
-            while (!ConfigFile.EofReached())
+            if (err != Error.Ok)
             {
-                var lineString = (string) ConfigFile.GetLine();
+                // Config file doesn't exist, create and populate
 
-                if(lineString == "" || lineString == "null")
-                {
-                    continue;
-                }
-                UserConfig.PopulateSettings(lineString);
+                // Display
+                UserConfig.SetValue("display", "width", 1920);
+                UserConfig.SetValue("display", "height", 1080);
 
+                // Plugins
+                UserConfig.SetValue("plugins", "plugin_directory", UserDataDirectory + "/plugins/");
+                UserConfig.SetValue("plugins", "enabled_plugins", new string[0]);
+                UserConfig.SetValue("plugins", "disabled_plugins", new string[0]);
+            }
+            else
+            {
+                SetValueFromConfig("display", "width");
+                SetValueFromConfig("display", "height");
+
+                SetValueFromConfig("plugins", "plugin_directory");
+                SetValueFromConfig("plugins", "enabled_plugins");
+                SetValueFromConfig("plugins", "disabled_plugins");
+            }
+        }
+
+        public void SetValueFromConfig(string section, string key)
+        {
+            if (UserConfig.HasSectionKey(section, key))
+            {
+                Set(key, UserConfig.GetValue(section, key));
             }
         }
 
@@ -92,11 +110,11 @@ namespace RR_Godot.Core
             String PluginFolderPath = UserDataDirectory + "/plugins/";
             bool PluginPathExists = System.IO.Directory.Exists(PluginFolderPath);
 
-            if(!PluginPathExists)
+            if (!PluginPathExists)
             {
                 GD.PushWarning("ERROR: Plugin directory does not exist, creating...");
                 var err = PluginDir.MakeDirRecursive(PluginFolderPath);
-                if(err != Error.Ok)
+                if (err != Error.Ok)
                 {
                     GD.PushError("ERROR: Cannot create directory, " + err);
                 }
@@ -124,23 +142,27 @@ namespace RR_Godot.Core
 
         public void PopulatePluginSettings()
         {
+            string[] plugList = new string[PlugLoader.Plugins.Count];
+            int i = 0;
             foreach (IPlugin plug in PlugLoader.Plugins)
             {
-                UserConfig.AddPlugin(plug.Name);
+                plugList[i] = plug.Name;
+                ++i;
             }
+            UserConfig.SetValue("plugins", "enabled_plugins", plugList);
         }
 
         public void CheckForNewPlugins()
-        {   
+        {
             string[] PluginFolders = System.IO.Directory
                 .GetDirectories(UserDataDirectory + "/plugins/");
             foreach (string Folder in PluginFolders)
             {
                 GD.Print("Found plugin folder: " + Folder);
                 var FolderName = System.IO.Path.GetFileName(Folder);
-                if(!IsPluginFolderLoaded(FolderName))
+                if (!IsPluginFolderLoaded(FolderName))
                 {
-                    UserConfig.AddInactivePluginAfterRefresh(FolderName);
+                    // UserConfig.AddInactivePluginAfterRefresh(FolderName);
                 }
             }
         }
@@ -158,7 +180,7 @@ namespace RR_Godot.Core
         {
             foreach (IPlugin plug in PlugLoader.Plugins)
             {
-                if(PluginNameMatchesFolder(plug.Name, PluginDirName))
+                if (PluginNameMatchesFolder(plug.Name, PluginDirName))
                 {
                     return true;
                 }
@@ -184,13 +206,13 @@ namespace RR_Godot.Core
 
             // If the split names aren't equal in length, the plugin doesn't
             // match naming conventions. 
-            if(plugNameParts.Length != plugDirParts.Length)
+            if (plugNameParts.Length != plugDirParts.Length)
             {
                 return false;
             }
-            for(int i = 0; i < plugNameParts.Length; ++i)
+            for (int i = 0; i < plugNameParts.Length; ++i)
             {
-                if(plugNameParts[i].ToLower() != plugDirParts[i].ToLower())
+                if (plugNameParts[i].ToLower() != plugDirParts[i].ToLower())
                 {
                     return false;
                 }
@@ -210,32 +232,49 @@ namespace RR_Godot.Core
             GD.Print("IMPORTING " + file);
             string fileExtension = System.IO.Path.GetExtension(file);
             GD.Print(fileExtension);
-            foreach (IPlugin plug in PlugLoader.Plugins)
+            if (fileExtension == ".urdf")
             {
-                GD.Print("Testing " + plug.Name);
-                if(true)
-                {
-                    try
-                    {
-                        IImportPlugin temp = (IImportPlugin) plug;
+                GetNode("/root/main/env").GetTree().Paused = true;
+                UrdfHandler.Parse(file);
+                UrdfHandler.PrintTree(UrdfHandler._robotRoot);
+                RigidBody temp = UrdfHandler.GenerateSpatial(UrdfHandler._robotRoot);                
 
-                        GD.Print("Found IImportPlugin " + temp.Name);
-                        foreach (String ext in temp.Extensions)
-                        {
-                            if(ext == fileExtension)
-                            {
-                                GD.Print("Calling " + temp.Name + " to import.");
-                                temp.Import(file);
-                            }
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        GD.Print(e);
-                    }
-                    
-                }
+                GetNode("/root/main/env").AddChild(temp);
+
+                UrdfHandler.ConnectJoints(temp);
+                temp.Translate(new Vector3(0F, 1.5F, 0F));
+
+                GetNode("/root/main/env").EmitSignal("envUpdated");
+
+                GetNode("/root/main/env").GetTree().Paused = false;
             }
+            // foreach (IPlugin plug in PlugLoader.Plugins)
+            // {
+            //     GD.Print("Testing " + plug.Name);
+            //     if (true)
+            //     {
+            //         try
+            //         {
+            //             IImportPlugin temp = (IImportPlugin)plug;
+
+            //             GD.Print("Found IImportPlugin " + temp.Name);
+            //             foreach (String ext in temp.Extensions)
+            //             {
+
+            //                 if (ext == fileExtension)
+            //                 {
+            //                     GD.Print("Calling " + temp.Name + " to import.");
+            //                     temp.Import(file);
+            //                 }
+            //             }
+            //         }
+            //         catch (Exception e)
+            //         {
+            //             GD.Print(e);
+            //         }
+
+            //     }
+            // }
         }
     }
 }

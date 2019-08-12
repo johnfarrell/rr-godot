@@ -19,7 +19,6 @@ public class EnvironmentTree : Tree
     /// </summary>
     public void UpdateTree()
     {
-        // TODO: Make this get all objects at any depth with accurate parent-child relations
         // TODO: Some way to serialize the nodes so the entire environment doesn't have to be
         //       iterated over to update it. Can be CPU intensive for large environments
 
@@ -30,13 +29,19 @@ public class EnvironmentTree : Tree
         this.HideRoot = false;
         root.SetText(0, "Environment");
         
+        PopulateTree(root, env);
+        root.Collapsed = false;
+    }
 
-        for(var i = 0; i < env.GetChildCount(); ++i)
+    private void PopulateTree(TreeItem root, Spatial currEnvBase)
+    {
+        for(var i = 0; i < currEnvBase.GetChildCount(); ++i)
         {
             TreeItem tempChild = this.CreateItem(root);
-            Node tempNode = env.GetChild(i);
+            tempChild.SetText(0, currEnvBase.GetChild(i).Name);
 
-            tempChild.SetText(0, tempNode.Name);
+            PopulateTree(tempChild, (Spatial) currEnvBase.GetChild(i));
         }
+        root.Collapsed = true;
     }
 }
