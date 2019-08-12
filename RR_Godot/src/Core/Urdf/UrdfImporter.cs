@@ -337,8 +337,6 @@ namespace RR_Godot.Core.Urdf
             genJoint.LinearLimitY__enabled = true;
             genJoint.LinearLimitZ__enabled = true;
 
-            UrdfPrint(base_joint.name + " AXIS: " + j_axis[0] + " " + j_axis[1] + " " + j_axis[2]);
-
             // Type comments taken from https://wiki.ros.org/urdf/XML/joint 
             switch (base_joint.type)
             {

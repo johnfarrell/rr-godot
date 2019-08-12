@@ -106,5 +106,6 @@ editor_down={
 
 [rendering]
 
-quality/filters/msaa=2
+threads/thread_model=2
+quality/filters/msaa=3
 quality/dynamic_fonts/use_oversampling=false
