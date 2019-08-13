@@ -92,6 +92,8 @@
     <Compile Include="src\Core\Gui\TitleBar.cs" />
     <Compile Include="src\Core\Gui\ToolboxPanel.cs" />
     <Compile Include="src\Core\Gui\ToolboxPanelFixed.cs" />
+    <Compile Include="src\Core\Gui\TransformInspector.cs" />
+    <Compile Include="src\Core\Gui\VelocityInspector.cs" />
     <Compile Include="src\Core\Gui\viewport\Viewport1.cs" />
     <Compile Include="src\Core\Gui\viewport\Viewport2.cs" />
     <Compile Include="src\Core\Gui\viewport\Viewport3.cs" />

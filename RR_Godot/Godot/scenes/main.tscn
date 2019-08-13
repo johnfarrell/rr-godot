@@ -1,30 +1,31 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://Godot/theme/new_theme.tres" type="Theme" id=1]
 [ext_resource path="res://Godot/scenes/env.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/Core/Gui/TitleBar.cs" type="Script" id=3]
 [ext_resource path="res://src/Core/Gui/AppWindow.cs" type="Script" id=4]
 [ext_resource path="res://src/Core/Gui/EnvironmentTree.cs" type="Script" id=5]
-[ext_resource path="res://Godot/scenes/4WayViewport.tscn" type="PackedScene" id=6]
-[ext_resource path="res://src/Core/Gui/MouseEventPassthrough.cs" type="Script" id=7]
-[ext_resource path="res://Godot/theme/toolbarPopupMenu.tres" type="Theme" id=8]
-[ext_resource path="res://src/Core/Gui/ToolboxPanelFixed.cs" type="Script" id=9]
-[ext_resource path="res://Godot/theme/cb_button_hover.tres" type="StyleBox" id=10]
-[ext_resource path="res://Godot/theme/addMesh.png" type="Texture" id=11]
-[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_translate_hover.png" type="Texture" id=12]
-[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_translate_active.png" type="Texture" id=13]
-[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_translate_icon.png" type="Texture" id=14]
-[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_rotate_hover.png" type="Texture" id=15]
-[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_rotate_active.png" type="Texture" id=16]
-[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_rotate_icon.png" type="Texture" id=17]
-[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_scale_hover.png" type="Texture" id=18]
-[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_scale_active.png" type="Texture" id=19]
-[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_scale_icon.png" type="Texture" id=20]
-[ext_resource path="res://Godot/theme/image/play_hover.png" type="Texture" id=21]
-[ext_resource path="res://Godot/theme/image/pause_clicked.png" type="Texture" id=22]
-[ext_resource path="res://Godot/theme/image/play_reg.png" type="Texture" id=23]
-[ext_resource path="res://Godot/scenes/PreferencesWindow.tscn" type="PackedScene" id=24]
-[ext_resource path="res://src/Core/Gui/ImportWindow.cs" type="Script" id=25]
+[ext_resource path="res://Godot/scenes/JointInspector.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Godot/scenes/4WayViewport.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/Core/Gui/MouseEventPassthrough.cs" type="Script" id=8]
+[ext_resource path="res://Godot/theme/toolbarPopupMenu.tres" type="Theme" id=9]
+[ext_resource path="res://src/Core/Gui/ToolboxPanelFixed.cs" type="Script" id=10]
+[ext_resource path="res://Godot/theme/cb_button_hover.tres" type="StyleBox" id=11]
+[ext_resource path="res://Godot/theme/addMesh.png" type="Texture" id=12]
+[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_translate_hover.png" type="Texture" id=13]
+[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_translate_active.png" type="Texture" id=14]
+[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_translate_icon.png" type="Texture" id=15]
+[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_rotate_hover.png" type="Texture" id=16]
+[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_rotate_active.png" type="Texture" id=17]
+[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_rotate_icon.png" type="Texture" id=18]
+[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_scale_hover.png" type="Texture" id=19]
+[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_scale_active.png" type="Texture" id=20]
+[ext_resource path="res://Godot/theme/image/gizmo_menu_buttons/gizmo_scale_icon.png" type="Texture" id=21]
+[ext_resource path="res://Godot/theme/image/play_hover.png" type="Texture" id=22]
+[ext_resource path="res://Godot/theme/image/pause_clicked.png" type="Texture" id=23]
+[ext_resource path="res://Godot/theme/image/play_reg.png" type="Texture" id=24]
+[ext_resource path="res://Godot/scenes/PreferencesWindow.tscn" type="PackedScene" id=25]
+[ext_resource path="res://src/Core/Gui/ImportWindow.cs" type="Script" id=26]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.921569, 0.921569, 0.921569, 1 )
@@ -36,51 +37,51 @@ bg_color = Color( 0.768627, 0.768627, 0.768627, 1 )
 bg_color = Color( 0.462745, 0.462745, 0.462745, 1 )
 
 [sub_resource type="StyleBoxTexture" id=4]
-texture = ExtResource( 12 )
-region_rect = Rect2( 0, 0, 40, 40 )
-
-[sub_resource type="StyleBoxTexture" id=5]
 texture = ExtResource( 13 )
 region_rect = Rect2( 0, 0, 40, 40 )
 
-[sub_resource type="StyleBoxTexture" id=6]
+[sub_resource type="StyleBoxTexture" id=5]
 texture = ExtResource( 14 )
 region_rect = Rect2( 0, 0, 40, 40 )
 
-[sub_resource type="StyleBoxTexture" id=7]
+[sub_resource type="StyleBoxTexture" id=6]
 texture = ExtResource( 15 )
 region_rect = Rect2( 0, 0, 40, 40 )
 
-[sub_resource type="StyleBoxTexture" id=8]
+[sub_resource type="StyleBoxTexture" id=7]
 texture = ExtResource( 16 )
 region_rect = Rect2( 0, 0, 40, 40 )
 
-[sub_resource type="StyleBoxTexture" id=9]
+[sub_resource type="StyleBoxTexture" id=8]
 texture = ExtResource( 17 )
 region_rect = Rect2( 0, 0, 40, 40 )
 
-[sub_resource type="StyleBoxTexture" id=10]
+[sub_resource type="StyleBoxTexture" id=9]
 texture = ExtResource( 18 )
 region_rect = Rect2( 0, 0, 40, 40 )
 
-[sub_resource type="StyleBoxTexture" id=11]
+[sub_resource type="StyleBoxTexture" id=10]
 texture = ExtResource( 19 )
 region_rect = Rect2( 0, 0, 40, 40 )
 
-[sub_resource type="StyleBoxTexture" id=12]
+[sub_resource type="StyleBoxTexture" id=11]
 texture = ExtResource( 20 )
 region_rect = Rect2( 0, 0, 40, 40 )
 
-[sub_resource type="StyleBoxTexture" id=13]
+[sub_resource type="StyleBoxTexture" id=12]
 texture = ExtResource( 21 )
-region_rect = Rect2( 0, 0, 24, 24 )
+region_rect = Rect2( 0, 0, 40, 40 )
 
-[sub_resource type="StyleBoxTexture" id=14]
+[sub_resource type="StyleBoxTexture" id=13]
 texture = ExtResource( 22 )
 region_rect = Rect2( 0, 0, 24, 24 )
 
-[sub_resource type="StyleBoxTexture" id=15]
+[sub_resource type="StyleBoxTexture" id=14]
 texture = ExtResource( 23 )
+region_rect = Rect2( 0, 0, 24, 24 )
+
+[sub_resource type="StyleBoxTexture" id=15]
+texture = ExtResource( 24 )
 region_rect = Rect2( 0, 0, 24, 24 )
 
 [sub_resource type="StyleBoxFlat" id=16]
@@ -119,7 +120,6 @@ anchor_bottom = 1.0
 custom_styles/panel = SubResource( 1 )
 
 [node name="TitleBar" type="Control" parent="UI"]
-editor/display_folded = true
 anchor_right = 1.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
@@ -254,7 +254,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LeftMenu" type="VBoxContainer" parent="UI/AppWindow"]
+[node name="LeftMenu" type="VSplitContainer" parent="UI/AppWindow"]
 margin_right = 350.0
 margin_bottom = 1030.0
 grow_horizontal = 2
@@ -264,8 +264,9 @@ size_flags_vertical = 5
 custom_constants/separation = 10
 
 [node name="TreeContainer" type="TabContainer" parent="UI/AppWindow/LeftMenu"]
+editor/display_folded = true
 margin_right = 350.0
-margin_bottom = 1030.0
+margin_bottom = 510.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -291,6 +292,23 @@ margin_right = -10.0
 margin_bottom = -10.0
 mouse_filter = 1
 
+[node name="ObjectInspector" type="TabContainer" parent="UI/AppWindow/LeftMenu"]
+margin_top = 520.0
+margin_right = 350.0
+margin_bottom = 1030.0
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+tab_align = 0
+
+[node name="Inspector" parent="UI/AppWindow/LeftMenu/ObjectInspector" instance=ExtResource( 6 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 41.0
+margin_right = -10.0
+margin_bottom = -10.0
+
 [node name="EnvironmentContainer" type="Control" parent="UI/AppWindow"]
 margin_left = 362.0
 margin_right = 1900.0
@@ -307,22 +325,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="4WayViewport" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 6 )]
+[node name="4WayViewport" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 7 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 0.0
 margin_top = 49.0
 margin_right = 0.0
 margin_bottom = -6.0
-script = ExtResource( 7 )
+script = ExtResource( 8 )
 
 [node name="ToolboxPanelFixed" type="Panel" parent="UI/AppWindow/EnvironmentContainer"]
 editor/display_folded = true
 margin_right = 763.0
 margin_bottom = 55.0
-theme = ExtResource( 8 )
+theme = ExtResource( 9 )
 custom_styles/panel = SubResource( 3 )
-script = ExtResource( 9 )
+script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -343,8 +361,8 @@ rect_min_size = Vector2( 40, 40 )
 mouse_filter = 1
 size_flags_horizontal = 2
 size_flags_vertical = 0
-custom_styles/hover = ExtResource( 10 )
-icon = ExtResource( 11 )
+custom_styles/hover = ExtResource( 11 )
+icon = ExtResource( 12 )
 
 [node name="ModeTranslate" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer"]
 margin_left = 45.0
@@ -413,7 +431,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 custom_styles/panel = SubResource( 16 )
 
-[node name="PreferencesWindow" parent="UI" instance=ExtResource( 24 )]
+[node name="PreferencesWindow" parent="UI" instance=ExtResource( 25 )]
 visible = false
 
 [node name="ImportWindow" type="FileDialog" parent="UI"]
@@ -427,7 +445,7 @@ mode = 0
 access = 2
 current_dir = "/home/john/Documents/Projects/rrclone/RR_Godot"
 current_path = "/home/john/Documents/Projects/rrclone/RR_Godot/"
-script = ExtResource( 25 )
+script = ExtResource( 26 )
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/MinimizeButton" to="UI/TitleBar" method="MinimizeButtonPressedHandler"]
 [connection signal="pressed" from="UI/TitleBar/TitleButtons/MaximizeButton" to="UI/TitleBar" method="MaximizeButtonPressedHandler"]
 [connection signal="mouse_entered" from="UI/AppWindow/LeftMenu" to="env" method="OnEnvContainerMouseExit"]
