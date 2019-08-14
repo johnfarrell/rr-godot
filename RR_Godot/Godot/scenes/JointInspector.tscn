@@ -1,9 +1,10 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Godot/theme/new_theme.tres" type="Theme" id=1]
-[ext_resource path="res://src/Core/Gui/VelocityInspector.cs" type="Script" id=2]
+[ext_resource path="res://src/Core/Gui/TransformInspector.cs" type="Script" id=2]
+[ext_resource path="res://src/Core/Gui/VelocityInspector.cs" type="Script" id=3]
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.764706, 0.764706, 0.764706, 1 )
 
 [node name="Inspector" type="Panel"]
@@ -21,7 +22,7 @@ custom_constants/separation = 0
 [node name="NodeNameLabel" type="Label" parent="VBoxContainer"]
 margin_right = 500.0
 margin_bottom = 21.0
-custom_styles/normal = SubResource( 2 )
+custom_styles/normal = SubResource( 1 )
 text = "Node Name"
 align = 1
 
@@ -29,6 +30,7 @@ align = 1
 margin_top = 21.0
 margin_right = 500.0
 margin_bottom = 188.0
+script = ExtResource( 2 )
 
 [node name="Button" type="Button" parent="VBoxContainer/TransformMenu"]
 margin_right = 500.0
@@ -40,7 +42,6 @@ text = "Transform"
 align = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TransformMenu"]
-editor/display_folded = true
 margin_top = 39.0
 margin_right = 500.0
 margin_bottom = 167.0
@@ -60,7 +61,6 @@ margin_bottom = 21.0
 text = "Translate"
 
 [node name="TranslateInputs" type="HBoxContainer" parent="VBoxContainer/TransformMenu/MarginContainer/VBoxContainer"]
-editor/display_folded = true
 margin_top = 31.0
 margin_right = 490.0
 margin_bottom = 54.0
@@ -75,6 +75,7 @@ text = "X:"
 margin_left = 18.0
 margin_right = 68.0
 margin_bottom = 23.0
+text = "0"
 max_length = 4
 
 [node name="YLabel" type="Label" parent="VBoxContainer/TransformMenu/MarginContainer/VBoxContainer/TranslateInputs"]
@@ -88,6 +89,7 @@ text = "Y:"
 margin_left = 90.0
 margin_right = 140.0
 margin_bottom = 23.0
+text = "0"
 max_length = 4
 
 [node name="ZLabel" type="Label" parent="VBoxContainer/TransformMenu/MarginContainer/VBoxContainer/TranslateInputs"]
@@ -101,6 +103,7 @@ text = "Z:"
 margin_left = 162.0
 margin_right = 212.0
 margin_bottom = 23.0
+text = "0"
 max_length = 4
 
 [node name="RotateLabel" type="Label" parent="VBoxContainer/TransformMenu/MarginContainer/VBoxContainer"]
@@ -110,7 +113,6 @@ margin_bottom = 85.0
 text = "Rotate"
 
 [node name="RotateInputs" type="HBoxContainer" parent="VBoxContainer/TransformMenu/MarginContainer/VBoxContainer"]
-editor/display_folded = true
 margin_top = 95.0
 margin_right = 490.0
 margin_bottom = 118.0
@@ -125,6 +127,7 @@ text = "X:"
 margin_left = 18.0
 margin_right = 68.0
 margin_bottom = 23.0
+text = "0"
 max_length = 4
 
 [node name="YLabel" type="Label" parent="VBoxContainer/TransformMenu/MarginContainer/VBoxContainer/RotateInputs"]
@@ -138,6 +141,7 @@ text = "Y:"
 margin_left = 90.0
 margin_right = 140.0
 margin_bottom = 23.0
+text = "0"
 max_length = 4
 
 [node name="ZLabel" type="Label" parent="VBoxContainer/TransformMenu/MarginContainer/VBoxContainer/RotateInputs"]
@@ -151,13 +155,14 @@ text = "Z:"
 margin_left = 162.0
 margin_right = 212.0
 margin_bottom = 23.0
+text = "0"
 max_length = 4
 
 [node name="VelocityMenu" type="VBoxContainer" parent="VBoxContainer"]
 margin_top = 188.0
 margin_right = 500.0
 margin_bottom = 351.0
-script = ExtResource( 2 )
+script = ExtResource( 3 )
 
 [node name="Button" type="Button" parent="VBoxContainer/VelocityMenu"]
 margin_right = 500.0
