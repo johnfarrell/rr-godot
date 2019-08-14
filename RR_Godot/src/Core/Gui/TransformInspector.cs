@@ -51,8 +51,6 @@ public class TransformInspector : VBoxContainer
         XRotIn.Connect("text_entered", this, "sendXRot");
         YRotIn.Connect("text_entered", this, "sendYRot");
         ZRotIn.Connect("text_entered", this, "sendZRot");
-
-        this.Connect("XTrans", GetNode("/root/main/env"), "test");
     }
 
     private void storeLast()
@@ -68,7 +66,7 @@ public class TransformInspector : VBoxContainer
 
     private bool ValidateInput(string input)
     {
-        if(input.IsValidFloat())
+        if (input.IsValidFloat())
         {
             return true;
         }
@@ -85,7 +83,7 @@ public class TransformInspector : VBoxContainer
         {
             XTransIn.Text = lastVal;
         }
-
+        XTransIn.ReleaseFocus();
     }
     private void sendYTrans(string newVal)
     {
@@ -97,6 +95,7 @@ public class TransformInspector : VBoxContainer
         {
             YTransIn.Text = lastVal;
         }
+        YTransIn.ReleaseFocus();
     }
     private void sendZTrans(string newVal)
     {
@@ -108,6 +107,7 @@ public class TransformInspector : VBoxContainer
         {
             ZTransIn.Text = lastVal;
         }
+        ZTransIn.ReleaseFocus();
     }
     private void sendXRot(string newVal)
     {
@@ -119,17 +119,19 @@ public class TransformInspector : VBoxContainer
         {
             XRotIn.Text = lastVal;
         }
+        XRotIn.ReleaseFocus();
     }
     private void sendYRot(string newVal)
     {
         if (ValidateInput(newVal))
         {
-            this.EmitSignal("YRotot", newVal.ToFloat());
+            this.EmitSignal("YRot", newVal.ToFloat());
         }
         else
         {
             YRotIn.Text = lastVal;
         }
+        YRotIn.ReleaseFocus();
     }
     private void sendZRot(string newVal)
     {
@@ -141,5 +143,6 @@ public class TransformInspector : VBoxContainer
         {
             ZRotIn.Text = lastVal;
         }
+        ZRotIn.ReleaseFocus();
     }
 }

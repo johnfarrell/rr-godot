@@ -37,10 +37,17 @@ public class EnvironmentTree : Tree
     {
         for(var i = 0; i < currEnvBase.GetChildCount(); ++i)
         {
+            if(currEnvBase.GetChild(i).IsInGroup("SceneTreeIgnore"))
+            {
+                continue;
+            }
             TreeItem tempChild = this.CreateItem(root);
             tempChild.SetText(0, currEnvBase.GetChild(i).Name);
 
-            PopulateTree(tempChild, (Spatial) currEnvBase.GetChild(i));
+            if(!currEnvBase.GetChild(i).IsInGroup("SceneTreeIgnore"))
+            {
+                PopulateTree(tempChild, (Spatial) currEnvBase.GetChild(i));
+            }
         }
         root.Collapsed = true;
     }
