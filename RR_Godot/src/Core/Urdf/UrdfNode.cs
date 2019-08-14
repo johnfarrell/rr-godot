@@ -198,7 +198,11 @@ namespace RR_Godot.Core.Urdf
             }
             if (workingCol.geometry.mesh != null)
             {
-                return new BoxShape();
+                // return new BoxShape();
+                CylinderShape temp = new CylinderShape();
+                temp.Radius = .1F;
+                temp.Height = .2F;
+                return temp;
                 // return CreateMesh(workingCol.geometry.mesh).CreateConvexShape();
             }
             return null;
