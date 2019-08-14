@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/Core/Camera.cs" type="Script" id=1]
 
@@ -23,16 +23,6 @@ radial_segments = 8
 rings = 1
 is_hemisphere = true
 
-[sub_resource type="ProceduralSky" id=5]
-sky_curve = 0.0209932
-sun_latitude = 23.54
-sun_curve = 0.0125
-texture_size = 1
-
-[sub_resource type="Environment" id=6]
-background_mode = 2
-background_sky = SubResource( 5 )
-
 [node name="Camera" type="Spatial"]
 script = ExtResource( 1 )
 forward = "editor_forward"
@@ -43,15 +33,16 @@ up = "editor_up"
 down = "editor_down"
 
 [node name="camBodyMesh" type="MeshInstance" parent="."]
+visible = false
 mesh = SubResource( 2 )
 material/0 = null
 
 [node name="camLenseMesh" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.118698 )
+visible = false
 mesh = SubResource( 4 )
 material/0 = null
 
 [node name="CameraObj" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0908438 )
-environment = SubResource( 6 )
 current = true

@@ -21,5 +21,4 @@ mesh = SubResource( 2 )
 material/0 = null
 
 [node name="DirectionalLightObj" type="DirectionalLight" parent="."]
-light_color = Color( 0.737255, 0.721569, 0.654902, 1 )
-light_energy = 2.94
+shadow_enabled = true
