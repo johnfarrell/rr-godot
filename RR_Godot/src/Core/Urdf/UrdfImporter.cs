@@ -330,12 +330,12 @@ namespace RR_Godot.Core.Urdf
             // Limit all the axis, has the effect of making it a fixed joint.
             // All the limits will be equal, making it unable to move.
             // Doing this allows us to set limits only where we need to.
-            genJoint.AngularLimitX__enabled = true;
-            genJoint.AngularLimitY__enabled = true;
-            genJoint.AngularLimitZ__enabled = true;
-            genJoint.LinearLimitX__enabled = true;
-            genJoint.LinearLimitY__enabled = true;
-            genJoint.LinearLimitZ__enabled = true;
+            genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableAngularLimit, true);
+            genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableAngularLimit, true);
+            genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableAngularLimit, true);
+            genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableLinearLimit, true);
+            genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableLinearLimit, true);
+            genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableLinearLimit, true);
 
             // Type comments taken from https://wiki.ros.org/urdf/XML/joint 
             switch (base_joint.type)
@@ -345,18 +345,39 @@ namespace RR_Godot.Core.Urdf
                     // limited range specified by the upper and lower limits.
                     if (j_axis[0] == 1.0)
                     {
-                        genJoint.AngularLimitX__lowerAngle = (float)base_joint.limit.lower;
-                        genJoint.AngularLimitX__upperAngle = (float)base_joint.limit.upper;
+                        genJoint.SetParamX(
+                            Generic6DOFJoint.Param.AngularLowerLimit,
+                            (float)base_joint.limit.lower
+                        );
+                        genJoint.SetParamX(
+                            Generic6DOFJoint.Param.AngularUpperLimit,
+                            (float)base_joint.limit.upper
+                        );
+                        genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableMotor, true);
                     }
                     if (j_axis[1] == 1.0)
                     {
-                        genJoint.AngularLimitZ__lowerAngle = (float)base_joint.limit.lower;
-                        genJoint.AngularLimitZ__upperAngle = (float)base_joint.limit.upper;
+                        genJoint.SetParamZ(
+                            Generic6DOFJoint.Param.AngularLowerLimit,
+                            (float)base_joint.limit.lower
+                        );
+                        genJoint.SetParamZ(
+                            Generic6DOFJoint.Param.AngularUpperLimit,
+                            (float)base_joint.limit.upper
+                        );
+                        genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableMotor, true);
                     }
                     if (j_axis[2] == 0.0)
                     {
-                        genJoint.AngularLimitY__lowerAngle = (float)base_joint.limit.lower;
-                        genJoint.AngularLimitY__upperAngle = (float)base_joint.limit.upper;
+                        genJoint.SetParamY(
+                            Generic6DOFJoint.Param.AngularLowerLimit,
+                            (float)base_joint.limit.lower
+                        );
+                        genJoint.SetParamY(
+                            Generic6DOFJoint.Param.AngularUpperLimit,
+                            (float)base_joint.limit.upper
+                        );
+                        genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableMotor, true);
                     }
                     break;
                 case "continuous":
@@ -364,15 +385,15 @@ namespace RR_Godot.Core.Urdf
                     // and has no upper and lower limits.
                     if (j_axis[0] == 1.0)
                     {
-                        genJoint.AngularLimitX__enabled = false;
+                        genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableAngularLimit, false);
                     }
                     if (j_axis[1] == 1.0)
                     {
-                        genJoint.AngularLimitZ__enabled = false;
+                        genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableAngularLimit, false);
                     }
                     if (j_axis[2] == 1.0)
                     {
-                        genJoint.AngularLimitY__enabled = false;
+                        genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableAngularLimit, false);
                     }
                     break;
                 case "prismatic":
@@ -380,18 +401,39 @@ namespace RR_Godot.Core.Urdf
                     // limited range specified by the upper and lower limits. 
                     if (j_axis[0] == 1.0)
                     {
-                        genJoint.LinearLimitX__lowerDistance = (float)base_joint.limit.lower;
-                        genJoint.LinearLimitX__upperDistance = (float)base_joint.limit.upper;
+                        genJoint.SetParamX(
+                            Generic6DOFJoint.Param.LinearLowerLimit,
+                            (float)base_joint.limit.lower
+                        );
+                        genJoint.SetParamX(
+                            Generic6DOFJoint.Param.LinearUpperLimit,
+                            (float)base_joint.limit.upper
+                        );
+                        genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableLinearMotor, true);
                     }
                     if (j_axis[1] == 1.0)
                     {
-                        genJoint.LinearLimitZ__lowerDistance = (float)base_joint.limit.lower;
-                        genJoint.LinearLimitZ__upperDistance = (float)base_joint.limit.upper;
+                        genJoint.SetParamZ(
+                            Generic6DOFJoint.Param.LinearLowerLimit,
+                            (float)base_joint.limit.lower
+                        );
+                        genJoint.SetParamZ(
+                            Generic6DOFJoint.Param.LinearUpperLimit,
+                            (float)base_joint.limit.upper
+                        );
+                        genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableLinearMotor, true);
                     }
                     if (j_axis[2] == 1.0)
                     {
-                        genJoint.LinearLimitY__lowerDistance = (float)base_joint.limit.lower;
-                        genJoint.LinearLimitY__upperDistance = (float)base_joint.limit.upper;
+                        genJoint.SetParamY(
+                            Generic6DOFJoint.Param.LinearLowerLimit,
+                            (float)base_joint.limit.lower
+                        );
+                        genJoint.SetParamY(
+                            Generic6DOFJoint.Param.LinearUpperLimit,
+                            (float)base_joint.limit.upper
+                        );
+                        genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableLinearMotor, true);
                     }
                     break;
                 case "fixed":
@@ -402,35 +444,71 @@ namespace RR_Godot.Core.Urdf
                     break;
                 case "floating":
                     // This joint allows motion for all 6 degrees of freedom.
-                    genJoint.AngularLimitX__enabled = false;
-                    genJoint.AngularLimitY__enabled = false;
-                    genJoint.AngularLimitZ__enabled = false;
-                    genJoint.LinearLimitX__enabled = false;
-                    genJoint.LinearLimitY__enabled = false;
-                    genJoint.LinearLimitZ__enabled = false;
+                    genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableAngularLimit, false);
+                    genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableAngularLimit, false);
+                    genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableAngularLimit, false);
+                    genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableLinearLimit, false);
+                    genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableLinearLimit, false);
+                    genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableLinearLimit, false);
                     break;
                 case "planar":
                     // This joint allows motion in a plane perpendicular to the axis.
                     if (j_axis[0] == 1.0)
                     {
-                        genJoint.LinearLimitY__upperDistance = (float)base_joint.limit.upper;
-                        genJoint.LinearLimitY__lowerDistance = (float)base_joint.limit.lower;
-                        genJoint.LinearLimitZ__upperDistance = (float)base_joint.limit.upper;
-                        genJoint.LinearLimitZ__lowerDistance = (float)base_joint.limit.lower;
+                        genJoint.SetParamY(
+                            Generic6DOFJoint.Param.LinearUpperLimit,
+                            (float)base_joint.limit.upper
+                        );
+                        genJoint.SetParamY(
+                            Generic6DOFJoint.Param.LinearLowerLimit,
+                            (float)base_joint.limit.lower
+                        );
+                        genJoint.SetParamZ(
+                            Generic6DOFJoint.Param.LinearUpperLimit,
+                            (float)base_joint.limit.upper
+                        );
+                        genJoint.SetParamZ(
+                            Generic6DOFJoint.Param.LinearLowerLimit,
+                            (float)base_joint.limit.lower
+                        );
                     }
                     if (j_axis[1] == 1.0)
                     {
-                        genJoint.LinearLimitX__upperDistance = (float)base_joint.limit.upper;
-                        genJoint.LinearLimitX__lowerDistance = (float)base_joint.limit.lower;
-                        genJoint.LinearLimitY__upperDistance = (float)base_joint.limit.upper;
-                        genJoint.LinearLimitY__lowerDistance = (float)base_joint.limit.lower;
+                        genJoint.SetParamY(
+                            Generic6DOFJoint.Param.LinearUpperLimit,
+                            (float)base_joint.limit.upper
+                        );
+                        genJoint.SetParamY(
+                            Generic6DOFJoint.Param.LinearLowerLimit,
+                            (float)base_joint.limit.lower
+                        );
+                        genJoint.SetParamX(
+                            Generic6DOFJoint.Param.LinearUpperLimit,
+                            (float)base_joint.limit.upper
+                        );
+                        genJoint.SetParamX(
+                            Generic6DOFJoint.Param.LinearLowerLimit,
+                            (float)base_joint.limit.lower
+                        );
                     }
                     if (j_axis[2] == 1.0)
                     {
-                        genJoint.LinearLimitX__upperDistance = (float)base_joint.limit.upper;
-                        genJoint.LinearLimitX__lowerDistance = (float)base_joint.limit.lower;
-                        genJoint.LinearLimitZ__upperDistance = (float)base_joint.limit.upper;
-                        genJoint.LinearLimitZ__lowerDistance = (float)base_joint.limit.lower;
+                        genJoint.SetParamX(
+                            Generic6DOFJoint.Param.LinearUpperLimit,
+                            (float)base_joint.limit.upper
+                        );
+                        genJoint.SetParamX(
+                            Generic6DOFJoint.Param.LinearLowerLimit,
+                            (float)base_joint.limit.lower
+                        );
+                        genJoint.SetParamZ(
+                            Generic6DOFJoint.Param.LinearUpperLimit,
+                            (float)base_joint.limit.upper
+                        );
+                        genJoint.SetParamZ(
+                            Generic6DOFJoint.Param.LinearLowerLimit,
+                            (float)base_joint.limit.lower
+                        );
                     }
                     break;
                 default:
