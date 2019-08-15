@@ -23,3 +23,5 @@ material/0 = null
 
 [node name="DirectionalLightObj" type="DirectionalLight" parent="."]
 shadow_enabled = true
+shadow_bias = 0.0
+shadow_contact = 0.2

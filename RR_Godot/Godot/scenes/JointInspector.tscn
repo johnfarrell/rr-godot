@@ -27,7 +27,6 @@ text = "Node Name"
 align = 1
 
 [node name="TransformMenu" type="VBoxContainer" parent="VBoxContainer"]
-editor/display_folded = true
 margin_top = 21.0
 margin_right = 500.0
 margin_bottom = 188.0
@@ -50,6 +49,7 @@ custom_constants/margin_left = 10
 custom_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TransformMenu/MarginContainer"]
+editor/display_folded = true
 margin_left = 10.0
 margin_right = 500.0
 margin_bottom = 118.0
