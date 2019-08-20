@@ -5,7 +5,7 @@
 [ext_resource path="res://src/Core/Gui/TitleBar.cs" type="Script" id=3]
 [ext_resource path="res://src/Core/Gui/AppWindow.cs" type="Script" id=4]
 [ext_resource path="res://src/Core/Gui/EnvironmentTree.cs" type="Script" id=5]
-[ext_resource path="res://Godot/scenes/JointInspector.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Godot/scenes/ObjectInspector.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Godot/scenes/Joint Controller.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Godot/scenes/4WayViewport.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/Core/Gui/MouseEventPassthrough.cs" type="Script" id=9]
@@ -247,17 +247,18 @@ margin_left = 10.0
 margin_top = 40.0
 margin_right = -10.0
 margin_bottom = -10.0
+rect_min_size = Vector2( 125, 0 )
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-split_offset = 100
+split_offset = 125
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="LeftMenu" type="VSplitContainer" parent="UI/AppWindow"]
-margin_right = 350.0
+margin_right = 375.0
 margin_bottom = 1030.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -266,8 +267,7 @@ size_flags_vertical = 5
 custom_constants/separation = 10
 
 [node name="TreeContainer" type="TabContainer" parent="UI/AppWindow/LeftMenu"]
-editor/display_folded = true
-margin_right = 350.0
+margin_right = 375.0
 margin_bottom = 510.0
 mouse_filter = 1
 size_flags_horizontal = 3
@@ -296,14 +296,14 @@ mouse_filter = 1
 
 [node name="ObjectInspector" type="TabContainer" parent="UI/AppWindow/LeftMenu"]
 margin_top = 520.0
-margin_right = 350.0
+margin_right = 375.0
 margin_bottom = 1030.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 tab_align = 0
 
-[node name="Inspector" parent="UI/AppWindow/LeftMenu/ObjectInspector" instance=ExtResource( 6 )]
+[node name="ObjectInspector" parent="UI/AppWindow/LeftMenu/ObjectInspector" instance=ExtResource( 6 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
@@ -311,7 +311,7 @@ margin_top = 41.0
 margin_right = -10.0
 margin_bottom = -10.0
 
-[node name="Joint Controller" parent="UI/AppWindow/LeftMenu/ObjectInspector" instance=ExtResource( 7 )]
+[node name="JointController" parent="UI/AppWindow/LeftMenu/ObjectInspector" instance=ExtResource( 7 )]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -321,7 +321,7 @@ margin_right = -10.0
 margin_bottom = -10.0
 
 [node name="EnvironmentContainer" type="Control" parent="UI/AppWindow"]
-margin_left = 362.0
+margin_left = 387.0
 margin_right = 1900.0
 margin_bottom = 1030.0
 focus_mode = 2
@@ -330,6 +330,10 @@ mouse_filter = 1
 [node name="Panel" type="Panel" parent="UI/AppWindow/EnvironmentContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -5.14429
+margin_top = 3.42953
+margin_right = -5.14429
+margin_bottom = 3.42957
 mouse_filter = 2
 custom_styles/panel = SubResource( 2 )
 __meta__ = {
@@ -346,7 +350,6 @@ margin_bottom = -6.0
 script = ExtResource( 9 )
 
 [node name="ToolboxPanelFixed" type="Panel" parent="UI/AppWindow/EnvironmentContainer"]
-editor/display_folded = true
 margin_right = 763.0
 margin_bottom = 55.0
 theme = ExtResource( 10 )

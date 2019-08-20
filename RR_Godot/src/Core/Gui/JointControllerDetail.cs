@@ -21,11 +21,13 @@ public class JointControllerDetail : VBoxContainer
 
     private Button hideBtn;
     private MarginContainer content;
+    private Control spacer;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         hideBtn = (Button) GetNode("Button");
         content = (MarginContainer) GetNode("Content");
+        spacer = (Control) GetNode("Spacer");
 
         hideBtn.Connect("pressed", this, "ToggleHidden");
 
@@ -43,6 +45,11 @@ public class JointControllerDetail : VBoxContainer
         GetNode("Content/VBoxContainer/JogAng/NegY").Connect("pressed", this, "jogAngNegYPressed");
         GetNode("Content/VBoxContainer/JogAng/PosZ").Connect("pressed", this, "jogAngPosZPressed");
         GetNode("Content/VBoxContainer/JogAng/NegZ").Connect("pressed", this, "jogAngNegZPressed");
+    }
+
+    public void ChangeName(string name)
+    {
+        hideBtn.Text = name;
     }
 
     private void jogLinPosXPressed()
@@ -98,5 +105,6 @@ public class JointControllerDetail : VBoxContainer
     private void ToggleHidden()
     {
         content.Visible = !content.Visible;
+        spacer.Visible = !spacer.Visible;
     }
 }

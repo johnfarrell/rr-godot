@@ -53,6 +53,43 @@ public class TransformInspector : VBoxContainer
         ZRotIn.Connect("text_entered", this, "sendZRot");
     }
 
+    public void UpdateAllTrans(
+        float linx, float liny, float linz,
+        float rotx, float roty, float rotz)
+    {
+        UpdateLinX(linx);
+        UpdateLinY(liny);
+        UpdateLinZ(linz);
+        UpdateAngX(rotx);
+        UpdateAngY(roty);
+        UpdateAngZ(rotz);
+    }
+
+    private void UpdateLinX(float val)
+    {
+        XTransIn.Text = Math.Round(val, 3).ToString();
+    }
+    private void UpdateLinY(float val)
+    {
+        YTransIn.Text = Math.Round(val, 3).ToString();
+    }
+    private void UpdateLinZ(float val)
+    {
+        ZTransIn.Text = Math.Round(val, 3).ToString();
+    }
+    private void UpdateAngX(float val)
+    {
+        XRotIn.Text = Math.Round(val, 3).ToString();
+    }
+    private void UpdateAngY(float val)
+    {
+        YRotIn.Text = Math.Round(val, 3).ToString();
+    }
+    private void UpdateAngZ(float val)
+    {
+        ZRotIn.Text = Math.Round(val, 3).ToString();
+    }
+
     private void storeLast()
     {
         foreach (var input in inputsList)
