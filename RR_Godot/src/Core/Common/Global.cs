@@ -235,15 +235,16 @@ namespace RR_Godot.Core
             if (fileExtension == ".urdf")
             {
                 var beforeStatus = GetNode("/root/main/env").GetTree().Paused;
-                
                 GetNode("/root/main/env").GetTree().Paused = true;
+
                 UrdfHandler.Parse(file);
-                UrdfHandler.PrintTree(UrdfHandler._robotRoot);
+
                 RigidBody temp = UrdfHandler.GenerateSpatial(UrdfHandler._robotRoot);                
 
                 GetNode("/root/main/env").AddChild(temp);
 
                 UrdfHandler.ConnectJoints(temp);
+
                 temp.Translate(new Vector3(0F, 1.5F, 0F));
 
                 GetNode("/root/main/env").EmitSignal("envUpdated");

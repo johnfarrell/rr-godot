@@ -86,8 +86,10 @@
     <Compile Include="src\Core\Gui\EnvironmentTree.cs" />
     <Compile Include="src\Core\Gui\gridGenerator.cs" />
     <Compile Include="src\Core\Gui\ImportWindow.cs" />
+    <Compile Include="src\Core\Gui\JointControlInterface.cs" />
     <Compile Include="src\Core\Gui\JointControllerDetail.cs" />
     <Compile Include="src\Core\Gui\MouseEventPassthrough.cs" />
+    <Compile Include="src\Core\Gui\ObjectInspector.cs" />
     <Compile Include="src\Core\Gui\PluginPreferences.cs" />
     <Compile Include="src\Core\Gui\PreferencesWindow.cs" />
     <Compile Include="src\Core\Gui\TitleBar.cs" />
