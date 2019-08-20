@@ -37,6 +37,7 @@ public class ToolboxPanelFixed : Panel
 
         Button SimControlButton = GetNode<Button>("ToolboxContainer/SimControl");
         SimControlButton.Connect("pressed", GetNode("/root/main/env"), "ToggleSimState");
+        SimControlButton.Connect("pressed", GetNode("/root/main/UI/AppWindow/LeftMenu/ObjectInspector/ObjectInspector/"), "ToggleInputDisabled");
 
         GD.Print("TOOLBOXPANELFIXED.CS: READY");
     }
