@@ -173,7 +173,7 @@ namespace RR_Godot.Core.Urdf
             foreach (var child in base_node.GetChildren())
             {
                 // Returns a joint connected to a rigid body
-                Generic6DOFJoint childJoint = GenerateSpatialRec(child);
+                Godot.Joint childJoint = GenerateSpatialRec(child);
                 rootSpat.AddChild(childJoint);
 
                 // Transform according to the child joint transformations
@@ -207,10 +207,10 @@ namespace RR_Godot.Core.Urdf
         /// A Godot.Generic6DOFJoint that represents the start of the Godot 
         /// representation of the URDF tree structure.
         /// </returns>
-        private Generic6DOFJoint GenerateSpatialRec(UrdfNode base_node)
+        private Godot.Joint GenerateSpatialRec(UrdfNode base_node)
         {
             // Create the return joint
-            Generic6DOFJoint finJoint = ConfigureJoint(base_node._joint);
+            Godot.Joint finJoint = ConfigureJoint(base_node._joint);
             finJoint.Name = base_node._joint.name;
 
             // Create the return RigidBody
@@ -221,7 +221,7 @@ namespace RR_Godot.Core.Urdf
             {
                 // This is the same as GenerateSpatial(), so look at that
                 // function for the explanation.
-                Generic6DOFJoint childJoint = GenerateSpatialRec(child);
+                Godot.Joint childJoint = GenerateSpatialRec(child);
                 tempLink.AddChild(childJoint);
 
                 childJoint.TranslateObjectLocal(new Vector3(
@@ -256,7 +256,10 @@ namespace RR_Godot.Core.Urdf
             Spatial curr = nodeQueue.Dequeue();
             while (curr != null)
             {
-                if (curr.GetType() != typeof(Godot.Generic6DOFJoint))
+                GD.Print(curr.GetType());
+                if (!curr.GetType().Equals(typeof(Godot.PinJoint)) &&
+                    !curr.GetType().Equals(typeof(Godot.HingeJoint)) &&
+                    !curr.GetType().Equals(typeof(Generic6DOFJoint)))
                 {
                     // If the current object isn't a joint, its a link so you need
                     // to add all of the children to the queue.
@@ -274,7 +277,11 @@ namespace RR_Godot.Core.Urdf
                     continue;
                 }
 
-                Generic6DOFJoint tempJoint = (Generic6DOFJoint)curr;
+                GD.Print("here");
+                
+
+
+                Godot.Joint tempJoint = (Godot.Joint)curr;
 
                 // We have a joint, set the endpoints
 
@@ -286,6 +293,8 @@ namespace RR_Godot.Core.Urdf
 
                 tempJoint.SetNodeA(parentPath);
                 tempJoint.SetNodeB(childPath);
+
+                GD.Print(tempJoint.Name);
 
                 nodeQueue.Enqueue((Spatial)curr.GetChild(0));
 
@@ -308,10 +317,8 @@ namespace RR_Godot.Core.Urdf
         /// </summary>
         /// <param name="base_joint">Urdf Joint specifications.</param>
         /// <returns>Godot joint matching specs.</returns>
-        private Generic6DOFJoint ConfigureJoint(RosSharp.Urdf.Joint base_joint)
+        private Godot.Joint ConfigureJoint(RosSharp.Urdf.Joint base_joint)
         {
-            Generic6DOFJoint genJoint = new Generic6DOFJoint();
-
             // The Urdf joint axis specifies the axis of rotation for revolute joints,
             // axis of translation for prismatic joints, and the surface normal
             // for planar joints.
@@ -330,12 +337,13 @@ namespace RR_Godot.Core.Urdf
             // Limit all the axis, has the effect of making it a fixed joint.
             // All the limits will be equal, making it unable to move.
             // Doing this allows us to set limits only where we need to.
-            genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableAngularLimit, true);
-            genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableAngularLimit, true);
-            genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableAngularLimit, true);
-            genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableLinearLimit, true);
-            genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableLinearLimit, true);
-            genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableLinearLimit, true);
+
+            // genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableAngularLimit, true);
+            // genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableAngularLimit, true);
+            // genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableAngularLimit, true);
+            // genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableLinearLimit, true);
+            // genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableLinearLimit, true);
+            // genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableLinearLimit, true);
 
             // Type comments taken from https://wiki.ros.org/urdf/XML/joint 
             switch (base_joint.type)
@@ -343,180 +351,131 @@ namespace RR_Godot.Core.Urdf
                 case "revolute":
                     // A hinge joint that rotates along the axis and has a
                     // limited range specified by the upper and lower limits.
-                    if (j_axis[0] == 1.0)
-                    {
-                        genJoint.SetParamX(
-                            Generic6DOFJoint.Param.AngularLowerLimit,
-                            (float)base_joint.limit.lower
-                        );
-                        genJoint.SetParamX(
-                            Generic6DOFJoint.Param.AngularUpperLimit,
-                            (float)base_joint.limit.upper
-                        );
-                        genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableMotor, true);
-                    }
-                    if (j_axis[1] == 1.0)
-                    {
-                        genJoint.SetParamZ(
-                            Generic6DOFJoint.Param.AngularLowerLimit,
-                            (float)base_joint.limit.lower
-                        );
-                        genJoint.SetParamZ(
-                            Generic6DOFJoint.Param.AngularUpperLimit,
-                            (float)base_joint.limit.upper
-                        );
-                        genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableMotor, true);
-                    }
-                    if (j_axis[2] == 0.0)
-                    {
-                        genJoint.SetParamY(
-                            Generic6DOFJoint.Param.AngularLowerLimit,
-                            (float)base_joint.limit.lower
-                        );
-                        genJoint.SetParamY(
-                            Generic6DOFJoint.Param.AngularUpperLimit,
-                            (float)base_joint.limit.upper
-                        );
-                        genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableMotor, true);
-                    }
-                    break;
+                    HingeJoint revJoint = new HingeJoint();
+
+                    revJoint.SetFlag(HingeJoint.Flag.UseLimit, true);
+                    revJoint.SetFlag(HingeJoint.Flag.EnableMotor, true);
+                    revJoint.SetParam(HingeJoint.Param.MotorTargetVelocity, 0F);
+                    revJoint.SetParam(HingeJoint.Param.LimitLower, (float)base_joint.limit.lower);
+                    revJoint.SetParam(HingeJoint.Param.LimitUpper, (float)base_joint.limit.upper);
+                    
+                    return revJoint;
                 case "continuous":
                     // a continuous hinge joint that rotates around the axis 
                     // and has no upper and lower limits.
-                    if (j_axis[0] == 1.0)
-                    {
-                        genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableAngularLimit, false);
-                    }
-                    if (j_axis[1] == 1.0)
-                    {
-                        genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableAngularLimit, false);
-                    }
-                    if (j_axis[2] == 1.0)
-                    {
-                        genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableAngularLimit, false);
-                    }
-                    break;
+                    HingeJoint contJoint = new HingeJoint();
+
+                    contJoint.SetFlag(HingeJoint.Flag.UseLimit, false);
+                    contJoint.SetFlag(HingeJoint.Flag.EnableMotor, true);
+                    contJoint.SetParam(HingeJoint.Param.MotorTargetVelocity, 0F);
+
+                    return contJoint;
                 case "prismatic":
                     // a sliding joint that slides along the axis, and has a
-                    // limited range specified by the upper and lower limits. 
-                    if (j_axis[0] == 1.0)
-                    {
-                        genJoint.SetParamX(
-                            Generic6DOFJoint.Param.LinearLowerLimit,
-                            (float)base_joint.limit.lower
-                        );
-                        genJoint.SetParamX(
-                            Generic6DOFJoint.Param.LinearUpperLimit,
-                            (float)base_joint.limit.upper
-                        );
-                        genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableLinearMotor, true);
-                    }
-                    if (j_axis[1] == 1.0)
-                    {
-                        genJoint.SetParamZ(
-                            Generic6DOFJoint.Param.LinearLowerLimit,
-                            (float)base_joint.limit.lower
-                        );
-                        genJoint.SetParamZ(
-                            Generic6DOFJoint.Param.LinearUpperLimit,
-                            (float)base_joint.limit.upper
-                        );
-                        genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableLinearMotor, true);
-                    }
-                    if (j_axis[2] == 1.0)
-                    {
-                        genJoint.SetParamY(
-                            Generic6DOFJoint.Param.LinearLowerLimit,
-                            (float)base_joint.limit.lower
-                        );
-                        genJoint.SetParamY(
-                            Generic6DOFJoint.Param.LinearUpperLimit,
-                            (float)base_joint.limit.upper
-                        );
-                        genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableLinearMotor, true);
-                    }
-                    break;
+                    // limited range specified by the upper and lower limits.
+
+                    SliderJoint slideJoint = new SliderJoint();
+
+                    slideJoint.SetParam(SliderJoint.Param.LinearLimitLower, (float)base_joint.limit.lower);
+                    slideJoint.SetParam(SliderJoint.Param.LinearLimitUpper, (float)base_joint.limit.upper); 
+                    
+                    return slideJoint;
                 case "fixed":
                     // This is not really a joint because it cannot move.
                     // All degrees of freedom are locked. This type of joint 
                     // does not require the axis, calibration, dynamics, 
-                    // limits or safety_controller. 
-                    break;
+                    // limits or safety_controller.
+                    Generic6DOFJoint pinJoint = new Generic6DOFJoint();
+
+                    pinJoint.SetFlagX(Generic6DOFJoint.Flag.EnableAngularLimit, true);
+                    pinJoint.SetFlagY(Generic6DOFJoint.Flag.EnableAngularLimit, true);
+                    pinJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableAngularLimit, true);
+                    pinJoint.SetFlagX(Generic6DOFJoint.Flag.EnableLinearLimit, true);
+                    pinJoint.SetFlagY(Generic6DOFJoint.Flag.EnableLinearLimit, true);
+                    pinJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableLinearLimit, true);
+
+                    return pinJoint;
                 case "floating":
                     // This joint allows motion for all 6 degrees of freedom.
+                    Generic6DOFJoint genJoint = new Generic6DOFJoint();
+
                     genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableAngularLimit, false);
                     genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableAngularLimit, false);
                     genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableAngularLimit, false);
                     genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableLinearLimit, false);
                     genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableLinearLimit, false);
                     genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableLinearLimit, false);
-                    break;
+
+                    return genJoint;
                 case "planar":
                     // This joint allows motion in a plane perpendicular to the axis.
+
+                    Generic6DOFJoint planJoint = new Generic6DOFJoint();
                     if (j_axis[0] == 1.0)
                     {
-                        genJoint.SetParamY(
+                        planJoint.SetParamY(
                             Generic6DOFJoint.Param.LinearUpperLimit,
                             (float)base_joint.limit.upper
                         );
-                        genJoint.SetParamY(
+                        planJoint.SetParamY(
                             Generic6DOFJoint.Param.LinearLowerLimit,
                             (float)base_joint.limit.lower
                         );
-                        genJoint.SetParamZ(
+                        planJoint.SetParamZ(
                             Generic6DOFJoint.Param.LinearUpperLimit,
                             (float)base_joint.limit.upper
                         );
-                        genJoint.SetParamZ(
+                        planJoint.SetParamZ(
                             Generic6DOFJoint.Param.LinearLowerLimit,
                             (float)base_joint.limit.lower
                         );
                     }
                     if (j_axis[1] == 1.0)
                     {
-                        genJoint.SetParamY(
+                        planJoint.SetParamY(
                             Generic6DOFJoint.Param.LinearUpperLimit,
                             (float)base_joint.limit.upper
                         );
-                        genJoint.SetParamY(
+                        planJoint.SetParamY(
                             Generic6DOFJoint.Param.LinearLowerLimit,
                             (float)base_joint.limit.lower
                         );
-                        genJoint.SetParamX(
+                        planJoint.SetParamX(
                             Generic6DOFJoint.Param.LinearUpperLimit,
                             (float)base_joint.limit.upper
                         );
-                        genJoint.SetParamX(
+                        planJoint.SetParamX(
                             Generic6DOFJoint.Param.LinearLowerLimit,
                             (float)base_joint.limit.lower
                         );
                     }
                     if (j_axis[2] == 1.0)
                     {
-                        genJoint.SetParamX(
+                        planJoint.SetParamX(
                             Generic6DOFJoint.Param.LinearUpperLimit,
                             (float)base_joint.limit.upper
                         );
-                        genJoint.SetParamX(
+                        planJoint.SetParamX(
                             Generic6DOFJoint.Param.LinearLowerLimit,
                             (float)base_joint.limit.lower
                         );
-                        genJoint.SetParamZ(
+                        planJoint.SetParamZ(
                             Generic6DOFJoint.Param.LinearUpperLimit,
                             (float)base_joint.limit.upper
                         );
-                        genJoint.SetParamZ(
+                        planJoint.SetParamZ(
                             Generic6DOFJoint.Param.LinearLowerLimit,
                             (float)base_joint.limit.lower
                         );
                     }
-                    break;
+
+                    return planJoint;
                 default:
-                    GD.Print(base_joint.type);
+                    GD.Print("testing: " + base_joint.type);
                     break;
             }
 
-            return genJoint;
+            return null;
         }
     }
 }
