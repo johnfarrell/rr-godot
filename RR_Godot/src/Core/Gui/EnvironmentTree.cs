@@ -6,12 +6,21 @@ using System;
 /// </summary>
 public class EnvironmentTree : Tree
 {
+    [Signal]
+    public delegate void ObjectSelected(string name);
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         UpdateTree();
+        this.Connect("item_selected", this, "ItemSelected");
         GD.Print("ENVIRONMENTTREE.CS: READY");
+    }
+
+    public void ItemSelected()
+    {
+        GD.Print(GetSelected().GetText(0));
+        EmitSignal("ObjectSelected", GetSelected().GetText(0));
     }
 
     /// <summary>

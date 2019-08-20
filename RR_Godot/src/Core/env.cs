@@ -61,7 +61,14 @@ public class env : Spatial
     [Signal]
     public delegate void UpdateVelocities(
         float linx, float liny, float linz,
-        float rotx, float roty, float rotz);
+        float rotx, float roty, float rotz
+    );
+
+    [Signal]
+    public delegate void UpdateTransform(
+        float linx, float liny, float linz,
+        float rotx, float roty, float rotz
+    );
 
 
     // Called when the node enters the scene tree for the first time.
@@ -69,11 +76,19 @@ public class env : Spatial
     {
         this.Connect(
             "UpdateVelocities",
-            GetNode("/root/main/UI/AppWindow/LeftMenu/ObjectInspector/Inspector/VBoxContainer/VelocityMenu"),
+            GetNode("/root/main/UI/AppWindow/LeftMenu/ObjectInspector/ObjectInspector/VBoxContainer/VelocityMenu"),
             "UpdateAllVels"
         );
+        this.Connect(
+            "UpdateTransform",
+            GetNode("/root/main/UI/AppWindow/LeftMenu/ObjectInspector/ObjectInspector/VBoxContainer/TransformMenu"),
+            "UpdateAllTrans"
+        );
+
+        GetNode("/root/main/UI/AppWindow/LeftMenu/TreeContainer/Environment").Connect("ObjectSelected", this, "TreeItemSelected");
+
         // Connect translation signals
-        VBoxContainer TransformInspector = (VBoxContainer)GetNode("/root/main/UI/AppWindow/LeftMenu/ObjectInspector/Inspector/VBoxContainer/TransformMenu");
+        VBoxContainer TransformInspector = (VBoxContainer)GetNode("/root/main/UI/AppWindow/LeftMenu/ObjectInspector/ObjectInspector/VBoxContainer/TransformMenu");
         TransformInspector.Connect("XTrans", this, "TranslateX");
         TransformInspector.Connect("YTrans", this, "TranslateY");
         TransformInspector.Connect("ZTrans", this, "TranslateZ");
@@ -96,11 +111,27 @@ public class env : Spatial
             gizmo.GetChild(i).Connect("HandleUnpressed", this, "GizmoUnclicked");
         }
 
-        simState = true;
+        simState = false;
         GetTree().Paused = simState;
 
         // gizmo.Visible = false;
         GD.Print("ENV.CS: READY");
+    }
+
+    public void TreeItemSelected(string itemName)
+    {
+        GD.Print("ENV: " + itemName);
+        try
+        {
+            Node item = this.FindNode(itemName, true, false);
+
+            GD.Print("Item: " + item.Name + " Type: " + item.GetClass().ToString());
+        }
+        catch
+        {
+            GD.Print("it broke");
+        }
+        
     }
 
     public Godot.Collections.Dictionary GetSelectedObject()
@@ -419,6 +450,26 @@ public class env : Spatial
     private void RotZ(float zVal)
     {
 
+    }
+
+    private void UpdateObjectTransform(Spatial obj)
+    {
+        try
+        {
+            Vector3 eul = obj.Transform.basis.GetEuler();
+            EmitSignal("UpdateTransform",
+                obj.Transform.origin.x,
+                obj.Transform.origin.y,
+                obj.Transform.origin.z,
+                eul[0],
+                eul[1],
+                eul[2]
+            );
+        }
+        catch
+        {
+            GD.Print("idk");
+        }
     }
 
     private void UpdateObjectVelocities(CollisionObject obj)
