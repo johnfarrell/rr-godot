@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Godot/theme/new_theme.tres" type="Theme" id=1]
 [ext_resource path="res://src/Core/Gui/JointControlInterface.cs" type="Script" id=2]
-[ext_resource path="res://Godot/scenes/JointControllerDetail.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Godot/scenes/Gen6DoFJointControllerDetail.tscn" type="PackedScene" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.764706, 0.764706, 0.764706, 1 )
@@ -64,24 +64,8 @@ margin_bottom = 243.0
 size_flags_horizontal = 3
 custom_constants/separation = 0
 
-[node name="JointDetail" parent="Content/JointContainer/List" instance=ExtResource( 3 )]
+[node name="Gen6DoFJointDetail" parent="Content/JointContainer/List" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 500.0
 margin_bottom = 243.0
-
-[node name="JointDetail2" parent="Content/JointContainer/List" instance=ExtResource( 3 )]
-visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 243.0
-margin_right = 488.0
-margin_bottom = 486.0
-
-[node name="JointDetail3" parent="Content/JointContainer/List" instance=ExtResource( 3 )]
-visible = false
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 486.0
-margin_right = 488.0
-margin_bottom = 729.0

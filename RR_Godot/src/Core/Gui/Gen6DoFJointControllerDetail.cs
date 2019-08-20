@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class JointControllerDetail : VBoxContainer
+public class Gen6DoFJointControllerDetail : VBoxContainer
 {
     public enum JogAxis
     {
@@ -22,6 +22,7 @@ public class JointControllerDetail : VBoxContainer
     private Button hideBtn;
     private MarginContainer content;
     private Control spacer;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -47,9 +48,9 @@ public class JointControllerDetail : VBoxContainer
         GetNode("Content/VBoxContainer/JogAng/NegZ").Connect("pressed", this, "jogAngNegZPressed");
     }
 
-    public void ChangeName(string name)
+    public void ChangeName(string name, string type)
     {
-        hideBtn.Text = name;
+        hideBtn.Text = name + " - " + type + " joint";
     }
 
     private void jogLinPosXPressed()
