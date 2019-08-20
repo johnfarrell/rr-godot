@@ -26,6 +26,10 @@ config/icon="res://Godot/theme/icon.png"
 Global="*res://src/Core/Common/Global.cs"
 MeshAdder="*res://src/Core/Geometry/MeshAdder.cs"
 
+[debug]
+
+shapes/collision/shape_color=Color( 0, 0.6, 0.701961, 1 )
+
 [display]
 
 window/size/width=1920
