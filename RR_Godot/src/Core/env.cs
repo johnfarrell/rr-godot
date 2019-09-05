@@ -70,6 +70,11 @@ public class env : Spatial
         float rotx, float roty, float rotz
     );
 
+    [Signal]
+    public delegate void UpdateJointInfo(
+        Joint joint
+    );
+
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -83,6 +88,11 @@ public class env : Spatial
             "UpdateTransform",
             GetNode("/root/main/UI/AppWindow/LeftMenu/ObjectInspector/ObjectInspector/VBoxContainer/TransformMenu"),
             "UpdateAllTrans"
+        );
+        this.Connect(
+            "UpdateJointInfo",
+            GetNode("/root/main/UI/AppWindow/LeftMenu/ObjectInspector/JointController"),
+            "TreeObjSelected"
         );
 
         GetNode("/root/main/UI/AppWindow/LeftMenu/TreeContainer/Environment").Connect("ObjectSelected", this, "TreeItemSelected");
@@ -124,11 +134,18 @@ public class env : Spatial
         try
         {
             Node item = this.FindNode(itemName, true, false);
+            
+            
+            if(item.IsClass("Joint"))
+            {
+                EmitSignal("UpdateJointInfo", item);
+            }
 
             GD.Print("Item: " + item.Name + " Type: " + item.GetClass().ToString());
         }
-        catch
+        catch (Exception e)
         {
+            GD.Print("------\n" + e.Message + "\n------\n");
             GD.Print("it broke");
         }
         
@@ -487,7 +504,7 @@ public class env : Spatial
         }
         catch
         {
-            GD.Print("couldn't find rigid");
+            // GD.Print("couldn't find rigid");
         }
     }
 

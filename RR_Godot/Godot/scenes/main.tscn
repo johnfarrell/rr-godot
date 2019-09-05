@@ -6,7 +6,7 @@
 [ext_resource path="res://src/Core/Gui/AppWindow.cs" type="Script" id=4]
 [ext_resource path="res://src/Core/Gui/EnvironmentTree.cs" type="Script" id=5]
 [ext_resource path="res://Godot/scenes/ObjectInspector.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Godot/scenes/Joint Controller.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Godot/scenes/JointController.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Godot/scenes/4WayViewport.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/Core/Gui/MouseEventPassthrough.cs" type="Script" id=9]
 [ext_resource path="res://Godot/theme/toolbarPopupMenu.tres" type="Theme" id=10]

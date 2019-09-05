@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Godot/theme/new_theme.tres" type="Theme" id=1]
-[ext_resource path="res://src/Core/Gui/Gen6DoFJointControllerDetail.cs" type="Script" id=2]
+[ext_resource path="res://src/Core/Gui/JointController/Gen6DoFJointControllerDetail.cs" type="Script" id=2]
 
 [node name="Gen6DoFJointDetail" type="VBoxContainer"]
 anchor_right = 1.0
@@ -19,26 +19,32 @@ text = "[Joint Name]"
 [node name="Content" type="MarginContainer" parent="."]
 margin_top = 39.0
 margin_right = 1920.0
-margin_bottom = 233.0
+margin_bottom = 264.0
 custom_constants/margin_right = 10
 custom_constants/margin_left = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Content"]
 margin_left = 10.0
 margin_right = 1910.0
-margin_bottom = 194.0
+margin_bottom = 225.0
 
-[node name="Label" type="Label" parent="Content/VBoxContainer"]
+[node name="Label3" type="Label" parent="Content/VBoxContainer"]
 margin_right = 1900.0
 margin_bottom = 21.0
+text = "Generic6DoF Joint"
+align = 1
+
+[node name="Label" type="Label" parent="Content/VBoxContainer"]
+margin_top = 31.0
+margin_right = 1900.0
+margin_bottom = 52.0
 text = "Limits"
 align = 1
 
 [node name="AngLimits" type="HBoxContainer" parent="Content/VBoxContainer"]
-editor/display_folded = true
-margin_top = 31.0
+margin_top = 62.0
 margin_right = 1900.0
-margin_bottom = 52.0
+margin_bottom = 83.0
 
 [node name="angLimitsLabel" type="Label" parent="Content/VBoxContainer/AngLimits"]
 margin_right = 80.0
@@ -86,9 +92,9 @@ text = "0.00"
 
 [node name="LinLimits" type="HBoxContainer" parent="Content/VBoxContainer"]
 editor/display_folded = true
-margin_top = 62.0
+margin_top = 93.0
 margin_right = 1900.0
-margin_bottom = 83.0
+margin_bottom = 114.0
 
 [node name="linLimitsLabel" type="Label" parent="Content/VBoxContainer/LinLimits"]
 margin_right = 80.0
@@ -135,16 +141,16 @@ margin_bottom = 21.0
 text = "0.00"
 
 [node name="Label2" type="Label" parent="Content/VBoxContainer"]
-margin_top = 93.0
+margin_top = 124.0
 margin_right = 1900.0
-margin_bottom = 114.0
+margin_bottom = 145.0
 text = "Jog"
 align = 1
 
 [node name="JogLin" type="HBoxContainer" parent="Content/VBoxContainer"]
-margin_top = 124.0
+margin_top = 155.0
 margin_right = 1900.0
-margin_bottom = 154.0
+margin_bottom = 185.0
 size_flags_horizontal = 9
 custom_constants/separation = 10
 
@@ -199,9 +205,9 @@ text = "-Z"
 
 [node name="JogAng" type="HBoxContainer" parent="Content/VBoxContainer"]
 editor/display_folded = true
-margin_top = 164.0
+margin_top = 195.0
 margin_right = 1900.0
-margin_bottom = 194.0
+margin_bottom = 225.0
 size_flags_horizontal = 9
 custom_constants/separation = 10
 
@@ -255,7 +261,7 @@ rect_min_size = Vector2( 30, 30 )
 text = "-Z"
 
 [node name="Spacer" type="Control" parent="."]
-margin_top = 243.0
+margin_top = 274.0
 margin_right = 1920.0
-margin_bottom = 243.0
+margin_bottom = 274.0
 size_flags_horizontal = 3

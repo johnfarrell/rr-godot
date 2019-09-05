@@ -33,24 +33,29 @@ public class Gen6DoFJointControllerDetail : VBoxContainer
         hideBtn.Connect("pressed", this, "ToggleHidden");
 
         // Connect a lot of signals for the jog buttons
-        GetNode("Content/VBoxContainer/JogLin/PosX").Connect("pressed", this, "jogLinPosXPressed");
-        GetNode("Content/VBoxContainer/JogLin/NegX").Connect("pressed", this, "jogLinNegXPressed");
-        GetNode("Content/VBoxContainer/JogLin/PosY").Connect("pressed", this, "jogLinPosYPressed");
-        GetNode("Content/VBoxContainer/JogLin/NegY").Connect("pressed", this, "jogLinNegYPressed");
-        GetNode("Content/VBoxContainer/JogLin/PosZ").Connect("pressed", this, "jogLinPosZPressed");
-        GetNode("Content/VBoxContainer/JogLin/NegZ").Connect("pressed", this, "jogLinNegZPressed");
+        GD.Print(content.GetPath().ToString());
+        content.GetNode("VBoxContainer/JogLin/PosX").Connect("pressed", this, "jogLinPosXPressed");
+        content.GetNode("VBoxContainer/JogLin/NegX").Connect("pressed", this, "jogLinNegXPressed");
+        content.GetNode("VBoxContainer/JogLin/PosY").Connect("pressed", this, "jogLinPosYPressed");
+        content.GetNode("VBoxContainer/JogLin/NegY").Connect("pressed", this, "jogLinNegYPressed");
+        content.GetNode("VBoxContainer/JogLin/PosZ").Connect("pressed", this, "jogLinPosZPressed");
+        content.GetNode("VBoxContainer/JogLin/NegZ").Connect("pressed", this, "jogLinNegZPressed");
 
-        GetNode("Content/VBoxContainer/JogAng/PosX").Connect("pressed", this, "jogAngPosXPressed");
-        GetNode("Content/VBoxContainer/JogAng/NegX").Connect("pressed", this, "jogAngNegXPressed");
-        GetNode("Content/VBoxContainer/JogAng/PosY").Connect("pressed", this, "jogAngPosYPressed");
-        GetNode("Content/VBoxContainer/JogAng/NegY").Connect("pressed", this, "jogAngNegYPressed");
-        GetNode("Content/VBoxContainer/JogAng/PosZ").Connect("pressed", this, "jogAngPosZPressed");
-        GetNode("Content/VBoxContainer/JogAng/NegZ").Connect("pressed", this, "jogAngNegZPressed");
+        content.GetNode("VBoxContainer/JogAng/PosX").Connect("pressed", this, "jogAngPosXPressed");
+        content.GetNode("VBoxContainer/JogAng/NegX").Connect("pressed", this, "jogAngNegXPressed");
+        content.GetNode("VBoxContainer/JogAng/PosY").Connect("pressed", this, "jogAngPosYPressed");
+        content.GetNode("VBoxContainer/JogAng/NegY").Connect("pressed", this, "jogAngNegYPressed");
+        content.GetNode("VBoxContainer/JogAng/PosZ").Connect("pressed", this, "jogAngPosZPressed");
+        content.GetNode("VBoxContainer/JogAng/NegZ").Connect("pressed", this, "jogAngNegZPressed");
+
+        GD.Print("Detial ready");
     }
 
-    public void ChangeName(string name, string type)
+    public void Configure(Generic6DOFJoint joint)
     {
-        hideBtn.Text = name + " - " + type + " joint";
+        GD.Print("Configuring Joint");
+        GD.Print(hideBtn.Text);
+        hideBtn.Text = joint.Name;
     }
 
     private void jogLinPosXPressed()
