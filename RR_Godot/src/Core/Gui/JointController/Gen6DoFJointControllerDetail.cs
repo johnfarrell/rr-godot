@@ -26,9 +26,9 @@ public class Gen6DoFJointControllerDetail : VBoxContainer
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        hideBtn = (Button) GetNode("Button");
-        content = (MarginContainer) GetNode("Content");
-        spacer = (Control) GetNode("Spacer");
+        hideBtn = (Button)GetNode("Button");
+        content = (MarginContainer)GetNode("Content");
+        spacer = (Control)GetNode("Spacer");
 
         hideBtn.Connect("pressed", this, "ToggleHidden");
 
@@ -54,6 +54,11 @@ public class Gen6DoFJointControllerDetail : VBoxContainer
     public void Configure(Generic6DOFJoint joint)
     {
         GD.Print("Configuring Joint");
+
+        hideBtn = (Button)GetNode("Button");
+        content = (MarginContainer)GetNode("Content");
+        spacer = (Control)GetNode("Spacer");
+
         GD.Print(hideBtn.Text);
         hideBtn.Text = joint.Name;
     }
