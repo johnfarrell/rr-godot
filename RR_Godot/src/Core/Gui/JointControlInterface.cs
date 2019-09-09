@@ -8,6 +8,8 @@ public class JointControlInterface : Panel
 
     private VBoxContainer jointList;
 
+    private Godot.Joint ActiveJoint;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -43,13 +45,17 @@ public class JointControlInterface : Panel
 
     public void AddJoint(Generic6DOFJoint joint)
     {
+        if(jointList.GetChildCount() == 1)
+        {
+            RemoveJoint(0);
+        }
         try
         {
             Gen6DoFJointControllerDetail jointDetail = (Gen6DoFJointControllerDetail) GenDetailScene.Instance();
-            jointDetail._Ready();
             jointDetail.Configure(joint);
             jointDetail.Name = joint.Name;
             jointList.AddChild(jointDetail);
+            ActiveJoint = joint;
         }
         catch (Exception e)
         {
@@ -58,21 +64,34 @@ public class JointControlInterface : Panel
         
     }
 
+    
+
     public void AddJoint(HingeJoint joint)
     {
+        if(jointList.GetChildCount() == 1)
+        {
+            RemoveJoint(0);
+        }
         try
         {
             HingeJointControllerDetail jointDetail = (HingeJointControllerDetail) HingeDetailScene.Instance();
-            jointDetail._Ready();
             jointDetail.Configure(joint);
             jointDetail.Name = joint.Name;
             jointList.AddChild(jointDetail);
+            jointDetail.Connect("TargetVelChanged", this, "HingeJointVelChanged");
+            ActiveJoint = joint;
         }
         catch (Exception e)
         {
             GD.Print("Error adding joint...\n" + e.Message);
         }
-        
+    }
+
+    public void HingeJointVelChanged(float vel)
+    {
+        GD.Print(ActiveJoint.Name + " Vel Changed! Its a miracle!");
+        GD.Print(((HingeJoint)ActiveJoint).GetFlag(HingeJoint.Flag.EnableMotor));
+        ((HingeJoint)ActiveJoint).SetParam(HingeJoint.Param.MotorTargetVelocity, vel);
     }
     
     public void RemoveJoint(int index)
@@ -81,5 +100,4 @@ public class JointControlInterface : Panel
         jointList.RemoveChild(child);
         child.Dispose();
     }
-
 }
