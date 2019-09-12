@@ -86,9 +86,9 @@
     <Compile Include="src\Core\Gui\EnvironmentTree.cs" />
     <Compile Include="src\Core\Gui\gridGenerator.cs" />
     <Compile Include="src\Core\Gui\ImportWindow.cs" />
-    <Compile Include="src\Core\Gui\JointControlInterface.cs" />
     <Compile Include="src\Core\Gui\JointController\Gen6DoFJointControllerDetail.cs" />
     <Compile Include="src\Core\Gui\JointController\HingeJointControllerDetail.cs" />
+    <Compile Include="src\Core\Gui\JointController\JointControlManager.cs" />
     <Compile Include="src\Core\Gui\MouseEventPassthrough.cs" />
     <Compile Include="src\Core\Gui\ObjectInspector.cs" />
     <Compile Include="src\Core\Gui\PluginPreferences.cs" />
@@ -105,6 +105,7 @@
     <Compile Include="src\Core\Gui\viewport\ViewportLL.cs" />
     <Compile Include="src\Core\Gui\viewport\ViewportLR.cs" />
     <Compile Include="src\Core\Gui\viewport\ViewportUR.cs" />
+    <Compile Include="src\Core\Physics\HingeJoint.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

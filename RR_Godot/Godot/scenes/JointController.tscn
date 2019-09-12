@@ -1,7 +1,9 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Godot/theme/new_theme.tres" type="Theme" id=1]
-[ext_resource path="res://src/Core/Gui/JointControlInterface.cs" type="Script" id=2]
+[ext_resource path="res://src/Core/Gui/JointController/JointControlManager.cs" type="Script" id=2]
+
+
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.764706, 0.764706, 0.764706, 1 )
