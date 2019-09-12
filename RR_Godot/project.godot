@@ -25,6 +25,7 @@ config/icon="res://Godot/theme/icon.png"
 
 Global="*res://src/Core/Common/Global.cs"
 MeshAdder="*res://src/Core/Geometry/MeshAdder.cs"
+JointController="*res://src/Core/Physics/JointController.cs"
 
 [debug]
 

@@ -105,7 +105,7 @@
     <Compile Include="src\Core\Gui\viewport\ViewportLL.cs" />
     <Compile Include="src\Core\Gui\viewport\ViewportLR.cs" />
     <Compile Include="src\Core\Gui\viewport\ViewportUR.cs" />
-    <Compile Include="src\Core\Physics\HingeJoint.cs" />
+    <Compile Include="src\Core\Physics\JointController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
