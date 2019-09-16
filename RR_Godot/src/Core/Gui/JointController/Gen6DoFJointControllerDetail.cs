@@ -33,7 +33,6 @@ public class Gen6DoFJointControllerDetail : VBoxContainer
         hideBtn.Connect("pressed", this, "ToggleHidden");
 
         // Connect a lot of signals for the jog buttons
-        GD.Print(content.GetPath().ToString());
         content.GetNode("VBoxContainer/JogLin/PosX").Connect("pressed", this, "jogLinPosXPressed");
         content.GetNode("VBoxContainer/JogLin/NegX").Connect("pressed", this, "jogLinNegXPressed");
         content.GetNode("VBoxContainer/JogLin/PosY").Connect("pressed", this, "jogLinPosYPressed");
@@ -47,19 +46,13 @@ public class Gen6DoFJointControllerDetail : VBoxContainer
         content.GetNode("VBoxContainer/JogAng/NegY").Connect("pressed", this, "jogAngNegYPressed");
         content.GetNode("VBoxContainer/JogAng/PosZ").Connect("pressed", this, "jogAngPosZPressed");
         content.GetNode("VBoxContainer/JogAng/NegZ").Connect("pressed", this, "jogAngNegZPressed");
-
-        GD.Print("Detial ready");
     }
 
     public void Configure(Generic6DOFJoint joint)
     {
-        GD.Print("Configuring Joint");
-
         hideBtn = (Button)GetNode("Button");
         content = (MarginContainer)GetNode("Content");
         spacer = (Control)GetNode("Spacer");
-
-        GD.Print(hideBtn.Text);
         hideBtn.Text = joint.Name;
     }
 

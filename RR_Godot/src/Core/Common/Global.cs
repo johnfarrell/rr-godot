@@ -32,6 +32,9 @@ namespace RR_Godot.Core
         private string[] enabled_plugins;
         private string[] disabled_plugins;
 
+        [Signal]
+        public delegate void UrdfFileAdded(RigidBody rootNode);
+
 
         public override void _Ready()
         {
@@ -244,6 +247,8 @@ namespace RR_Godot.Core
                 GetNode("/root/main/env").AddChild(temp);
 
                 UrdfHandler.ConnectJoints(temp);
+
+                EmitSignal("UrdfFileAdded", temp);
 
                 temp.Translate(new Vector3(0F, 1.5F, 0F));
 

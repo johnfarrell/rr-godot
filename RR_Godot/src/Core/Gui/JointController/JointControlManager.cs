@@ -15,7 +15,7 @@ public class JointControlManager : Panel
     private Godot.Joint ActiveJoint;
 
     [Signal]
-    public delegate void MotorTargetChanged(float target);
+    public delegate void MotorTargetChanged(float target, string joint_name);
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -107,8 +107,7 @@ public class JointControlManager : Panel
 
     public void HingeJointVelChanged(float vel)
     {
-        GD.Print(ActiveJoint.Name + " Vel Changed! Its a miracle!");
-        EmitSignal("MotorTargetChanged", vel);
+        EmitSignal("MotorTargetChanged", vel, ActiveJoint.Name);
     }
 
     private void RemoveJoint(int index)

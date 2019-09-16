@@ -3,23 +3,73 @@ using System;
 using System.Collections.Generic;
 
 
-namespace RR_Godot.Core
+namespace RR_Godot.Core.Physics
 {
     public class JointController : Node
     {
         // Called when the node enters the scene tree for the first time.
 
         // Holds a reference to all of the active joints in the world
-        private List<Godot.Joint> _jointList;
+        [Export]
+        public List<Godot.Joint> _jointList;
 
         public override void _Ready()
         {
+
             _jointList = new List<Godot.Joint>();
 
             GetNode("/root/main/UI/AppWindow/LeftMenu/ObjectInspector/JointController").Connect(
                 "MotorTargetChanged", this, "HingeMotorTargetChange");
-
+            GetNode("/root/Global").Connect("UrdfFileAdded", this, "UpdateList");
             GD.Print("JointControl Singleton Loaded...");
+        }
+
+        public void UpdateList(RigidBody rootObj)
+        {
+            GD.Print("it worked");
+
+            Queue<Spatial> nodeQueue = new Queue<Spatial>();
+
+            foreach (var child in rootObj.GetChildren())
+            {
+                nodeQueue.Enqueue((Spatial) child);
+            }
+
+            // Standard BFS traversal of the tree structure
+            Spatial curr = nodeQueue.Dequeue();
+            while(curr != null)
+            {
+                if (!curr.GetType().Equals(typeof(Godot.PinJoint)) &&
+                    !curr.GetType().Equals(typeof(Godot.HingeJoint)) &&
+                    !curr.GetType().Equals(typeof(Generic6DOFJoint)))
+                {
+                    // If the current object isn't a joint, its a link so you need
+                    // to add all of the children to the queue.
+                    // Some of this will be a meshinstance/collisionshape, but those
+                    // will get filtered out.
+                    foreach (var child in curr.GetChildren())
+                    {
+                        nodeQueue.Enqueue((Spatial)child);
+                    }
+                    if (nodeQueue.Count == 0)
+                    {
+                        break;
+                    }
+                    curr = nodeQueue.Dequeue();
+                    continue;
+                }
+                Godot.Joint tempJoint = (Godot.Joint)curr;
+
+                RegisterJoint(tempJoint);
+
+                nodeQueue.Enqueue((Spatial)curr.GetChild(0));
+
+                if (nodeQueue.Count == 0)
+                {
+                    break;
+                }
+                curr = nodeQueue.Dequeue();
+            }
         }
 
         public void RegisterJoint(Godot.Joint joint)
@@ -29,15 +79,15 @@ namespace RR_Godot.Core
 
         public void HingeMotorTargetChange(float newTarget, string jointName)
         {
-            GD.Print(jointName + ": New Target speed of " + newTarget);
+            
             Godot.HingeJoint reqJoint = (Godot.HingeJoint) FindJoint(jointName);
-
             if(reqJoint == null)
             {
                 GD.Print("ERROR: Could not find requested joint [" + jointName + "]");
                 return;
             }
             reqJoint.SetParam(Godot.HingeJoint.Param.MotorTargetVelocity, newTarget);
+            GD.Print(jointName + ": New Target speed of " + newTarget);
         }
 
         // Search predicate to find an item in _jointList by

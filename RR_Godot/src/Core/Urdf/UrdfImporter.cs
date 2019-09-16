@@ -256,7 +256,6 @@ namespace RR_Godot.Core.Urdf
             Spatial curr = nodeQueue.Dequeue();
             while (curr != null)
             {
-                GD.Print(curr.GetType());
                 if (!curr.GetType().Equals(typeof(Godot.PinJoint)) &&
                     !curr.GetType().Equals(typeof(Godot.HingeJoint)) &&
                     !curr.GetType().Equals(typeof(Generic6DOFJoint)))
@@ -276,11 +275,6 @@ namespace RR_Godot.Core.Urdf
                     curr = nodeQueue.Dequeue();
                     continue;
                 }
-
-                GD.Print("here");
-                
-
-
                 Godot.Joint tempJoint = (Godot.Joint)curr;
 
                 // We have a joint, set the endpoints
@@ -293,8 +287,6 @@ namespace RR_Godot.Core.Urdf
 
                 tempJoint.SetNodeA(parentPath);
                 tempJoint.SetNodeB(childPath);
-
-                GD.Print(tempJoint.Name);
 
                 nodeQueue.Enqueue((Spatial)curr.GetChild(0));
 
