@@ -326,16 +326,8 @@ namespace RR_Godot.Core.Urdf
                 j_axis = new double[] { 1.0, 0.0, 0.0 };
             }
 
-            // Limit all the axis, has the effect of making it a fixed joint.
-            // All the limits will be equal, making it unable to move.
-            // Doing this allows us to set limits only where we need to.
+        JointMaker mkr = new JointMaker();
 
-            // genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableAngularLimit, true);
-            // genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableAngularLimit, true);
-            // genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableAngularLimit, true);
-            // genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableLinearLimit, true);
-            // genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableLinearLimit, true);
-            // genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableLinearLimit, true);
 
             // Type comments taken from https://wiki.ros.org/urdf/XML/joint 
             switch (base_joint.type)
@@ -343,7 +335,7 @@ namespace RR_Godot.Core.Urdf
                 case "revolute":
                     // A hinge joint that rotates along the axis and has a
                     // limited range specified by the upper and lower limits.
-                    HingeJoint revJoint = new HingeJoint();
+                HingeJoint revJoint = mkr.CreateHingeJoint();
 
                     revJoint.SetFlag(HingeJoint.Flag.UseLimit, true);
                     revJoint.SetFlag(HingeJoint.Flag.EnableMotor, true);
@@ -377,6 +369,7 @@ namespace RR_Godot.Core.Urdf
                     // All degrees of freedom are locked. This type of joint 
                     // does not require the axis, calibration, dynamics, 
                     // limits or safety_controller.
+
                     Generic6DOFJoint pinJoint = new Generic6DOFJoint();
 
                     pinJoint.SetFlagX(Generic6DOFJoint.Flag.EnableAngularLimit, true);
