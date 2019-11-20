@@ -29,8 +29,8 @@ public class HingeJointControllerDetail : VBoxContainer
         spacer = (Control)GetNode("Spacer");
 
         hideBtn.Text = joint.Name;
-        float upperLimDeg = joint.GetParam(Godot.HingeJoint.Param.LimitUpper) * (180.0F / (float)Math.PI);
-        float lowerLimDeg = joint.GetParam(Godot.HingeJoint.Param.LimitLower) * (180.0F / (float)Math.PI);
+        float upperLimDeg = joint.GetParam(Godot.HingeJoint.Param.LimitUpper);
+        float lowerLimDeg = joint.GetParam(Godot.HingeJoint.Param.LimitLower);
 
         ((Label)content.GetNode("VBoxContainer/AngLimits/UpperVal")).Text =
             upperLimDeg.ToString();
@@ -38,6 +38,8 @@ public class HingeJointControllerDetail : VBoxContainer
             lowerLimDeg.ToString();
         ((LineEdit)content.GetNode("VBoxContainer/Motor/TargVelInput")).Text =
             joint.GetParam(Godot.HingeJoint.Param.MotorTargetVelocity).ToString();
+        ((Label)content.GetNode("VBoxContainer/Motor/MaxImpulseVal")).Text =
+            joint.GetParam(Godot.HingeJoint.Param.MotorMaxImpulse).ToString();
     }
 
     public void VelEntered(String newVal)
