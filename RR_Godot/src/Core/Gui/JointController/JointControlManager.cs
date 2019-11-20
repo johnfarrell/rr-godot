@@ -110,6 +110,8 @@ public class JointControlManager : Panel
         EmitSignal("MotorTargetChanged", vel, ActiveJoint.Name);
     }
 
+    
+
     private void RemoveJoint(int index)
     {
         var child = jointList.GetChild(index);

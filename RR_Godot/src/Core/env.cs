@@ -92,7 +92,7 @@ public class env : Spatial
         this.Connect(
             "UpdateJointInfo",
             GetNode("/root/main/UI/AppWindow/LeftMenu/ObjectInspector/JointController"),
-            "TreeObjSelected"
+            "AddJointDetail"
         );
 
         GetNode("/root/main/UI/AppWindow/LeftMenu/TreeContainer/Environment").Connect("ObjectSelected", this, "TreeItemSelected");
@@ -134,9 +134,9 @@ public class env : Spatial
         try
         {
             Node item = this.FindNode(itemName, true, false);
-            
-            
-            if(item.IsClass("Joint"))
+
+
+            if (item.IsClass("Joint"))
             {
                 EmitSignal("UpdateJointInfo", item);
             }
@@ -148,7 +148,7 @@ public class env : Spatial
             GD.Print("------\n" + e.Message + "\n------\n");
             GD.Print("it broke");
         }
-        
+
     }
 
     public Godot.Collections.Dictionary GetSelectedObject()
