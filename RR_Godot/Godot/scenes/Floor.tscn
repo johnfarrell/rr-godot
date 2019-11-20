@@ -13,9 +13,7 @@ transform = Transform( 10, 0, 0, 0, 0.1, 0, 0, 0, 10, 0, 0, 0 )
 mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
 
-[node name="StaticBody" type="StaticBody" parent="."]
-constant_linear_velocity = Vector3( 1, 0, 1 )
-constant_angular_velocity = Vector3( 1, 0, 1 )
+[node name="StaticBody2" type="StaticBody" parent="."]
 
-[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody2"]
 shape = SubResource( 3 )

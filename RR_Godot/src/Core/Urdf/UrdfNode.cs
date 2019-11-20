@@ -150,6 +150,7 @@ namespace RR_Godot.Core.Urdf
             retVal.Name = _link.name;
             retVal.Mode = RigidBody.ModeEnum.Rigid;
             retVal.SetMass((float)_link.inertial.mass);
+            retVal.ContinuousCd = true;
 
             // Create the MeshInstance
             MeshInstance tempMesh = new MeshInstance();

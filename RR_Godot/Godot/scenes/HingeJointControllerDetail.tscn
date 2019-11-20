@@ -6,44 +6,45 @@
 [node name="HingeJointControllerDetail" type="VBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = -1420.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
 
 [node name="Button" type="Button" parent="."]
-margin_right = 1920.0
+margin_right = 500.0
 margin_bottom = 29.0
 text = "[Joint Name]"
 
 [node name="Content" type="MarginContainer" parent="."]
 margin_top = 39.0
-margin_right = 1920.0
+margin_right = 500.0
 margin_bottom = 188.0
 custom_constants/margin_right = 10
 custom_constants/margin_left = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Content"]
 margin_left = 10.0
-margin_right = 1910.0
+margin_right = 490.0
 margin_bottom = 149.0
 
 [node name="Label3" type="Label" parent="Content/VBoxContainer"]
-margin_right = 1900.0
+margin_right = 480.0
 margin_bottom = 21.0
 text = "HingeJoint"
 align = 1
 
 [node name="Label" type="Label" parent="Content/VBoxContainer"]
 margin_top = 31.0
-margin_right = 1900.0
+margin_right = 480.0
 margin_bottom = 52.0
 text = "Limits"
 align = 1
 
 [node name="AngLimits" type="HBoxContainer" parent="Content/VBoxContainer"]
 margin_top = 62.0
-margin_right = 1900.0
+margin_right = 480.0
 margin_bottom = 83.0
 
 [node name="angLimitsLabel" type="Label" parent="Content/VBoxContainer/AngLimits"]
@@ -85,19 +86,19 @@ text = "0.00"
 
 [node name="Label2" type="Label" parent="Content/VBoxContainer"]
 margin_top = 93.0
-margin_right = 1900.0
+margin_right = 480.0
 margin_bottom = 114.0
 text = "Motor"
 align = 1
 
 [node name="Motor" type="HBoxContainer" parent="Content/VBoxContainer"]
 margin_top = 124.0
-margin_right = 1900.0
+margin_right = 480.0
 margin_bottom = 149.0
 size_flags_horizontal = 9
 custom_constants/separation = 10
 
-[node name="Label" type="Label" parent="Content/VBoxContainer/Motor"]
+[node name="TargVel" type="Label" parent="Content/VBoxContainer/Motor"]
 margin_top = 2.0
 margin_right = 119.0
 margin_bottom = 23.0
@@ -110,8 +111,24 @@ margin_right = 181.0
 margin_bottom = 25.0
 max_length = 5
 
+[node name="MaxImpulse" type="Label" parent="Content/VBoxContainer/Motor"]
+margin_left = 191.0
+margin_top = 2.0
+margin_right = 290.0
+margin_bottom = 23.0
+rect_min_size = Vector2( 80, 0 )
+text = "Max Impulse:"
+
+[node name="MaxImpulseVal" type="Label" parent="Content/VBoxContainer/Motor"]
+margin_left = 300.0
+margin_top = 2.0
+margin_right = 380.0
+margin_bottom = 23.0
+rect_min_size = Vector2( 80, 0 )
+text = "0"
+
 [node name="Spacer" type="Control" parent="."]
 margin_top = 198.0
-margin_right = 1920.0
+margin_right = 500.0
 margin_bottom = 198.0
 size_flags_horizontal = 3
