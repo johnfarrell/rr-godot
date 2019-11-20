@@ -10,8 +10,11 @@ namespace RR_Godot.Core.Physics
         // Called when the node enters the scene tree for the first time.
 
         // Holds a reference to all of the active joints in the world
-        [Export]
         public List<Godot.Joint> _jointList;
+
+        private bool HingeTargetChanged;
+        private float HingeTargetVal;
+        private Godot.HingeJoint ReqHingeJoint;
 
         public override void _Ready()
         {
@@ -26,8 +29,6 @@ namespace RR_Godot.Core.Physics
 
         public void UpdateList(RigidBody rootObj)
         {
-            GD.Print("it worked");
-
             Queue<Spatial> nodeQueue = new Queue<Spatial>();
 
             foreach (var child in rootObj.GetChildren())
@@ -86,8 +87,29 @@ namespace RR_Godot.Core.Physics
                 GD.Print("ERROR: Could not find requested joint [" + jointName + "]");
                 return;
             }
-            reqJoint.SetParam(Godot.HingeJoint.Param.MotorTargetVelocity, newTarget);
+            HingeTargetVal = newTarget;
+            HingeTargetChanged = true;
+            ReqHingeJoint = reqJoint;
             GD.Print(jointName + ": New Target speed of " + newTarget);
+        }
+
+        public override void _PhysicsProcess(float delta)
+        {
+            if(HingeTargetChanged)
+            {
+                GD.Print("fjioefjieos");
+                HingeTargetChanged = false;
+                ReqHingeJoint.SetParam(HingeJoint.Param.MotorTargetVelocity, HingeTargetVal);
+            }
+            if(ReqHingeJoint != null)
+            {
+                UpdateInspectorInfo();
+            }
+        }
+
+        public void UpdateInspectorInfo()
+        {
+            
         }
 
         // Search predicate to find an item in _jointList by
