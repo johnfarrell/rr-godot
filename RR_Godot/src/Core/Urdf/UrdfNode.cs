@@ -165,7 +165,7 @@ namespace RR_Godot.Core.Urdf
                 CollisionShape colShape = (CollisionShape) colMesh.GetChild(0).GetChild(0);
                 colMesh.GetChild(0).RemoveChild(colMesh.GetChild(0).GetChild(0));
 
-                int shapeOwner = retVal.CreateShapeOwner(retVal);
+                uint shapeOwner = retVal.CreateShapeOwner(retVal);
                 retVal.ShapeOwnerAddShape(shapeOwner, colShape.Shape);
                 colShape.Name = _link.name + "_col";
                 retVal.AddChild(colShape);
