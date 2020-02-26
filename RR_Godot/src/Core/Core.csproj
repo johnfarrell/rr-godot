@@ -39,11 +39,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GodotSharp">
-      <HintPath>$(SolutionDir)/.mono/assemblies/GodotSharp.dll</HintPath>
+      <HintPath>$(SolutionDir)/.mono/assemblies/$(Configuration)/GodotSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="GodotSharpEditor" Condition=" '$(Configuration)' == 'Tools' ">
-      <HintPath>$(SolutionDir)/.mono/assemblies/GodotSharpEditor.dll</HintPath>
+      <HintPath>$(SolutionDir)/.mono/assemblies/$(Configuration)/GodotSharpEditor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RosSharp.Urdf">
@@ -83,6 +83,7 @@
     <Compile Include="Common\Global.cs" />
     <Compile Include="Urdf\UrdfImporter.cs" />
     <Compile Include="Urdf\UrdfNode.cs" />
+    <Compile Include="Physics\JointController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Plugins\Plugins.csproj">
