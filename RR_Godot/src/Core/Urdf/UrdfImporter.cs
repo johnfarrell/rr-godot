@@ -107,8 +107,6 @@ public class UrdfImporter : Node
             temp._offsetXyz = joint.origin.Xyz;
             temp._offsetRpy = joint.origin.Rpy;
 
-            GD.Print(temp._offsetXyz[0], temp._offsetXyz[1], temp._offsetXyz[2]);
-
             base_node.AddChild(temp);
 
             PopulateChildren(temp);
@@ -152,18 +150,6 @@ public class UrdfImporter : Node
         return true;
     }
 
-    MeshInstance CreateSkeletonIndicatorMesh()
-    {
-        SphereMesh indic = new SphereMesh();
-        indic.Radius = 0.1F;
-        indic.RadialSegments = 5;
-        indic.Rings = 5;
-
-        MeshInstance val = new MeshInstance();
-        val.Mesh = indic;
-        return val;
-    }
-
     /// <summary>
     /// <para>GenerateSpatial</para>
     /// <para>
@@ -177,65 +163,35 @@ public class UrdfImporter : Node
     /// </summary>
     /// <param name="base_node">UrdfNode containing the root Urdf component.</param>
     /// <returns>A Godot.Spatial containing the root of the Godot tree.</returns>
-    public Skeleton GenerateSpatial(ref UrdfNode base_node)
+    public StaticBody GenerateSpatial(UrdfNode base_node)
     {
-        Skeleton testBase = new Skeleton();
-        testBase.AddChild(CreateSkeletonIndicatorMesh());
-        testBase.Name = base_node._name;
-        PhysicalBone baseBone = new PhysicalBone();
-        baseBone.Name = base_node._name;
-
-        testBase.AddBone(baseBone.Name);
-
-        GD.Print("Base Bone ID: " + testBase.FindBone(baseBone.Name));
-
         // Create the empty spatial node
-        // StaticBody rootSpat = new StaticBody();
-        // rootSpat.Name = base_node._name;
+        StaticBody rootSpat = new StaticBody();
+        rootSpat.Name = base_node._name;
 
         // Add children recursively
         foreach (var child in base_node.GetChildren())
         {
-            PhysicalBone childBone = GenerateSpatialRec(ref testBase, child, baseBone);
-
             // Returns a joint connected to a rigid body
-            // Godot.Joint childJoint = GenerateSpatialRec(child, rootSpat);
-            // rootSpat.AddChild(childJoint);
+            Godot.Joint childJoint = GenerateSpatialRec(child);
+            rootSpat.AddChild(childJoint);
 
             // Transform according to the child joint transformations
             // Godot's 3D scene has X forward, Y up, and Z right, while
             // Urdf uses X forward, Y right, Z up. 
             // This is why the indices below aren't in order, it translates
             // the Urdf coordinates into Godot coordinates.
-
-            GD.Print(childBone.Name);
-            
-            Transform jointOffset = new Transform(Basis.Identity, new Vector3(
+            childJoint.TranslateObjectLocal(new Vector3(
                 (float)child._joint.origin.Xyz[0],
                 (float)child._joint.origin.Xyz[2],
                 (float)child._joint.origin.Xyz[1]
             ));
-            jointOffset = jointOffset.Rotated(new Vector3(
-                (float)child._joint.origin.Rpy[0],
-                (float)child._joint.origin.Rpy[2],
-                -1.0F * (float)child._joint.origin.Rpy[1]
-            ), 0f);
-            childBone.JointOffset = jointOffset;
-
-            // GD.Print(jointOffset);
-
-            testBase.SetBonePose(testBase.FindBone(childBone.Name), jointOffset);
-            // childJoint.TranslateObjectLocal(new Vector3(
-            //     (float)child._joint.origin.Xyz[0],
-            //     (float)child._joint.origin.Xyz[2],
-            //     (float)child._joint.origin.Xyz[1]
-            // ));
-            // childJoint.RotateX((float)child._joint.origin.Rpy[0]);
-            // childJoint.RotateY((float)child._joint.origin.Rpy[2]);
-            // childJoint.RotateZ(-1.0F * (float)child._joint.origin.Rpy[1]);
+            childJoint.RotateX((float)child._joint.origin.Rpy[0]);
+            childJoint.RotateY((float)child._joint.origin.Rpy[2]);
+            childJoint.RotateZ(-1.0F * (float)child._joint.origin.Rpy[1]);
         }
 
-        return testBase;
+        return rootSpat;
     }
 
     /// <summary>
@@ -251,66 +207,51 @@ public class UrdfImporter : Node
     /// A Godot.Generic6DOFJoint that represents the start of the Godot 
     /// representation of the URDF tree structure.
     /// </returns>
-    private PhysicalBone GenerateSpatialRec(ref Skeleton baseSkel, UrdfNode base_node, PhysicalBone parent)
+    private Godot.Joint GenerateSpatialRec(UrdfNode base_node)
     {
-        PhysicalBone baseBone = new PhysicalBone();
-        baseBone.Name = base_node._joint.name;
-
-        baseSkel.AddBone(baseBone.Name);
-        baseSkel.SetBoneParent(baseSkel.FindBone(baseBone.Name), baseSkel.FindBone(parent.Name));
-        // RigidBody tempLink = base_node.CreateLink();
-
         // Create the return joint
-        // Godot.Joint finJoint = ConfigureJoint(base_node._joint, parent, tempLink);
-        // finJoint.Name = base_node._joint.name;
+        Godot.Joint finJoint = ConfigureJoint(base_node._joint);
+        finJoint.Name = base_node._joint.name;
 
-        // Godot.Joint
+        // Create the return RigidBody
+        RigidBody tempLink = base_node.CreateLink();
+        
+
         foreach (var child in base_node.GetChildren())
         {
-            BoneAttachment attachment= new BoneAttachment();
-            PhysicalBone childBone = GenerateSpatialRec(ref baseSkel, child, baseBone);
+            // This is the same as GenerateSpatial(), so look at that
+            // function for the explanation.
+            Godot.Joint childJoint = GenerateSpatialRec(child);
+            tempLink.AddChild(childJoint);
+            childJoint.SetOwner(tempLink);
 
-            // Returns a joint connected to a rigid body
-            // Godot.Joint childJoint = GenerateSpatialRec(child, rootSpat);
-            // rootSpat.AddChild(childJoint);
-
-            // Transform according to the child joint transformations
-            // Godot's 3D scene has X forward, Y up, and Z right, while
-            // Urdf uses X forward, Y right, Z up. 
-            // This is why the indices below aren't in order, it translates
-            // the Urdf coordinates into Godot coordinates.
-
-            GD.Print(childBone.Name);
-            GD.Print(child._joint.origin.Xyz[0] + " " + child._joint.origin.Xyz[1] + " " + child._joint.origin.Xyz[2]);
-
-            Basis offset = new Basis();
-            Transform jointOffset = new Transform(Basis.Identity, new Vector3(
+            childJoint.TranslateObjectLocal(new Vector3(
                 (float)child._joint.origin.Xyz[0],
                 (float)child._joint.origin.Xyz[2],
-                (float)child._joint.origin.Xyz[1]
+                -1.0F * (float)child._joint.origin.Xyz[1]
             ));
-            jointOffset = jointOffset.Rotated(new Vector3(
-                (float)child._joint.origin.Rpy[0],
-                (float)child._joint.origin.Rpy[2],
-                -1.0F * (float)child._joint.origin.Rpy[1]
-            ), 0f);
 
+            try
+            {
+                // childJoint.RotateX((float)child._joint.axis.xyz[0]);
+                // childJoint.RotateY((float)child._joint.axis.xyz[2]);
+                // childJoint.RotateZ(-1.0F * (float)child._joint.axis.xyz[1]);
+            }
+            catch
+            {
+                GD.Print("Axis not specified, continuing...");
+            }
+            
 
-            // GD.Print(string.Join(",", child._joint.origin));
-            // GD.Print(childBone.Name + " Offset: " + jointOffset);
+            childJoint.RotateX((float)child._joint.origin.Rpy[0]);
+            childJoint.RotateY((float)child._joint.origin.Rpy[2]);
+            childJoint.RotateZ(-1.0F * (float)child._joint.origin.Rpy[1]);
 
-            baseSkel.SetBonePose(baseSkel.FindBone(childBone.Name), jointOffset);
-            // childJoint.TranslateObjectLocal(new Vector3(
-            //     (float)child._joint.origin.Xyz[0],
-            //     (float)child._joint.origin.Xyz[2],
-            //     (float)child._joint.origin.Xyz[1]
-            // ));
-            // childJoint.RotateX((float)child._joint.origin.Rpy[0]);
-            // childJoint.RotateY((float)child._joint.origin.Rpy[2]);
-            // childJoint.RotateZ(-1.0F * (float)child._joint.origin.Rpy[1]);
+            GD.Print(childJoint.Transform.ToString());
         }
+        finJoint.AddChild(tempLink);
 
-        return baseBone;
+        return finJoint;
     }
 
     /// <summary>
@@ -390,7 +331,7 @@ public class UrdfImporter : Node
     /// </summary>
     /// <param name="base_joint">Urdf Joint specifications.</param>
     /// <returns>Godot joint matching specs.</returns>
-    private Godot.Joint ConfigureJoint(RosSharp.Urdf.Joint base_joint, Spatial nodeA, Spatial nodeB)
+    private Godot.Joint ConfigureJoint(RosSharp.Urdf.Joint base_joint)
     {
         // The Urdf joint axis specifies the axis of rotation for revolute joints,
         // axis of translation for prismatic joints, and the surface normal
@@ -418,51 +359,19 @@ public class UrdfImporter : Node
             case "revolute":
                 // A hinge joint that rotates along the axis and has a
                 // limited range specified by the upper and lower limits.
+                HingeJoint revJoint = mkr.CreateHingeJoint();
                 // HingeJoint revJoint = new HingeJoint();
-                
-                HingeJoint revJoint = mkr.CreateHingeJoint(nodeA.GetPath(), nodeB.GetPath());
-                // RID revJoint = PhysicsServer.JointCreateHinge(
-                //     new RID(nodeA),
-                //     nodeA.Transform,
-                //     new RID(nodeB),
-                //     nodeB.Transform
-                // );
-            
-                revJoint.SetFlag(HingeJoint.Flag.EnableMotor, true);
-                revJoint.SetFlag(HingeJoint.Flag.UseLimit, true);
 
+                // revJoint.rot/
+                GD.Print("setting hingejoint flags");
+
+                revJoint.SetFlag(HingeJoint.Flag.UseLimit, true);
+                revJoint.SetFlag(HingeJoint.Flag.EnableMotor, true);
                 revJoint.SetParam(HingeJoint.Param.MotorTargetVelocity, 0F);
                 revJoint.SetParam(HingeJoint.Param.MotorMaxImpulse, 1024F);
                 revJoint.SetParam(HingeJoint.Param.Bias, 1F);
                 revJoint.SetParam(HingeJoint.Param.LimitLower, (float)base_joint.limit.lower * (180F / (float)Math.PI));
                 revJoint.SetParam(HingeJoint.Param.LimitUpper, (float)base_joint.limit.upper * (180F / (float)Math.PI));
-
-
-                GD.Print("setting hingejoint flags");
-                // PhysicsServer.HingeJointSetFlag(
-                //     revJoint, PhysicsServer.HingeJointFlag.UseLimit, true
-                // );
-                // PhysicsServer.HingeJointSetFlag(
-                //     revJoint, PhysicsServer.HingeJointFlag.EnableMotor, true
-                // );
-
-                // PhysicsServer.HingeJointSetParam(
-                //     revJoint, PhysicsServer.HingeJointParam.MotorTargetVelocity, 0F
-                // );
-                // PhysicsServer.HingeJointSetParam(
-                //     revJoint, PhysicsServer.HingeJointParam.MotorMaxImpulse, 1024F
-                // );
-                // PhysicsServer.HingeJointSetParam(
-                //     revJoint, PhysicsServer.HingeJointParam.Bias, 1F
-                // );
-                // PhysicsServer.HingeJointSetParam(
-                //     revJoint, PhysicsServer.HingeJointParam.LimitUpper, 
-                //     (float)base_joint.limit.upper * (180F / (float)Math.PI)
-                // );
-                // PhysicsServer.HingeJointSetParam(
-                //     revJoint, PhysicsServer.HingeJointParam.LimitLower, 
-                //     (float)base_joint.limit.lower * (180F / (float)Math.PI)
-                // );
 
                 return revJoint;
             case "continuous":
@@ -474,7 +383,7 @@ public class UrdfImporter : Node
                 contJoint.SetFlag(HingeJoint.Flag.EnableMotor, true);
                 contJoint.SetParam(HingeJoint.Param.MotorTargetVelocity, 0F);
 
-                return null;
+                return contJoint;
             case "prismatic":
                 // a sliding joint that slides along the axis, and has a
                 // limited range specified by the upper and lower limits.
@@ -484,58 +393,23 @@ public class UrdfImporter : Node
                 slideJoint.SetParam(SliderJoint.Param.LinearLimitLower, (float)base_joint.limit.lower);
                 slideJoint.SetParam(SliderJoint.Param.LinearLimitUpper, (float)base_joint.limit.upper); 
                 
-                return null;
+                return slideJoint;
             case "fixed":
                 // This is not really a joint because it cannot move.
                 // All degrees of freedom are locked. This type of joint 
                 // does not require the axis, calibration, dynamics, 
                 // limits or safety_controller.
 
+                Generic6DOFJoint pinJoint = new Generic6DOFJoint();
 
+                pinJoint.SetFlagX(Generic6DOFJoint.Flag.EnableAngularLimit, true);
+                pinJoint.SetFlagY(Generic6DOFJoint.Flag.EnableAngularLimit, true);
+                pinJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableAngularLimit, true);
+                pinJoint.SetFlagX(Generic6DOFJoint.Flag.EnableLinearLimit, true);
+                pinJoint.SetFlagY(Generic6DOFJoint.Flag.EnableLinearLimit, true);
+                pinJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableLinearLimit, true);
 
-                // RID fixedJoint = PhysicsServer.JointCreateGeneric6dof(
-                //     new RID(nodeA), nodeA.Transform,
-                //     new RID(nodeB), nodeB.Transform
-                // );
-
-                // PhysicsServer.Generic6dofJointSetFlag(
-                //     fixedJoint,
-                //     Vector3.Axis.X,
-                //     PhysicsServer.G6DOFJointAxisFlag.AngularLimit,
-                //     true
-                // );
-                // PhysicsServer.Generic6dofJointSetFlag(
-                //     fixedJoint,
-                //     Vector3.Axis.Y,
-                //     PhysicsServer.G6DOFJointAxisFlag.AngularLimit,
-                //     true
-                // );
-                // PhysicsServer.Generic6dofJointSetFlag(
-                //     fixedJoint,
-                //     Vector3.Axis.Z,
-                //     PhysicsServer.G6DOFJointAxisFlag.AngularLimit,
-                //     true
-                // );
-                // PhysicsServer.Generic6dofJointSetFlag(
-                //     fixedJoint,
-                //     Vector3.Axis.X,
-                //     PhysicsServer.G6DOFJointAxisFlag.LinearLimit,
-                //     true
-                // );
-                // PhysicsServer.Generic6dofJointSetFlag(
-                //     fixedJoint,
-                //     Vector3.Axis.Y,
-                //     PhysicsServer.G6DOFJointAxisFlag.LinearLimit,
-                //     true
-                // );
-                // PhysicsServer.Generic6dofJointSetFlag(
-                //     fixedJoint,
-                //     Vector3.Axis.Z,
-                //     PhysicsServer.G6DOFJointAxisFlag.LinearLimit,
-                //     true
-                // );
-
-                return new Generic6DOFJoint();
+                return pinJoint;
             case "floating":
                 // This joint allows motion for all 6 degrees of freedom.
                 Generic6DOFJoint genJoint = new Generic6DOFJoint();
@@ -547,7 +421,7 @@ public class UrdfImporter : Node
                 genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableLinearLimit, false);
                 genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableLinearLimit, false);
 
-                return null;
+                return genJoint;
             case "planar":
                 // This joint allows motion in a plane perpendicular to the axis.
 
@@ -610,7 +484,7 @@ public class UrdfImporter : Node
                     );
                 }
 
-                return null;
+                return planJoint;
             default:
                 GD.Print("testing: " + base_joint.type);
                 break;

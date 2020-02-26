@@ -32,7 +32,7 @@ public class Global : Node
     private string[] disabled_plugins;
 
     [Signal]
-    public delegate void UrdfFileAdded(Spatial rootNode);
+    public delegate void UrdfFileAdded(RigidBody rootNode);
 
     private bool UrdfToBeParsed;
     private string UrdfFilename;
@@ -236,10 +236,10 @@ public class Global : Node
             // GetNode("/root/main/env").GetTree().Paused = true;
 
             UrdfHandler.Parse(UrdfFilename);
-            Skeleton temp = UrdfHandler.GenerateSpatial(ref UrdfHandler._robotRoot);                
+            StaticBody temp = UrdfHandler.GenerateSpatial(UrdfHandler._robotRoot);                
             GetNode("/root/main/env").AddChild(temp);
-            temp.Owner = GetNode("/root/main/env");
-            // UrdfHandler.ConnectJoints(temp);
+            temp.SetOwner(GetNode("/root/main/env"));
+            UrdfHandler.ConnectJoints(temp);
 
             EmitSignal("UrdfFileAdded", temp);
 
