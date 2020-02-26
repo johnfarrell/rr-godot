@@ -224,7 +224,7 @@ namespace RR_Godot.Core
         public void Save(string ConfigPath)
         {
             var configFile = new File();
-            configFile.Open(ConfigPath, (int) File.ModeFlags.Write);
+            configFile.Open(ConfigPath, File.ModeFlags.Write);
 
             var ConfigDict = CreateSettingsDictionary();
 

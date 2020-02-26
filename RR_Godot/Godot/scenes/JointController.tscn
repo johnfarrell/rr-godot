@@ -1,0 +1,63 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Godot/theme/new_theme.tres" type="Theme" id=1]
+[ext_resource path="res://src/Core/Gui/JointController/JointControlManager.cs" type="Script" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.764706, 0.764706, 0.764706, 1 )
+
+[node name="JointController" type="Panel"]
+margin_right = 500.0
+margin_bottom = 500.0
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Content" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Header" type="VBoxContainer" parent="Content"]
+editor/display_folded = true
+margin_right = 500.0
+margin_bottom = 60.0
+
+[node name="Label" type="Label" parent="Content/Header"]
+margin_right = 500.0
+margin_bottom = 21.0
+custom_styles/normal = SubResource( 1 )
+text = "[Robot_name] Joint Controller"
+align = 1
+
+[node name="ToggleButtons" type="HBoxContainer" parent="Content/Header"]
+editor/display_folded = true
+margin_top = 31.0
+margin_right = 500.0
+margin_bottom = 60.0
+custom_constants/separation = 10
+alignment = 1
+
+[node name="axisToggle" type="CheckBox" parent="Content/Header/ToggleButtons"]
+margin_left = 136.0
+margin_right = 235.0
+margin_bottom = 29.0
+hint_tooltip = "Toggles whether or not the joint axis basis are shown in the world."
+text = "Show Axis"
+flat = true
+
+[node name="nameToggle" type="CheckBox" parent="Content/Header/ToggleButtons"]
+margin_left = 245.0
+margin_right = 364.0
+margin_bottom = 29.0
+text = "Show Names"
+flat = true
+
+[node name="JointContainer" type="ScrollContainer" parent="Content"]
+margin_top = 70.0
+margin_right = 500.0
+margin_bottom = 500.0
+size_flags_vertical = 3
+
+[node name="List" type="VBoxContainer" parent="Content/JointContainer"]
+margin_right = 500.0
+size_flags_horizontal = 3
+custom_constants/separation = 0

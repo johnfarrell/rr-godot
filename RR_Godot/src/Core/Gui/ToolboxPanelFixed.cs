@@ -37,6 +37,22 @@ public class ToolboxPanelFixed : Panel
 
         Button SimControlButton = GetNode<Button>("ToolboxContainer/SimControl");
         SimControlButton.Connect("pressed", GetNode("/root/main/env"), "ToggleSimState");
+        SimControlButton.Connect("pressed", GetNode("/root/main/UI/AppWindow/LeftMenu/ObjectInspector/ObjectInspector/"), "ToggleInputDisabled");
+
+        Button ArmRight = GetNode<Button>("ToolboxContainer/RightButton");
+        Button ArmLeft = GetNode<Button>("ToolboxContainer/LeftButton");
+        Button ArmUp = GetNode<Button>("ToolboxContainer/UpButton");
+        Button ArmDown = GetNode<Button>("ToolboxContainer/DownButton");
+
+        ArmRight.Connect("button_down", GetNode("/root/main/env/Base"), "MoveRight");
+        ArmLeft.Connect("button_down", GetNode("/root/main/env/Base"), "MoveLeft");
+        ArmUp.Connect("button_down", GetNode("/root/main/env/Base"), "MoveUp");
+        ArmDown.Connect("button_down", GetNode("/root/main/env/Base"), "MoveDown");
+
+        ArmRight.Connect("button_up", GetNode("/root/main/env/Base"), "Stop");
+        ArmLeft.Connect("button_up", GetNode("/root/main/env/Base"), "Stop");
+        ArmUp.Connect("button_up", GetNode("/root/main/env/Base"), "Stop");
+        ArmDown.Connect("button_up", GetNode("/root/main/env/Base"), "Stop");
 
         GD.Print("TOOLBOXPANELFIXED.CS: READY");
     }

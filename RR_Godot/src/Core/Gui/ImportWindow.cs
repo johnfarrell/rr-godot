@@ -19,7 +19,7 @@ public class ImportWindow : FileDialog
     public void OnFileSelected(string path)
     {
         File selectedFile = new File();
-        selectedFile.Open(path, (int) File.ModeFlags.Read);
+        selectedFile.Open(path, File.ModeFlags.Read);
         string absolutePath = selectedFile.GetPathAbsolute();
         selectedFile.Close();
         GlobalSettings.ImportFile(absolutePath);

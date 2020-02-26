@@ -150,6 +150,7 @@ namespace RR_Godot.Core.Urdf
             retVal.Name = _link.name;
             retVal.Mode = RigidBody.ModeEnum.Rigid;
             retVal.SetMass((float)_link.inertial.mass);
+            retVal.ContinuousCd = true;
 
             // Create the MeshInstance
             MeshInstance tempMesh = new MeshInstance();
@@ -157,11 +158,17 @@ namespace RR_Godot.Core.Urdf
             tempMesh.Name = _link.name + "_mesh";
 
             // Add the collision information to the RigidBody
-            Shape colShape = CreateCollisionGeometry(_link.collisions);
-            if (colShape != null)
+            MeshInstance colMesh = CreateCollisionGeometry(_link.collisions);
+            if (colMesh != null)
             {
-                var id = retVal.CreateShapeOwner(new Object());
-                retVal.ShapeOwnerAddShape(id, colShape);
+                colMesh.CreateTrimeshCollision();
+                CollisionShape colShape = (CollisionShape) colMesh.GetChild(0).GetChild(0);
+                colMesh.GetChild(0).RemoveChild(colMesh.GetChild(0).GetChild(0));
+
+                uint shapeOwner = retVal.CreateShapeOwner(retVal);
+                retVal.ShapeOwnerAddShape(shapeOwner, colShape.Shape);
+                colShape.Name = _link.name + "_col";
+                retVal.AddChild(colShape);
             }
 
             retVal.AddChild(tempMesh);
@@ -176,30 +183,34 @@ namespace RR_Godot.Core.Urdf
         /// </summary>
         /// <param name="collisions">List of Collision information.</param>
         /// <returns></returns>
-        public Shape CreateCollisionGeometry(List<Link.Collision> collisions)
+        public MeshInstance CreateCollisionGeometry(List<Link.Collision> collisions)
         {
             if (collisions.Count < 1)
             {
                 return null;
             }
             Link.Collision workingCol = collisions[0];
+            MeshInstance mshInt = new MeshInstance();
 
             if (workingCol.geometry.box != null)
             {
-                return CreateBox(workingCol.geometry.box).CreateConvexShape();
+                mshInt.Mesh = CreateBox(workingCol.geometry.box);
+                return mshInt;
             }
             if (workingCol.geometry.cylinder != null)
             {
-                return CreateCylinder(workingCol.geometry.cylinder).CreateConvexShape();
+                mshInt.Mesh = CreateCylinder(workingCol.geometry.cylinder); 
+                return mshInt;
             }
             if (workingCol.geometry.sphere != null)
             {
-                return CreateSphere(workingCol.geometry.sphere).CreateConvexShape();
+                mshInt.Mesh = CreateSphere(workingCol.geometry.sphere);
+                return mshInt;
             }
             if (workingCol.geometry.mesh != null)
             {
-                return new BoxShape();
-                // return CreateMesh(workingCol.geometry.mesh).CreateConvexShape();
+                MeshInstance val = CreateMesh(workingCol.geometry.mesh);
+                return val;
             }
             return null;
         }
@@ -248,7 +259,7 @@ namespace RR_Godot.Core.Urdf
             }
             if (workingVis.geometry.mesh != null)
             {
-                return CreateMesh(workingVis.geometry.mesh);
+                return CreateMesh(workingVis.geometry.mesh).Mesh;
             }
             return null;
         }
@@ -334,20 +345,20 @@ namespace RR_Godot.Core.Urdf
         /// <param name="mesh">Urdf mesh object generated from a link.</param>
         /// <param name="mat">Optional material to apply to the mesh.</param>
         /// <returns>A Godot.Mesh representing the Urdf mesh data.</returns>
-        private Godot.Mesh CreateMesh(
+        private MeshInstance CreateMesh(
             Link.Geometry.Mesh mesh,
             SpatialMaterial mat = null)
         {
             string fileName = mesh.filename;
 
             fileName = GetFullPath(fileName);
-
+            
             GD.Print(fileName);
             MeshMaker mmaker = new MeshMaker();
 
             var meshMat = (MeshInstance) mmaker.CreateMesh(fileName);
 
-            return meshMat.Mesh;
+            return meshMat;
         }
 
         private string GetFullPath(string file)
