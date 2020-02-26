@@ -27,50 +27,50 @@ namespace RR_Godot.Core.Physics
             GD.Print("JointControl Singleton Loaded...");
         }
 
-        public void UpdateList(RigidBody rootObj)
+        public void UpdateList(Spatial rootObj)
         {
-            Queue<Spatial> nodeQueue = new Queue<Spatial>();
+            // Queue<Spatial> nodeQueue = new Queue<Spatial>();
 
-            foreach (var child in rootObj.GetChildren())
-            {
-                nodeQueue.Enqueue((Spatial) child);
-            }
+            // foreach (var child in rootObj.GetChildren())
+            // {
+            //     nodeQueue.Enqueue((Spatial) child);
+            // }
 
-            // Standard BFS traversal of the tree structure
-            Spatial curr = nodeQueue.Dequeue();
-            while(curr != null)
-            {
-                if (!curr.GetType().Equals(typeof(Godot.PinJoint)) &&
-                    !curr.GetType().Equals(typeof(Godot.HingeJoint)) &&
-                    !curr.GetType().Equals(typeof(Generic6DOFJoint)))
-                {
-                    // If the current object isn't a joint, its a link so you need
-                    // to add all of the children to the queue.
-                    // Some of this will be a meshinstance/collisionshape, but those
-                    // will get filtered out.
-                    foreach (var child in curr.GetChildren())
-                    {
-                        nodeQueue.Enqueue((Spatial)child);
-                    }
-                    if (nodeQueue.Count == 0)
-                    {
-                        break;
-                    }
-                    curr = nodeQueue.Dequeue();
-                    continue;
-                }
-                Godot.Joint tempJoint = (Godot.Joint)curr;
+            // // Standard BFS traversal of the tree structure
+            // Spatial curr = nodeQueue.Dequeue();
+            // while(curr != null)
+            // {
+            //     if (!curr.GetType().Equals(typeof(Godot.PinJoint)) &&
+            //         !curr.GetType().Equals(typeof(Godot.HingeJoint)) &&
+            //         !curr.GetType().Equals(typeof(Generic6DOFJoint)))
+            //     {
+            //         // If the current object isn't a joint, its a link so you need
+            //         // to add all of the children to the queue.
+            //         // Some of this will be a meshinstance/collisionshape, but those
+            //         // will get filtered out.
+            //         foreach (var child in curr.GetChildren())
+            //         {
+            //             nodeQueue.Enqueue((Spatial)child);
+            //         }
+            //         if (nodeQueue.Count == 0)
+            //         {
+            //             break;
+            //         }
+            //         curr = nodeQueue.Dequeue();
+            //         continue;
+            //     }
+            //     Godot.Joint tempJoint = (Godot.Joint)curr;
 
-                RegisterJoint(tempJoint);
+            //     RegisterJoint(tempJoint);
 
-                nodeQueue.Enqueue((Spatial)curr.GetChild(0));
+            //     nodeQueue.Enqueue((Spatial)curr.GetChild(0));
 
-                if (nodeQueue.Count == 0)
-                {
-                    break;
-                }
-                curr = nodeQueue.Dequeue();
-            }
+            //     if (nodeQueue.Count == 0)
+            //     {
+            //         break;
+            //     }
+            //     curr = nodeQueue.Dequeue();
+            // }
         }
 
         public void RegisterJoint(Godot.Joint joint)
