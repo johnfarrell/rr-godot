@@ -352,7 +352,7 @@ namespace RR_Godot.Core.Urdf
             string fileName = mesh.filename;
 
             fileName = GetFullPath(fileName);
-
+            
             GD.Print(fileName);
             MeshMaker mmaker = new MeshMaker();
 
