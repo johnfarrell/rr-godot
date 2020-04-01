@@ -139,9 +139,9 @@ public class UrdfImporter : Node
         // Create base
         StaticBody base_node = generate_base(bot_struct.root, bot_struct.name);
 
-        List<Godot.Spatial> links = create_links(bot_struct.links);
-        List<Godot.Joint> joints = create_joints(bot_struct.joints);
-        return null;
+        // List<Godot.Spatial> links = create_links(bot_struct.links);
+        // List<Godot.Joint> joints = create_joints(bot_struct.joints);
+        return base_node;
     }
 
     /// <summary>
@@ -156,16 +156,21 @@ public class UrdfImporter : Node
     {
         StaticBody node = new StaticBody();
         node.Name = String.Format("{0}-{1}", link.name, bot_name);
-        node.PhysicsMaterialOverride = new PhysicsMaterial();
+        PhysicsMaterial mat = new PhysicsMaterial();
+        node.PhysicsMaterialOverride = mat;
         
         MeshInstance node_mesh = create_visual_geometry(link.visuals);
-        node_mesh.Name = String.Format("{0}_mesh", node.Name);
+        if(node_mesh != null)
+        {
+            node_mesh.Name = String.Format("{0}_mesh", node.Name);
+            node.AddChild(node_mesh);
+        }
         CollisionShape node_col = create_collision_geometry(link.collisions);
-        node_col.Name = String.Format("{0}_col", node.Name);
-
-        node.AddChild(node_mesh);
-        node.AddChild(node_col);
-
+        if(node_col != null)
+        {
+            node_col.Name = String.Format("{0}_col", node.Name);
+            node.AddChild(node_col);
+        }
         return node;
     }
 
