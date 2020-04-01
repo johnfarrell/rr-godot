@@ -124,6 +124,156 @@ public class UrdfImporter : Node
         }
     }
 
+
+    public StaticBody Parse(string file_name)
+    {
+        RosSharp.Urdf.Robot bot_struct = new Robot(file_name);
+
+        // Create base
+        StaticBody base_node = generate_base(bot_struct.root, bot_struct.name);
+        return null;
+    }
+
+    private StaticBody generate_base(RosSharp.Urdf.Link link, string bot_name)
+    {
+        StaticBody node = new StaticBody();
+        node.Name = String.Format("{0}-{1}", link.name, bot_name);
+        node.PhysicsMaterialOverride = new PhysicsMaterial();
+        
+        MeshInstance node_mesh = create_visual_geometry(link.visuals);
+        node_mesh.Name = String.Format("{0}_mesh", node.Name);
+        CollisionShape node_col = create_collision_geometry(link.collisions);
+        node_col.Name = String.Format("{0}_col", node.Name);
+
+        node.AddChild(node_mesh);
+        node.AddChild(node_col);
+
+        return node;
+    }
+
+    private SpatialMaterial create_material(RosSharp.Urdf.Link.Visual.Material source_mat)
+    {
+        if(source_mat == null)
+        {
+            return null;
+        }
+
+        SpatialMaterial ret_mat = new SpatialMaterial();
+        var matColor = new Godot.Color();
+        matColor.r = (float)source_mat.color.rgba[0];
+        matColor.g = (float)source_mat.color.rgba[1];
+        matColor.b = (float)source_mat.color.rgba[2];
+        matColor.a = (float)source_mat.color.rgba[3];
+        ret_mat.AlbedoColor = matColor;
+
+        return ret_mat;
+    }
+
+    private MeshInstance create_visual_geometry(
+        List<RosSharp.Urdf.Link.Visual> visuals)
+    {
+        if (visuals.Count < 1)
+        {
+            return null;
+        }
+
+        Link.Visual workingVis = visuals[0];
+        SpatialMaterial mat = create_material(workingVis.material);
+        if(workingVis.geometry.box != null)
+        {
+            return create_box_mesh(workingVis.geometry.box, mat);
+        }
+        if(workingVis.geometry.cylinder != null)
+        {
+            return create_cylinder_mesh(workingVis.geometry.cylinder, mat);
+        }
+        if(workingVis.geometry.sphere != null)
+        {
+            return create_sphere_mesh(workingVis.geometry.sphere, mat);
+        }
+        if(workingVis.geometry.mesh != null)
+        {
+            return create_custom_mesh(workingVis.geometry.mesh, mat);
+        }
+        return null;
+    }
+
+    private MeshInstance create_box_mesh(Link.Geometry.Box source, SpatialMaterial mat)
+    {
+        MeshInstance ret_val = new MeshInstance();
+
+        CubeMesh cmesh = new CubeMesh();
+        cmesh.Size = new Vector3(
+            (float)source.size[0],
+            (float)source.size[2],
+            (float)source.size[1]
+        );
+
+        cmesh.Material = mat;
+        ret_val.Mesh = cmesh;
+        return ret_val;
+    }
+
+    private MeshInstance create_cylinder_mesh(Link.Geometry.Cylinder source, SpatialMaterial mat)
+    {
+        MeshInstance ret_val = new MeshInstance();
+
+        CylinderMesh cmesh = new CylinderMesh();
+        cmesh.TopRadius = (float)source.radius;
+        cmesh.BottomRadius = (float)source.radius;
+        cmesh.Height = (float)source.length;
+
+        cmesh.Material = mat;
+        ret_val.Mesh = cmesh;
+        return ret_val;
+    }
+
+    private MeshInstance create_sphere_mesh(Link.Geometry.Sphere source, SpatialMaterial mat)
+    {
+        MeshInstance ret_val = new MeshInstance();
+
+        SphereMesh cmesh = new SphereMesh();
+        cmesh.Radius = (float)source.radius;
+        cmesh.Height = (float)(source.radius * 2.0);
+
+        cmesh.Material = mat;
+        ret_val.Mesh = cmesh;
+        return ret_val;
+    }
+
+    private MeshInstance create_custom_mesh(Link.Geometry.Mesh source, SpatialMaterial mat)
+    {
+        
+        string filename = GetFullPath(source.filename);
+        MeshMaker mm = new MeshMaker();
+        
+        return (MeshInstance) mm.CreateMesh(filename);
+    }
+
+    private string GetFullPath(string file)
+        {
+            string[] splitPath = file.Split('/');
+
+            // Path is a ROS package path, have to convert
+            // to an absolute path
+            string packPath = OS.GetUserDataDir() + "/models";
+            if (splitPath[0] == "package:")
+            {
+                for (var i = 2; i < splitPath.Length; ++i)
+                {
+                    packPath += "/";
+                    packPath += splitPath[i];
+                }
+            }
+            return packPath;
+        }
+
+    private CollisionShape create_collision_geometry(
+        List<RosSharp.Urdf.Link.Collision> collisions)
+    {
+
+    }
+
     /// <summary>
     /// <para>Parse</para>
     /// Parses a Urdf file into class RosSharp.Urdf.Robot member.
@@ -133,7 +283,7 @@ public class UrdfImporter : Node
     /// <para>True if the file was succesfully parsed.</para>
     /// <para>False if there was an error while parsing.<para>
     /// </returns>
-    public bool Parse(string file_name)
+    public bool Parse2(string file_name)
     {
         try
         {
