@@ -109,7 +109,6 @@ margin_bottom = 40.0
 script = ExtResource( 7 )
 
 [node name="Viewport2" type="ViewportContainer" parent="VerticalSplit/HSplit1"]
-editor/display_folded = true
 visible = false
 margin_left = 312.0
 margin_right = 612.0
@@ -161,7 +160,6 @@ margin_bottom = 40.0
 script = ExtResource( 7 )
 
 [node name="HSplit2" type="HSplitContainer" parent="VerticalSplit"]
-editor/display_folded = true
 visible = false
 margin_top = 231.0
 margin_right = 612.0

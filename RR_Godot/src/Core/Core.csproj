@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="env.cs" />
+    <Compile Include="Arm.cs" />
     <Compile Include="gizmos.cs" />
     <Compile Include="Gizmo\Gizmo.cs" />
     <Compile Include="Gizmo\GizmoRotate.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Gui\TitleBar.cs" />
     <Compile Include="Gui\ToolboxPanel.cs" />
     <Compile Include="Gui\ToolboxPanelFixed.cs" />
+    <Compile Include="Gui\BotConnection.cs" />
     <Compile Include="Gui\viewport\Viewport1.cs" />
     <Compile Include="Gui\viewport\Viewport2.cs" />
     <Compile Include="Gui\viewport\Viewport3.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="Urdf\UrdfImporter.cs" />
     <Compile Include="Urdf\UrdfNode.cs" />
     <Compile Include="Physics\JointController.cs" />
+    <Complie Include="Physics\RobotGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Plugins\Plugins.csproj">
