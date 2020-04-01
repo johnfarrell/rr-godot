@@ -117,6 +117,7 @@ public class Global : Node
 
         if (!PluginPathExists)
         {
+            PluginDir = new Directory();
             GD.PushWarning("ERROR: Plugin directory does not exist, creating...");
             var err = PluginDir.MakeDirRecursive(PluginFolderPath);
             if (err != Error.Ok)
@@ -124,7 +125,7 @@ public class Global : Node
                 GD.PushError("ERROR: Cannot create directory, " + err);
             }
         }
-        PluginDir = new Directory();
+        
         var err2 = PluginDir.ChangeDir(PluginFolderPath);
         var curDir = PluginDir.GetCurrentDir();
         GD.Print("PLUGIN DIR SET TO : " + curDir);
