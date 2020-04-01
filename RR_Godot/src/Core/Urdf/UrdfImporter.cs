@@ -124,7 +124,14 @@ public class UrdfImporter : Node
         }
     }
 
-
+    /// <summary>
+    /// Parses a urdf file and creates a fully structured and configured Godot object for insertion
+    /// into the scene tree.
+    /// </summary>
+    /// <param name="file_name">Absolute path of the URDF file.</param>
+    /// <returns>
+    /// Godot.StaticBody containing the entire robot heirarchy and configuration.
+    /// </returns>
     public StaticBody Parse(string file_name)
     {
         RosSharp.Urdf.Robot bot_struct = new Robot(file_name);
@@ -134,6 +141,14 @@ public class UrdfImporter : Node
         return null;
     }
 
+    /// <summary>
+    /// Creates the base node of the robot for the world tree.
+    /// </summary>
+    /// <param name="link">Urdf definition of the link.</param>
+    /// <param name="bot_name">Name of the robot.</param>
+    /// <returns>
+    /// A Godot.StaticBody node with configured Godot.MeshInstance and Godot.CollisionShape children.
+    /// </returns>
     private StaticBody generate_base(RosSharp.Urdf.Link link, string bot_name)
     {
         StaticBody node = new StaticBody();
@@ -151,6 +166,11 @@ public class UrdfImporter : Node
         return node;
     }
 
+    /// <summary>
+    /// Generates a Godot.SpatialMaterial based off a Urdf material definition.
+    /// </summary>
+    /// <param name="source_mat">Urdf material</param>
+    /// <returns>Fully configured Godot.SpatialMaterial.</returns>
     private SpatialMaterial create_material(RosSharp.Urdf.Link.Visual.Material source_mat)
     {
         if(source_mat == null)
@@ -169,6 +189,13 @@ public class UrdfImporter : Node
         return ret_mat;
     }
 
+    /// <summary>
+    /// Creates a fully configured Godot.MeshInstance based off a Urdf visual list.
+    /// </summary>
+    /// <param name="visuals">List of URDF visuals.</param>
+    /// <returns>
+    /// Godot.MeshInstance
+    /// </returns>
     private MeshInstance create_visual_geometry(
         List<RosSharp.Urdf.Link.Visual> visuals)
     {
@@ -198,11 +225,19 @@ public class UrdfImporter : Node
         return null;
     }
 
+    /// <summary>
+    /// Helper function to translate URDF box geometry into a Godot terms
+    /// </summary>
+    /// <param name="source">URDF Box geometry object</param>
+    /// <param name="mat">Material for the mesh to use</param>
+    /// <returns></returns>
     private MeshInstance create_box_mesh(Link.Geometry.Box source, SpatialMaterial mat)
     {
         MeshInstance ret_val = new MeshInstance();
 
         CubeMesh cmesh = new CubeMesh();
+        // Axii 2 and 1 are switched due to the different
+        // coordinate structures Godot and URDF uses
         cmesh.Size = new Vector3(
             (float)source.size[0],
             (float)source.size[2],
