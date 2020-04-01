@@ -1,0 +1,58 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/Core/Gui/BotConnection.cs" type="Script" id=1]
+
+[node name="BotConnection" type="WindowDialog"]
+visible = true
+anchor_left = 0.4
+anchor_top = 0.4
+anchor_right = 0.4
+anchor_bottom = 0.4
+margin_right = 500.0
+margin_bottom = 300.0
+window_title = "Connection List"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VList" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ConnectionList" type="ItemList" parent="VList"]
+margin_right = 480.0
+margin_bottom = 256.0
+grow_vertical = 2
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VList"]
+margin_top = 260.0
+margin_right = 480.0
+margin_bottom = 280.0
+grow_horizontal = 0
+grow_vertical = 2
+custom_constants/separation = 30
+alignment = 1
+
+[node name="Connect" type="Button" parent="VList/HBoxContainer"]
+margin_left = 163.0
+margin_right = 227.0
+margin_bottom = 20.0
+text = "Connect"
+
+[node name="Refresh" type="Button" parent="VList/HBoxContainer"]
+margin_left = 257.0
+margin_right = 317.0
+margin_bottom = 20.0
+text = "Refresh"

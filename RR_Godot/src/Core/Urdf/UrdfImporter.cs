@@ -138,6 +138,9 @@ public class UrdfImporter : Node
         try
         {
             _robot = new Robot(file_name);
+            GD.Print("Robot link and joint count:");
+            GD.Print(_robot.links.Count);
+            GD.Print(_robot.joints.Count);
             _robotRoot = CreateNodeTree(_robot);
         }
         catch
@@ -359,21 +362,21 @@ public class UrdfImporter : Node
             case "revolute":
                 // A hinge joint that rotates along the axis and has a
                 // limited range specified by the upper and lower limits.
-                HingeJoint revJoint = mkr.CreateHingeJoint();
-                // HingeJoint revJoint = new HingeJoint();
+                // HingeJoint revJoint = mkr.CreateHingeJoint();
+                // // HingeJoint revJoint = new HingeJoint();
 
-                // revJoint.rot/
-                GD.Print("setting hingejoint flags");
+                // // revJoint.rot/
+                // GD.Print("setting hingejoint flags");
 
-                revJoint.SetFlag(HingeJoint.Flag.UseLimit, true);
-                revJoint.SetFlag(HingeJoint.Flag.EnableMotor, true);
-                revJoint.SetParam(HingeJoint.Param.MotorTargetVelocity, 0F);
-                revJoint.SetParam(HingeJoint.Param.MotorMaxImpulse, 1024F);
-                revJoint.SetParam(HingeJoint.Param.Bias, 1F);
-                revJoint.SetParam(HingeJoint.Param.LimitLower, (float)base_joint.limit.lower * (180F / (float)Math.PI));
-                revJoint.SetParam(HingeJoint.Param.LimitUpper, (float)base_joint.limit.upper * (180F / (float)Math.PI));
+                // revJoint.SetFlag(HingeJoint.Flag.UseLimit, true);
+                // revJoint.SetFlag(HingeJoint.Flag.EnableMotor, true);
+                // revJoint.SetParam(HingeJoint.Param.MotorTargetVelocity, 0F);
+                // revJoint.SetParam(HingeJoint.Param.MotorMaxImpulse, 1024F);
+                // revJoint.SetParam(HingeJoint.Param.Bias, 1F);
+                // revJoint.SetParam(HingeJoint.Param.LimitLower, (float)base_joint.limit.lower * (180F / (float)Math.PI));
+                // revJoint.SetParam(HingeJoint.Param.LimitUpper, (float)base_joint.limit.upper * (180F / (float)Math.PI));
 
-                return revJoint;
+                // return revJoint;
             case "continuous":
                 // a continuous hinge joint that rotates around the axis 
                 // and has no upper and lower limits.

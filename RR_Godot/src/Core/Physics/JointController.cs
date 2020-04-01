@@ -24,10 +24,11 @@ namespace RR_Godot.Core.Physics
             GetNode("/root/main/UI/AppWindow/LeftMenu/ObjectInspector/JointController").Connect(
                 "MotorTargetChanged", this, "HingeMotorTargetChange");
             GetNode("/root/Global").Connect("UrdfFileAdded", this, "UpdateList");
+            GetNode("/root/main/env/MeshAdder").Connect("ArmAdded", this, "UpdateList");
             GD.Print("JointControl Singleton Loaded...");
         }
 
-        public void UpdateList(RigidBody rootObj)
+        public void UpdateList(Spatial rootObj)
         {
             Queue<Spatial> nodeQueue = new Queue<Spatial>();
 
