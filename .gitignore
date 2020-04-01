@@ -6,6 +6,7 @@ RR_Godot/.mono/
 RR_Godot/mono_crash*
 
 RR_Godot/.vscode
+RR_Godot/.vs
 
 RR_Godot/src/Core/.mono/
 RR_Godot/src/Core/bin/
