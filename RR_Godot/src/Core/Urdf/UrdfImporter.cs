@@ -138,6 +138,9 @@ public class UrdfImporter : Node
 
         // Create base
         StaticBody base_node = generate_base(bot_struct.root, bot_struct.name);
+
+        List<Godot.Spatial> links = create_links(bot_struct.links);
+        List<Godot.Joint> joints = create_joints(bot_struct.joints);
         return null;
     }
 
@@ -306,7 +309,83 @@ public class UrdfImporter : Node
     private CollisionShape create_collision_geometry(
         List<RosSharp.Urdf.Link.Collision> collisions)
     {
+        if (collisions.Count < 1)
+        {
+            return null;
+        }
 
+        Link.Collision workingCol = collisions[0];
+        if(workingCol.geometry.box != null)
+        {
+            return create_box_collision(workingCol.geometry.box);
+        }
+        if(workingCol.geometry.cylinder != null)
+        {
+            return create_cylinder_collision(workingCol.geometry.cylinder);
+        }
+        if(workingCol.geometry.sphere != null)
+        {
+            return create_sphere_collision(workingCol.geometry.sphere);
+        }
+        if(workingCol.geometry.mesh != null)
+        {
+            return create_custom_collision(workingCol.geometry.mesh);
+        }
+        return null;
+    }
+
+    private CollisionShape create_box_collision(Link.Geometry.Box source)
+    {
+        CollisionShape ret_val = new CollisionShape();
+
+        BoxShape cshape = new BoxShape();
+        // We divide the given sizes by two because the
+        // BoxShape extents are given in half sizes
+        cshape.Extents = new Vector3(
+            (float)source.size[0] / 2F,
+            (float)source.size[2] / 2F,
+            (float)source.size[1] / 2F
+        );
+
+        ret_val.Shape = cshape;
+        return ret_val;
+    }
+
+    private CollisionShape create_cylinder_collision(Link.Geometry.Cylinder source)
+    {
+        CollisionShape ret_val = new CollisionShape();
+
+        CylinderShape cshape = new CylinderShape();
+        cshape.Radius = (float)source.radius;
+        cshape.Height = (float)source.length;
+
+        ret_val.Shape = cshape;
+        return ret_val;
+    }
+
+    private CollisionShape create_sphere_collision(Link.Geometry.Sphere source)
+    {
+        CollisionShape ret_val = new CollisionShape();
+
+        SphereShape cshape = new SphereShape();
+        cshape.Radius = (float)source.radius;
+        
+        ret_val.Shape = cshape;
+        return ret_val;
+    }
+
+    private CollisionShape create_custom_collision(Link.Geometry.Mesh source)
+    {
+        CollisionShape ret_val = new CollisionShape();
+
+        string filename = GetFullPath(source.filename);
+        MeshMaker mm = new MeshMaker();
+
+        MeshInstance temp_mesh = (MeshInstance)mm.CreateMesh(filename);
+        Shape cshape = temp_mesh.Mesh.CreateTrimeshShape();
+
+        ret_val.Shape = cshape;
+        return ret_val;
     }
 
     /// <summary>
