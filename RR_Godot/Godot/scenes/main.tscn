@@ -2,9 +2,9 @@
 
 [ext_resource path="res://Godot/theme/new_theme.tres" type="Theme" id=1]
 [ext_resource path="res://Godot/scenes/env.tscn" type="PackedScene" id=2]
-[ext_resource path="res://src/Core/Gui/TitleBar.cs" type="Script" id=3]
-[ext_resource path="res://src/Core/Gui/AppWindow.cs" type="Script" id=4]
-[ext_resource path="res://src/Core/Gui/EnvironmentTree.cs" type="Script" id=5]
+[ext_resource path="res://src/Core/Gui/EnvironmentTree.cs" type="Script" id=3]
+[ext_resource path="res://src/Core/Gui/TitleBar.cs" type="Script" id=4]
+[ext_resource path="res://src/Core/Gui/AppWindow.cs" type="Script" id=5]
 [ext_resource path="res://Godot/scenes/ObjectInspector.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Godot/scenes/JointController.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Godot/scenes/4WayViewport.tscn" type="PackedScene" id=8]
@@ -126,7 +126,10 @@ anchor_right = 1.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
 mouse_filter = 1
-script = ExtResource( 3 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="TitleButtons" type="HBoxContainer" parent="UI/TitleBar"]
 anchor_left = 1.0
@@ -196,6 +199,9 @@ custom_constants/shadow_offset_y = 0
 text = "RR-Godot - Untitled Project (*)"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="MenuBar" type="HBoxContainer" parent="UI/TitleBar"]
 anchor_bottom = 1.0
@@ -252,7 +258,7 @@ mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 split_offset = 125
-script = ExtResource( 4 )
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -282,7 +288,7 @@ margin_top = 41.0
 margin_right = -10.0
 margin_bottom = -10.0
 mouse_filter = 1
-script = ExtResource( 5 )
+script = ExtResource( 3 )
 
 [node name="Object Catalog" type="Tree" parent="UI/AppWindow/LeftMenu/TreeContainer"]
 visible = false
@@ -360,10 +366,11 @@ __meta__ = {
 }
 
 [node name="ToolboxContainer" type="HBoxContainer" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed"]
-margin_right = 763.0
+anchor_right = 1.0
 margin_bottom = 49.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
+alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -379,8 +386,8 @@ custom_styles/hover = ExtResource( 12 )
 icon = ExtResource( 13 )
 
 [node name="ModeTranslate" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer"]
-margin_left = 93.0
-margin_right = 133.0
+margin_left = 99.0
+margin_right = 139.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 40, 40 )
 focus_mode = 0
@@ -394,8 +401,8 @@ toggle_mode = true
 enabled_focus_mode = 0
 
 [node name="ModeRotate" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer"]
-margin_left = 186.0
-margin_right = 226.0
+margin_left = 198.0
+margin_right = 238.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 40, 40 )
 focus_mode = 0
@@ -409,8 +416,8 @@ toggle_mode = true
 enabled_focus_mode = 0
 
 [node name="ModeScale" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer"]
-margin_left = 279.0
-margin_right = 319.0
+margin_left = 297.0
+margin_right = 337.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 40, 40 )
 focus_mode = 0
@@ -424,8 +431,8 @@ toggle_mode = true
 enabled_focus_mode = 0
 
 [node name="SimControl" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer"]
-margin_left = 372.0
-margin_right = 412.0
+margin_left = 396.0
+margin_right = 436.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 40, 40 )
 focus_mode = 0
@@ -439,10 +446,9 @@ toggle_mode = true
 enabled_focus_mode = 0
 
 [node name="Controls" type="HBoxContainer" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer"]
-margin_left = 465.0
+margin_left = 495.0
 margin_right = 762.0
 margin_bottom = 49.0
-custom_constants/separation = 10
 
 [node name="CreateArm" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer/Controls"]
 margin_right = 51.0
@@ -450,32 +456,32 @@ margin_bottom = 49.0
 text = "Create"
 
 [node name="Connect" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer/Controls"]
-margin_left = 61.0
-margin_right = 122.0
+margin_left = 55.0
+margin_right = 116.0
 margin_bottom = 49.0
 text = "Connect"
 
 [node name="DownButton" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer/Controls"]
-margin_left = 132.0
-margin_right = 176.0
+margin_left = 120.0
+margin_right = 164.0
 margin_bottom = 49.0
 text = "Down"
 
 [node name="UpButton" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer/Controls"]
-margin_left = 186.0
-margin_right = 208.0
+margin_left = 168.0
+margin_right = 190.0
 margin_bottom = 49.0
 text = "Up"
 
 [node name="RightButton" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer/Controls"]
-margin_left = 218.0
-margin_right = 258.0
+margin_left = 194.0
+margin_right = 234.0
 margin_bottom = 49.0
 text = "Right"
 
 [node name="LeftButton" type="Button" parent="UI/AppWindow/EnvironmentContainer/ToolboxPanelFixed/ToolboxContainer/Controls"]
-margin_left = 268.0
-margin_right = 297.0
+margin_left = 238.0
+margin_right = 267.0
 margin_bottom = 49.0
 text = "Left"
 
@@ -497,8 +503,8 @@ window_title = "Import File"
 mode_overrides_title = false
 mode = 0
 access = 2
-current_dir = "/home/john/Documents/Projects/rrclone/RR_Godot"
-current_path = "/home/john/Documents/Projects/rrclone/RR_Godot/"
+current_dir = "D:/Projects/GitHub/rr-godot/RR_Godot"
+current_path = "D:/Projects/GitHub/rr-godot/RR_Godot/"
 script = ExtResource( 27 )
 
 [node name="BotConnection" parent="UI" instance=ExtResource( 28 )]

@@ -114,10 +114,10 @@ public class Global : Node
     {
         String PluginFolderPath = UserDataDirectory + "/plugins/";
         bool PluginPathExists = System.IO.Directory.Exists(PluginFolderPath);
-
+        PluginDir = new Directory();
+        
         if (!PluginPathExists)
         {
-            PluginDir = new Directory();
             GD.PushWarning("ERROR: Plugin directory does not exist, creating...");
             var err = PluginDir.MakeDirRecursive(PluginFolderPath);
             if (err != Error.Ok)
