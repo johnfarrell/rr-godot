@@ -1,3 +1,16 @@
+// ------- env.cs ------
+// Author: John Farrell
+//          john@johnjfarrell.com
+// 
+// Handles communication between physical simulation
+// and UI. Currently pretty god-class like, needs some adjustment.
+// For example, the buttons to add mesh objects to the environment
+// handle all the logic for the creation in the event handler instead
+// of transfering it to a dedicated builder class and handling
+// the output.
+// Is also used to transfer mouse clicks into the environment
+// for gizmo interaction and other user manipulation of the world.
+
 using System;
 using Godot;
 

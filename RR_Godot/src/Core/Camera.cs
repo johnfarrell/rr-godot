@@ -1,3 +1,9 @@
+// ------- Camera.cs ------
+// 
+// Script to control the camera
+// movement within the program. 
+// NOT a sensor implementation
+
 using Godot;
 using System;
 

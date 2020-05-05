@@ -1,3 +1,18 @@
+// ------- UrdfImporter.cs ------
+// Author: John Farrell
+//          john@johnjfarrell.com
+// 
+// This file contains all the necessary logic
+// for importing URDF files and creating a structure
+// in Godot that accurately represents the robot
+// described in the URDF file.
+// To successfully import custom models, the necessary folder
+// containing the models must be placed into the user://models file.
+// In a windows environment, this can be accessed at
+//      C:\Users\[user]\AppData\Roaming\rr-godot\models
+// For example, to import the Baxter URDF file, you need to place the
+// entire baxter_description folder in the models directory.
+
 using System.Collections.Generic;
 
 using Godot;
@@ -5,6 +20,9 @@ using System;
 using RosSharp.Urdf;
 
 
+/// <summary>
+/// Class <c>UrdfImporter</c> handles the import logic of URDF files.
+/// </summary>
 public class UrdfImporter : Node
 {
     /// <summary>
@@ -44,6 +62,8 @@ public class UrdfImporter : Node
         List<Godot.Joint> joints = create_joints(bot_struct.joints);
         UrdfPrint("Loaded joints");
 
+        // Add the base_node to the SceneTree so Godot recognizes
+        // node paths and transforms
         parent.AddChild(base_node);
 
         List<RosSharp.Urdf.Joint> base_joints = bot_struct.root.joints;
@@ -72,6 +92,12 @@ public class UrdfImporter : Node
     }
 
 
+    /// <summary>
+    /// Connects all the children joints in a list of links.
+    /// </summary>
+    /// <param name="childList">Children of a main base node in a robot structure.</param>
+    /// <param name="allLinks">A list of all the RigidBody links in the structure.</param>
+    /// <param name="refJointList">A list of all the RosSharp joint descriptions.</param>
     private void ConnectJoints(Godot.Collections.Array childList,
         List<Godot.Spatial> allLinks,
         List<RosSharp.Urdf.Joint> refJointList)
@@ -83,7 +109,7 @@ public class UrdfImporter : Node
                 continue;
             }
             Godot.RigidBody tempLink = (Godot.RigidBody)link;
-            GD.Print(String.Format("Connecting link {0}", tempLink.Name));
+            GD.Print(String.Format("Connecting link {0} joints", tempLink.Name));
             foreach (var child in tempLink.GetChildren())
             {
                 if( !(child is Godot.Joint))

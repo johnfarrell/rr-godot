@@ -1,11 +1,17 @@
+// ------- Arm.cs ------
+// Author: John Farrell
+//          john@johnjfarrell.com
+//
+// This file contains the code to control the default
+// 3DoF arm that is built into the environment.
+// Just a very basic implementation of joint control
+// through velocity targets.
+
 using Godot;
 using System;
 
 public class Arm : StaticBody
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
     Generic6DOFJoint J0;
     HingeJoint J1;
     HingeJoint J2;
@@ -15,7 +21,6 @@ public class Arm : StaticBody
     bool left = false;
     bool right = false;
 
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         J0 = GetNode<Generic6DOFJoint>("J0");

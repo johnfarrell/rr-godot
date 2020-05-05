@@ -7,7 +7,6 @@ namespace RR_Godot.Core.Physics
 {
     public class JointController : Node
     {
-        // Called when the node enters the scene tree for the first time.
 
         // Holds a reference to all of the active joints in the world
         public List<Godot.Joint> _jointList;

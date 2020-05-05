@@ -1,9 +1,23 @@
+// ------- Global.cs ------
+// Author: John Farrell
+//          john@johnjfarrell.com
+// 
+//  This file handles custom application settings, 
+// plugin management, and file importing routing.
+// The plugin system is still very
+// basic and development on it got sidelined in order
+// to get URDF importing working, however the bones are still
+// working. 
+// Plugins represent the ability to add external code to extend
+// the functionality of RR-Godot. Initially, this was so users
+// could create different plugins to load different filetypes.
+// Most likely the current system is not secure and could probably
+// be manipulated so should be used carefully.
+
 using Godot;
 using System;
 using System.Reflection;
 using RR_Godot.Core.Plugins;
-using RR_Godot.Core.Urdf;
-using RosSharp.Urdf;
 
 
 public class Global : Node
@@ -270,6 +284,11 @@ public class Global : Node
             UrdfToBeParsed = true;
             UrdfFilename = file;
         }
+
+        // This is the method to call external filetype
+        // import plugins. Plugins are just a usual C# .dll
+        // file that are placed in the user://plugins directory
+
         // foreach (IPlugin plug in PlugLoader.Plugins)
         // {
         //     GD.Print("Testing " + plug.Name);
