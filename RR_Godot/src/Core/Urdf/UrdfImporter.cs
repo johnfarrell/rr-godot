@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Godot;
 using System;
 using RosSharp.Urdf;
-using RR_Godot.Core.Urdf;
 
 
 public class UrdfImporter : Node

@@ -83,7 +83,6 @@
     <Compile Include="Sensors\Cam.cs" />
     <Compile Include="Common\Global.cs" />
     <Compile Include="Urdf\UrdfImporter.cs" />
-    <Compile Include="Urdf\UrdfNode.cs" />
     <Compile Include="Physics\JointController.cs" />
     <Complie Include="Physics\RobotGenerator.cs" />
   </ItemGroup>
