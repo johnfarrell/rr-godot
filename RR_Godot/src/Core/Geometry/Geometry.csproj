@@ -50,8 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Mesh.cs" />
-    <Compile Include="Vector.cs" />
     <Compile Include="MeshAdder.cs" />
     <Compile Include="SerialRobotGen.cs" />
   </ItemGroup>
