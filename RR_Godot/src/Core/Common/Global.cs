@@ -236,11 +236,11 @@ public class Global : Node
             var beforeStatus = GetNode("/root/main/env").GetTree().Paused;
             // GetNode("/root/main/env").GetTree().Paused = true;
 
-            StaticBody temp = UrdfHandler.Parse(UrdfFilename);
-            // StaticBody temp = UrdfHandler.GenerateSpatial(UrdfHandler._robotRoot);                
-            GetNode("/root/main/env").AddChild(temp);
-            // temp.SetOwner(GetNode("/root/main/env"));
-            // UrdfHandler.ConnectJoints(temp);
+            GD.Print("Parse entry");
+            StaticBody temp = UrdfHandler.Load(
+                UrdfFilename,
+                GetNode("/root/main/env")
+                );
 
             // EmitSignal("UrdfFileAdded", temp);
 
