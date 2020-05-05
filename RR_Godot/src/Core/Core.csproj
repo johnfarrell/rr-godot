@@ -84,7 +84,6 @@
     <Compile Include="Common\Global.cs" />
     <Compile Include="Urdf\UrdfImporter.cs" />
     <Compile Include="Physics\JointController.cs" />
-    <Complie Include="Physics\RobotGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Plugins\Plugins.csproj">

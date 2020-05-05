@@ -70,7 +70,6 @@
     <Compile Include="src\Core\Common\Global.cs" />
     <Compile Include="src\Core\Gui\BotConnection.cs" />
     <Compile Include="src\Core\Physics\JointController.cs" />
-    <Compile Include="src\Core\Physics\RobotGenerator.cs" />
     <Compile Include="src\Core\Urdf\UrdfImporter.cs" />
     <Compile Include="src\Core\Camera.cs" />
     <Compile Include="src\Core\env.cs" />
