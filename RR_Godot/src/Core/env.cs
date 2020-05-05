@@ -355,7 +355,6 @@ public class env : Spatial
     /// </summary>
     private void OnEnvContainerMouseEntered()
     {
-        GD.Print("MouseEnter");
         mouseInside = true;
     }
 
@@ -364,7 +363,6 @@ public class env : Spatial
     /// </summary>
     private void OnEnvContainerMouseExit()
     {
-        GD.Print("MouseExit");
         mouseInside = false;
     }
 
