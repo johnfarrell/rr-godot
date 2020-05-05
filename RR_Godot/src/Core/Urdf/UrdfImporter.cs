@@ -132,16 +132,391 @@ public class UrdfImporter : Node
     /// <returns>
     /// Godot.StaticBody containing the entire robot heirarchy and configuration.
     /// </returns>
-    public StaticBody Parse(string file_name)
+    public StaticBody Load(string file_name, Node parent)
     {
+        UrdfPrint("Generating RosSharp object...");
         RosSharp.Urdf.Robot bot_struct = new Robot(file_name);
 
         // Create base
+        UrdfPrint("Creating base...");
         StaticBody base_node = generate_base(bot_struct.root, bot_struct.name);
+        UrdfPrint("Created base");
 
-        // List<Godot.Spatial> links = create_links(bot_struct.links);
-        // List<Godot.Joint> joints = create_joints(bot_struct.joints);
+        List<Godot.Spatial> links = create_links(bot_struct.links);
+        UrdfPrint("Loaded links");
+        List<Godot.Joint> joints = create_joints(bot_struct.joints);
+        UrdfPrint("Loaded joints");
+
+        parent.AddChild(base_node);
+
+        List<RosSharp.Urdf.Joint> base_joints = bot_struct.root.joints;
+
+        foreach (var rosJoint in base_joints)
+        {
+            var godotJoint = joints.Find(x => x.Name == rosJoint.name);
+            // var childLink = links.Find(x => x.Name == rosJoint.ChildLink.name);
+            base_node.AddChild(godotJoint);
+            // godotJoint.AddChild(childLink);
+        }
+
+        foreach (var child in base_node.GetChildren())
+        {
+            if(child is Godot.Joint)
+            {
+                Godot.Joint cJoint = (Godot.Joint) child;
+                var refJoint = base_joints.Find(x => x.name == cJoint.Name);
+                BuildTreeStructure(refJoint, cJoint, links, joints);
+                ConstructTransforms(cJoint.GetChildren(), links, bot_struct.joints);
+                
+                ConnectJoints(cJoint.GetChildren(), links, bot_struct.joints);
+            }
+        }
+        parent.GetTree().Paused = true;
+        GD.Print("Paused tree");
+        
         return base_node;
+    }
+
+    private void ConstructTransforms(Godot.Collections.Array childList,
+        List<Godot.Spatial> allLinks,
+        List<RosSharp.Urdf.Joint> refJointList)
+    {
+
+    }
+
+    private void ConnectJoints(Godot.Collections.Array childList,
+        List<Godot.Spatial> allLinks,
+        List<RosSharp.Urdf.Joint> refJointList)
+    {
+        foreach (var link in childList)
+        {
+            if( !(link is Godot.RigidBody))
+            {
+                continue;
+            }
+            Godot.RigidBody tempLink = (Godot.RigidBody)link;
+            GD.Print(String.Format("Connecting link {0}", tempLink.Name));
+            foreach (var child in tempLink.GetChildren())
+            {
+                if( !(child is Godot.Joint))
+                {
+                    continue;
+                }
+                Godot.Joint childJoint = (Godot.Joint)child;
+                RosSharp.Urdf.Joint sJoint = refJointList.Find(x => x.name == childJoint.Name);
+                Godot.RigidBody nodeB = (Godot.RigidBody)allLinks.Find(x => x.Name == sJoint.ChildLink.name);
+
+                nodeB.GlobalTransform = childJoint.GlobalTransform;
+
+                childJoint.Nodes__nodeA = tempLink.GetPath();
+                childJoint.Nodes__nodeB = nodeB.GetPath();
+            }
+        }
+    }
+
+    private void BuildTreeStructure(
+        RosSharp.Urdf.Joint sourceJoint, 
+        Godot.Joint baseJoint,
+        List<Godot.Spatial> linkList,
+        List<Godot.Joint> jointList)
+    {
+        Godot.Spatial tempLink = linkList.Find(x => x.Name == sourceJoint.ChildLink.name);
+        baseJoint.AddChild(tempLink);
+        foreach (var linkJoint in sourceJoint.ChildLink.joints)
+        {
+            Godot.Joint tJoint = jointList.Find(x => x.Name == linkJoint.name);
+            tempLink.AddChild(tJoint);
+            // Transform linkTrans = tempLink.GlobalTransform;
+            // var joint_offset = new Vector3(
+            //     (float)linkJoint.origin.Xyz[0],
+            //     (float)linkJoint.origin.Xyz[2],
+            //     -1F * (float)linkJoint.origin.Xyz[1]
+            // );
+            // linkTrans = linkTrans.Translated(joint_offset);
+            // tJoint.GlobalTransform = linkTrans;
+
+            tJoint.TranslateObjectLocal(new Vector3(
+                (float)linkJoint.origin.Xyz[0],
+                (float)linkJoint.origin.Xyz[2],
+                -1.0F * (float)linkJoint.origin.Xyz[1]
+            ));
+            
+            // tJoint.RotateObjectLocal(new Vector3(1,0,0), (float)linkJoint.origin.Rpy[0]);
+            // tJoint.RotateObjectLocal(new Vector3(0,1,0), (float)linkJoint.origin.Rpy[2]);
+            // tJoint.RotateObjectLocal(new Vector3(0,0,1), -1F * (float)linkJoint.origin.Rpy[1]);
+
+            tJoint.RotateX((float)linkJoint.origin.Rpy[0]);
+            tJoint.RotateY((float)linkJoint.origin.Rpy[2]);
+            tJoint.RotateZ(-1.0F * (float)linkJoint.origin.Rpy[1]);
+
+            BuildTreeStructure(linkJoint, baseJoint, linkList, jointList);
+        }
+        
+    }
+
+    private List<Godot.Spatial> create_links(List<RosSharp.Urdf.Link> source)
+    {
+        List<Godot.Spatial> links =  new List<Godot.Spatial>();
+        
+        foreach (RosSharp.Urdf.Link slink in source)
+        {
+            RigidBody link = new RigidBody();
+            link.Name = slink.name;
+            link.CanSleep = false;
+            link.ContinuousCd = true;
+
+            if(slink.inertial != null)
+            {
+                link.Mass = (float)slink.inertial.mass;
+            }
+
+            UrdfPrint(String.Format("Generating {0} geometries", link.Name));
+            MeshInstance link_mesh = create_visual_geometry(slink.visuals);
+            CollisionShape link_col = create_collision_geometry(slink.collisions);       
+
+            if(slink.collisions.Count >= 1) {
+                link_col.Name = String.Format("{0}_col", link.Name);
+                link.AddChild(link_col);
+                link_col.TranslateObjectLocal(
+                    new Vector3((float)slink.collisions[0].origin.Xyz[0],
+                                (float)slink.collisions[0].origin.Xyz[2],
+                                (float)slink.collisions[0].origin.Xyz[1])
+                );
+                link_col.RotateObjectLocal(
+                    new Vector3(1, 0, 0),
+                    (float)slink.collisions[0].origin.Rpy[0]
+                );
+                link_col.RotateObjectLocal(
+                    new Vector3(0, 1, 0),
+                    (float)slink.collisions[0].origin.Rpy[2]
+                );
+                link_col.RotateObjectLocal(
+                    new Vector3(0, 0, 1),
+                    -1F * (float)slink.collisions[0].origin.Rpy[1]
+                );
+            }
+            if(slink.visuals.Count >= 1) {
+                link_mesh.Name = String.Format("{0}_mesh", link.Name);
+                link.AddChild(link_mesh);
+                link_mesh.TranslateObjectLocal(
+                    new Vector3((float)slink.visuals[0].origin.Xyz[0],
+                                (float)slink.visuals[0].origin.Xyz[2],
+                                (float)slink.visuals[0].origin.Xyz[1])
+                );
+                link_mesh.RotateObjectLocal(
+                    new Vector3(1, 0, 0),
+                    (float)slink.visuals[0].origin.Rpy[0]
+                );
+                link_mesh.RotateObjectLocal(
+                    new Vector3(0, 1, 0),
+                    (float)slink.visuals[0].origin.Rpy[2]
+                );
+                link_mesh.RotateObjectLocal(
+                    new Vector3(0, 0, 1),
+                    -1F * (float)slink.visuals[0].origin.Rpy[1]
+                );
+            }
+            
+            links.Add(link);
+        }
+        return links;
+    }
+
+    private List<Godot.Joint> create_joints(List<RosSharp.Urdf.Joint> source)
+    {
+        List<Godot.Joint> joints = new List<Godot.Joint>();
+
+        foreach (RosSharp.Urdf.Joint sjoint in source)
+        {
+            switch (sjoint.type)
+            {
+                case "revolute":
+                    // A hinge joint that rotates along the axis and has a
+                    // limited range specified by the upper and lower limits.
+                    joints.Add(configure_revolute(sjoint));
+                    break;
+                case "continuous":
+                    // a continuous hinge joint that rotates around the axis 
+                    // and has no upper and lower limits.
+                    joints.Add(configure_continuous(sjoint));
+                    break;
+                case "prismatic":
+                    // a sliding joint that slides along the axis, and has a
+                    // limited range specified by the upper and lower limits.
+                    joints.Add(configure_prismatic(sjoint));
+                    break;
+                case "fixed":
+                    // This is not really a joint because it cannot move.
+                    // All degrees of freedom are locked. This type of joint 
+                    // does not require the axis, calibration, dynamics, 
+                    // limits or safety_controller.
+                    joints.Add(configure_fixed(sjoint));
+                    break;
+                case "floating":
+                    // This joint allows motion for all 6 degrees of freedom.
+                    joints.Add(configure_floating(sjoint));
+                    break;
+                case "planar":
+                    // This joint allows motion in a plane perpendicular to the axis.
+                    joints.Add(configure_planar(sjoint));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return joints;
+    }
+
+    private HingeJoint configure_revolute(RosSharp.Urdf.Joint source)
+    {
+        HingeJoint joint = configure_continuous(source);
+
+        joint.AngularLimit__enable = true;
+        joint.AngularLimit__upper = (float)source.limit.upper * (180F / (float)Math.PI);
+        joint.AngularLimit__lower = (float)source.limit.lower * (180F / (float)Math.PI);
+
+        return joint;
+    }
+
+    private HingeJoint configure_continuous(RosSharp.Urdf.Joint source)
+    {
+        HingeJoint joint = new HingeJoint();
+        joint.Name = source.name;
+
+        joint.Motor__enable = true;
+        joint.Motor__targetVelocity = 0F;
+        // joint.Motor__maxImpulse = 1024F;
+
+        joint.Params__bias = 0.99F;
+
+        joint.AngularLimit__bias = 0.99F;
+        joint.AngularLimit__softness = 0.01F;
+        joint.AngularLimit__relaxation = 0.01F;
+
+        MeshInstance joint_ind = generate_joint_mesh(
+            String.Format("{0}_indicator", joint.Name)
+        );
+
+        joint.AddChild(joint_ind);
+        return joint;
+    }
+
+    private SliderJoint configure_prismatic(RosSharp.Urdf.Joint source)
+    {
+        throw new NotImplementedException();
+    }
+
+    private HingeJoint configure_fixed(RosSharp.Urdf.Joint source)
+    {
+        HingeJoint joint = new HingeJoint();
+        joint.Name = source.name;
+
+        joint.Motor__enable = false;
+
+        joint.Params__bias = 0.99F;
+        joint.AngularLimit__enable = true;
+        joint.AngularLimit__upper = 0F;
+        joint.AngularLimit__lower = 0F;
+        joint.AngularLimit__bias = 0.99F;
+        joint.AngularLimit__softness = 0.9F;
+        joint.AngularLimit__relaxation = 1;
+
+        MeshInstance joint_ind = generate_joint_mesh(
+            String.Format("{0}_indicator", joint.Name)
+        );
+
+        joint.AddChild(joint_ind);
+        return joint;
+    }
+
+    private Generic6DOFJoint configure_fixed_gen(RosSharp.Urdf.Joint source)
+    {
+        Generic6DOFJoint joint = new Generic6DOFJoint();
+        joint.Name = source.name;
+
+        joint.LinearLimitX__enabled = true;
+        joint.LinearLimitY__enabled = true;
+        joint.LinearLimitZ__enabled = true;
+        joint.AngularLimitX__enabled = true;
+        joint.AngularLimitY__enabled = true;
+        joint.AngularLimitZ__enabled = true;
+
+        joint.LinearLimitX__softness = 16F;
+        joint.LinearLimitY__softness = 16F;
+        joint.LinearLimitZ__softness = 16F;
+        joint.AngularLimitX__softness = 16F;
+        joint.AngularLimitY__softness = 16F;
+        joint.AngularLimitZ__softness = 16F;
+
+        joint.LinearLimitX__restitution = 0.01F;
+        joint.LinearLimitY__restitution = 0.01F;
+        joint.LinearLimitZ__restitution = 0.01F;
+        joint.AngularLimitX__restitution = 0.01F;
+        joint.AngularLimitY__restitution = 0.01F;
+        joint.AngularLimitZ__restitution = 0.01F;
+
+        joint.LinearLimitX__damping = 16F;
+        joint.LinearLimitY__damping = 16F;
+        joint.LinearLimitZ__damping = 16F;
+        joint.AngularLimitX__damping = 16F;
+        joint.AngularLimitY__damping = 16F;
+        joint.AngularLimitZ__damping = 16F;
+
+        joint.LinearLimitX__upperDistance = 0F;
+        joint.LinearLimitX__lowerDistance = 0F;
+        joint.LinearLimitY__upperDistance = 0F;
+        joint.LinearLimitY__lowerDistance = 0F;
+        joint.LinearLimitZ__upperDistance = 0F;
+        joint.LinearLimitZ__lowerDistance = 0F;
+        joint.AngularLimitX__upperAngle = 0F;
+        joint.AngularLimitX__lowerAngle = 0F;
+        joint.AngularLimitY__upperAngle = 0F;
+        joint.AngularLimitY__lowerAngle = 0F;
+        joint.AngularLimitZ__upperAngle = 0F;
+        joint.AngularLimitZ__lowerAngle = 0F;
+
+
+        MeshInstance joint_ind = generate_joint_mesh(
+            String.Format("{0}_indicator", joint.Name)
+        );
+
+        joint.AddChild(joint_ind);
+        return joint;
+    }
+
+    private Generic6DOFJoint configure_floating(RosSharp.Urdf.Joint source)
+    {
+        throw new NotImplementedException();
+    }
+
+    private Generic6DOFJoint configure_planar(RosSharp.Urdf.Joint source)
+    {
+        throw new NotImplementedException();
+    }
+
+    private MeshInstance generate_joint_mesh(string name)
+    {
+        MeshInstance j_mesh = new MeshInstance();
+        j_mesh.Name = name;
+
+        SphereMesh m_mesh = new SphereMesh();
+        m_mesh.Radius = 0.05F;
+        m_mesh.Height = 0.1F;
+        m_mesh.RadialSegments = 5;
+        m_mesh.Rings = 5;
+
+        // Create material
+        SpatialMaterial m_mat = new SpatialMaterial();
+        m_mat.AlbedoColor = new Color(0.26F, 0.32F, 0.92F);
+        m_mat.EmissionEnabled = true;
+        m_mat.Emission = new Color(0.4F, 0.3F, 1.0F);
+        m_mat.EmissionEnergy = 3.0F;
+
+        j_mesh.Mesh = m_mesh;
+        j_mesh.MaterialOverride = m_mat;
+
+        return j_mesh;
     }
 
     /// <summary>
@@ -294,22 +669,23 @@ public class UrdfImporter : Node
     }
 
     private string GetFullPath(string file)
-        {
-            string[] splitPath = file.Split('/');
+    {
+        string[] splitPath = file.Split('/');
 
-            // Path is a ROS package path, have to convert
-            // to an absolute path
-            string packPath = OS.GetUserDataDir() + "/models";
-            if (splitPath[0] == "package:")
+        GD.Print(String.Format("Path: {0}", file));
+        // Path is a ROS package path, have to convert
+        // to an absolute path
+        string packPath = OS.GetUserDataDir() + "/models";
+        if (splitPath[0] == "package:")
+        {
+            for (var i = 2; i < splitPath.Length; ++i)
             {
-                for (var i = 2; i < splitPath.Length; ++i)
-                {
-                    packPath += "/";
-                    packPath += splitPath[i];
-                }
+                packPath += "/";
+                packPath += splitPath[i];
             }
-            return packPath;
         }
+        return packPath;
+    }
 
     private CollisionShape create_collision_geometry(
         List<RosSharp.Urdf.Link.Collision> collisions)
@@ -391,377 +767,5 @@ public class UrdfImporter : Node
 
         ret_val.Shape = cshape;
         return ret_val;
-    }
-
-    /// <summary>
-    /// <para>Parse</para>
-    /// Parses a Urdf file into class RosSharp.Urdf.Robot member.
-    /// </summary>
-    /// <param name="file_name">Name of the Urdf file.</param>
-    /// <returns>
-    /// <para>True if the file was succesfully parsed.</para>
-    /// <para>False if there was an error while parsing.<para>
-    /// </returns>
-    public bool Parse2(string file_name)
-    {
-        try
-        {
-            _robot = new Robot(file_name);
-            GD.Print("Robot link and joint count:");
-            GD.Print(_robot.links.Count);
-            GD.Print(_robot.joints.Count);
-            _robotRoot = CreateNodeTree(_robot);
-        }
-        catch
-        {
-            UrdfPrint("Error parsing Urdf file.\tRobot not parsed!");
-            return false;
-        }
-        PrintRobotInfo(_robot);
-
-        return true;
-    }
-
-    /// <summary>
-    /// <para>GenerateSpatial</para>
-    /// <para>
-    /// Generates a tree of Godot objects capable of
-    /// being inserted into a Godot SceneTree.
-    /// </para>
-    /// <para>
-    /// This tree accurately represents Urdf Joints and Links
-    /// in Godot terms.
-    /// </para>
-    /// </summary>
-    /// <param name="base_node">UrdfNode containing the root Urdf component.</param>
-    /// <returns>A Godot.Spatial containing the root of the Godot tree.</returns>
-    public StaticBody GenerateSpatial(UrdfNode base_node)
-    {
-        // Create the empty spatial node
-        StaticBody rootSpat = new StaticBody();
-        rootSpat.Name = base_node._name;
-
-        // Add children recursively
-        foreach (var child in base_node.GetChildren())
-        {
-            // Returns a joint connected to a rigid body
-            Godot.Joint childJoint = GenerateSpatialRec(child);
-            rootSpat.AddChild(childJoint);
-
-            // Transform according to the child joint transformations
-            // Godot's 3D scene has X forward, Y up, and Z right, while
-            // Urdf uses X forward, Y right, Z up. 
-            // This is why the indices below aren't in order, it translates
-            // the Urdf coordinates into Godot coordinates.
-            childJoint.TranslateObjectLocal(new Vector3(
-                (float)child._joint.origin.Xyz[0],
-                (float)child._joint.origin.Xyz[2],
-                (float)child._joint.origin.Xyz[1]
-            ));
-            childJoint.RotateX((float)child._joint.origin.Rpy[0]);
-            childJoint.RotateY((float)child._joint.origin.Rpy[2]);
-            childJoint.RotateZ(-1.0F * (float)child._joint.origin.Rpy[1]);
-        }
-
-        return rootSpat;
-    }
-
-    /// <summary>
-    /// <para>GenerateSpatialRec</para>
-    /// Recursive component to generate the Godot SceneTree
-    /// structure of the URDF file, complete with joints and
-    /// collision shapes.
-    /// </summary>
-    /// <param name="base_node">
-    /// UrdfNode containing the node to generate off of.
-    /// </param>
-    /// <returns>
-    /// A Godot.Generic6DOFJoint that represents the start of the Godot 
-    /// representation of the URDF tree structure.
-    /// </returns>
-    private Godot.Joint GenerateSpatialRec(UrdfNode base_node)
-    {
-        // Create the return joint
-        Godot.Joint finJoint = ConfigureJoint(base_node._joint);
-        finJoint.Name = base_node._joint.name;
-
-        // Create the return RigidBody
-        RigidBody tempLink = base_node.CreateLink();
-        
-
-        foreach (var child in base_node.GetChildren())
-        {
-            // This is the same as GenerateSpatial(), so look at that
-            // function for the explanation.
-            Godot.Joint childJoint = GenerateSpatialRec(child);
-            tempLink.AddChild(childJoint);
-            childJoint.SetOwner(tempLink);
-
-            childJoint.TranslateObjectLocal(new Vector3(
-                (float)child._joint.origin.Xyz[0],
-                (float)child._joint.origin.Xyz[2],
-                -1.0F * (float)child._joint.origin.Xyz[1]
-            ));
-
-            try
-            {
-                // childJoint.RotateX((float)child._joint.axis.xyz[0]);
-                // childJoint.RotateY((float)child._joint.axis.xyz[2]);
-                // childJoint.RotateZ(-1.0F * (float)child._joint.axis.xyz[1]);
-            }
-            catch
-            {
-                GD.Print("Axis not specified, continuing...");
-            }
-            
-
-            childJoint.RotateX((float)child._joint.origin.Rpy[0]);
-            childJoint.RotateY((float)child._joint.origin.Rpy[2]);
-            childJoint.RotateZ(-1.0F * (float)child._joint.origin.Rpy[1]);
-
-            GD.Print(childJoint.Transform.ToString());
-        }
-        finJoint.AddChild(tempLink);
-
-        return finJoint;
-    }
-
-    /// <summary>
-    /// <para>ConnectJoints</para>
-    /// Iterates through a Spatial->Joint->Link tree setting the joint
-    /// endpoints to the necessary links. 
-    /// <para>The tree is generated by <see cref="GenerateSpatial" /></para>
-    /// </summary>
-    /// <param name="root">Spatial node containing the root of the tree.</param>
-    public void ConnectJoints(Spatial root)
-    {
-        Queue<Spatial> nodeQueue = new Queue<Spatial>();
-
-        foreach (var child in root.GetChildren())
-        {
-            nodeQueue.Enqueue((Spatial)child);
-        }
-
-        Spatial curr = nodeQueue.Dequeue();
-        while (curr != null)
-        {
-            if (!curr.GetType().Equals(typeof(Godot.PinJoint)) &&
-                !curr.GetType().Equals(typeof(Godot.HingeJoint)) &&
-                !curr.GetType().Equals(typeof(Generic6DOFJoint)))
-            {
-                // If the current object isn't a joint, its a link so you need
-                // to add all of the children to the queue.
-                // Some of this will be a meshinstance/collisionshape, but those
-                // will get filtered out.
-                foreach (var child in curr.GetChildren())
-                {
-                    nodeQueue.Enqueue((Spatial)child);
-                }
-                if (nodeQueue.Count == 0)
-                {
-                    break;
-                }
-                curr = nodeQueue.Dequeue();
-                continue;
-            }
-            Godot.Joint tempJoint = (Godot.Joint)curr;
-
-            // We have a joint, set the endpoints
-
-            // A joints parent will always be a RigidBody.
-            NodePath parentPath = curr.GetParent().GetPath();
-            // A joint will always have only one child which is a RigidBody,
-            // this is what we want the second endpoint to be.
-            NodePath childPath = curr.GetChild(0).GetPath();
-
-            tempJoint.SetOwner(curr.GetParent());
-
-            tempJoint.SetNodeA(parentPath);
-            tempJoint.SetNodeB(childPath);
-
-            // tempJoint.Nodes__nodeA = parentPath;
-            // tempJoint.Nodes__nodeB = childPath;
-
-            nodeQueue.Enqueue((Spatial)curr.GetChild(0));
-
-            if (nodeQueue.Count == 0)
-            {
-                break;
-            }
-            curr = nodeQueue.Dequeue();
-        }
-    }
-
-    // TODO
-    // * Support Urdf axis that aren't directly aligned with the
-    //    X, Y, or Z axis
-    /// <summary>
-    /// <para>ConfigureJoint</para>
-    /// Configures the Godot Generic6DOFJoint
-    /// properties to match what the Urdf joint
-    /// contains.
-    /// </summary>
-    /// <param name="base_joint">Urdf Joint specifications.</param>
-    /// <returns>Godot joint matching specs.</returns>
-    private Godot.Joint ConfigureJoint(RosSharp.Urdf.Joint base_joint)
-    {
-        // The Urdf joint axis specifies the axis of rotation for revolute joints,
-        // axis of translation for prismatic joints, and the surface normal
-        // for planar joints.
-        // If it's not specified accessing it will error out, so we need to
-        // manually specify the default (X-axis).
-        double[] j_axis;
-        
-        try
-        {
-            j_axis = base_joint.axis.xyz;
-        }
-        catch
-        {
-            j_axis = new double[] { 1.0, 0.0, 0.0 };
-        }
-        GD.Print(base_joint.name + " axis: " + j_axis[0] + " " + j_axis[1] + " " + j_axis[2]);
-
-        JointMaker mkr = new JointMaker();
-
-
-        // Type comments taken from https://wiki.ros.org/urdf/XML/joint 
-        switch (base_joint.type)
-        {
-            case "revolute":
-                // A hinge joint that rotates along the axis and has a
-                // limited range specified by the upper and lower limits.
-                // HingeJoint revJoint = mkr.CreateHingeJoint();
-                // // HingeJoint revJoint = new HingeJoint();
-
-                // // revJoint.rot/
-                // GD.Print("setting hingejoint flags");
-
-                // revJoint.SetFlag(HingeJoint.Flag.UseLimit, true);
-                // revJoint.SetFlag(HingeJoint.Flag.EnableMotor, true);
-                // revJoint.SetParam(HingeJoint.Param.MotorTargetVelocity, 0F);
-                // revJoint.SetParam(HingeJoint.Param.MotorMaxImpulse, 1024F);
-                // revJoint.SetParam(HingeJoint.Param.Bias, 1F);
-                // revJoint.SetParam(HingeJoint.Param.LimitLower, (float)base_joint.limit.lower * (180F / (float)Math.PI));
-                // revJoint.SetParam(HingeJoint.Param.LimitUpper, (float)base_joint.limit.upper * (180F / (float)Math.PI));
-
-                // return revJoint;
-            case "continuous":
-                // a continuous hinge joint that rotates around the axis 
-                // and has no upper and lower limits.
-                HingeJoint contJoint = new HingeJoint();
-
-                contJoint.SetFlag(HingeJoint.Flag.UseLimit, false);
-                contJoint.SetFlag(HingeJoint.Flag.EnableMotor, true);
-                contJoint.SetParam(HingeJoint.Param.MotorTargetVelocity, 0F);
-
-                return contJoint;
-            case "prismatic":
-                // a sliding joint that slides along the axis, and has a
-                // limited range specified by the upper and lower limits.
-
-                SliderJoint slideJoint = new SliderJoint();
-
-                slideJoint.SetParam(SliderJoint.Param.LinearLimitLower, (float)base_joint.limit.lower);
-                slideJoint.SetParam(SliderJoint.Param.LinearLimitUpper, (float)base_joint.limit.upper); 
-                
-                return slideJoint;
-            case "fixed":
-                // This is not really a joint because it cannot move.
-                // All degrees of freedom are locked. This type of joint 
-                // does not require the axis, calibration, dynamics, 
-                // limits or safety_controller.
-
-                Generic6DOFJoint pinJoint = new Generic6DOFJoint();
-
-                pinJoint.SetFlagX(Generic6DOFJoint.Flag.EnableAngularLimit, true);
-                pinJoint.SetFlagY(Generic6DOFJoint.Flag.EnableAngularLimit, true);
-                pinJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableAngularLimit, true);
-                pinJoint.SetFlagX(Generic6DOFJoint.Flag.EnableLinearLimit, true);
-                pinJoint.SetFlagY(Generic6DOFJoint.Flag.EnableLinearLimit, true);
-                pinJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableLinearLimit, true);
-
-                return pinJoint;
-            case "floating":
-                // This joint allows motion for all 6 degrees of freedom.
-                Generic6DOFJoint genJoint = new Generic6DOFJoint();
-
-                genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableAngularLimit, false);
-                genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableAngularLimit, false);
-                genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableAngularLimit, false);
-                genJoint.SetFlagX(Generic6DOFJoint.Flag.EnableLinearLimit, false);
-                genJoint.SetFlagY(Generic6DOFJoint.Flag.EnableLinearLimit, false);
-                genJoint.SetFlagZ(Generic6DOFJoint.Flag.EnableLinearLimit, false);
-
-                return genJoint;
-            case "planar":
-                // This joint allows motion in a plane perpendicular to the axis.
-
-                Generic6DOFJoint planJoint = new Generic6DOFJoint();
-                if (j_axis[0] == 1.0)
-                {
-                    planJoint.SetParamY(
-                        Generic6DOFJoint.Param.LinearUpperLimit,
-                        (float)base_joint.limit.upper
-                    );
-                    planJoint.SetParamY(
-                        Generic6DOFJoint.Param.LinearLowerLimit,
-                        (float)base_joint.limit.lower
-                    );
-                    planJoint.SetParamZ(
-                        Generic6DOFJoint.Param.LinearUpperLimit,
-                        (float)base_joint.limit.upper
-                    );
-                    planJoint.SetParamZ(
-                        Generic6DOFJoint.Param.LinearLowerLimit,
-                        (float)base_joint.limit.lower
-                    );
-                }
-                if (j_axis[1] == 1.0)
-                {
-                    planJoint.SetParamY(
-                        Generic6DOFJoint.Param.LinearUpperLimit,
-                        (float)base_joint.limit.upper
-                    );
-                    planJoint.SetParamY(
-                        Generic6DOFJoint.Param.LinearLowerLimit,
-                        (float)base_joint.limit.lower
-                    );
-                    planJoint.SetParamX(
-                        Generic6DOFJoint.Param.LinearUpperLimit,
-                        (float)base_joint.limit.upper
-                    );
-                    planJoint.SetParamX(
-                        Generic6DOFJoint.Param.LinearLowerLimit,
-                        (float)base_joint.limit.lower
-                    );
-                }
-                if (j_axis[2] == 1.0)
-                {
-                    planJoint.SetParamX(
-                        Generic6DOFJoint.Param.LinearUpperLimit,
-                        (float)base_joint.limit.upper
-                    );
-                    planJoint.SetParamX(
-                        Generic6DOFJoint.Param.LinearLowerLimit,
-                        (float)base_joint.limit.lower
-                    );
-                    planJoint.SetParamZ(
-                        Generic6DOFJoint.Param.LinearUpperLimit,
-                        (float)base_joint.limit.upper
-                    );
-                    planJoint.SetParamZ(
-                        Generic6DOFJoint.Param.LinearLowerLimit,
-                        (float)base_joint.limit.lower
-                    );
-                }
-
-                return planJoint;
-            default:
-                GD.Print("testing: " + base_joint.type);
-                break;
-        }
-
-        return null;
     }
 }
