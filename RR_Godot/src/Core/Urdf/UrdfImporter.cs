@@ -7,10 +7,6 @@ using RosSharp.Urdf;
 
 public class UrdfImporter : Node
 {
-    Robot _robot;
-
-    public UrdfNode _robotRoot;
-
     /// <summary>
     /// <para>UrdfPrint</para>
     /// Helper function to format debug messages for Urdf handling.
@@ -23,104 +19,6 @@ public class UrdfImporter : Node
         form_msg = form_msg.PadRight(indent * 2, ' ');
         form_msg += msg;
         GD.Print(form_msg);
-    }
-
-    /// <summary>
-    /// <para>PrintTree</para>
-    /// Prints the tree structure of
-    /// the Urdf file.
-    /// </summary>
-    /// <param name="root">
-    /// Root UrdfNode of the tree.
-    /// </param>
-    public void PrintTree(UrdfNode root)
-    {
-        int count = 1;
-
-        foreach (var childNode in root.GetChildren())
-        {
-            string status = "(" + count + ") - Node " + childNode._name + ": " + childNode.GetNumChildren();
-            UrdfPrint(status);
-
-            PrintTree(childNode, 1);
-            count += 1;
-        }
-    }
-
-
-    private void PrintTree(UrdfNode root, int level)
-    {
-        int count = 1;
-
-        foreach (var childNode in root.GetChildren())
-        {
-            string status = "(" + count + ") - Node " + childNode._name + ": " + childNode.GetNumChildren();
-            UrdfPrint(status, level);
-
-            PrintTree(childNode, level + 1);
-            count += 1;
-        }
-    }
-
-    /// <summary>
-    /// <para>CreateNodeTree</para>
-    /// Creates a tree representation
-    /// of the URDF file using custom
-    /// UrdfNode objects.
-    /// </summary>
-    /// <returns>
-    /// UrdfNode of the root node in the
-    /// tree.
-    /// </returns>
-    private UrdfNode CreateNodeTree(Robot bot)
-    {
-        // Create the root node
-        UrdfNode rootNode = new UrdfNode(null, bot.root, null);
-        rootNode._isRoot = true;
-        rootNode._name = bot.root.name;
-
-        PopulateChildren(rootNode);
-
-        return rootNode;
-    }
-
-    /// <summary>
-    /// <para>PopulateChildren</para>
-    /// Recursively builds a n-tree of UrdfNode objects
-    /// from the parsed Urdf file.
-    /// </summary>
-    /// <param name="base_node">
-    /// Base node to build the tree off.
-    /// </param>
-    private void PopulateChildren(UrdfNode base_node)
-    {
-        // Go through each joint and get the connected
-        // link, creating a fully specified UrdfNode 
-        // object to add as a child to base_node
-        foreach (var joint in base_node._link.joints)
-        {
-            Link joint_link = joint.ChildLink;
-            UrdfNode temp = new UrdfNode(base_node, joint_link, joint);
-            temp._name = joint.child;
-
-            temp._offsetXyz = joint.origin.Xyz;
-            temp._offsetRpy = joint.origin.Rpy;
-
-            base_node.AddChild(temp);
-
-            PopulateChildren(temp);
-        }
-    }
-
-    private void PrintRobotInfo(Robot bot)
-    {
-        if (bot != null)
-        {
-            var botName = bot.name;
-            var fileName = bot.filename;
-
-            UrdfPrint("Parsed robot " + botName + " from file: " + fileName);
-        }
     }
 
     /// <summary>
@@ -165,23 +63,14 @@ public class UrdfImporter : Node
                 Godot.Joint cJoint = (Godot.Joint) child;
                 var refJoint = base_joints.Find(x => x.name == cJoint.Name);
                 BuildTreeStructure(refJoint, cJoint, links, joints);
-                ConstructTransforms(cJoint.GetChildren(), links, bot_struct.joints);
                 
                 ConnectJoints(cJoint.GetChildren(), links, bot_struct.joints);
             }
         }
-        parent.GetTree().Paused = true;
-        GD.Print("Paused tree");
         
         return base_node;
     }
 
-    private void ConstructTransforms(Godot.Collections.Array childList,
-        List<Godot.Spatial> allLinks,
-        List<RosSharp.Urdf.Joint> refJointList)
-    {
-
-    }
 
     private void ConnectJoints(Godot.Collections.Array childList,
         List<Godot.Spatial> allLinks,
