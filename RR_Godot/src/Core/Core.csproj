@@ -80,7 +80,6 @@
     <Compile Include="Gui\viewport\ViewportLL.cs" />
     <Compile Include="Gui\viewport\ViewportLR.cs" />
     <Compile Include="Gui\viewport\ViewportUR.cs" />
-    <Compile Include="Sensors\Cam.cs" />
     <Compile Include="Common\Global.cs" />
     <Compile Include="Urdf\UrdfImporter.cs" />
     <Compile Include="Physics\JointController.cs" />

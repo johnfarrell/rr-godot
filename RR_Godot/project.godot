@@ -109,6 +109,10 @@ editor_down={
  ]
 }
 
+[mono]
+
+debugger_agent/wait_for_debugger=true
+
 [physics]
 
 3d/physics_engine="Bullet"

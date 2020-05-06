@@ -70,7 +70,6 @@ mesh = ExtResource( 5 )
 material/0 = null
 
 [node name="Rotate" type="Spatial" parent="."]
-editor/display_folded = true
 visible = false
 script = ExtResource( 8 )
 
@@ -114,7 +113,6 @@ mesh = ExtResource( 9 )
 material/0 = null
 
 [node name="Scale" type="Spatial" parent="."]
-editor/display_folded = true
 visible = false
 script = ExtResource( 10 )
 

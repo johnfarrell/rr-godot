@@ -120,6 +120,9 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="TitleBar" type="Control" parent="UI"]
 anchor_right = 1.0
@@ -349,10 +352,10 @@ __meta__ = {
 [node name="4WayViewport" parent="UI/AppWindow/EnvironmentContainer" instance=ExtResource( 8 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 0.0
-margin_top = 49.0
-margin_right = 0.0
-margin_bottom = -6.0
+margin_left = -5.95166
+margin_top = 50.8506
+margin_right = -5.95166
+margin_bottom = -4.14941
 script = ExtResource( 9 )
 
 [node name="ToolboxPanelFixed" type="Panel" parent="UI/AppWindow/EnvironmentContainer"]
