@@ -1,3 +1,18 @@
+// ------ SerialRobotGen.cs ------
+// Author: John Farrell
+//          john@johnjfarrell.com
+//
+// This class is used to generate basic N-DoF arms
+// with basic links. This is what is called when
+// the 'Create' button is clicked in the toolbar.
+// Not very practical at all, but used as a first
+// draft of generating robots programmatically.
+// I'm keeping it in here for legacy purposes and
+// references, as it is essentially a simpler version
+// of the UrdfImporter class. They have the same basic
+// creation logic which will probably be useful
+// in the future.
+
 using Godot;
 using System;
 using System.Collections.Generic;
