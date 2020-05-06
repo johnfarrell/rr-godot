@@ -1,11 +1,25 @@
+// ------ MeshAdder.cs -----
+// Author: John Farrell
+//          john@johnjfarrell.com
+//
+// MeshAdder is used to add the robot arms
+// created using the 'Create' button.
+// Currently a god class, need to seperate out
+// the functionalities. I'm keeping the arm generation
+// code here temporarily for legacy purposes. This was
+// the first working version of robot generation
+// programmatically, so it is a good reference to have for
+// the future.
+
 using Godot;
 using System;
 using System.Collections.Generic;
-using RR_Godot.Core;
-using RR_Godot.Core.Geometry;
 
 public class MeshAdder : Spatial
 {
+    // Flag that's set by a signal
+    // in order to know when to build a bot
+    // during the physics process
     bool build_robot = false;
 
     [Signal]
@@ -13,6 +27,7 @@ public class MeshAdder : Spatial
     RandomNumberGenerator rand;
 
     Viewport RootView;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -22,11 +37,17 @@ public class MeshAdder : Spatial
         RootView = mainTree.Root;
     }
 
+    // Function that is called from a signal outside.
+    // Currently sent by the 'create' button click event.
     public void Generate2DoFArm()
     {
         build_robot = true;
     }
 
+    // This is where the magic happens for robot creation.
+    // Pretty straight flow. Create all the joints/links, place them in
+    // the environment, then deal with transforms and joint
+    // connections
     private void GenerateNDofArmHelper(int N)
     {
         // Create base
@@ -126,20 +147,6 @@ public class MeshAdder : Spatial
                 }
             }
         }
-    }
-
-    private Vector3 get_dimensions(Spatial node)
-    {
-        MeshInstance node_mesh = new MeshInstance();
-        foreach (Spatial child in node.GetChildren())
-        {
-            // if(child is Godot.MeshInstance)
-            // {
-            //     node_mesh = (MeshInstance) child;
-            // }
-        }
-
-        return new Vector3();
     }
 
     private List<Joint> create_joints(int N)
@@ -257,72 +264,8 @@ public class MeshAdder : Spatial
         return ret_col;
     }
 
-    private void Generate2DoFArmHelper()
-    {
-        GD.Print("Creating arm with code...");
-        StaticBody base_node = generate_static("Arm");
-
-        MeshInstance base_mesh_node = new MeshInstance();
-        base_mesh_node.Name = "base_mesh";
-
-        CubeMesh base_mesh = new CubeMesh();
-        Vector3 base_sizes = new Vector3(.7F, .2F, .7F);
-        base_mesh.Size = base_sizes;
-
-        base_mesh_node.Mesh = base_mesh;
-
-
-        HingeJoint j0 = new HingeJoint();
-        j0.Name = "j0";
-        j0.AngularLimit__enable = false;
-        j0.Motor__enable = true;
-        j0.Motor__targetVelocity = 1F;
-        j0.Motor__maxImpulse = 300F;
-        j0.AngularLimit__bias = .99F;
-        j0.AngularLimit__softness = 0.01F;
-
-        j0.AddChild(generate_joint_mesh(j0.Name));
-
-        RigidBody l0 = new RigidBody();
-        l0.Name = "l0";
-        l0.Mass = 2.0f;
-        l0.Weight = (l0.Mass * 9.8F);
-        l0.PhysicsMaterialOverride = new PhysicsMaterial();
-        l0.ContinuousCd = true;
-        l0.CanSleep = false;
-
-        MeshInstance l0_mesh_node = new MeshInstance();
-        l0_mesh_node.Name = "l0_mesh";
-
-        CubeMesh l0_mesh = new CubeMesh();
-        Vector3 l0_size = new Vector3(.2F, .8F, .1F);
-        l0_mesh.Size = l0_size;
-
-        l0_mesh_node.Mesh = l0_mesh;
-
-        base_node.AddChild(j0);
-        base_node.AddChild(base_mesh_node);
-
-        RootView.GetNode("main/env").AddChild(base_node);
-
-
-
-        // Translate links/joints
-        Transform j0_og = j0.Transform;
-        j0_og = j0_og.Translated(new Vector3(0F, .1F, 0F));
-        // j0_og = j0_og.Rotated(new Vector3(1F, 0F, 0F), Mathf.Pi / 2F);
-        j0.Transform = j0_og;
-
-        j0.AddChild(l0);
-        l0.AddChild(l0_mesh_node);
-
-        j0.Nodes__nodeA = base_node.GetPath();
-        j0.Nodes__nodeB = l0.GetPath();
-
-        Transform l0_og = l0.Transform;
-        l0.Transform = l0_og.Translated(new Vector3(0F, .4F, 0F));
-    }
-
+    // Creates the static body that acts as the
+    // base of the robot.
     private StaticBody generate_static(string name)
     {
         StaticBody node = new StaticBody();
@@ -379,55 +322,11 @@ public class MeshAdder : Spatial
         return j_mesh;
     }
 
-    public void AddMesh(ArrayMesh mesh)
-    {
-        if (RootView == null)
-        {
-            MainLoop loop = Engine.GetMainLoop();
-            SceneTree mainTree = (SceneTree)loop;
-            RootView = mainTree.Root;
-        }
-
-        MeshInstance m = new MeshInstance();
-        SpatialMaterial mat = new SpatialMaterial();
-        mat.VertexColorUseAsAlbedo = true;
-        mat.FlagsUsePointSize = true;
-        mat.ParamsPointSize = 8;
-
-        m.MaterialOverride = mat;
-        m.Mesh = mesh;
-        m.Name = "Custom Mesh";
-
-        m.CreateConvexCollision();
-
-        StaticBody temp = new StaticBody();
-        temp.Name = "Mesh Static Body";
-
-        // Get the collision shape and reparent it to the StaticBody
-        CollisionShape collision = (CollisionShape)m.GetChild(0).GetChild(0);
-        collision.Name = "Custom Mesh Collision";
-
-        m.GetChild(0).RemoveChild(collision);
-        m.RemoveChild(m.GetChild(0));
-
-        temp.AddChild(collision);
-        temp.AddChild(m);
-
-        GD.Print("Adding mesh to environment...");
-        RootView.GetNode("main/env").AddChild(temp);
-    }
-
     public override void _PhysicsProcess(float delta)
     {
         if (build_robot)
         {
             build_robot = false;
-            // SerialRobotGen.generate_generic(
-            //     rand.RandiRange(2,5),
-            //     (Spatial)RootView.GetNode("main/env"),
-            //     new Vector3(rand.RandfRange(-3, 3), 0, rand.RandfRange(-3, 3))
-            // );
-
             GenerateNDofArmHelper(rand.RandiRange(1,3));
         }
     }
