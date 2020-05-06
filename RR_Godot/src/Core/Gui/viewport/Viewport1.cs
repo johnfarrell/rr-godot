@@ -1,3 +1,9 @@
+// ----- Viewport1.cs ------
+//
+// All the ViewportX.cs class's are the same,
+// can be consolidated into a single class most likely.
+// Used to pass input through from the UI to the environment.
+
 using Godot;
 using System;
 

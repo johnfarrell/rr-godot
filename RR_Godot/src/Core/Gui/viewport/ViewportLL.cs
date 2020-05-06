@@ -1,3 +1,12 @@
+// ------ ViewportLL.cs ------
+//
+// These classes are used to handle mouse
+// capturing and management with the multi-camera
+// mode.
+// Similar to the ViewportX.cs classes, this should
+// be combined into a singular class and instanced in
+// scenes to make viewport creation/deletion dynamic.
+
 using Godot;
 using System;
 
